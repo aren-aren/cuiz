@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -17,6 +18,12 @@ public class MemberController {
 	private MemberService memberService;
 	
 	@GetMapping("join")
+	public String setJoin() throws Exception {
+	
+		return ("member/join");
+				
+	}
+	@PostMapping("join")
 	public String setJoin(MemberDTO dto,Model model) throws Exception {
 		int result = memberService.setJoin(dto);
 		String path = "/";
@@ -27,8 +34,7 @@ public class MemberController {
 		model.addAttribute("msg", msg);
 		model.addAttribute("path", path);
 		
-		return ("member/join");
+		return ("/");
 				
 	}
-	
 }

@@ -7,11 +7,11 @@ public class MemberDTO {
 
 	private String member_ID;
 	private String member_Password;
-	private Blob member_Token;
+	private Byte [] member_Token;
 	private String member_Email;
 	private Integer member_Flag;
 	private Integer member_Jumsu;
-	private Blob member_Profile;
+	private Byte [] member_Profile;
 	private String member_Nick;
 	private String member_Role;
 	private Integer member_Coin;
@@ -30,12 +30,7 @@ public class MemberDTO {
 	public void setMember_Password(String member_Password) {
 		this.member_Password = member_Password;
 	}
-	public Blob getMember_Token() {
-		return member_Token;
-	}
-	public void setMember_Token(Blob member_Token) {
-		this.member_Token = member_Token;
-	}
+	
 	public String getMember_Email() {
 		return member_Email;
 	}
@@ -54,12 +49,7 @@ public class MemberDTO {
 	public void setMember_Jumsu(Integer member_Jumsu) {
 		this.member_Jumsu = member_Jumsu;
 	}
-	public Blob getMember_Profile() {
-		return member_Profile;
-	}
-	public void setMember_Profile(Blob member_Profile) {
-		this.member_Profile = member_Profile;
-	}
+	
 	public String getMember_Nick() {
 		return member_Nick;
 	}
@@ -95,6 +85,18 @@ public class MemberDTO {
 	}
 	public void setMember_DelDate(Date member_DelDate) {
 		this.member_DelDate = member_DelDate;
+	}
+	public Byte[] getMember_Token() {
+		return member_Token;
+	}
+	public void setMember_Token(Byte[] member_Token) {
+		this.member_Token = member_Token;
+	}
+	public Byte[] getMember_Profile() {
+		return member_Profile;
+	}
+	public void setMember_Profile(Byte[] member_Profile) {
+		this.member_Profile = member_Profile;
 	}
 	
 	

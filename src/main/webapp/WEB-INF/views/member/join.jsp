@@ -12,6 +12,7 @@
 	<div>
 		<h2>회원가입</h2>
 	</div>
+	<form action="join" method="POST">
 	<div>
 		<label for="ID">아이디를 입력하세요</label>
 		<input type="text" id="ID" name="member_ID">
@@ -36,6 +37,9 @@
 		<label for="photo">사진 선택</label>
 		<input type="file" id="photo" name="member_Profile">
 	</div>
-	
+	<div>
+		<button>가입하기</button>
+	</div>
+	</form>
 </body>
 </html>
