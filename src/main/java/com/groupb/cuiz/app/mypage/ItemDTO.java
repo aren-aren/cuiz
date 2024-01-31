@@ -2,7 +2,7 @@ package com.groupb.cuiz.app.mypage;
 
 import java.sql.Blob;
 
-public class ShopDTO {
+public class ItemDTO {
 	
 	private Integer product_Num;
 	private String product_Name;
