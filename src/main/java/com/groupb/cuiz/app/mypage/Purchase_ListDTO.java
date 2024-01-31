@@ -5,7 +5,7 @@ import java.sql.Date;
 public class Purchase_ListDTO {
 
 
-	public Integer product_Num;
+	public Integer Item_Num;
 	public Integer member_ID;
 	public Date pl_List;
 	
@@ -13,11 +13,12 @@ public class Purchase_ListDTO {
 	
 	
 	
-	public Integer getProduct_Num() {
-		return product_Num;
+	
+	public Integer getItem_Num() {
+		return Item_Num;
 	}
-	public void setProduct_Num(Integer product_Num) {
-		this.product_Num = product_Num;
+	public void setItem_Num(Integer item_Num) {
+		Item_Num = item_Num;
 	}
 	public Integer getMember_ID() {
 		return member_ID;
