@@ -16,4 +16,8 @@ public class MemberDAO {
 		return sqlSession.insert(namespace+"setJoin",dto);
 	}
 	
+	public MemberDTO get()throws Exception{
+		return sqlSession.selectOne(namespace+"get");
+	}
+	
 }

@@ -10,36 +10,58 @@
 	<h1>join</h1>
 	
 	<div>
-		<h2>х╦©Ь╟║ют</h2>
+		<h2>М ▄Л⌡░Й╟─Л·┘</h2>
 	</div>
-	<form action="join" method="POST">
+	<form id="frm" action="join" method="POST" enctype="multipart/form-data">
 	<div>
-		<label for="ID">╬фюл╣П╦╕ ют╥бго╪╪©Д</label>
+		<label for="ID">Л∙└Л²╢К■■К╔╪ Л·┘К═╔М∙≤Л└╦Л ■</label>
 		<input type="text" id="ID" name="member_ID">
 	</div>
 	<div>
-		<label for="PW">╨Я╧п╧Ьхё╦╕ ют╥бго╪╪©Д</label>
+		<label for="PW">К╧└К╟─К╡┬М≤╦К╔╪ Л·┘К═╔М∙≤Л└╦Л ■</label>
 		<input type="text" id="PW" name="member_Password">
 	</div>
 	<div>
-		<label for="mail">E-mailю╩ ют╥бго╪╪©Д</label>
+		<label for="mail">E-mailЛ²└ Л·┘К═╔М∙≤Л└╦Л ■</label>
 		<input type="text" id="mail" name="member_Email">
 	</div>
 	<div>
-		<label for="nick">╢пЁвюсю╩ ют╥бго╪╪©Д</label>
+		<label for="nick">К▀┴К└╓Л·└Л²└ Л·┘К═╔М∙≤Л└╦Л ■</label>
 		<input type="text" id="nick" name="member_Nick">
 	</div>
 	<div>
-		<label for="phone">юЭх╜╧Ьхё╦╕ ют╥бго╪╪©Д</label>
-		<input type="text" id="phone" name="member_PhoneNumber" placeholder="-╢б а╕©эгьаж╪╪©Д.">
+		<label for="phone">Л═└М≥■К╡┬М≤╦К╔╪ Л·┘К═╔М∙≤Л└╦Л ■</label>
+		<input type="text" id="phone" name="member_PhoneNumber" placeholder="-К┼■ Л═°Л≥╦М∙╢Лё╪Л└╦Л ■.">
 	</div>
 	<div>
-		<label for="photo">╩ГаЬ ╪╠ец</label>
-		<input type="file" id="photo" name="member_Profile">
+		<label for="photo">Л┌╛Л╖└ Л└═М┐²</label>
+		<input type="file" id="profile" name="member_Profile" accept="image/*" onchange="onChange(event)">
+		<input type="hidden" id="realProfile" />
 	</div>
+	
 	<div>
-		<button>╟║ютго╠Б</button>
+		<button>Й╟─Л·┘М∙≤Й╦╟</button>
 	</div>
 	</form>
+	
+	<!-- <script type="text/javascript">
+		function onChange (e){
+			
+			console.log(e)
+			console.log("КЁ─Й╡╫К░╛К▀╓")
+			if (e.target.files && e.target.files[0]) {
+	            const reader = new FileReader();
+	            reader.readAsDataURL(e.target.files[0]);
+	            reader.onload = event => {
+            		console.log(event.target.result)
+	               document.getElementById("realProfile").value = event.target.result;
+	            	// $("#profile").val(event.target.result)
+	            }
+	        }
+			//console.log($("#profile"))
+		}
+
+	</script> -->
+	
 </body>
 </html>

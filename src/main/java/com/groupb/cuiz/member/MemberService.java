@@ -10,6 +10,10 @@ public class MemberService {
 	@Autowired
 	private MemberDAO dao;
 	
+	public MemberDTO get() throws Exception{
+		return dao.get();
+	}
+	
 	public int setJoin(MemberDTO dto) throws Exception{
 		return dao.SetJoin(dto);
 	}

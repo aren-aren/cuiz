@@ -1,17 +1,28 @@
 package com.groupb.cuiz.member;
 
+import java.io.IOException;
+import java.io.UnsupportedEncodingException;
+import java.nio.charset.StandardCharsets;
 import java.sql.Blob;
 import java.sql.Date;
+import java.util.Arrays;
+import java.util.Base64;
+import java.util.Base64.Encoder;
+
+import javax.print.DocFlavor.BYTE_ARRAY;
+
+import org.springframework.web.multipart.MultipartFile;
 
 public class MemberDTO {
 
 	private String member_ID;
 	private String member_Password;
-	private Byte [] member_Token;
+	private byte [] member_Token;
 	private String member_Email;
 	private Integer member_Flag;
 	private Integer member_Jumsu;
-	private Byte [] member_Profile;
+	private MultipartFile member_Profile;
+	private byte [] member_Profile_byte;
 	private String member_Nick;
 	private String member_Role;
 	private Integer member_Coin;
@@ -86,18 +97,26 @@ public class MemberDTO {
 	public void setMember_DelDate(Date member_DelDate) {
 		this.member_DelDate = member_DelDate;
 	}
-	public Byte[] getMember_Token() {
+	public byte[] getMember_Token() {
 		return member_Token;
 	}
-	public void setMember_Token(Byte[] member_Token) {
+	public void setMember_Token(byte[] member_Token) {
 		this.member_Token = member_Token;
 	}
-	public Byte[] getMember_Profile() {
+	public MultipartFile getMember_Profile() {
 		return member_Profile;
 	}
-	public void setMember_Profile(Byte[] member_Profile) {
+	public void setMember_Profile(MultipartFile member_Profile) throws IOException {
 		this.member_Profile = member_Profile;
+		this.member_Profile_byte = Base64.getEncoder().encode(member_Profile.getBytes());
+		System.out.println(new String(member_Profile_byte, "UTF-8"));
 	}
+	public byte[] getMember_Profile_byte() throws UnsupportedEncodingException {
+		return member_Profile_byte;
+	}
+
+	
+	
 	
 	
 	

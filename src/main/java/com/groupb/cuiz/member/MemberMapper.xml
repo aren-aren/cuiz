@@ -8,6 +8,11 @@
  		INSERT INTO MEMBER
  		(MEMBER_ID,MEMBER_PASSWORD,MEMBER_EMAIL,MEMBER_NICK,MEMBER_PROFILE,MEMBER_PHONENUMBER)
  		VALUES
- 		(#{member_ID},#{member_Password},#{member_Email},#{member_Nick},#{member_Profile},#{member_PhoneNumber})
+ 		(#{member_ID},#{member_Password},#{member_Email},#{member_Nick},#{member_Profile_byte},#{member_PhoneNumber})
  	</insert>
+ 	
+ 	<select id="get" resultType="MemberDTO">
+ 		SELECT MEMBER_PROFILE "member_Profile_byte"
+ 		FROM MEMBER WHERE MEMBER_ID = '1234324'
+ 	</select>
  </mapper>

@@ -1,5 +1,7 @@
 package com.groupb.cuiz.member;
 
+import java.util.Base64;
+
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -8,6 +10,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 
 @Controller
@@ -24,17 +27,25 @@ public class MemberController {
 				
 	}
 	@PostMapping("join")
-	public String setJoin(MemberDTO dto,Model model) throws Exception {
+	public String setJoin( MemberDTO dto,Model model) throws Exception {
+		System.out.println(dto);
 		int result = memberService.setJoin(dto);
 		String path = "/";
 		String msg = "회원가입 실패 관리자에 문의해주세요.";
 		if(result >0 ) {
 			msg = "회원가입 성공";
 		}
-		model.addAttribute("msg", msg);
-		model.addAttribute("path", path);
+		model.addAttribute("msg", dto);
 		
-		return ("/");
+		return ("member/temp");
 				
+	}
+	
+	@GetMapping("11")
+	public String get(Model model) throws Exception{
+		MemberDTO dto = memberService.get();
+		model.addAttribute("msg", "data:image/png;base64," + new String(dto.getMember_Profile_byte(), "UTF-8"));
+		
+		return "member/temp";
 	}
 }
