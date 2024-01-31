@@ -30,21 +30,42 @@ public class MemberController {
 	public String setJoin( MemberDTO dto,Model model) throws Exception {
 		System.out.println(dto);
 		int result = memberService.setJoin(dto);
-		String path = "/";
-		String msg = "회원가입 실패 관리자에 문의해주세요.";
-		if(result >0 ) {
-			msg = "회원가입 성공";
-		}
+		
 		model.addAttribute("msg", dto);
 		
 		return ("member/temp");
 				
 	}
 	
+	@GetMapping("login")
+	public String setLogin() throws Exception{
+		return "member/login";
+	}
+	@PostMapping("login")
+	public String setLogin(HttpSession session,MemberDTO dto,Model model) throws Exception{
+		 dto = memberService.getDetail(dto);
+		 System.out.println(dto);
+		 String msg = "아이디 또는 패스워드를 확인해주세요";
+		 if(dto == null) {
+			 model.addAttribute("msg", msg);
+			 return "member/login";
+		 }
+		session.setAttribute("member", dto);
+		//System.out.println( new String(dto.getMember_Profile_byte(), "UTF-8") );
+		session.setAttribute("avatar", "data:image/png;base64," + new String(dto.getMember_Profile_Blob(), "UTF-8"));
+		 
+		return null;
+	}
+	
+	@GetMapping("mypage")
+	public String setMypage() throws Exception{
+		return "member/mypage";
+	}
+	
 	@GetMapping("11")
 	public String get(Model model) throws Exception{
 		MemberDTO dto = memberService.get();
-		model.addAttribute("msg", "data:image/png;base64," + new String(dto.getMember_Profile_byte(), "UTF-8"));
+		model.addAttribute("msg", "data:image/png;base64," + new String(dto.getMember_Profile_Blob(), "UTF-8"));
 		
 		return "member/temp";
 	}

@@ -20,4 +20,8 @@ public class MemberDAO {
 		return sqlSession.selectOne(namespace+"get");
 	}
 	
+	public MemberDTO getDetail(MemberDTO dto) throws Exception{
+		return sqlSession.selectOne(namespace+"getDetail",dto);
+	}
+	
 }

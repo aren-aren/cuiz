@@ -22,7 +22,7 @@ public class MemberDTO {
 	private Integer member_Flag;
 	private Integer member_Jumsu;
 	private MultipartFile member_Profile;
-	private byte [] member_Profile_byte;
+	private byte [] member_Profile_Blob;
 	private String member_Nick;
 	private String member_Role;
 	private Integer member_Coin;
@@ -108,12 +108,27 @@ public class MemberDTO {
 	}
 	public void setMember_Profile(MultipartFile member_Profile) throws IOException {
 		this.member_Profile = member_Profile;
-		this.member_Profile_byte = Base64.getEncoder().encode(member_Profile.getBytes());
-		System.out.println(new String(member_Profile_byte, "UTF-8"));
+		this.member_Profile_Blob = Base64.getEncoder().encode(member_Profile.getBytes());
+		System.out.println(new String(member_Profile_Blob, "UTF-8"));
 	}
-	public byte[] getMember_Profile_byte() throws UnsupportedEncodingException {
-		return member_Profile_byte;
+	public byte[] getMember_Profile_Blob() throws UnsupportedEncodingException {
+		return member_Profile_Blob;
 	}
+
+	
+	public void setMember_Profile_Blob(byte[] member_Profile_Blob) {
+		this.member_Profile_Blob = member_Profile_Blob;
+	}
+	@Override
+	public String toString() {
+		return "MemberDTO [member_ID=" + member_ID + ", member_Password=" + member_Password + ", member_Token="
+				+ Arrays.toString(member_Token) + ", member_Email=" + member_Email + ", member_Flag=" + member_Flag
+				+ ", member_Jumsu=" + member_Jumsu + ", member_Profile=" + member_Profile + ", member_Profile_Blob="
+				+ Arrays.toString(member_Profile_Blob) + ", member_Nick=" + member_Nick + ", member_Role=" + member_Role
+				+ ", member_Coin=" + member_Coin + ", member_PhoneNumber=" + member_PhoneNumber + ", member_RegDate="
+				+ member_RegDate + ", member_DelDate=" + member_DelDate + "]";
+	}
+	
 
 	
 	
