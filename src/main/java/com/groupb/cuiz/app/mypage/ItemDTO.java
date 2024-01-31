@@ -8,7 +8,7 @@ public class ItemDTO {
 	private String product_Name;
 	private String product_Contents;
 	private Integer product_Price;
-	private Blob product_Photo;
+	private Byte[] product_Photo;
 	
 	
 	
@@ -38,10 +38,10 @@ public class ItemDTO {
 	public void setProduct_Price(Integer product_Price) {
 		this.product_Price = product_Price;
 	}
-	public Blob getProduct_Photo() {
+	public Byte[] getProduct_Photo() {
 		return product_Photo;
 	}
-	public void setProduct_Photo(Blob product_Photo) {
+	public void setProduct_Photo(Byte[] product_Photo) {
 		this.product_Photo = product_Photo;
 	}
 	

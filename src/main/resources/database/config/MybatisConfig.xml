@@ -9,6 +9,5 @@
 		 <typeAlias type="java.lang.Long" alias="Long"/>
 		 <typeAlias type="java.util.List" alias="List"/>
 		 <typeAlias type="java.util.Map" alias="Map"/>
-		 <typeAlias type="com.groupb.cuiz.member.MemberDTO" alias="MemberDTO"/>
 	 </typeAliases>
 </configuration>
