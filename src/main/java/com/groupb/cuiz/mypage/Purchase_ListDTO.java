@@ -1,4 +1,4 @@
-package com.groupb.cuiz.app.mypage;
+package com.groupb.cuiz.mypage;
 
 import java.sql.Date;
 
