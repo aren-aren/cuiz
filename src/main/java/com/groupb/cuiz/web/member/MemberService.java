@@ -1,4 +1,4 @@
-package com.groupb.cuiz.member;
+package com.groupb.cuiz.web.member;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
