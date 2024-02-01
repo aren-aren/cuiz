@@ -7,7 +7,6 @@
 <html lang="en">
 <c:import url="./temps/header_css.jsp"></c:import>
 
-
 <body>
 
   <!-- ***** Preloader Start ***** -->
@@ -24,6 +23,7 @@
   <!-- ***** Preloader End ***** -->
 
   <!-- ***** Header Area Start ***** -->
+
   <c:import url="./temps/header.jsp"></c:import>
   <!-- ***** Header Area End ***** -->
 
@@ -202,6 +202,7 @@
     </div>
   </div>
   
+
   <c:import url="./temps/footer.jsp"></c:import>
 
   </body>
