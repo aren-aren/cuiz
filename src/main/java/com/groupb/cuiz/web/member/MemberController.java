@@ -1,4 +1,4 @@
-package com.groupb.cuiz.member;
+package com.groupb.cuiz.web.member;
 
 import java.util.Base64;
 
