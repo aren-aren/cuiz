@@ -52,20 +52,24 @@
           <!-- ***** Featured End ***** -->
 
           <!-- ***** Details Start ***** -->
+          <form>
           <div class="game-details">
             <div class="row">
               <div class="col-lg-12">
-                <h2>${dto.item_Name} Details</h2>
+                <h2>Insert Item</h2>
               </div>
               <div class="col-lg-12">
                 <div class="content">
                   <div class="row">
                     <div class="col-lg-6">
                       <div class="left-info">
-                        <div class="left">
-                          <h4>${dto.item_Name}</h4>
-                          <span>${dto.item_Price}</span>
-                        </div>
+                        <div class="search-input">
+	                        <input style="
+	                        background-color: transparent;
+						    position: absolute;"
+						    type="text" placeholder="Type Something" id='searchText' name="searchKeyword" onkeypress="handle" />
+	                        <i class="fa fa-search"></i>
+	                    </div>
                         <ul>
                           <li><i class="fa fa-star"></i> 4.8</li>
                           <li><i class="fa fa-download"></i> 2.3M</li>
@@ -83,19 +87,18 @@
                       </div>
                     </div>
                     <div class="col-lg-4">
-                      <img src="/resources/assets/images/details-01.jpg" alt="" style="border-radius: 23px; margin-bottom: 30px;">
+                    
+                                        
                     </div>
-                    <div class="col-lg-4">
-                      <img src="/resources/assets/images/details-02.jpg" alt="" style="border-radius: 23px; margin-bottom: 30px;">
+                    <div class="main-border-button">
+                     	<button type="button" class="btn btn-primary" id="fileAdd">Insert File</button>	
                     </div>
-                    <div class="col-lg-4">
-                      <img src="/resources/assets/images/details-03.jpg" alt="" style="border-radius: 23px; margin-bottom: 30px;">
-                    </div>
+                    
                     <div class="col-lg-12">
                       <p> ${dto.item_Contents}</p>
                     <div class="col-lg-12">
                       <div class="main-border-button">
-                        <a href="#">Buy ${dto.item_Name} Now!</a>
+                        <button type="submit">Insert Now!</button>
                       </div>
                     </div>
                   </div>
@@ -103,9 +106,10 @@
               </div>
             </div>
           </div>
+          </form>
           <!-- ***** Details End ***** -->
 
-          <!-- ***** Other Start ***** -->
+      <!--     ***** Other Start *****
           <div class="other-games">
             <div class="row">
               <div class="col-lg-12">
@@ -175,7 +179,7 @@
               </div>
             </div>
           </div>
-          <!-- ***** Other End ***** -->
+          ***** Other End ***** -->
 
         </div>
       </div>
