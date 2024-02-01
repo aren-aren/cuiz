@@ -9,7 +9,7 @@ public class MemberDAO {
 
 	@Autowired
 	private SqlSession sqlSession;
-	private String namespace = "com.groupb.cuiz.member.MemberDAO.";
+	private final String namespace = "com.groupb.cuiz.member.MemberDAO.";
 	
 	
 	public int SetJoin(MemberDTO dto) throws Exception{

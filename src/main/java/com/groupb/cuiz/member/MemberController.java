@@ -1,5 +1,6 @@
 package com.groupb.cuiz.member;
 
+import java.nio.charset.StandardCharsets;
 import java.util.Base64;
 
 import javax.servlet.http.HttpSession;
@@ -52,7 +53,7 @@ public class MemberController {
 		 }
 		session.setAttribute("member", dto);
 		//System.out.println( new String(dto.getMember_Profile_byte(), "UTF-8") );
-		session.setAttribute("avatar", "data:image/png;base64," + new String(dto.getMember_Profile_Blob(), "UTF-8"));
+		session.setAttribute("avatar", "data:image/png;base64," + new String(dto.getMember_Profile_Blob(), StandardCharsets.UTF_8));
 		 
 		return null;
 	}
@@ -65,7 +66,7 @@ public class MemberController {
 	@GetMapping("11")
 	public String get(Model model) throws Exception{
 		MemberDTO dto = memberService.get();
-		model.addAttribute("msg", "data:image/png;base64," + new String(dto.getMember_Profile_Blob(), "UTF-8"));
+		model.addAttribute("msg", "data:image/png;base64," + new String(dto.getMember_Profile_Blob(), StandardCharsets.UTF_8));
 		
 		return "member/temp";
 	}

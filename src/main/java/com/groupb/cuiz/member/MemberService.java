@@ -20,11 +20,7 @@ public class MemberService {
 	public MemberDTO getDetail(MemberDTO dto) throws Exception{
 		MemberDTO memberDTO = new MemberDTO();
 		memberDTO = dao.getDetail(dto);
-		
-		if(memberDTO!=null) {
-			return memberDTO;
-		}
-		
-		return null;
-	}
+
+        return memberDTO;
+    }
 }
