@@ -1,7 +1,4 @@
 
-<%@ page language="java" contentType="text/html; charset=UTF-8"
-	pageEncoding="UTF-8"%>
-<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 
 <header class="header-area header-sticky">
     <div class="container">
@@ -9,7 +6,7 @@
             <div class="col-12">
                 <nav class="main-nav">
                     <!-- ***** Logo Start ***** -->
-                    <a href="index.html" class="logo">
+                    <a href="/" class="logo">
                         <img src="/resources/assets/images/logo.png" alt="">
                     </a>
                     <!-- ***** Logo End ***** -->
