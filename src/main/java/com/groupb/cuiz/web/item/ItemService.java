@@ -28,4 +28,9 @@ public class ItemService {
 		
 	}
 
+	public int setItem(ItemDTO itemDTO) {
+		
+		return itemDAO.setItem(itemDTO);
+	}
+
 }

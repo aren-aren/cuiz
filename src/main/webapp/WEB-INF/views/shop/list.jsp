@@ -52,10 +52,15 @@
           <div class="most-popular">
             <div class="row">
               <div class="col-lg-12">
-               
-                <div class="heading-section">
-                  <h4><em>Most Popular</em> Right Now</h4>
+                <div class="main-button">
+                    <a href="add">Insert Item</a>
                 </div>
+                <div class="heading-section">
+                  <h4><em>Most Popular</em> Right Now</h4>    
+                 
+               
+                </div>
+                
                 <div class="row">
                 <c:forEach items="${list}" var="list">
                   <div class="col-lg-3 col-sm-6">
