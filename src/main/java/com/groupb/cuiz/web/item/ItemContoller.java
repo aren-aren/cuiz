@@ -6,7 +6,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.multipart.MultipartFile;
+
+import oracle.jdbc.proxy.annotation.Post;
 
 @Controller
 @RequestMapping("/shop/*")
@@ -37,7 +41,20 @@ public class ItemContoller {
 		return "/shop/detail";
 	}
 	
+	@GetMapping("add")
+	public String setItem() {
+		
+		return "/shop/add";
+		
+	}
 	
-	
+	@PostMapping("add")
+	public void setItem(ItemDTO itemDTO ) {
+		
+		int result = itemService.setItem(itemDTO);
+		
+		System.out.println(result);
+		
+	}
 	
 }
