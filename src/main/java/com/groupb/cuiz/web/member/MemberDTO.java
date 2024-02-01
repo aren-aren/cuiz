@@ -109,7 +109,7 @@ public class MemberDTO {
 	public void setMember_Profile(MultipartFile member_Profile) throws IOException {
 		this.member_Profile = member_Profile;
 		this.member_Profile_Blob = Base64.getEncoder().encode(member_Profile.getBytes());
-		System.out.println(new String(member_Profile_Blob, "UTF-8"));
+		System.out.println(new String(member_Profile_Blob, StandardCharsets.UTF_8));
 	}
 	public byte[] getMember_Profile_Blob() throws UnsupportedEncodingException {
 		return member_Profile_Blob;
