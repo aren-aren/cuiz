@@ -1,4 +1,4 @@
-package com.groupb.cuiz.quiz;
+package com.groupb.cuiz.web.quiz;
 
 public class QuizDTO {
     private Integer quiz_No;

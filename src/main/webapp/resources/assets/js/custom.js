@@ -23,7 +23,8 @@
         }
     });
 
-	$(window).scroll(function() {
+
+	/*$(window).scroll(function() {
 	  var scroll = $(window).scrollTop();
 	  var box = $('.header-text').height();
 	  var header = $('header').height();
@@ -33,7 +34,7 @@
 	  } else {
 	    $("header").removeClass("background-header");
 	  }
-	});
+	}); */
 	
 	$('.filters ul li').click(function(){
         $('.filters ul li').removeClass('active');

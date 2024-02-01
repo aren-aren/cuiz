@@ -1,4 +1,4 @@
-package com.groupb.cuiz.quiz;
+package com.groupb.cuiz.web.quiz;
 
 import org.apache.commons.exec.*;
 import org.apache.commons.io.output.ByteArrayOutputStream;
