@@ -27,4 +27,18 @@ public class MemberService {
 		
 		return null;
 	}
+	
+	public int setUpdate(MemberDTO dto) throws Exception{
+		return dao.setUpdate(dto);
+	}
+	
+	public int setNickcheck(MemberDTO dto) throws Exception{
+		return dao.setNickcheck(dto);
+	}
+	
+	public int setIdcheck(MemberDTO dto) throws Exception{
+		return dao.setIdcheck(dto);
+		
+	}
+	
 }

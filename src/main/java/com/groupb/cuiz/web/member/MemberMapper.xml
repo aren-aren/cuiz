@@ -3,10 +3,11 @@
  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
  "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
  
- <mapper namespace="com.groupb.cuiz.member.MemberDAO">
+
+ <mapper namespace="com.groupb.cuiz.web.member.MemberDAO">
  	<insert id="setJoin" parameterType="MemberDTO">
  		INSERT INTO MEMBER
- 		(MEMBER_ID,MEMBER_PASSWORD,MEMBER_EMAIL,MEMBER_NICK,MEMBER_PROFILE_Blob,MEMBER_PHONENUMBER)
+ 		(MEMBER_ID,MEMBER_PASSWORD,MEMBER_EMAIL,MEMBER_NICK,MEMBER_PROFILE_BLOB,MEMBER_PHONENUMBER)
  		VALUES
  		(#{member_ID},#{member_Password},#{member_Email},#{member_Nick},#{member_Profile_Blob},#{member_PhoneNumber})
  	</insert>
@@ -19,5 +20,26 @@
  	<select id="getDetail" resultType="MemberDTO" parameterType="MemberDTO">
  		SELECT * FROM MEMBER WHERE MEMBER_ID = #{member_ID} AND MEMBER_PASSWORD = #{member_Password}
  	</select>
+ 	
+
+ 	<select id="setIdcheck" resultType="int" parameterType="MemberDTO">
+ 		SELECT COUNT(MEMBER_ID) FROM MEMBER WHERE MEMBER_ID = #{member_ID}
+ 	</select>
+ 	
+ 	<select id="setNickcheck" resultType="int" parameterType="MemberDTO">
+ 		SELECT COUNT(MEMBER_NICK) FROM MEMBER WHERE MEMBER_NICK = #{member_Nick}
+ 	</select>
+ 	
+ 	
+ 	  
+ 	<update id="setUpdate" parameterType="MemberDTO">
+ 		UPDATE MEMBER <set>
+ 		<if test="member_Password != '' "> MEMBER_Password =#{member_Password},</if>
+ 		<if test="member_Email != '' ">MEMBER_EMAIL = #{member_Email},</if>
+ 		<if test="member_Phone != '' ">MEMBER_PHONE = #{member_Phone},</if>
+ 		</set>
+ 		MEMBER_PROFILE_BLOB = #{member_Profile_Blob}
+ 		WHERE MEMBER_ID = #{member_ID}
+ 	</update>
  	
  </mapper>
