@@ -1,8 +1,5 @@
 database.properties
 
-src/main/webapp/META-INF/*
-src/main/webapp/WEB-INF/classes/*
-
 HELP.md
 target/
 !.mvn/wrapper/maven-wrapper.jar
