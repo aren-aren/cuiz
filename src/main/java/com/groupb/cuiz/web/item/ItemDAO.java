@@ -31,4 +31,16 @@ public class ItemDAO {
 		
 	}
 	
+	public int delete(ItemDTO itemDTO) {
+		
+		return sqlSession.selectOne(NAMESPACE+"delete", itemDTO);
+	}
+	
+	public int update(ItemDTO itemDTO) {
+		
+		return sqlSession.selectOne(NAMESPACE+"update", itemDTO);
+	}
+	
+	
+	
 }

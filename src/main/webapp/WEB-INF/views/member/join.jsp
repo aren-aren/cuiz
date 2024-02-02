@@ -35,7 +35,7 @@
 	</div>
 	<div>
 		<label for="profile">사진 선택</label>
-		<input type="file" id="profile" name="member_Profile" accept="image/*">
+		<input type="file" id="profile" name="flie" accept="image/*">
 	</div>
 	
 	<div>
