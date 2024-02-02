@@ -5,11 +5,18 @@
   		
 <configuration>
 	 <typeAliases>
-		 <typeAlias type="java.lang.String" alias="String"/>
+		 <typeAlias type="java.lang.Integer" alias="Integer"/>
 		 <typeAlias type="java.lang.Long" alias="Long"/>
+		 <typeAlias type="java.lang.String" alias="String"/>
+
 		 <typeAlias type="java.util.List" alias="List"/>
 		 <typeAlias type="java.util.Map" alias="Map"/>
+
 		 <typeAlias type="com.groupb.cuiz.web.member.MemberDTO" alias="MemberDTO"/>
+
 		 <typeAlias type="com.groupb.cuiz.web.item.ItemDTO" alias="ItemDTO"/>
+
+		 <typeAlias type="com.groupb.cuiz.web.quiz.TestcaseDTO" alias="TestcaseDTO"/>
+		 <typeAlias type="com.groupb.cuiz.web.quiz.QuizDTO" alias="QuizDTO"/>
 	 </typeAliases>
 </configuration>

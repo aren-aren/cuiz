@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.groupb.cuiz.web.quiz.QuizDAO">
+    <insert id="addTestcase" parameterType="TestcaseDTO">
+        INSERT INTO TESTCASE(QUIZ_NO, EXAMPLE_INPUT, EXAMPLE_OUTPUT, TESTCASE_INPUT, TESTCASE_OUTPUT)
+        VALUES (#{quiz_No}, #{example_Input}, #{example_Output}, #{testcase_Input}, #{testcase_Output})
+    </insert>
+    <insert id="addQuiz" parameterType="QuizDTO">
+        <selectKey resultType="Integer" keyProperty="quiz_No" order="BEFORE">
+            SELECT QUIZ_SEQ.NEXTVAL FROM DUAL
+        </selectKey>
+        INSERT INTO QUIZ(QUIZ_NO, MEMBER_ID, QUIZ_TITLE, QUIZ_CONTENTS, QUIZ_TYPE, QUIZ_LEVEL, QUIZ_POINT, QUIZ_PRICE)
+        VALUES (#{quiz_No}, #{member_Id}, #{quiz_Title}, #{quiz_Contents}, #{quiz_Type}, #{quiz_Level}, #{quiz_Point}, #{quiz_Price})
+    </insert>
+</mapper>
