@@ -1,8 +1,12 @@
 package com.groupb.cuiz.web.member;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
+
+import com.groupb.cuiz.web.member.role.RoleDTO;
 
 @Service
 public class MemberService {
@@ -40,4 +44,21 @@ public class MemberService {
 		
 	}
 
+	public int setUpdateRole(MemberDTO dto) throws Exception{
+		return dao.setUpdateRole(dto);
+	}
+	
+	public int deleteRole(RoleDTO dto) throws Exception{
+		return dao.deleteRole(dto);
+	}
+	public int setDelete(MemberDTO dto) throws Exception{
+		return dao.setDelete(dto);
+	}
+	public int insertRole(RoleDTO dto) throws Exception{
+		return dao.insertRole(dto);
+	}
+	
+	public List<MemberDTO> getList(MemberDTO dto) throws Exception{
+		return dao.getList(dto);
+	}
 }

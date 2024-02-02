@@ -35,6 +35,8 @@ nick.addEventListener("blur",function(){
 
         if(nick_check.getAttribute("class") == "yes" && divID.getAttribute("class") == "yes" && divPW.getAttribute("class") == "yes" && divPW2.getAttribute("class") == "yes"){
             join_btn.disabled = false;            
+        }else{
+            join_btn.disabled = true;
         }
     })
 })
@@ -56,6 +58,8 @@ user_id.addEventListener("blur",function(){
         }
         if(nick_check.getAttribute("class") == "yes" && divID.getAttribute("class") == "yes" && divPW.getAttribute("class") == "yes" && divPW2.getAttribute("class") == "yes"){
             join_btn.disabled = false;            
+        }else{
+            join_btn.disabled = true;
         }
     })
 })
@@ -90,6 +94,8 @@ user_pw.addEventListener("blur",function(){
     }
     if(nick_check.getAttribute("class") == "yes" && divID.getAttribute("class") == "yes" && divPW.getAttribute("class") == "yes" && divPW2.getAttribute("class") == "yes"){
         join_btn.disabled = false;            
+    }else{
+        join_btn.disabled = true;
     }
 })
 
@@ -108,6 +114,8 @@ user_pw2.addEventListener("blur",function(){
     }
     if(nick_check.getAttribute("class") == "yes" && divID.getAttribute("class") == "yes" && divPW.getAttribute("class") == "yes" && divPW2.getAttribute("class") == "yes"){
         join_btn.disabled = false;            
+    }else{
+        join_btn.disabled = true;
     }
 })
 

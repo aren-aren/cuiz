@@ -105,5 +105,6 @@
 
 	<c:import url="../temps/footer.jsp"></c:import>
 	<script src="/resources/member/join.js"></script>
+	
 </body>
 </html>
