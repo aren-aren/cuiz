@@ -13,10 +13,18 @@ public class ItemDTO {
 	private String item_Contents;
 	private Integer item_Price;
 	private byte[] item_Photo;		
+	private String item_Photo_to_String;
+	
 	private Integer flag;
 	
 	
 	
+	public String getItem_Photo_to_String() {
+		return item_Photo_to_String;
+	}
+	public void setItem_Photo_to_String(String item_Photo_to_String) {
+		this.item_Photo_to_String = item_Photo_to_String;
+	}
 	public Integer getItem_Num() {
 		return item_Num;
 	}
@@ -41,7 +49,7 @@ public class ItemDTO {
 	public void setItem_Price(Integer item_Price) {
 		this.item_Price = item_Price;
 	}
-	public byte[] getItem_Photo(byte[] photo) {		
+	public byte[] getItem_Photo() {		
 		
 		return item_Photo;
 	}

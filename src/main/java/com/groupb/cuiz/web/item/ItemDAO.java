@@ -32,8 +32,8 @@ public class ItemDAO {
 	}
 	
 	public int delete(ItemDTO itemDTO) {
-		
-		return sqlSession.selectOne(NAMESPACE+"delete", itemDTO);
+		System.out.println(itemDTO.getItem_Num());
+		return sqlSession.delete(NAMESPACE+"delete", itemDTO);
 	}
 	
 	public int update(ItemDTO itemDTO) {
