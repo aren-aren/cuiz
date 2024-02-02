@@ -48,7 +48,8 @@
  	ITEM_NAME = #{item_Name},
  	ITEM_CONTENTS = #{item_Contents},
  	ITEM_PRICE = #{item_Price},
- 	ITEM_PHOTO = #{item_Photo}
+ 	ITEM_PHOTO = #{item_Photo},
+ 	FLAG = #{flag}
 	WHERE ITEM_NUM = #{item_Num}
 </update> 
  

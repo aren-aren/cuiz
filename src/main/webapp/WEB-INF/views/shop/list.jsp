@@ -187,7 +187,7 @@
                   <div class="col-lg-3 col-sm-6">
                     <div class="item">
 	                    <a href="detail?item_Num=${list.item_Num}">
-	                      <img src="data:image/jpeg;base64,${list.item_Photo_to_String}" alt="" style="overflow:hidden; margin:0 auto;">
+	                      <img src="/resources/assets/images/popular-01.jpg" alt="" >
 	                    </a>
                       <h4>${list.item_Name}<br><span>${list.item_Price}</span></h4>
                       <ul>

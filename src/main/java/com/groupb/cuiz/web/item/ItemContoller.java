@@ -1,7 +1,6 @@
 package com.groupb.cuiz.web.item;
 
 import java.io.IOException;
-import java.io.UnsupportedEncodingException;
 import java.util.Base64;
 import java.util.List;
 
@@ -28,7 +27,7 @@ public class ItemContoller {
 	public String getList(Model model) {
 		
 		
-		List<ItemDTO> ar = itemService.getList(); 		
+		List<ItemDTO> ar = itemService.getList(); 
 		model.addAttribute("list", ar);
 		
 		return "/shop/list";
@@ -36,7 +35,7 @@ public class ItemContoller {
 	}
 	
 	@GetMapping("detail")
-	public String getDetail(Model model, ItemDTO itemDTO) throws UnsupportedEncodingException {
+	public String getDetail(Model model, ItemDTO itemDTO) {
 		
 		itemDTO = itemService.getDetail(itemDTO);
 		
@@ -75,31 +74,20 @@ public class ItemContoller {
 					
 	}
 	
-	@GetMapping("update")
-	public String update(ItemDTO itemDTO, Model model) throws UnsupportedEncodingException {
-		System.out.println(itemDTO.getItem_Num());
-		itemDTO = itemService.getDetail(itemDTO);
+	
+	@PostMapping("updat")
+	public void update(ItemDTO itemDTO) {
 		
-		model.addAttribute("dto", itemDTO);
+		int result = itemService.update(itemDTO);
+		
+	}
+	
+	@GetMapping("update")
+	public String update(ItemDTO itemDTO, HttpSession session) {
 		
 		return "shop/update";
 		
 	}
-	
-	@PostMapping("update")
-	public String update(ItemDTO itemDTO, MultipartFile file) throws IOException {
-		System.out.println(itemDTO.getItem_Name());
-		System.out.println(file+"Controller");
-		int result = itemService.update(itemDTO, file);
-		
-		
-		return "/shop/list";
-	}
-	
-
-	
-	
-	
 	
 	
 }
