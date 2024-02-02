@@ -37,7 +37,7 @@
               <div class="feature-banner header-text">
                 <div class="row">
            		  <div class="col-lg-4">
-                    <img src="${dto.item_Photo}" alt="" style="border-radius: 23px;">
+                    <img src="data:image/jpeg;base64,${dto.item_Photo_to_String}" alt="" style="border-radius: 23px;">
                   </div> 
                   <div class="col-lg-8">
                      <div class="thumb">
@@ -94,9 +94,18 @@
                     <div class="col-lg-12">
                       <p> ${dto.item_Contents}</p>
                     <div class="col-lg-12">
+                      	<form id="delBtnFrm">
+                      		<input type="hidden" name="item_Num" value="${dto.item_Num}">
                       <div class="main-border-button">
                         <a href="#">Buy ${dto.item_Name} Now!</a>
+	                    <a href="./update?item_Num=${dto.item_Name}">Update</a> 
+	                    <button type="button"   id="deleteBtn">Delete</button>
+                        
                       </div>
+	                 
+	                       		
+	           
+                      	</form>
                     </div>
                   </div>
                 </div>
@@ -183,5 +192,6 @@
   </div>  
   <c:import url="../temps/footer.jsp"></c:import>
   </body>
-
+  	<script src="/resources/js/shop/detail.js"></script>
+	
 </html>

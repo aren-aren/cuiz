@@ -1,6 +1,7 @@
 package com.groupb.cuiz.web.item;
 
 import java.io.IOException;
+import java.io.UnsupportedEncodingException;
 import java.util.Base64;
 import java.util.List;
 
@@ -19,32 +20,44 @@ public class ItemService {
 		
 		List<ItemDTO> ar = itemDAO.getList();
 		
+			ar = decoderListToString(ar);
+
+	
 		return ar;
 		
 	}
 	
-	public ItemDTO getDetail(ItemDTO itemDTO) {
-				
-	return itemDAO.getDetail(itemDTO);
+	
+	public ItemDTO getDetail(ItemDTO itemDTO) throws UnsupportedEncodingException {
+	
+		itemDTO = itemDAO.getDetail(itemDTO);
+		
+		if(itemDTO.getItem_Photo()!=null) {
 			
+			String photo = new String(itemDTO.getItem_Photo(),"UTF-8");
+			itemDTO.setItem_Photo_to_String(photo);
+		}
+		
+		return itemDTO;		
 	}
 
+	
+	
 	public int setItem(ItemDTO itemDTO, MultipartFile file) throws IOException {
 		
 		System.out.println("service add "+ file);
 		
 		if(!file.isEmpty()) {
 			
-			byte[] photo = Base64.getEncoder().encode(file.getBytes()); 
-			itemDTO.setItem_Photo(photo);
-			
+			byte[] photo = photoEncoder(file); 
+			System.out.println(photo);
+			itemDTO.setItem_Photo(photo);			
 		}
 		
-		
-		
-		
+				
 		return itemDAO.setItem(itemDTO);
 	}
+	
 	
 	
 	public int delete(ItemDTO itemDTO) {
@@ -54,12 +67,50 @@ public class ItemService {
 	}
 	
 	
-	public int update(ItemDTO itemDTO) {
+	
+	
+	public int update(ItemDTO itemDTO, MultipartFile file) throws IOException {
+		System.out.println("Service!!   "+itemDTO.getItem_Photo());
+		System.out.println("Service!!   "+ file);
+
+		if(!file.isEmpty()) {
+			byte[] photo = photoEncoder(file); 	
+			System.out.println("after encoding"+ photo);
+			itemDTO.setItem_Photo(photo);			
+		}
+		
+		
 		
 		return itemDAO.update(itemDTO);
 	}
 	
 	
 	
+	
+	public List<ItemDTO> decoderListToString(List<ItemDTO> ar){
+		
+		
+		ar.stream().forEach(p -> {
+			if(p.getItem_Photo()!=null) {				
+				try {
+					p.setItem_Photo_to_String(new String(p.getItem_Photo(),"UTF-8"));
+				} catch (UnsupportedEncodingException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+			}
+			
+		});		
+	return ar;		
+	}
+	
+	
+	public byte[] photoEncoder(MultipartFile file) throws IOException {
+		
+		byte[] photo = Base64.getEncoder().encode(file.getBytes()); 
+		
+		return photo;
+		
+	}
 	
 }
