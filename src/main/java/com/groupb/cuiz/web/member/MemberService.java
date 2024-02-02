@@ -1,4 +1,4 @@
-package com.groupb.cuiz.member;
+package com.groupb.cuiz.web.member;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -20,11 +20,24 @@ public class MemberService {
 	public MemberDTO getDetail(MemberDTO dto) throws Exception{
 		MemberDTO memberDTO = new MemberDTO();
 		memberDTO = dao.getDetail(dto);
-		
 		if(memberDTO!=null) {
 			return memberDTO;
 		}
 		
 		return null;
 	}
+	
+	public int setUpdate(MemberDTO dto) throws Exception{
+		return dao.setUpdate(dto);
+	}
+	
+	public int setNickcheck(MemberDTO dto) throws Exception{
+		return dao.setNickcheck(dto);
+	}
+	
+	public int setIdcheck(MemberDTO dto) throws Exception{
+		return dao.setIdcheck(dto);
+		
+	}
+
 }

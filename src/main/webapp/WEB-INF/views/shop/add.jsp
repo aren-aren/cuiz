@@ -1,11 +1,11 @@
+
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 
-
 <!DOCTYPE html>
 <html lang="en">
-<c:import url="../temps/header_css.jsp"></c:import>
+ <c:import url="../temps/header_css.jsp"></c:import>
 
 <body>
 
@@ -23,7 +23,7 @@
   <!-- ***** Preloader End ***** -->
 
   <!-- ***** Header Area Start ***** -->
-   <c:import url="../temps/header.jsp"></c:import>
+  <c:import url="../temps/header.jsp"></c:import>
   <!-- ***** Header Area End ***** -->
 
   <div class="container">
@@ -36,15 +36,15 @@
             <div class="col-lg-12">
               <div class="feature-banner header-text">
                 <div class="row">
-                  <div class="col-lg-4">
-                    <img src="assets/images/feature-left.jpg" alt="" style="border-radius: 23px;">
-                  </div>
-                  <div class="col-lg-8">
-                    <div class="thumb">
-                      <img src="assets/images/feature-right.jpg" alt="" style="border-radius: 23px;">
+                 <!--  <div class="col-lg-4">
+                    <img src="/resources/assets/images/feature-left.jpg" alt="" style="border-radius: 23px;">
+                  </div> -->
+                  <!-- <div class="col-lg-8">
+                     <div class="thumb">
+                      <img src="/resources/assets/images/feature-right.jpg" alt="" style="border-radius: 23px;">
                       <a href="https://www.youtube.com/watch?v=r1b03uKWk_M" target="_blank"><i class="fa fa-play"></i></a>
-                    </div>
-                  </div>
+                    </div> 
+                  </div> -->
                 </div>
               </div>
             </div>
@@ -52,20 +52,24 @@
           <!-- ***** Featured End ***** -->
 
           <!-- ***** Details Start ***** -->
+          <form>
           <div class="game-details">
             <div class="row">
               <div class="col-lg-12">
-                <h2>Fortnite Details</h2>
+                <h2>Insert Item</h2>
               </div>
               <div class="col-lg-12">
                 <div class="content">
                   <div class="row">
                     <div class="col-lg-6">
                       <div class="left-info">
-                        <div class="left">
-                          <h4>Fortnite</h4>
-                          <span>Sandbox</span>
-                        </div>
+                        <div class="search-input">
+	                        <input style="
+	                        background-color: transparent;
+						    position: absolute;"
+						    type="text" placeholder="Type Something" id='searchText' name="searchKeyword" onkeypress="handle" />
+	                        <i class="fa fa-search"></i>
+	                    </div>
                         <ul>
                           <li><i class="fa fa-star"></i> 4.8</li>
                           <li><i class="fa fa-download"></i> 2.3M</li>
@@ -83,20 +87,18 @@
                       </div>
                     </div>
                     <div class="col-lg-4">
-                      <img src="assets/images/details-01.jpg" alt="" style="border-radius: 23px; margin-bottom: 30px;">
+                    
+                                        
                     </div>
-                    <div class="col-lg-4">
-                      <img src="assets/images/details-02.jpg" alt="" style="border-radius: 23px; margin-bottom: 30px;">
+                    <div class="main-border-button">
+                     	<button type="button" class="btn btn-primary" id="fileAdd">Insert File</button>	
                     </div>
-                    <div class="col-lg-4">
-                      <img src="assets/images/details-03.jpg" alt="" style="border-radius: 23px; margin-bottom: 30px;">
-                    </div>
+                    
                     <div class="col-lg-12">
-                      <p>Cyborg Gaming is free HTML CSS website template provided by TemplateMo. This is Bootstrap v5.2.0 layout. You can make a <a href="https://paypal.me/templatemo" target="_blank">small contribution via PayPal</a> to info [at] templatemo.com and thank you for supporting. If you want to get the PSD source files, please contact us. Lorem ipsum dolor sit consectetur es dispic dipiscingei elit, sed doers eiusmod lisum hored tempor.</p>
-                    </div>
+                      <p> ${dto.item_Contents}</p>
                     <div class="col-lg-12">
                       <div class="main-border-button">
-                        <a href="#">Download Fortnite Now!</a>
+                        <button type="submit">Insert Now!</button>
                       </div>
                     </div>
                   </div>
@@ -104,9 +106,10 @@
               </div>
             </div>
           </div>
+          </form>
           <!-- ***** Details End ***** -->
 
-          <!-- ***** Other Start ***** -->
+      <!--     ***** Other Start *****
           <div class="other-games">
             <div class="row">
               <div class="col-lg-12">
@@ -116,7 +119,7 @@
               </div>
               <div class="col-lg-6">
                 <div class="item">
-                  <img src="assets/images/game-01.jpg" alt="" class="templatemo-item">
+                  <img src="/resources/assets/images/game-01.jpg" alt="" class="templatemo-item">
                   <h4>Dota 2</h4><span>Sandbox</span>
                   <ul>
                     <li><i class="fa fa-star"></i> 4.8</li>
@@ -126,7 +129,7 @@
               </div>
               <div class="col-lg-6">
                 <div class="item">
-                  <img src="assets/images/game-02.jpg" alt="" class="templatemo-item">
+                  <img src="/resources/assets/images/game-02.jpg" alt="" class="templatemo-item">
                   <h4>Dota 2</h4><span>Sandbox</span>
                   <ul>
                     <li><i class="fa fa-star"></i> 4.8</li>
@@ -136,7 +139,7 @@
               </div>
               <div class="col-lg-6">
                 <div class="item">
-                  <img src="assets/images/game-03.jpg" alt="" class="templatemo-item">
+                  <img src="/resources/assets/images/game-03.jpg" alt="" class="templatemo-item">
                   <h4>Dota 2</h4><span>Sandbox</span>
                   <ul>
                     <li><i class="fa fa-star"></i> 4.8</li>
@@ -146,7 +149,7 @@
               </div>
               <div class="col-lg-6">
                 <div class="item">
-                  <img src="assets/images/game-02.jpg" alt="" class="templatemo-item">
+                  <img src="/resources/assets/images/game-02.jpg" alt="" class="templatemo-item">
                   <h4>Dota 2</h4><span>Sandbox</span>
                   <ul>
                     <li><i class="fa fa-star"></i> 4.8</li>
@@ -156,7 +159,7 @@
               </div>
               <div class="col-lg-6">
                 <div class="item">
-                  <img src="assets/images/game-03.jpg" alt="" class="templatemo-item">
+                  <img src="/resources/assets/images/game-03.jpg" alt="" class="templatemo-item">
                   <h4>Dota 2</h4><span>Sandbox</span>
                   <ul>
                     <li><i class="fa fa-star"></i> 4.8</li>
@@ -166,7 +169,7 @@
               </div>
               <div class="col-lg-6">
                 <div class="item">
-                  <img src="assets/images/game-01.jpg" alt="" class="templatemo-item">
+                  <img src="/resources/assets/images/game-01.jpg" alt="" class="templatemo-item">
                   <h4>Dota 2</h4><span>Sandbox</span>
                   <ul>
                     <li><i class="fa fa-star"></i> 4.8</li>
@@ -176,15 +179,13 @@
               </div>
             </div>
           </div>
-          <!-- ***** Other End ***** -->
+          ***** Other End ***** -->
 
         </div>
       </div>
     </div>
-  </div>
-  
-    <c:import url="../temps/footer.jsp"></c:import>
-
+  </div>  
+  <c:import url="../temps/footer.jsp"></c:import>
   </body>
 
 </html>

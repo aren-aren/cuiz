@@ -1,5 +1,6 @@
-package com.groupb.cuiz.member;
+package com.groupb.cuiz.web.member;
 
+import java.nio.charset.StandardCharsets;
 import java.util.Base64;
 
 import javax.servlet.http.HttpSession;
@@ -26,6 +27,25 @@ public class MemberController {
 		return ("member/join");
 				
 	}
+	
+	@GetMapping("nickcheck")
+	public String setNickcheck(MemberDTO dto,Model model) throws Exception{
+		int result = memberService.setNickcheck(dto);
+		
+		model.addAttribute("result", result);		
+		
+		return "/commons/ajaxResult";
+	}
+	
+	@GetMapping("idcheck")
+	public String setIdcheck(MemberDTO dto,Model model) throws Exception{
+		int result = memberService.setIdcheck(dto);
+		
+		model.addAttribute("result", result);
+		
+		return "/commons/ajaxResult";
+	}
+	
 	@PostMapping("join")
 	public String setJoin( MemberDTO dto,Model model) throws Exception {
 		System.out.println(dto);
@@ -33,8 +53,15 @@ public class MemberController {
 		
 		model.addAttribute("msg", dto);
 		
-		return ("member/temp");
+		return ("redirect:/member/login");
 				
+	}
+	
+	@GetMapping("logout")
+	public String setLogOut(HttpSession session) throws Exception{
+		session.invalidate();
+		
+		return "redirect:/";
 	}
 	
 	@GetMapping("login")
@@ -52,20 +79,37 @@ public class MemberController {
 		 }
 		session.setAttribute("member", dto);
 		//System.out.println( new String(dto.getMember_Profile_byte(), "UTF-8") );
-		session.setAttribute("avatar", "data:image/png;base64," + new String(dto.getMember_Profile_Blob(), "UTF-8"));
+		session.setAttribute("avatar", "data:image/png;base64," + new String(dto.getMember_Profile_Blob(), StandardCharsets.UTF_8));
 		 
-		return null;
+		return "redirect:/";
 	}
 	
 	@GetMapping("mypage")
 	public String setMypage() throws Exception{
 		return "member/mypage";
 	}
+	@GetMapping("update")
+	public String setUpdate() throws Exception{
+		return "member/update";
+	}
+	
+	@PostMapping("update")
+	public String setUpdate(HttpSession session,MemberDTO dto) throws Exception{
+		int result = memberService.setUpdate(dto);
+		
+		if(result>0) {
+			memberService.getDetail(dto);
+		}
+		session.setAttribute("member", dto);
+		session.setAttribute("avatar", "data:image/png;base64," + new String(dto.getMember_Profile_Blob(), "UTF-8"));
+		
+		return "redirect:/member/mypage";
+	}
 	
 	@GetMapping("11")
 	public String get(Model model) throws Exception{
 		MemberDTO dto = memberService.get();
-		model.addAttribute("msg", "data:image/png;base64," + new String(dto.getMember_Profile_Blob(), "UTF-8"));
+		model.addAttribute("msg", "data:image/png;base64," + new String(dto.getMember_Profile_Blob(), StandardCharsets.UTF_8));
 		
 		return "member/temp";
 	}

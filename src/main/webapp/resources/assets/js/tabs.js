@@ -1338,7 +1338,7 @@ $.fn.position = function( options ) {
 					feedback.important = "vertical";
 				}
 				options.using.call( this, props, feedback );
-			};
+			}
 		}
 
 		elem.offset( $.extend( position, { using: using } ) );
@@ -7144,7 +7144,7 @@ $.widget("ui.resizable", $.ui.mouse, {
 
 				// TODO: What's that good for? There's not anything to be executed left
 				if (!$(this.handles[i]).length) {
-					continue;
+
 				}
 			}
 		};
