@@ -56,7 +56,9 @@
 		<h2>회원가입</h2>
 	</div>
 	<div>
-		<label for="ID" class="form-label color-white">아이디를 입력해주세요</label>
+		<label for="ID" class="form-label color-white">아이디를 입력해주세요<br>
+		아이디는 4~20글자내에 대,소문자와 숫자로 조합해주세요.
+		</label>
 		<input type="TEXT" id="ID" class="form-control input-join" name="member_ID">
 		<div id="id_check" ></div>
 	</div>
@@ -78,7 +80,7 @@
   		<input type="email" class="form-control input-join" id="email" name="member_Email" placeholder="name@example.com" >
 	</div>
 	<div>
-		<label for="nick" class="form-label color-white">닉네임을 설정해주세요</label>
+		<label for="nick" class="form-label color-white">닉네임을 영어(대소문자),숫자로 이루어진 4~10글자내에서 설정해주세요</label>
 		<input type="text" name="member_Nick" id="nick" class="form-control input-join">
 		<div id="nick_check"></div>
 	</div>
