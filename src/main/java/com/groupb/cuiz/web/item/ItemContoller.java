@@ -15,6 +15,10 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.multipart.MultipartFile;
 
+import com.groupb.cuiz.web.cart.CartDTO;
+import com.groupb.cuiz.web.cart.CartService;
+import com.groupb.cuiz.web.member.MemberDTO;
+
 
 @Controller
 @RequestMapping("/shop/*")
@@ -22,6 +26,18 @@ public class ItemContoller {
 
 	@Autowired
 	private ItemService itemService;
+	@Autowired
+	private CartService cartService;
+	
+	
+	@GetMapping("addCart")
+	public int addList(CartDTO cartDTO, Model model) {
+		System.out.println("addcart on itemcontroller");
+		cartDTO.setMember_ID("hello");	
+		int result = cartService.addList(cartDTO);		
+		return result;
+		
+	}
 	
 	
 	@GetMapping("list")
@@ -45,6 +61,7 @@ public class ItemContoller {
 		return "/shop/detail";
 	}
 	
+	
 	@GetMapping("add")
 	public String setItem() {
 		
@@ -52,8 +69,9 @@ public class ItemContoller {
 		
 	}
 	
+	
 	@PostMapping("add")
-	public void setItem(ItemDTO itemDTO, MultipartFile file) throws IOException {
+	public void setItem(ItemDTO itemDTO, MultipartFile file) throws Exception {
 		System.out.println("add start");
 			
 		System.out.println(file);
@@ -71,18 +89,19 @@ public class ItemContoller {
 		
 		int result = itemService.delete(itemDTO);
 		
-		return "/shop/list";
+		return "./list";
 					
 	}
 	
 	@GetMapping("update")
-	public String update(ItemDTO itemDTO, Model model) throws UnsupportedEncodingException {
+	public String update(ItemDTO itemDTO, Model model) throws Exception {
 		System.out.println(itemDTO.getItem_Num());
-		itemDTO = itemService.getDetail(itemDTO);
 		
-		model.addAttribute("dto", itemDTO);
+		ItemDTO result = itemService.getDetail(itemDTO);
 		
-		return "shop/update";
+		model.addAttribute("dto", result);
+		
+		return "/shop/update";
 		
 	}
 	

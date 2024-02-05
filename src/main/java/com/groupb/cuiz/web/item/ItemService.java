@@ -29,11 +29,13 @@ public class ItemService {
 	
 	
 	public ItemDTO getDetail(ItemDTO itemDTO) throws UnsupportedEncodingException {
-	
-		itemDTO = itemDAO.getDetail(itemDTO);
+		System.out.println("item service : "+itemDTO.getItem_Num());
+		
+		itemDTO = itemDAO.getDetail(itemDTO);			
+		
 		
 		if(itemDTO.getItem_Photo()!=null) {
-			
+			System.out.println("service.getDetail  : " + itemDTO.getItem_Photo());			
 			String photo = new String(itemDTO.getItem_Photo(),"UTF-8");
 			itemDTO.setItem_Photo_to_String(photo);
 		}

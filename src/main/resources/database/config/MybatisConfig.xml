@@ -11,5 +11,6 @@
 		 <typeAlias type="java.util.Map" alias="Map"/>
 		 <typeAlias type="com.groupb.cuiz.web.member.MemberDTO" alias="MemberDTO"/>
 		 <typeAlias type="com.groupb.cuiz.web.item.ItemDTO" alias="ItemDTO"/>
+		 <typeAlias type="com.groupb.cuiz.web.cart.CartDTO" alias="CartDTO"/>
 	 </typeAliases>
 </configuration>

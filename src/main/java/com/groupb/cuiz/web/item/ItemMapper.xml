@@ -10,7 +10,7 @@
 
 <select id="getDetail" parameterType="ItemDTO" resultType="ItemDTO">
 
-	SELECT * FROM ITEM WHERE ITEM_NUM = ${item_Num}
+	SELECT * FROM ITEM WHERE ITEM_NUM = #{item_Num}
 
 </select>
 

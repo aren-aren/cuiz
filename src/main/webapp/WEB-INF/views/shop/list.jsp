@@ -182,54 +182,61 @@
                
                 </div>
                 
-                <div class="row">
+                <div class="row">            
+                
+                
                 <c:forEach items="${list}" var="list">
+           		
+           		<c:if test="${list.item_Num>=10000 and list.item_Num<=10100 }">
+           		 <div class="col-lg-3 col-sm-6">
+                    <div class="item">
+                  	 <a href="detail?item_Num=${list.item_Num}">
+                      	<img src="data:image/jpeg;base64,${list.item_Photo_to_String}" alt="">
+                     </a>
+                     
+                      <a href="detail?item_Num=${list.item_Num}">
+                      	<h4>${list.item_Name}<br><span>${list.item_Price}</span></h4> 
+                      </a>
+                     
+                     	
+                      <ul>
+                        <li><i class="fa fa-star"></i> 4.8</li>
+                        <li><i class="fa fa-download"></i> 2.3M</li>
+                      </ul>
+                    </div>
+                  </div>
+           		</c:if>
+               </c:forEach>   
+                
+           
+           
+           <%--  삭제등 기타 여부
+                <c:if test="${list.flag eq 1}">
+            --%>
+             <c:forEach items="${list}" var="list">
+             	<c:if test="${list.item_Num<10000}">
                   <div class="col-lg-3 col-sm-6">
                     <div class="item">
 	                    <a href="detail?item_Num=${list.item_Num}">
 	                      <img src="data:image/jpeg;base64,${list.item_Photo_to_String}" alt="" style="overflow:hidden; margin:0 auto;">
 	                    </a>
+                      <a href="detail?item_Num=${list.item_Num}">
                       <h4>${list.item_Name}<br><span>${list.item_Price}</span></h4>
+                      </a>
                       <ul>
                         <li><i class="fa fa-star"></i> 4.8</li>
                         <li><i class="fa fa-download"></i> 2.3M</li>
                       </ul>    
                     </div>
                   </div>
+        <%--         
+                </c:if>
+                 --%>
+                
+             	</c:if>
                 </c:forEach>
                   
-                  <div class="col-lg-3 col-sm-6">
-                    <div class="item">
-                      <img src="/resources/assets/images/popular-02.jpg" alt="">
-                      <h4>PubG<br><span>Battle S</span></h4>
-                      <ul>
-                        <li><i class="fa fa-star"></i> 4.8</li>
-                        <li><i class="fa fa-download"></i> 2.3M</li>
-                      </ul>
-                    </div>
-                  </div>
-                  
-                  <div class="col-lg-3 col-sm-6">
-                    <div class="item">
-                      <img src="/resources/assets/images/popular-03.jpg" alt="">
-                      <h4>Dota2<br><span>Steam-X</span></h4>
-                      <ul>
-                        <li><i class="fa fa-star"></i> 4.8</li>
-                        <li><i class="fa fa-download"></i> 2.3M</li>
-                      </ul>
-                    </div>
-                  </div>
-                  
-                  <div class="col-lg-3 col-sm-6">
-                    <div class="item">
-                      <img src="/resources/assets/images/popular-04.jpg" alt="">
-                      <h4>CS-GO<br><span>Legendary</span></h4>
-                      <ul>
-                        <li><i class="fa fa-star"></i> 4.8</li>
-                        <li><i class="fa fa-download"></i> 2.3M</li>
-                      </ul>
-                    </div>
-                  </div>
+                 
                   
                   
                   
