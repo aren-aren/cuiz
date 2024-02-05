@@ -59,6 +59,6 @@
  		DELETE MEMBER_ROLE WHERE MEMBER_ID = #{member_ID} AND ROLE_NUM = 100
  	</delete>
  	<insert id="insertRole" parameterType="RoleDTO">
- 		INSERT INTO MEMBER_ROLE VALUES(#{member_ID},200)
+ 		INSERT INTO MEMBER_ROLE VALUES(#{member_ID},100)
  	</insert>
  </mapper>
