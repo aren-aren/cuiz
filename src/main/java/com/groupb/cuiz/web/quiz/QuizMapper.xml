@@ -7,7 +7,7 @@
     <insert id="addTestcase" parameterType="List">
         <foreach collection="testcase" item="item" open="INSERT ALL" close="SELECT * FROM DUAL">
             INTO TESTCASE(TESTCASE_NO, QUIZ_NO, EXAMPLE_INPUT, EXAMPLE_OUTPUT, TESTCASE_INPUT, TESTCASE_OUTPUT)
-            VALUES (#{testcase_No}, #{quiz_No}, #{example_Input}, #{example_Output}, #{testcase_Input}, #{testcase_Output})
+            VALUES (TESTCASE_SEQ.NEXTVAL, #{quiz_No}, #{example_Input}, #{example_Output}, #{testcase_Input}, #{testcase_Output})
         </foreach>
     </insert>
     <insert id="addQuiz" parameterType="QuizDTO">

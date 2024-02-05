@@ -1,12 +1,21 @@
 package com.groupb.cuiz.web.quiz;
 
+import java.util.List;
+
 public class TestcaseDTO {
     private Integer testcase_No;
     private Integer quiz_No;
-    private String[] quiz_Example_Inputs;
-    private String[] quiz_Example_Outputs;
-    private String[] quiz_Inputs;
-    private String[] quiz_Outputs;
+    private String quiz_Input;
+    private String quiz_Output;
+    private String testcase_Type;
+
+    public Integer getTestcase_No() {
+        return testcase_No;
+    }
+
+    public void setTestcase_No(Integer testcase_No) {
+        this.testcase_No = testcase_No;
+    }
 
     public Integer getQuiz_No() {
         return quiz_No;
@@ -16,35 +25,27 @@ public class TestcaseDTO {
         this.quiz_No = quiz_No;
     }
 
-    public String[] getQuiz_Example_Inputs() {
-        return quiz_Example_Inputs;
+    public String getQuiz_Input() {
+        return quiz_Input;
     }
 
-    public void setQuiz_Example_Inputs(String[] quiz_Example_Inputs) {
-        this.quiz_Example_Inputs = quiz_Example_Inputs;
+    public void setQuiz_Input(String quiz_Input) {
+        this.quiz_Input = quiz_Input;
     }
 
-    public String[] getQuiz_Example_Outputs() {
-        return quiz_Example_Outputs;
+    public String getQuiz_Output() {
+        return quiz_Output;
     }
 
-    public void setQuiz_Example_Outputs(String[] quiz_Example_Outputs) {
-        this.quiz_Example_Outputs = quiz_Example_Outputs;
+    public void setQuiz_Output(String quiz_Output) {
+        this.quiz_Output = quiz_Output;
     }
 
-    public String[] getQuiz_Inputs() {
-        return quiz_Inputs;
+    public String getTestcase_Type() {
+        return testcase_Type;
     }
 
-    public void setQuiz_Inputs(String[] quiz_Inputs) {
-        this.quiz_Inputs = quiz_Inputs;
-    }
-
-    public String[] getQuiz_Outputs() {
-        return quiz_Outputs;
-    }
-
-    public void setQuiz_Outputs(String[] quiz_Outputs) {
-        this.quiz_Outputs = quiz_Outputs;
+    public void setTestcase_Type(String testcase_Type) {
+        this.testcase_Type = testcase_Type;
     }
 }

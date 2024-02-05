@@ -22,15 +22,28 @@ public class QuizService {
     @Autowired
     private QuizDAO quizDAO;
 
-    public int addQuiz(QuizDTO quizDTO, TestcaseDTO[] testcaseDTOS) throws Exception {
+    public int addQuiz(QuizDTO quizDTO, String[] example_inputs, String[] example_output, String[] inputs) throws Exception {
         int result = 0;
         result += quizDAO.addQuiz(quizDTO);
 
-        for (int i = 0; i < testcaseDTOS.length; i++) {
-            testcaseDTOS[i].setQuiz_No(quizDTO.getQuiz_No());
+        List<TestcaseDTO> testcaseDTOS = new ArrayList<>();
+        for (int i = 0; i < example_inputs.length; i++) {
+            TestcaseDTO testcaseDTO = new TestcaseDTO();
+            testcaseDTO.setQuiz_No(quizDTO.getQuiz_No());
+            testcaseDTO.setQuiz_Input(example_inputs[i]);
+            testcaseDTO.setQuiz_Output(example_output[i]);
+            testcaseDTO.setTestcase_Type("EXAMPLE");
+            testcaseDTOS.add(testcaseDTO);
         }
 
-        result += quizDAO.addTestcase(testcaseDTOS);
+        // output을 얻어와야함...
+        // sample코드를 돌리는데 사용한 .class 파일을 이용하여 저장
+        // 그러면 sample코드를 돌릴때 사용한 path를 얻어와야함 (realpath/resources/sourcecode/admin/Main)
+        // 얻으면 실행후에 output을 얻어옴
+
+        // add할 때 sampleoutput도 같이 보내서 먼저 있던 코드가 sample input, output 이 맞는지 확인 후 inputs 를 넣어 output을 얻자
+
+        result += quizDAO.addTestcase(testcaseDTOS)*10;
 
         return result;
     }
@@ -89,7 +102,7 @@ public class QuizService {
         //controller에서 호출된다 정답 제출때 사용
 
         //코드를 파일로 저장
-        String realPath = servletContext.getRealPath(String.format("/resources/sourcecode/%s/%s", answer.getMember_Id(), answer.getQuiz_No()));
+        String realPath = servletContext.getRealPath(String.format("/resources/sourcecode/%s", answer.getMember_Id()));
         String filename = "Main";
         String extension = ".java";
 
