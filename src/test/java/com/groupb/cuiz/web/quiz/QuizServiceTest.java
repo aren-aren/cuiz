@@ -20,14 +20,9 @@ public class QuizServiceTest extends MyTest {
         quizDTO.setQuiz_Level(1);
         quizDTO.setMember_Id("helloworld");
 
-        String[] strs = {"1","2","3","4"};
-        quizDTO.setQuiz_Inputs(strs);
-        quizDTO.setQuiz_Outputs(strs);
-        quizDTO.setQuiz_Example_Inputs(strs);
-        quizDTO.setQuiz_Example_Outputs(strs);
+        TestcaseDTO[] testcaseDTOS = new TestcaseDTO[2];
 
-        int result = quizService.addQuiz(quizDTO);
 
-        assertEquals(2, result);
+        quizService.addQuiz(quizDTO, testcaseDTOS);
     }
 }

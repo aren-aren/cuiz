@@ -10,13 +10,9 @@ public class QuizDTO {
     private String quiz_Contents;
     private String quiz_Type;
     private Integer quiz_Level;
-    private String[] quiz_Example_Inputs;
-    private String[] quiz_Example_Outputs;
-    private String[] quiz_Inputs;
-    private String[] quiz_Outputs;
     private Integer quiz_Point;
     private Integer quiz_Price;
-    private TestcaseDTO testcase;
+    private List<TestcaseDTO> testcase;
 
     public Integer getQuiz_No() {
         return quiz_No;
@@ -66,38 +62,6 @@ public class QuizDTO {
         this.quiz_Level = quiz_Level;
     }
 
-    public String[] getQuiz_Example_Inputs() {
-        return quiz_Example_Inputs;
-    }
-
-    public void setQuiz_Example_Inputs(String[] quiz_Example_Inputs) {
-        this.quiz_Example_Inputs = quiz_Example_Inputs;
-    }
-
-    public String[] getQuiz_Example_Outputs() {
-        return quiz_Example_Outputs;
-    }
-
-    public void setQuiz_Example_Outputs(String[] quiz_Example_Outputs) {
-        this.quiz_Example_Outputs = quiz_Example_Outputs;
-    }
-
-    public String[] getQuiz_Inputs() {
-        return quiz_Inputs;
-    }
-
-    public void setQuiz_Inputs(String[] quiz_Inputs) {
-        this.quiz_Inputs = quiz_Inputs;
-    }
-
-    public String[] getQuiz_Outputs() {
-        return quiz_Outputs;
-    }
-
-    public void setQuiz_Outputs(String[] quiz_Outputs) {
-        this.quiz_Outputs = quiz_Outputs;
-    }
-
     public Integer getQuiz_Point() {
         return quiz_Point;
     }
@@ -106,11 +70,11 @@ public class QuizDTO {
         this.quiz_Point = quiz_Point;
     }
 
-    public TestcaseDTO getTestcase() {
+    public List<TestcaseDTO> getTestcase() {
         return testcase;
     }
 
-    public void setTestcase(TestcaseDTO testcase) {
+    public void setTestcase(List<TestcaseDTO> testcase) {
         this.testcase = testcase;
     }
 

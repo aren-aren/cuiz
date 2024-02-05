@@ -1,11 +1,12 @@
 package com.groupb.cuiz.web.quiz;
 
 public class TestcaseDTO {
+    private Integer testcase_No;
     private Integer quiz_No;
-    private String example_Input;
-    private String example_Output;
-    private String testcase_Input;
-    private String testcase_Output;
+    private String[] quiz_Example_Inputs;
+    private String[] quiz_Example_Outputs;
+    private String[] quiz_Inputs;
+    private String[] quiz_Outputs;
 
     public Integer getQuiz_No() {
         return quiz_No;
@@ -15,46 +16,35 @@ public class TestcaseDTO {
         this.quiz_No = quiz_No;
     }
 
-    public String getExample_Input() {
-        return example_Input;
+    public String[] getQuiz_Example_Inputs() {
+        return quiz_Example_Inputs;
     }
 
-    public void setExample_Input(String example_Input) {
-        this.example_Input = example_Input;
+    public void setQuiz_Example_Inputs(String[] quiz_Example_Inputs) {
+        this.quiz_Example_Inputs = quiz_Example_Inputs;
     }
 
-    public String getExample_Output() {
-        return example_Output;
+    public String[] getQuiz_Example_Outputs() {
+        return quiz_Example_Outputs;
     }
 
-    public void setExample_Output(String example_Output) {
-        this.example_Output = example_Output;
+    public void setQuiz_Example_Outputs(String[] quiz_Example_Outputs) {
+        this.quiz_Example_Outputs = quiz_Example_Outputs;
     }
 
-    public String getTestcase_Input() {
-        return testcase_Input;
+    public String[] getQuiz_Inputs() {
+        return quiz_Inputs;
     }
 
-    public void setTestcase_Input(String testcase_Input) {
-        this.testcase_Input = testcase_Input;
+    public void setQuiz_Inputs(String[] quiz_Inputs) {
+        this.quiz_Inputs = quiz_Inputs;
     }
 
-    public String getTestcase_Output() {
-        return testcase_Output;
+    public String[] getQuiz_Outputs() {
+        return quiz_Outputs;
     }
 
-    public void setTestcase_Output(String testcase_Output) {
-        this.testcase_Output = testcase_Output;
-    }
-
-    @Override
-    public String toString() {
-        return "TestcaseDTO{" +
-                "quiz_No=" + quiz_No +
-                ", example_Input='" + example_Input + '\'' +
-                ", example_Output='" + example_Output + '\'' +
-                ", testcase_Input='" + testcase_Input + '\'' +
-                ", testcase_Output='" + testcase_Output + '\'' +
-                '}';
+    public void setQuiz_Outputs(String[] quiz_Outputs) {
+        this.quiz_Outputs = quiz_Outputs;
     }
 }

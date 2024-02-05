@@ -10,6 +10,7 @@ import javax.servlet.ServletContext;
 import java.io.*;
 import java.time.Duration;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 @Service
@@ -21,24 +22,15 @@ public class QuizService {
     @Autowired
     private QuizDAO quizDAO;
 
-    public int addQuiz(QuizDTO quizDTO) throws Exception {
+    public int addQuiz(QuizDTO quizDTO, TestcaseDTO[] testcaseDTOS) throws Exception {
         int result = 0;
         result += quizDAO.addQuiz(quizDTO);
 
-        String inputs = String.join(",",quizDTO.getQuiz_Inputs());
-        String outputs = String.join(",",quizDTO.getQuiz_Outputs());
+        for (int i = 0; i < testcaseDTOS.length; i++) {
+            testcaseDTOS[i].setQuiz_No(quizDTO.getQuiz_No());
+        }
 
-        String exInputs = String.join(",",quizDTO.getQuiz_Example_Inputs());
-        String exOutputs = String.join(",", quizDTO.getQuiz_Example_Outputs());
-
-        TestcaseDTO testcase = new TestcaseDTO();
-        testcase.setQuiz_No(quizDTO.getQuiz_No());
-        testcase.setTestcase_Input(inputs);
-        testcase.setTestcase_Output(outputs);
-        testcase.setExample_Input(exInputs);
-        testcase.setExample_Output(exOutputs);
-
-        result += quizDAO.addTestcase(testcase);
+        result += quizDAO.addTestcase(testcaseDTOS);
 
         return result;
     }

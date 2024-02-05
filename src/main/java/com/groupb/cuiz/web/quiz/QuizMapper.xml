@@ -4,9 +4,11 @@
         "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
 <mapper namespace="com.groupb.cuiz.web.quiz.QuizDAO">
-    <insert id="addTestcase" parameterType="TestcaseDTO">
-        INSERT INTO TESTCASE(QUIZ_NO, EXAMPLE_INPUT, EXAMPLE_OUTPUT, TESTCASE_INPUT, TESTCASE_OUTPUT)
-        VALUES (#{quiz_No}, #{example_Input}, #{example_Output}, #{testcase_Input}, #{testcase_Output})
+    <insert id="addTestcase" parameterType="List">
+        <foreach collection="testcase" item="item" open="INSERT ALL" close="SELECT * FROM DUAL">
+            INTO TESTCASE(TESTCASE_NO, QUIZ_NO, EXAMPLE_INPUT, EXAMPLE_OUTPUT, TESTCASE_INPUT, TESTCASE_OUTPUT)
+            VALUES (#{testcase_No}, #{quiz_No}, #{example_Input}, #{example_Output}, #{testcase_Input}, #{testcase_Output})
+        </foreach>
     </insert>
     <insert id="addQuiz" parameterType="QuizDTO">
         <selectKey resultType="Integer" keyProperty="quiz_No" order="BEFORE">

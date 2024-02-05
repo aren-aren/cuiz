@@ -10,7 +10,7 @@ public class QuizDAO {
     private SqlSession sqlSession;
     private final String NAMESPACE = "com.groupb.cuiz.web.quiz.QuizDAO.";
 
-    public int addTestcase(TestcaseDTO testcase) throws Exception {
+    public int addTestcase(TestcaseDTO[] testcase) throws Exception {
         return sqlSession.insert(NAMESPACE + "addTestcase", testcase);
     }
 
