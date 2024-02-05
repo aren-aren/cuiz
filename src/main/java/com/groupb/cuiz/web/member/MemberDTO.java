@@ -29,6 +29,16 @@ public class MemberDTO {
 	private String member_PhoneNumber;
 	private Date member_RegDate;
 	private Date member_DelDate;
+	private Integer member_Conatt;
+	
+	
+	
+	public Integer getMember_Conatt() {
+		return member_Conatt;
+	}
+	public void setMember_Conatt(Integer member_Conatt) {
+		this.member_Conatt = member_Conatt;
+	}
 	public String getMember_ID() {
 		return member_ID;
 	}
