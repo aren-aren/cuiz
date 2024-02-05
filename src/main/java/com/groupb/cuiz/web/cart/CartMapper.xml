@@ -5,13 +5,23 @@
  
  <mapper namespace="com.groupb.cuiz.web.cart.CartDAO">
 
-<select id="list" parameterType="CartDTO" resultType="List">
+<select id="list" parameterType="CartDTO" resultType="ItemDTO">
 	
-	SELECT ROWNUM R, IC.* FROM
+<!-- 	SELECT ROWNUM R, IC.* FROM
 	(SELECT * FROM ITEM
 		LEFT JOIN CART 
 		USING (ITEM_NUM)) IC
 	WHERE MEMBER_ID = #{member_ID}  ORDER BY R DESC
+	 -->
+	
+	
+	SELECT ROWNUM R, IC.* FROM
+		(SELECT * FROM ITEM
+			LEFT JOIN CART 
+			USING (ITEM_NUM)) IC
+	WHERE MEMBER_ID = #{member_ID}  ORDER BY R DESC
+	
+	
 
 </select>
 
