@@ -4,11 +4,17 @@
         "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
 <mapper namespace="com.groupb.cuiz.web.quiz.QuizDAO">
-    <insert id="addTestcase" parameterType="List">
-        <foreach collection="testcase" item="item" open="INSERT ALL" close="SELECT * FROM DUAL">
-            INTO TESTCASE(TESTCASE_NO, QUIZ_NO, EXAMPLE_INPUT, EXAMPLE_OUTPUT, TESTCASE_INPUT, TESTCASE_OUTPUT)
-            VALUES (TESTCASE_SEQ.NEXTVAL, #{quiz_No}, #{example_Input}, #{example_Output}, #{testcase_Input}, #{testcase_Output})
-        </foreach>
+    <insert id="addTestcase" parameterType="Map">
+        INSERT INTO TESTCASE(TESTCASE_NO, QUIZ_NO, TESTCASE_INPUT, TESTCASE_OUTPUT, TESTCASE_TYPE)
+        SELECT TESTCASE_SEQ.NEXTVAL as "TESTCASE_NO", t.* FROM (
+            <foreach collection="testcase" item="item" separator="UNION ALL">
+                SELECT  #{item.quiz_No} QUIZ_NO,
+                        #{item.testcase_Input} TESTCASE_INPUT,
+                        #{item.testcase_Output} TESTCASE_OUTPUT,
+                        #{item.testcase_Type} TESTCASE_TYPE
+                FROM DUAL
+            </foreach>
+        ) t
     </insert>
     <insert id="addQuiz" parameterType="QuizDTO">
         <selectKey resultType="Integer" keyProperty="quiz_No" order="BEFORE">

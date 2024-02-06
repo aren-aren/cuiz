@@ -7,6 +7,9 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+import java.util.ArrayList;
+import java.util.List;
+
 @Controller
 @RequestMapping("/quiz/*")
 public class QuizController {
@@ -19,8 +22,8 @@ public class QuizController {
     }
 
     @PostMapping("add")
-    public String addQuiz(QuizDTO quizDTO, String[] example_inputs, String[] example_outputs, String[] inputs, Model model) throws Exception {
-        int result = quizService.addQuiz(quizDTO, example_inputs, example_outputs, inputs);
+    public String addQuiz(QuizDTO quizDTO, String[] example_inputs, String[] example_outputs, String[] inputs, String[] outputs, Model model) throws Exception {
+        int result = quizService.addQuiz(quizDTO, example_inputs, example_outputs, inputs, outputs);
 
         if(result%10 == 0){
             model.addAttribute("msg", "문제 등록 실패");
@@ -34,6 +37,5 @@ public class QuizController {
         }
         return "commons/result";
     }
-
 }
 

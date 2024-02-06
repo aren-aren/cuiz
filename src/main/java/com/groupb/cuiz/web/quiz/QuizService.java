@@ -9,9 +9,7 @@ import org.springframework.stereotype.Service;
 import javax.servlet.ServletContext;
 import java.io.*;
 import java.time.Duration;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
+import java.util.*;
 
 @Service
 public class QuizService {
@@ -22,7 +20,7 @@ public class QuizService {
     @Autowired
     private QuizDAO quizDAO;
 
-    public int addQuiz(QuizDTO quizDTO, String[] example_inputs, String[] example_output, String[] inputs) throws Exception {
+    public int addQuiz(QuizDTO quizDTO, String[] example_inputs, String[] example_output, String[] inputs, String[] outputs) throws Exception {
         int result = 0;
         result += quizDAO.addQuiz(quizDTO);
 
@@ -30,31 +28,36 @@ public class QuizService {
         for (int i = 0; i < example_inputs.length; i++) {
             TestcaseDTO testcaseDTO = new TestcaseDTO();
             testcaseDTO.setQuiz_No(quizDTO.getQuiz_No());
-            testcaseDTO.setQuiz_Input(example_inputs[i]);
-            testcaseDTO.setQuiz_Output(example_output[i]);
+            testcaseDTO.setTestcase_Input(example_inputs[i]);
+            testcaseDTO.setTestcase_Output(example_output[i]);
             testcaseDTO.setTestcase_Type("EXAMPLE");
             testcaseDTOS.add(testcaseDTO);
         }
 
-        // output을 얻어와야함...
-        // sample코드를 돌리는데 사용한 .class 파일을 이용하여 저장
-        // 그러면 sample코드를 돌릴때 사용한 path를 얻어와야함 (realpath/resources/sourcecode/admin/Main)
-        // 얻으면 실행후에 output을 얻어옴
+        for (int i = 0; i < inputs.length; i++) {
+            TestcaseDTO testcaseDTO = new TestcaseDTO();
+            testcaseDTO.setQuiz_No(quizDTO.getQuiz_No());
+            testcaseDTO.setTestcase_Input(inputs[i]);
+            testcaseDTO.setTestcase_Output(outputs[i]);
+            testcaseDTO.setTestcase_Type("QUIZ");
+            testcaseDTOS.add(testcaseDTO);
+        }
 
-        // add할 때 sampleoutput도 같이 보내서 먼저 있던 코드가 sample input, output 이 맞는지 확인 후 inputs 를 넣어 output을 얻자
+        Map<String, Object> map = new HashMap<>();
+        map.put("testcase", testcaseDTOS);
 
-        result += quizDAO.addTestcase(testcaseDTOS)*10;
+        result += quizDAO.addTestcase(map)*10;
 
         return result;
     }
 
     public MemberAnswerDTO getSampleOutput(MemberAnswerDTO quizSampleDTO) throws Exception {
-        //문제 예제 input을 돌려보고 예제 output을 얻는데 사용
+        //문제 예제, 실제 input을 돌려보고 output을 얻는데 사용
         System.out.println("getSampleOutput start");
         List<String> inputs = quizSampleDTO.getExampleInputs();
         String sourceCode = quizSampleDTO.getMember_Source_Code();
 
-        String realPath = servletContext.getRealPath("/resources/sourcecode/admin");
+        String realPath = servletContext.getRealPath("/resources/sourcecode/" +  quizSampleDTO.getMember_Id());
         String filename = "Main";
         String extension = ".java";
 
@@ -88,7 +91,7 @@ public class QuizService {
     }
 
     public TestcaseResultDTO runSampleCode(String realPath, String filename, String input) throws IOException {
-        //문제 등록시 input을 미리 돌려보고 output을 얻음
+        //getSampleOutput에서 input을 미리 돌려보고 output을 얻음
         TestcaseResultDTO testcaseResultDTO = new TestcaseResultDTO();
         String command = String.format("java -cp %s %s", realPath, filename);
         String result = sendCommandToScript(command, input);
