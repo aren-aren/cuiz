@@ -35,7 +35,7 @@ public class ItemService {
 		
 		
 		if(itemDTO.getItem_Photo()!=null) {
-			System.out.println("service.getDetail  : " + itemDTO.getItem_Photo());			
+//			System.out.println("service.getDetail  : " + itemDTO.getItem_Photo());			
 			String photo = new String(itemDTO.getItem_Photo(),"UTF-8");
 			itemDTO.setItem_Photo_to_String(photo);
 		}

@@ -5,7 +5,7 @@
  
  <mapper namespace="com.groupb.cuiz.web.cart.CartDAO">
 
-<select id="list" parameterType="CartDTO" resultType="ItemDTO">
+<select id="getList" parameterType="CartDTO" resultType="ItemDTO">
 	
 <!-- 	SELECT ROWNUM R, IC.* FROM
 	(SELECT * FROM ITEM

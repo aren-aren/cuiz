@@ -38,12 +38,12 @@
               <div class="main-profile ">
                 <div class="row">
                   <div class="col-lg-4">
-                    <img src="assets/images/profile.jpg" alt="" style="border-radius: 23px;">
+                    <img src="data:image/jpeg;base64,${sajin} " alt="" style="border-radius: 23px;">
                   </div>
                   <div class="col-lg-4 align-self-center">
                     <div class="main-info header-text">
-                      <span>Offline</span>
-                      <h4>Alan Smithee</h4>
+                      <span>${member.member_Role}</span>
+                      <h4>${member.member_Nick}</h4>
                       <p>You Haven't Gone Live yet. Go Live By Touching The Button Below.</p>
                       <div class="main-border-button">
                         <a href="#">Start Live Stream</a>
@@ -52,7 +52,7 @@
                   </div>
                   <div class="col-lg-4 align-self-center">
                     <ul>
-                      <li>Games Downloaded <span>3</span></li>
+                      <li>Coin<span>${member.member_Coin}</span></li>
                       <li>Friends Online <span>16</span></li>
                       <li>Live Streams <span>None</span></li>
                       <li>Clips <span>29</span></li>

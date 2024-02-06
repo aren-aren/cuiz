@@ -27,7 +27,7 @@
                         <li><a href="browse">Browse</a></li>
                         <li><a href="details.html">Details</a></li>
                         <li><a href="/shop/list">Shop</a></li>
-                        <li><a href="profile.html">Profile <img src="/resources/assets/images/profile-header.jpg" alt=""></a></li>
+                        <li><a href="/mypage/profile">Profile <img src="/resources/assets/images/profile-header.jpg" alt=""></a></li>
                     </ul>   
                     <a class='menu-trigger'>
                         <span>Menu</span>
