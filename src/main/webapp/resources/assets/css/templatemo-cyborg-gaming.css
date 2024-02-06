@@ -94,6 +94,15 @@ a:hover {
 	color: #F99;
 }
 
+button {
+	color: #CCC;
+  text-decoration: none !important;
+}
+button:hover {
+	color: #F99;
+}
+
+
 h1, h2, h3, h4, h5, h6 {
   margin-top: 0px;
   margin-bottom: 0px;
@@ -209,6 +218,8 @@ p {
   background-color: transparent;
 }
 
+
+
 section {
   margin-top: 120px;
 }
@@ -225,6 +236,65 @@ section {
   font-style: normal;
   text-decoration: underline;
 }
+
+
+/* button 추가  */
+
+.main-button button {
+  font-size: 14px;
+  color: #fff;
+  background-color: #e75e8d;
+  padding: 12px 30px;
+  display: inline-block;
+  border-radius: 25px;
+  font-weight: 400;
+  text-transform: capitalize;
+  letter-spacing: 0.5px;
+  transition: all .3s;
+  position: relative;
+  overflow: hidden;
+}
+
+.main-button button:hover {
+  background-color: #fff;
+  color: #e75e8d;
+}
+
+.main-border-button button {
+  font-size: 14px;
+  color: #ec6090;
+  background-color: transparent;
+  border: 1px solid #ec6090;
+  padding: 12px 30px;
+  display: inline-block;
+  border-radius: 25px;
+  font-weight: 400;
+  text-transform: capitalize;
+  letter-spacing: 0.5px;
+  transition: all .3s;
+  position: relative;
+  overflow: hidden;
+}
+
+.main-border-button button:hover {
+  border-color: #fff;
+  background-color: #fff;
+  color: #e75e8d;
+}
+
+.border-no-active button {
+  border-color: #666;
+  color: #666;
+}
+
+.border-no-active button:hover{
+  border-color: #666;
+  color: #666;
+  background-color: transparent;
+}
+
+
+
 
 /* 
 ---------------------------------------------

@@ -33,11 +33,11 @@
                     <!-- ***** Search End ***** -->
                     <!-- ***** Menu Start ***** -->
                     <ul class="nav">
-                        <li><a href="/" id="Home">Home</a></li>
-                        <li><a href="browse" id="Browse">Browse</a></li>
-                        <li><a href="details.html" id="Details">Details</a></li>
-                        <li><a href="/shop/list" id="Shop">Shop</a></li>
-                        
+                        <li><a href="/" class="active">Home</a></li>
+                        <li><a href="browse">Browse</a></li>
+                        <li><a href="details.html">Details</a></li>
+                        <li><a href="/shop/list">Shop</a></li>
+                        <li><a href="/mypage/profile">Profile <img src="/resources/assets/images/profile-header.jpg" alt=""></a></li>
                     </ul>   
                     <ul class="nav">
                    		 <c:if test="${member eq null }">

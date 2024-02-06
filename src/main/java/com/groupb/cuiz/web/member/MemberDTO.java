@@ -29,6 +29,7 @@ public class MemberDTO {
 	private String member_PhoneNumber;
 	private Date member_RegDate;
 	private Date member_DelDate;
+
 	private Integer member_Conatt;
 	
 	
@@ -39,6 +40,7 @@ public class MemberDTO {
 	public void setMember_Conatt(Integer member_Conatt) {
 		this.member_Conatt = member_Conatt;
 	}
+
 	public String getMember_ID() {
 		return member_ID;
 	}
@@ -129,6 +131,7 @@ public class MemberDTO {
 	public void setMember_Profile_Blob(byte[] member_Profile_Blob) {
 		this.member_Profile_Blob = member_Profile_Blob;
 	}
+	
 	@Override
 	public String toString() {
 		return "MemberDTO [member_ID=" + member_ID + ", member_Password=" + member_Password + ", member_Token="
