@@ -9,5 +9,7 @@
 <body>
 	${member.member_Nick}
 	<h2><img src="${avatar}"/></h2>
+	
+	<h2>연속출석일 : ${member.member_Conatt}</h2>
 </body>
 </html>

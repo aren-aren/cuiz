@@ -15,6 +15,9 @@
 	.color-white{
 		color : white;
 	}
+	.member_role{
+		width : 100px;
+	}
 	</style>
 </head>
 	
@@ -34,13 +37,13 @@
 			<td class="color-white memberid">${dto.member_ID}</td>
 			<td class="color-white">${dto.member_Nick}</td>
 			<td class="color-white">${dto.member_RegDate}</td>
-			<td data-role="${dto.member_Role}" data-id = "${dto.member_ID}"  class="color-white role">${dto.member_Role}</td>
-			<td class="color-white"> <select class="member_role form-select" style="width : 100px">
-					<option class= "role_check" value="ADMIN">관리자</option>
-					<option class= "role_check" value="MEMBER">멤버</option>
+			<td class="color-white member_role">${dto.member_Role}</td>
+			<td class="color-white"> <select class="member_role form-select" data-ID="${dto.member_ID}" data-role="${dto.member_Role}" >
+					<option  value="ADMIN">관리자</option>
+					<option  value="MEMBER">멤버</option>
 				</select>
 		 	</td>
-		 <tr>
+		<tr>
 		</c:forEach>
 	</table>
 	
