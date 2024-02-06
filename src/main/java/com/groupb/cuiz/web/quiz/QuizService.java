@@ -1,6 +1,6 @@
 package com.groupb.cuiz.web.quiz;
 
-import com.groupb.cuiz.support.util.FileManager;
+import com.groupb.cuiz.support.util.file.FileManager;
 import org.apache.commons.exec.*;
 import org.apache.commons.io.output.ByteArrayOutputStream;
 import org.springframework.beans.factory.annotation.Autowired;

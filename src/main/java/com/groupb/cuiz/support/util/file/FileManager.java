@@ -1,6 +1,7 @@
 package com.groupb.cuiz.support.util.file;
 
 import java.io.File;
+import java.io.FileWriter;
 import java.util.Calendar;
 import java.util.UUID;
 
@@ -29,14 +30,8 @@ public class FileManager {
 			f.mkdirs();
 		}
 		
-		//파일명
-		//시간
-		Calendar ca= Calendar.getInstance();
-		String file_Name= ca.getTimeInMillis()+"_"+file.getOriginalFilename();
-		System.out.println(file_Name);
-		
 		//UUID
-		file_Name=UUID.randomUUID().toString()+"_"+file.getOriginalFilename();
+		String file_Name=UUID.randomUUID().toString()+"_"+file.getOriginalFilename();
 		System.out.println(file_Name);
 		
 		f= new File(f,file_Name);
@@ -45,5 +40,27 @@ public class FileManager {
 		file.transferTo(f);
 		
 		return file_Name;
+	}
+
+
+	public String fileSaveByString(String realPath, String filename, String source, String extension) throws Exception {
+		File file = new File(realPath);
+
+		if (file.isFile()) {
+			throw new Exception(realPath + "가 파일 입니다.");
+		}
+
+		if (!file.exists()) {
+			file.mkdirs();
+		}
+
+		file = new File(file, filename + extension);
+		FileWriter fileWriter = new FileWriter(file);
+		fileWriter.write(source);
+		fileWriter.flush();
+
+		fileWriter.close();
+
+		return filename + extension;
 	}
 }
