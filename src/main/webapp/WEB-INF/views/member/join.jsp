@@ -95,7 +95,12 @@
 	<br><br>
 	
 	<div>
+
+		<label for="profile">���� ����</label>
+		<input type="file" id="profile" name="flie" accept="image/*">
+
 		<input id="sns" type="button" value="SNS 들어갈 자리">
+
 	</div>
 	
 	<div>
