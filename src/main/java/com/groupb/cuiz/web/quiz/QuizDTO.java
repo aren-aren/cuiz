@@ -1,13 +1,18 @@
 package com.groupb.cuiz.web.quiz;
 
+import java.util.Arrays;
+import java.util.List;
+
 public class QuizDTO {
     private Integer quiz_No;
+    private String member_Id;
     private String quiz_Title;
     private String quiz_Contents;
     private String quiz_Type;
     private Integer quiz_Level;
     private Integer quiz_Point;
     private Integer quiz_Price;
+    private List<TestcaseDTO> testcase;
 
     public Integer getQuiz_No() {
         return quiz_No;
@@ -15,6 +20,14 @@ public class QuizDTO {
 
     public void setQuiz_No(Integer quiz_No) {
         this.quiz_No = quiz_No;
+    }
+
+    public String getMember_Id() {
+        return member_Id;
+    }
+
+    public void setMember_Id(String member_Id) {
+        this.member_Id = member_Id;
     }
 
     public String getQuiz_Title() {
@@ -57,6 +70,14 @@ public class QuizDTO {
         this.quiz_Point = quiz_Point;
     }
 
+    public List<TestcaseDTO> getTestcase() {
+        return testcase;
+    }
+
+    public void setTestcase(List<TestcaseDTO> testcase) {
+        this.testcase = testcase;
+    }
+
     public Integer getQuiz_Price() {
         return quiz_Price;
     }
@@ -64,16 +85,17 @@ public class QuizDTO {
     public void setQuiz_Price(Integer quiz_Price) {
         this.quiz_Price = quiz_Price;
     }
+
     @Override
     public String toString() {
         return "QuizDTO{" +
                 "quiz_No=" + quiz_No +
+                ", member_Id='" + member_Id + '\'' +
                 ", quiz_Title='" + quiz_Title + '\'' +
                 ", quiz_Contents='" + quiz_Contents + '\'' +
-                ", quiz_Type='" + quiz_Type + '\'' +
-                ", quiz_Level=" + quiz_Level +
                 ", quiz_Point=" + quiz_Point +
                 ", quiz_Price=" + quiz_Price +
                 '}';
     }
+
 }

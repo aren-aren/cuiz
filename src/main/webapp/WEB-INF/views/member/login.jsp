@@ -23,6 +23,10 @@
 		width:300px;
 		height :200px;
 	}
+	.kakaoLogin{
+		width: 300px;
+		height: 100px;
+	}
 </style>
 <c:import url="../temps/header_css.jsp"></c:import>
 <meta charset="UTF-8">
@@ -63,10 +67,52 @@
 			<a class="join btn btn-secondary" href="/member/join">회원가입</a>
 		</div>
 		<div>
-			<input id="sns" type="button" value="SNS 들어갈 자리">
+			
+				<a href="javascript:kakaoLogin();"><img class="kakaoLogin" src="/resources/assets/images/kakao_login.jpg"/> </a>
+			
 		</div>
 		
 	</form>
 	<c:import url="../temps/footer.jsp"></c:import>
+	<script src="https://developers.kakao.com/sdk/js/kakao.js"></script>
+    <script>
+        window.Kakao.init("a58598cd3cea0b5410f80d01ccdc89b5");
+
+        function kakaoLogin(){
+            window.Kakao.Auth.login({
+                scope: 'profile_nickname,profile_image',
+                success : function(authObj){
+                    console.log(authObj);
+                    window.Kakao.API.request({
+                        url : '/v2/user/me',
+                        success : res => {
+                            const kakao_account = res.kakao_account;
+                            console.log(kakao_account);
+							console.log(kakao_account.profile.nickname);
+							fetch('/member/kakaoLogin?nickname='+kakao_account.profile.nickname,{
+								method : 'GET'
+							})
+							.then(res =>res.text())
+							.then(res => {
+								console.log(res.trim());
+								if(res.trim()=='0') {
+				
+									alert("출석 포인트 3점이 지급되었습니다.");
+								}
+								else if(res=='7')
+								{
+									alert("출석 포인트 3점 + 7일 연속 출석 보너스 10점 \n 총 13점이 지급되었습니다.");	
+								}
+								location.href="/";
+							})
+
+							
+                        }
+                    });
+                }
+            })
+        }
+
+    </script>
 </body>
 </html>
