@@ -58,4 +58,23 @@ public class MemberDAO {
 	public int insertRole(RoleDTO dto) throws Exception{
 		return sqlSession.insert(namespace+"insertRole",dto);
 	}
+	public int getAtendence(MemberDTO dto) throws Exception{
+		return sqlSession.selectOne(namespace+"getAtendence",dto);
+	}
+	public int setAtendence(MemberDTO dto) throws Exception{
+		return sqlSession.insert(namespace+"setAtendence",dto);
+	}
+	
+	public int setCoin(MemberDTO dto) throws Exception{
+		return sqlSession.update(namespace+"setCoin",dto);
+	}
+	public int setConatt(MemberDTO dto ) throws Exception{
+		return sqlSession.update(namespace+"setConatt",dto);
+	}
+	public int getConatt(MemberDTO dto) throws Exception{
+		return sqlSession.selectOne(namespace+"getConatt",dto);
+	}
+	public int setBonus(MemberDTO dto) throws Exception{
+		return sqlSession.update(namespace+"setBonus",dto);
+	}
 }
