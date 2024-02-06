@@ -93,6 +93,9 @@ public class Pager {
 		this.perPage = perPage;
 	}
 	public Long getPage() {
+		if(this.page==null||this.page<1) {
+			this.page=1L;
+		}
 		return page;
 	}
 	public void setPage(Long page) {
@@ -129,6 +132,9 @@ public class Pager {
 		this.last = last;
 	}
 	public String getSearch() {
+		if(this.search == null) {
+			this.search="";
+		}
 		return search;
 	}
 	public void setSearch(String search) {

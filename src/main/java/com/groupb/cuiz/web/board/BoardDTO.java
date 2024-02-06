@@ -6,6 +6,7 @@ public class BoardDTO {
 
 	private Long board_Num;
 	private String board_Title;
+	private String member_ID;
 	private String board_Contents;
 	private Date board_Date;
 	private Long board_Hit;
@@ -22,6 +23,12 @@ public class BoardDTO {
 	}
 	public void setBoard_Title(String board_Title) {
 		this.board_Title = board_Title;
+	}
+	public String getMember_ID() {
+		return member_ID;
+	}
+	public void setMember_ID(String member_ID) {
+		this.member_ID = member_ID;
 	}
 	public String getBoard_Contents() {
 		return board_Contents;
@@ -41,6 +48,7 @@ public class BoardDTO {
 	public void setBoard_Hit(Long board_Hit) {
 		this.board_Hit = board_Hit;
 	}
+
 
 	
 	

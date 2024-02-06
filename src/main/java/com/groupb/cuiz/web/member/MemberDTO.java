@@ -29,6 +29,7 @@ public class MemberDTO {
 	private String member_PhoneNumber;
 	private Date member_RegDate;
 	private Date member_DelDate;
+	
 	public String getMember_ID() {
 		return member_ID;
 	}

@@ -11,7 +11,7 @@ import com.groupb.cuiz.web.board.BoardDAO;
 import com.groupb.cuiz.web.board.BoardDTO;
 import com.groupb.cuiz.web.board.BoardFileDTO;
 
-@Repository
+@Repository("na")
 public class NoticeDAO implements BoardDAO{
 	
 	@Autowired

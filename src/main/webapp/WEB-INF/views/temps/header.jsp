@@ -24,6 +24,8 @@
                         <li><a href="browse">Browse</a></li>
                         <li><a href="details.html">Details</a></li>
                         <li><a href="/shop/list">Shop</a></li>
+                        <li><a href="/notice/list">Notice</a></li>
+                        <li><a href="/qna/list">QnA</a></li>
                         <li><a href="profile.html">Profile <img src="/resources/assets/images/profile-header.jpg" alt=""></a></li>
                     </ul>   
                     <a class='menu-trigger'>

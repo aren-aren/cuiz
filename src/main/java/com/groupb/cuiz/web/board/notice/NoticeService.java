@@ -1,15 +1,14 @@
 package com.groupb.cuiz.web.board.notice;
 
-import java.util.Iterator;
 import java.util.List;
 
 import javax.servlet.ServletContext;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
-import com.groupb.cuiz.web.board.BoardDAO;
 import com.groupb.cuiz.web.board.BoardDTO;
 import com.groupb.cuiz.web.board.BoardFileDTO;
 import com.groupb.cuiz.web.board.BoardService;
@@ -20,6 +19,7 @@ import com.groupb.cuiz.support.util.pager.Pager;
 public class NoticeService implements BoardService{
 	
 	@Autowired
+	@Qualifier("na")
 	private NoticeDAO boardDAO;
 	
 	@Autowired
@@ -60,7 +60,7 @@ public class NoticeService implements BoardService{
 			//db에 저장
 			BoardFileDTO boardFileDTO = new BoardFileDTO();
 			boardFileDTO.setFile_Name(file_Name);
-			boardFileDTO.setOri_Name(file_Name);
+			boardFileDTO.setOri_Name(f.getOriginalFilename());
 			boardFileDTO.setFile_Num(boardDTO.getBoard_Num());
 			result = boardDAO.getFileAdd(boardFileDTO);
 		}
@@ -93,7 +93,7 @@ public class NoticeService implements BoardService{
 			fileManager.fileDelete(path, b.getFile_Name());
 		}
 		int result = boardDAO.getDelete(boardDTO);
-		return 0;
+		return result;
 	}
 	
 
