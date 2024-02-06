@@ -1,7 +1,4 @@
-
-<%@ page language="java" contentType="text/html; charset=UTF-8"
-	pageEncoding="UTF-8"%>
-<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 
  <header class="header-area header-sticky">
     <div class="container">
@@ -9,7 +6,7 @@
             <div class="col-12">
                 <nav class="main-nav">
                     <!-- ***** Logo Start ***** -->
-                    <a href="index.html" class="logo">
+                    <a href="/" class="logo">
                         <img src="/resources/assets/images/logo.png" alt="">
                     </a>
                     <!-- ***** Logo End ***** -->
@@ -29,6 +26,16 @@
                         <li><a href="/shop/list">Shop</a></li>
                         <li><a href="/mypage/profile">Profile <img src="/resources/assets/images/profile-header.jpg" alt=""></a></li>
                     </ul>   
+                    <ul class="nav">
+                   		 <c:if test="${member eq null }">
+                    		<li><a href="/member/login">Login</a></li>
+                    		<li><a href="/member/join">Join</a> </li>
+                    	</c:if>
+               			<c:if test="${not empty member}">	
+               				<li><a href="/member/mypage">Mypage <img src="/resources/assets/images/profile-header.jpg" alt="" style = width:40px;></a></li>
+                    		<li><a href="/member/logout">Logout</a>
+                    	</c:if>
+                    </ul>
                     <a class='menu-trigger'>
                         <span>Menu</span>
                     </a>

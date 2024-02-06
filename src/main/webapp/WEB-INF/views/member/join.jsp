@@ -1,48 +1,115 @@
-<%@ page language="java" contentType="text/html; charset=EUC-KR"
-    pageEncoding="EUC-KR"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+    pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-<meta charset="EUC-KR">
+
+
+<meta charset="UTF-8">
 <title>Insert title here</title>
+<c:import url="../temps/header_css.jsp"></c:import>
+<style>
+	.color-white{
+		color : white;	
+	}
+	.input-join{
+	width: 300px;
+	}
+	#frm{
+		margin-top : 10%;
+		margin-left : 40%;
+	}
+	#sns{
+	width:300px;
+	height :200px;
+	}
+	.yes{
+		color : seagreen;
+	}	
+	.no{
+		color : crimson;
+	}
+	#join-btn{
+		margin-left : 40px;
+	}
+</style>
 </head>
 <body>
-	<h1>join</h1>
+	<!-- ***** Preloader Start ***** -->
+  <div id="js-preloader" class="js-preloader">
+    <div class="preloader-inner">
+      <span class="dot"></span>
+      <div class="dots">
+        <span></span>
+        <span></span>
+        <span></span>
+      </div>
+    </div>
+  </div>
+  <!-- ***** Preloader End ***** -->
 	
-	<div>
-		<h2>х╦©Ь╟║ют</h2>
-	</div>
+	<c:import url="../temps/header.jsp"></c:import>
+	
 	<form id="frm" action="join" method="POST" enctype="multipart/form-data">
 	<div>
-		<label for="ID">╬фюл╣П╦╕ ют╥бго╪╪©Д</label>
-		<input type="text" id="ID" name="member_ID">
+		<h2>М ▄Л⌡░Й╟─Л·┘</h2>
 	</div>
 	<div>
-		<label for="PW">╨Я╧п╧Ьхё╦╕ ют╥бго╪╪©Д</label>
-		<input type="text" id="PW" name="member_Password">
+		<label for="ID" class="form-label color-white">Л∙└Л²╢К■■К╔╪ Л·┘К═╔М∙╢Лё╪Л└╦Л ■</label>
+		<input type="TEXT" id="ID" class="form-control input-join" name="member_ID">
+		<div id="id_check" ></div>
+	</div>
+	<div class="mb-3">
+	<label for="PW" class="form-label color-white">К╧└К╟─К╡┬М≤╦К╔╪ Л·┘К═╔М∙╢Лё╪Л└╦Л ■</label>
+	<input type="password" id="PW" class="form-control input-join" name="member_Password" aria-describedby="passwordHelpBlock">
+		<div id="passwordHelpBlock" class="form-text">
+	  		К╧└К╟─К╡┬М≤╦К┼■ М┼╧Л┬≤К╛╦Л·░(~,!,@,#,$,%,^,&,*),Л┬╚Л·░Л≥─ К▄─,Л├▄К╛╦Л·░К╔╪ М▐╛М∙╗М∙° 8-20Й╦─Л·░ Л²╢К┌╢К║° Л·┘К═╔М∙╢Лё╪Л└╦Л ■
+		</div>
+		<div id="password_check"></div>
+	<div>
+	</div>
+		<label for="PW2" class="form-label color-white">К╧└К╟─К╡┬М≤╦ М≥∙Л²╦</label>
+		<input type="password" id="PW2" class="form-control input-join">
+		<div id="password2_check"></div>
+	</div>
+	<div class="mb-3">
+  		<label for="email" class="form-label color-white">Email Л·┘К═╔М∙╢Лё╪Л└╦Л ■</label>
+  		<input type="email" class="form-control input-join" id="email" name="member_Email" placeholder="name@example.com" >
 	</div>
 	<div>
-		<label for="mail">E-mailю╩ ют╥бго╪╪©Д</label>
-		<input type="text" id="mail" name="member_Email">
+		<label for="nick" class="form-label color-white">К▀┴К└╓Л·└Л²└ Л└╓Л═∙М∙╢Лё╪Л└╦Л ■</label>
+		<input type="text" name="member_Nick" id="nick" class="form-control input-join">
+		<div id="nick_check"></div>
 	</div>
 	<div>
-		<label for="nick">╢пЁвюсю╩ ют╥бго╪╪©Д</label>
-		<input type="text" id="nick" name="member_Nick">
+		<label for="phone" class="form-label color-white">М°╢К▄─М▐╟ К╡┬М≤╦К╔╪ Л·┘К═╔М∙╢Лё╪Л└╦Л ■</label><br>
+		<input type="text" id="phone" name="member_PhoneNumber" class="form-control input-join" placeholder="-К╔╪ Л═°Л≥╦М∙≤ЙЁ═ Л·┘К═╔М∙╢Лё╪Л└╦Л ■">
 	</div>
 	<div>
-		<label for="phone">юЭх╜╧Ьхё╦╕ ют╥бго╪╪©Д</label>
-		<input type="text" id="phone" name="member_PhoneNumber" placeholder="-╢б а╕©эгьаж╪╪©Д.">
+		<br><label for="profile" class="color-white">М■└К║°М∙└ Л┌╛Л╖└Л²└ Л└═М┐²М∙╢Лё╪Л└╦Л ■.</label><br><br>
 	</div>
+	<div class="input-group mb-3 input-join">
+		 <input type="file" id="profile" class="form-control" name="member_Profile">
+	</div>
+	<br><br>
+	
 	<div>
-		<label for="profile">╩ГаЬ ╪╠ец</label>
+
+		<label for="profile">О©╫О©╫О©╫О©╫ О©╫О©╫О©╫О©╫</label>
 		<input type="file" id="profile" name="flie" accept="image/*">
+
+		<input id="sns" type="button" value="SNS К⌠╓Л√╢Й╟┬ Л·░К╕╛">
+
 	</div>
 	
 	<div>
-		<button>╟║ютго╠Б</button>
+		<button id="join-btn" disabled="n" class="btn btn-secondary">М ▄Л⌡░Й╟─Л·┘</button>
 	</div>
 	</form>
 
+	<c:import url="../temps/footer.jsp"></c:import>
+	<script src="/resources/member/join.js"></script>
 	
 </body>
 </html>
