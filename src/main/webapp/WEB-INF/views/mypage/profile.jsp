@@ -38,7 +38,7 @@
               <div class="main-profile ">
                 <div class="row">
                   <div class="col-lg-4">
-                    <img src="data:image/jpeg;base64,${sajin} " alt="" style="border-radius: 23px;">
+                    <img src="${avatar}" alt="" style="border-radius: 23px;">
                   </div>
                   <div class="col-lg-4 align-self-center">
                     <div class="main-info header-text">
@@ -52,10 +52,10 @@
                   </div>
                   <div class="col-lg-4 align-self-center">
                     <ul>
-                      <li>Coin<span>${member.member_Coin}</span></li>
-                      <li>Friends Online <span>16</span></li>
-                      <li>Live Streams <span>None</span></li>
-                      <li>Clips <span>29</span></li>
+                      <li>Coin<span>${member.member_Jumsu}</span></li>
+                      <li>Friends Online <span>${member.}</span></li>
+                      <li>Live Streams <span>${member.}</span></li>
+                      <li>Clips <span>${member.member_Coin}</span></li>
                     </ul>
                   </div>
                 </div>

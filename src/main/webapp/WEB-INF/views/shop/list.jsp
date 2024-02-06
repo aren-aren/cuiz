@@ -177,8 +177,28 @@
                     <a href="add">Insert Item</a>
                 </div>
                 <div class="heading-section">
-                  <h4><em>Most Popular</em> Right Now</h4>    
-                 
+                  <h4><em>Most Popular</em> Right Now</h4>
+                  <div>
+                 	<ul style="--bs-nav-link-padding-x: 1rem;
+    --bs-nav-link-padding-y: 0.5rem;
+    --bs-nav-link-font-weight: ;
+    --bs-nav-link-color: var(--bs-link-color);
+    --bs-nav-link-hover-color: var(--bs-link-hover-color);
+    --bs-nav-link-disabled-color: #6c757d;
+    display: flex;
+    flex-wrap: wrap;
+    padding-left: 0;
+    margin-bottom: 0;
+    list-style: none;">
+                       <li style="padding-left: 10px;
+    padding-right: 10px;
+    display: inline-block;"><a href="index.html">Home</a></li>
+                       <li ><a href="browse.html">Browse</a></li>
+                       <li><a href="details.html">Details</a></li>
+                       <li><a href="streams.html" class="active">Streams</a></li>
+                       <li><a href="profile.html">Profile <img src="assets/images/profile-header.jpg" alt=""></a></li>
+                    </ul>
+                 </div>    
                
                 </div>
                 
