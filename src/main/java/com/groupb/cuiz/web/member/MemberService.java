@@ -77,11 +77,14 @@ public class MemberService {
 				if(check == 1) {
 					dao.setConatt(dto);
 					int conatt = dto.getMember_Conatt();
+					if(conatt==6) {
+						dao.setBonus(dto);
+					}
 					if(conatt==7) {
 						dto.setMember_Conatt(0);
-						dto.setMember_Coin(dto.getMember_Coin()+10);
+						dao.setConatt(dto);
+						dto.setMember_Conatt(1);
 					}
-					dto.setMember_Conatt(conatt+1);
 					// 연속출석 하는중 일단은 +1 까지만 .. ? 
 				}
 				else {

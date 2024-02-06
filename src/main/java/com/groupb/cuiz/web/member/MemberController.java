@@ -125,6 +125,10 @@ public class MemberController {
 		if(result ==0) {
 			model.addAttribute("msg", "출석 포인트 3점이 지급되었습니다.");
 			model.addAttribute("path", "/");
+			if(dto.getMember_Conatt()==6) {
+				model.addAttribute("msg", "출석 포인트 3점 + 7일 연속 출석 보너스 10점 : 총 13점이 지급되었습니다.");
+				
+			}
 		}
 		else {
 			return "redirect:/";

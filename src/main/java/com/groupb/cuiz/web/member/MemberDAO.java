@@ -74,5 +74,7 @@ public class MemberDAO {
 	public int getConatt(MemberDTO dto) throws Exception{
 		return sqlSession.selectOne(namespace+"getConatt",dto);
 	}
-	
+	public int setBonus(MemberDTO dto) throws Exception{
+		return sqlSession.update(namespace+"setBonus",dto);
+	}
 }
