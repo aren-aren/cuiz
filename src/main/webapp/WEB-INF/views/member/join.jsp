@@ -14,7 +14,7 @@
 		color : white;	
 	}
 	.input-join{
-	width: 300px;
+	width: 450px;
 	}
 	#frm{
 		margin-top : 10%;
@@ -56,15 +56,17 @@
 		<h2>회원가입</h2>
 	</div>
 	<div>
-		<label for="ID" class="form-label color-white">아이디를 입력해주세요</label>
-		<input type="TEXT" id="ID" class="form-control input-join" name="member_ID">
+		<label for="ID" class="form-label color-white">아이디를 입력해주세요<br>
+		
+		</label>
+		<input type="TEXT" id="ID" class="form-control input-join" name="member_ID" placeholder="영어와 숫자로 이루어진 4-20글자 ">
 		<div id="id_check" ></div>
 	</div>
 	<div class="mb-3">
 	<label for="PW" class="form-label color-white">비밀번호를 입력해주세요</label>
-	<input type="password" id="PW" class="form-control input-join" name="member_Password" aria-describedby="passwordHelpBlock">
+	<input type="password" id="PW" class="form-control input-join" name="member_Password" aria-describedby="passwordHelpBlock" placeholder="특수문자(~,!,@,#,$,%,&,*)와 영어,숫자 8-20자 ">
 		<div id="passwordHelpBlock" class="form-text">
-	  		비밀번호는 특수문자(~,!,@,#,$,%,^,&,*),숫자와 대,소문자를 포함한 8-20글자 이내로 입력해주세요
+	  		
 		</div>
 		<div id="password_check"></div>
 	<div>
@@ -78,8 +80,8 @@
   		<input type="email" class="form-control input-join" id="email" name="member_Email" placeholder="name@example.com" >
 	</div>
 	<div>
-		<label for="nick" class="form-label color-white">닉네임을 설정해주세요</label>
-		<input type="text" name="member_Nick" id="nick" class="form-control input-join">
+		<label for="nick" class="form-label color-white">닉네임을 입력해주세요</label>
+		<input type="text" name="member_Nick" id="nick" class="form-control input-join" placeholder="영어와 숫자로 이루어진 4-10글자">
 		<div id="nick_check"></div>
 	</div>
 	<div>
@@ -95,7 +97,12 @@
 	<br><br>
 	
 	<div>
+
+		<label for="profile">���� ����</label>
+		<input type="file" id="profile" name="flie" accept="image/*">
+
 		<input id="sns" type="button" value="SNS 들어갈 자리">
+
 	</div>
 	
 	<div>
@@ -105,5 +112,6 @@
 
 	<c:import url="../temps/footer.jsp"></c:import>
 	<script src="/resources/member/join.js"></script>
+	
 </body>
 </html>

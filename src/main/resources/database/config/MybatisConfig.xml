@@ -16,5 +16,7 @@
 		 <typeAlias type="com.groupb.cuiz.web.board.BoardFileDTO" alias="BoardFileDTO"/>
 		 <typeAlias type="com.groupb.cuiz.support.util.pager.Pager" alias="Pager"/>
 		 <typeAlias type="com.groupb.cuiz.web.item.ItemDTO" alias="ItemDTO"/>
-	 </typeAliases>
+		 <typeAlias type="com.groupb.cuiz.web.cart.CartDTO" alias="CartDTO"/>
+		 <typeAlias type="com.groupb.cuiz.web.member.role.RoleDTO" alias="RoleDTO"/>
+	 </typeAliases> 
 </configuration>

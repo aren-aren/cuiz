@@ -12,6 +12,10 @@
  		(#{member_ID},#{member_Password},#{member_Email},#{member_Nick},#{member_Profile_Blob},#{member_PhoneNumber})
  	</insert>
  	
+ 	<select id="getList" parameterType="MemberDTO" resultType="MemberDTO">
+ 		SELECT * FROM MEMBER
+ 	</select>
+ 	
  	<select id="get" resultType="MemberDTO">
  		SELECT MEMBER_PROFILE "member_Profile_byte"
  		FROM MEMBER WHERE MEMBER_ID = '1234324'
@@ -30,16 +34,57 @@
  		SELECT COUNT(MEMBER_NICK) FROM MEMBER WHERE MEMBER_NICK = #{member_Nick}
  	</select>
  	
- 	
+ 	<update id="setUpdateRole" parameterType="MemberDTO">
+ 		UPDATE MEMBER SET
+ 		MEMBER_ROLE  =#{member_Role}
+ 		WHERE MEMBER_ID = #{member_ID}
+ 	</update>
  	  
  	<update id="setUpdate" parameterType="MemberDTO">
  		UPDATE MEMBER <set>
  		<if test="member_Password != '' "> MEMBER_Password =#{member_Password},</if>
  		<if test="member_Email != '' ">MEMBER_EMAIL = #{member_Email},</if>
- 		<if test="member_Phone != '' ">MEMBER_PHONE = #{member_Phone},</if>
+ 		<if test="member_PhoneNumber != '' ">MEMBER_PHONENUMBER = #{member_PhoneNumber}</if>
  		</set>
- 		MEMBER_PROFILE_BLOB = #{member_Profile_Blob}
+ 		,MEMBER_PROFILE_BLOB = #{member_Profile_Blob}
  		WHERE MEMBER_ID = #{member_ID}
+ 	</update>
+ 	
+ 	<update id="setDelete" parameterType="MemberDTO">
+ 		UPDATE MEMBER SET MEMBER_FLAG = 1 , MEMBER_DELDATE = SYSDATE
+ 		WHERE MEMBER_ID = #{member_ID}
+ 	</update>
+ 	
+ 	<delete id="deleteRole" parameterType="RoleDTO">
+ 		DELETE MEMBER_ROLE WHERE MEMBER_ID = #{member_ID} AND ROLE_NUM = 100
+ 	</delete>
+ 	<insert id="insertRole" parameterType="RoleDTO">
+ 		INSERT INTO MEMBER_ROLE VALUES(#{member_ID},100)
+ 	</insert>
+ 	<!-- 출석 시작 출석일자 조회 -->
+ 	<select id="getAtendence" parameterType="MemberDTO" resultType="int">
+ 		SELECT COUNT(MEMBER_ID) FROM ATTENDENCE WHERE MEMBER_ID = #{member_ID} AND AT_DATE = TO_CHAR(SYSDATE,'YYYY-MM-DD')
+ 	</select>
+ 	<!-- 출석 기록이없다면 출석 인서트  -->
+ 	<insert id="setAtendence" parameterType="MemberDTO">
+ 		INSERT INTO ATTENDENCE (MEMBER_ID,AT_DATE) VALUES(#{member_ID},TO_CHAR(SYSDATE,'YYYY-MM-DD'))
+
+ 	</insert>
+	<!-- 출석을 인서트하면서 출석점수 지급 --> 	
+ 	<update id="setCoin" parameterType="MemberDTO">
+ 		UPDATE MEMBER SET MEMBER_COIN = #{member_Coin}+3 WHERE MEMBER_ID=#{member_ID}
+ 	</update>
+ 	<!-- 전날 출석기록이 있는지 확인 -->
+ 	<select id="getConatt" resultType="int" parameterType="MemberDTO">
+ 		SELECT COUNT(MEMBER_ID) FROM ATTENDENCE WHERE MEMBER_ID =#{member_ID} AND AT_DATE= TO_CHAR(SYSDATE-1,'YYYY-MM-DD')
+ 	</select>
+ 	<!-- 연속 출석 갱신 -->
+ 	<update id="setConatt" parameterType="MemberDTO">
+ 		UPDATE MEMBER SET MEMBER_CONATT = #{member_Conatt}+1 WHERE MEMBER_ID=#{member_ID}
+ 	</update>
+ 	<!--  7일 연속출석 보너스 -->
+ 	<update id="setBonus">
+ 		UPDATE MEMBER SET MEMBER_COIN = #{member_Coin} +13 WHERE MEMBER_ID = #{member_ID}
  	</update>
  	
  </mapper>

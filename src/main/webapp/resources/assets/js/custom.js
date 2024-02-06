@@ -1,5 +1,5 @@
 (function ($) {
-	
+	console.log("asdasdasd")
 	"use strict";
 
 	// Page loading animation
@@ -24,22 +24,22 @@
     });
 
 
-	/*$(window).scroll(function() {
-	  var scroll = $(window).scrollTop();
-	  var box = $('.header-text').height();
-	  var header = $('header').height();
+	// $(window).scroll(function() {
+	//   var scroll = $(window).scrollTop();
+	//   var box = $('.header-text').height();
+	//   var header = $('header').height();
 
-	  if (scroll >= box - header) {
-	    $("header").addClass("background-header");
-	  } else {
-	    $("header").removeClass("background-header");
-	  }
-	}); */
+	//   if (scroll >= box - header) {
+	//     $("header").addClass("background-header");
+	//   } else {
+	//     $("header").removeClass("background-header");
+	//   }
+	// });
 	
 	$('.filters ul li').click(function(){
         $('.filters ul li').removeClass('active');
+          console.log(this);
         $(this).addClass('active');
-          
           var data = $(this).attr('data-filter');
           $grid.isotope({
             filter: data
