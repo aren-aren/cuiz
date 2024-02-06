@@ -2,6 +2,7 @@ package com.groupb.cuiz.web.member;
 
 import java.nio.charset.StandardCharsets;
 import java.util.Base64;
+import java.util.List;
 
 import javax.servlet.http.HttpSession;
 
@@ -14,12 +15,36 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 
+import com.groupb.cuiz.web.member.role.RoleDTO;
+
 @Controller
 @RequestMapping("/member/*")
 public class MemberController {
 
 	@Autowired
 	private MemberService memberService;
+	
+	@GetMapping("delete")
+	public String setDelete(MemberDTO dto, Model model,HttpSession session) throws Exception{
+		MemberDTO memberDTO = new MemberDTO();
+		memberDTO = (MemberDTO) session.getAttribute("member");
+		dto.setMember_ID(memberDTO.getMember_ID());
+		int result = memberService.setDelete(dto);
+		
+		session.invalidate();
+		
+		return "redirect:/";
+	}
+	
+	@GetMapping("list")
+	public String getList(MemberDTO dto,Model model) throws Exception{
+		List<MemberDTO> ar = memberService.getList(dto);
+		
+		model.addAttribute("list", ar);
+		
+		return "member/list";
+	}
+	
 	
 	@GetMapping("join")
 	public String setJoin() throws Exception {
@@ -49,7 +74,10 @@ public class MemberController {
 	@PostMapping("join")
 	public String setJoin( MemberDTO dto,Model model) throws Exception {
 		System.out.println(dto);
+		RoleDTO roleDTO = new RoleDTO();
+		roleDTO.setMember_ID(dto.getMember_ID());
 		int result = memberService.setJoin(dto);
+		memberService.insertRole(roleDTO);
 		
 		model.addAttribute("msg", dto);
 		
@@ -76,7 +104,13 @@ public class MemberController {
 		 if(dto == null) {
 			 model.addAttribute("msg", msg);
 			 return "member/login";
-		 }
+			 }
+		if(dto.getMember_Flag()!=0) {
+			model.addAttribute("msg", "회원탈퇴된 계정입니다.");
+			model.addAttribute("path", "/");
+			return "commons/result";
+		}
+		 
 		session.setAttribute("member", dto);
 		//System.out.println( new String(dto.getMember_Profile_byte(), "UTF-8") );
 		session.setAttribute("avatar", "data:image/png;base64," + new String(dto.getMember_Profile_Blob(), StandardCharsets.UTF_8));
@@ -98,10 +132,10 @@ public class MemberController {
 		int result = memberService.setUpdate(dto);
 		
 		if(result>0) {
-			memberService.getDetail(dto);
+		dto = memberService.getDetail(dto);
 		}
 		session.setAttribute("member", dto);
-		session.setAttribute("avatar", "data:image/png;base64," + new String(dto.getMember_Profile_Blob(), "UTF-8"));
+		session.setAttribute("avatar", "data:image/png;base64," + new String(dto.getMember_Profile_Blob(),StandardCharsets.UTF_8));
 		
 		return "redirect:/member/mypage";
 	}
@@ -113,4 +147,24 @@ public class MemberController {
 		
 		return "member/temp";
 	}
+	
+	@GetMapping("updateRole")
+	public String setUpdateRole(Model model, MemberDTO dto) throws Exception{
+		int result;
+		RoleDTO roleDTO = new RoleDTO();
+		roleDTO.setMember_ID(dto.getMember_ID());
+		if(dto.getMember_Role().equals("MEMBER") ) {
+			roleDTO.setRole_Num(200);
+			memberService.deleteRole(roleDTO);
+		}
+		else {
+			roleDTO.setRole_Num(100);
+			memberService.insertRole(roleDTO);
+		}
+		result = memberService.setUpdateRole(dto);
+		model.addAttribute("result", result);
+		
+		return "/commons/ajaxResult";
+	}
+	
 }
