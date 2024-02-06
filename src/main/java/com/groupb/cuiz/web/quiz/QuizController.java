@@ -1,12 +1,15 @@
 package com.groupb.cuiz.web.quiz;
 
+import com.groupb.cuiz.web.member.MemberDTO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
 
+import javax.servlet.http.HttpSession;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -36,6 +39,38 @@ public class QuizController {
             model.addAttribute("path", "./list");
         }
         return "commons/result";
+    }
+
+
+    @PostMapping("sampleRun")
+    @ResponseBody
+    public String sampleRun(String quiz_SampleCode, String example_inputs, String quiz_inputs, HttpSession session) throws Exception {
+        MemberDTO memberDTO = (MemberDTO) session.getAttribute("member");
+
+        System.out.println(quiz_SampleCode);
+        System.out.println(example_inputs);
+        System.out.println(quiz_inputs);
+
+        String[] exinputs = example_inputs.split(",");
+        String[] inputs = quiz_inputs.split(",");
+
+        MemberAnswerDTO answerDTO = new MemberAnswerDTO();
+        List<String> inputList = new ArrayList<>(List.of(exinputs));
+        inputList.addAll(List.of(inputs));
+
+        answerDTO.setExampleInputs(inputList);
+        answerDTO.setMember_Source_Code(quiz_SampleCode);
+        answerDTO.setMember_Id(memberDTO.getMember_ID());
+
+        answerDTO = quizService.getSampleOutput(answerDTO);
+
+        String[] outputs = new String[exinputs.length + inputs.length];
+
+        for (int i = 0; i < outputs.length; i++) {
+            outputs[i] = answerDTO.getTestCaseResultDTOS().get(i).getResultMessage();
+        }
+
+        return String.join("###",outputs);
     }
 }
 
