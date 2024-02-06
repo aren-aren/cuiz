@@ -3,6 +3,8 @@ database.properties
 src/main/webapp/META-INF/*
 src/main/webapp/WEB-INF/classes/*
 
+/src/main/webapp/resources/sourcecode/**/*
+
 HELP.md
 target/
 !.mvn/wrapper/maven-wrapper.jar
@@ -146,3 +148,4 @@ $RECYCLE.BIN/
 *.lnk
 
 # End of https://www.toptal.com/developers/gitignore/api/windows,macos,java,maven
+/.metadata/
