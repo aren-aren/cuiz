@@ -3,6 +3,7 @@ package com.groupb.cuiz.web.member;
 import java.nio.charset.StandardCharsets;
 import java.util.Base64;
 import java.util.List;
+import java.util.Map;
 
 import javax.servlet.http.HttpSession;
 
@@ -99,23 +100,41 @@ public class MemberController {
 	@PostMapping("login")
 	public String setLogin(HttpSession session,MemberDTO dto,Model model) throws Exception{
 		 dto = memberService.getDetail(dto);
+		 
 		 System.out.println(dto);
 		 String msg = "아이디 또는 패스워드를 확인해주세요";
 		 if(dto == null) {
 			 model.addAttribute("msg", msg);
 			 return "member/login";
-			 }
-		if(dto.getMember_Flag()!=0) {
-			model.addAttribute("msg", "회원탈퇴된 계정입니다.");
-			model.addAttribute("path", "/");
-			return "commons/result";
-		}
+		 }
+		 if(dto.getMember_Flag()!=0) {
+			 model.addAttribute("msg", "회원탈퇴된 계정입니다.");
+			 model.addAttribute("path", "/");
+			 return "commons/result";
+		 }
+		 
+		 
 		 
 		session.setAttribute("member", dto);
 		//System.out.println( new String(dto.getMember_Profile_byte(), "UTF-8") );
 		session.setAttribute("avatar", "data:image/png;base64," + new String(dto.getMember_Profile_Blob(), StandardCharsets.UTF_8));
+		Map<String, Object> map = memberService.getAtendence(dto);
+		int result = (int) map.get("result");
+		dto = (MemberDTO)map.get("dto");
+		
+		if(result ==0) {
+			model.addAttribute("msg", "출석 포인트 3점이 지급되었습니다.");
+			model.addAttribute("path", "/");
+			if(dto.getMember_Conatt()==6) {
+				model.addAttribute("msg", "출석 포인트 3점 + 7일 연속 출석 보너스 10점 : 총 13점이 지급되었습니다.");
+				
+			}
+		}
+		else {
+			return "redirect:/";
+		}
 		 
-		return "redirect:/";
+		return "commons/result";
 	}
 	
 	@GetMapping("mypage")
