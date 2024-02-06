@@ -37,7 +37,12 @@
                         <li><a href="browse">Browse</a></li>
                         <li><a href="details.html">Details</a></li>
                         <li><a href="/shop/list">Shop</a></li>
+
+                        <li><a href="/notice/list">Notice</a></li>
+                        <li><a href="/qna/list">QnA</a></li>
+
                         <li><a href="/mypage/profile">Profile <img src="/resources/assets/images/profile-header.jpg" alt=""></a></li>
+
                     </ul>   
                     <ul class="nav">
                    		 <c:if test="${member eq null }">

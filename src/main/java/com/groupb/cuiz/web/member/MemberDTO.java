@@ -30,6 +30,7 @@ public class MemberDTO {
 	private Date member_RegDate;
 	private Date member_DelDate;
 
+
 	private Integer member_Conatt;
 	
 	
