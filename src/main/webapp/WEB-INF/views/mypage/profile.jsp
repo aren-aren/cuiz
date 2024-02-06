@@ -52,10 +52,10 @@
                   </div>
                   <div class="col-lg-4 align-self-center">
                     <ul>
-                      <li>Coin<span>${member.member_Jumsu}</span></li>
-                      <li>Friends Online <span>${member.}</span></li>
-                      <li>Live Streams <span>${member.}</span></li>
-                      <li>Clips <span>${member.member_Coin}</span></li>
+                      <li>점수<span>${member.member_Jumsu}</span></li>
+                      <li>출석일 수 <span>${member.member_Password}</span></li>
+                      <li>가입일 <span>${member.member_RegDate}</span></li>
+                      <li>Coin<span>${member.member_Coin}</span></li>
                     </ul>
                   </div>
                 </div>

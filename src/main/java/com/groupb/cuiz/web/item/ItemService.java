@@ -45,7 +45,7 @@ public class ItemService {
 
 	
 	
-	public int setItem(ItemDTO itemDTO, MultipartFile file) throws IOException {
+	public int add(ItemDTO itemDTO, MultipartFile file) throws IOException {
 		
 		System.out.println("service add "+ file);
 		
@@ -57,7 +57,7 @@ public class ItemService {
 		}
 		
 				
-		return itemDAO.setItem(itemDTO);
+		return itemDAO.add(itemDTO);
 	}
 	
 	

@@ -19,9 +19,9 @@ public class ItemDAO {
 		
 	}
 	
-	public int setItem(ItemDTO itemDTO) {
-		System.out.println(NAMESPACE+"setItem");
-		return sqlSession.insert(NAMESPACE+"setItem", itemDTO);
+	public int add(ItemDTO itemDTO) {
+		System.out.println(NAMESPACE+"add");
+		return sqlSession.insert(NAMESPACE+"add", itemDTO);
 		
 	}
 	

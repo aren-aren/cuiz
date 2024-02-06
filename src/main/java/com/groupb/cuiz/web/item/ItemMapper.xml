@@ -26,7 +26,7 @@
 
 <!-- insert -->
 
- <insert id="setItem" parameterType="ItemDTO">
+ <insert id="add" parameterType="ItemDTO">
  
  	INSERT INTO ITEM (ITEM_NUM,ITEM_NAME,ITEM_CONTENTS,ITEM_PRICE,ITEM_PHOTO)
 	VALUES (#{item_Num},#{item_Name},#{item_Contents},#{item_Price},#{item_Photo})
@@ -42,7 +42,7 @@
  </update>
  
  <!-- update -->
-<update id="update">
+<update id="update" parameterType="ItemDTO">
 
  UPDATE ITEM SET  	
  	ITEM_NAME = #{item_Name},
