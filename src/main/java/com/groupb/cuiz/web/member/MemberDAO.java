@@ -77,4 +77,14 @@ public class MemberDAO {
 	public int setBonus(MemberDTO dto) throws Exception{
 		return sqlSession.update(namespace+"setBonus",dto);
 	}
+	
+	public int setKakao(MemberDTO dto) throws Exception{
+		return sqlSession.insert(namespace+"setKakao",dto);
+	}
+	public int getAll(MemberDTO dto) throws Exception{
+		return sqlSession.selectOne(namespace+"getAll",dto);
+	}
+	public MemberDTO getKakaoLogin(MemberDTO dto) throws Exception{
+		return sqlSession.selectOne(namespace+"getKakaoLogin",dto);
+	}
 }

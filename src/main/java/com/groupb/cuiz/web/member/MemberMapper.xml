@@ -5,6 +5,17 @@
  
 
  <mapper namespace="com.groupb.cuiz.web.member.MemberDAO">
+ 	<insert id="setKakao" parameterType="MemberDTO">
+ 		INSERT INTO MEMBER
+ 		(MEMBER_ID,MEMBER_TOKEN) VALUES (#{member_ID},1)
+ 	</insert>
+ 	
+ 	<select id="getAll" parameterType="MemberDTO" resultType="int">
+ 		SELECT COUNT(MEMBER_ID) FROM MEMBER WHERE MEMBER_ID =#{member_ID}
+ 	</select>
+ 	<select id="getKakaoLogin" resultType="MemberDTO" parameterType="MemberDTO">
+ 		SELECT * FROM MEMBER WHERE MEMBER_ID = #{member_ID}
+ 	</select>
  	<insert id="setJoin" parameterType="MemberDTO">
  		INSERT INTO MEMBER
  		(MEMBER_ID,MEMBER_PASSWORD,MEMBER_EMAIL,MEMBER_NICK,MEMBER_PROFILE_BLOB,MEMBER_PHONENUMBER)
@@ -84,7 +95,7 @@
  	</update>
  	<!--  7일 연속출석 보너스 -->
  	<update id="setBonus">
- 		UPDATE MEMBER SET MEMBER_COIN = #{member_Coin} +13 WHERE MEMBER_ID = #{member_ID}
+ 		UPDATE MEMBER SET MEMBER_COIN = #{member_Coin} +10 WHERE MEMBER_ID = #{member_ID}
  	</update>
  	
  </mapper>

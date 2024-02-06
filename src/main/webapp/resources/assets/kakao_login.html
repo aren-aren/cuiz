@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <a href="javascript:kakaoLogin();"><img src="../assets/images/kakao_login.jpg"/> </a>
+    <script src="https://developers.kakao.com/sdk/js/kakao.js"></script>
+    <script>
+        window.Kakao.init("a58598cd3cea0b5410f80d01ccdc89b5");
+
+        function kakaoLogin(){
+            window.Kakao.Auth.login({
+                scope: 'profile_nickname,profile_image',
+                success : function(authObj){
+                    console.log(authObj);
+                    window.Kakao.API.request({
+                        url : '/v2/user/me',
+                        success : res => {
+                            const kakao_account = res.kakao_account;
+                            console.log(kakao_account);
+                            location.href="/";
+                        }
+                    });
+                }
+            })
+        }
+
+    </script>
+</body>
+</html>
