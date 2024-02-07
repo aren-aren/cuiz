@@ -34,9 +34,7 @@ public class MemberController {
 		if(check==0) {
 			dto.setMember_Token(1);
 			int result = memberService.setKakao(dto);
-			if(result==1) {
-				session.setAttribute("member", dto);
-			}
+			
 			
 			model.addAttribute("result", result);
 		
@@ -47,9 +45,15 @@ public class MemberController {
 	}
 	
 	@GetMapping("kakaoLogin")
-	public String setKakaoLogin(ProfileDTO profile,HttpSession session,MemberDTO dto,Model model) throws Exception{
-		dto.setMember_ID(profile.getNickname());
-		dto = memberService.getKakaoLogin(dto);
+	public String setKakaoLogin(ProfileDTO profile,HttpSession session,MemberDTO memberDTO,Model model) throws Exception{
+		MemberDTO dto = new MemberDTO();
+		memberDTO.setMember_ID(profile.getNickname());
+		dto = memberService.getKakaoLogin(memberDTO);
+		System.out.println(dto);
+		if(dto==null) {
+			model.addAttribute("result", "null");
+			return "commons/ajaxResult";
+		}
 		
 		if(dto.getMember_Flag()!=0) {
 			 model.addAttribute("msg", "회원탈퇴된 계정입니다.");
@@ -178,6 +182,7 @@ public class MemberController {
 			}
 		}
 		else {
+			session.setAttribute("member", dto);
 			return "redirect:/";
 		}
 		session.setAttribute("member", dto);
