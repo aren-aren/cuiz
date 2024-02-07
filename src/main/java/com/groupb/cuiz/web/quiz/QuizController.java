@@ -1,5 +1,6 @@
 package com.groupb.cuiz.web.quiz;
 
+import com.groupb.cuiz.support.util.pager.Pager;
 import com.groupb.cuiz.web.member.MemberDTO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -77,6 +78,14 @@ public class QuizController {
         }
 
         return String.join(",",exOutputs) + "###" + String.join(",",qOutputs);
+    }
+
+    @GetMapping("list")
+    public String getList(Pager pager, Model model){
+        List<QuizDTO> quizList = quizService.getList(pager);
+        model.addAttribute("list", quizList);
+
+        return "quiz/list";
     }
 }
 

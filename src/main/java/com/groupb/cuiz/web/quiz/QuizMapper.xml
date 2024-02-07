@@ -16,6 +16,7 @@
             </foreach>
         ) t
     </insert>
+
     <insert id="addQuiz" parameterType="QuizDTO">
         <selectKey resultType="Integer" keyProperty="quiz_No" order="BEFORE">
             SELECT QUIZ_SEQ.NEXTVAL FROM DUAL
@@ -23,4 +24,29 @@
         INSERT INTO QUIZ(QUIZ_NO, MEMBER_ID, QUIZ_TITLE, QUIZ_CONTENTS, QUIZ_TYPE, QUIZ_LEVEL, QUIZ_POINT, QUIZ_PRICE)
         VALUES (#{quiz_No}, #{member_Id}, #{quiz_Title}, #{quiz_Contents}, #{quiz_Type}, #{quiz_Level}, #{quiz_Point}, #{quiz_Price})
     </insert>
+
+    <select id="getTotalCount" parameterType="Pager">
+        SELECT COUNT(QUIZ_NO) FROM QUIZ
+        <include refid="search"/>
+        <include refid="ordered"/>
+    </select>
+
+    <sql id="search">
+        <where>
+            <if test="kind=='type' or kind=='all'">
+                QUIZ_TYPE = #{quiz_Type}
+            </if>
+            <if test="kind=='level' or kind=='all'">
+                AND QUIZ_LEVEL = #{quiz_Level}
+            </if>
+        </where>
+    </sql>
+
+    <sql id="ordered">
+        ORDER BY QUIZ_NO DESC
+    </sql>
+
+    <select id="getList" parameterType="Pager" resultType="QuizDTO">
+        
+    </select>
 </mapper>

@@ -1,6 +1,7 @@
 package com.groupb.cuiz.web.quiz;
 
 import com.groupb.cuiz.support.util.file.FileManager;
+import com.groupb.cuiz.support.util.pager.Pager;
 import org.apache.commons.exec.*;
 import org.apache.commons.io.output.ByteArrayOutputStream;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -221,4 +222,14 @@ public class QuizService {
     }
 
 
+    public List<QuizDTO> getList(Pager pager) {
+        Long totalCount = quizDAO.getTotalCount(pager);
+        System.out.println("totalCount = " + totalCount);
+
+        pager.makeRow();
+        pager.makeNum(totalCount);
+
+
+        return quizDAO.getList(pager);
+    }
 }
