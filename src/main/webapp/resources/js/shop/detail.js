@@ -49,40 +49,66 @@ if(buyNowBtn!=null){
         },       
         body:"item_Num="+item_Num
      })
-     .then(result=>result.text())    
      .then(result=>{
-        console.log(result);
-        
-        if(result == 4){
+        console.log(result)
+        result.text()
+    })    
+     .then(result=>{
+        switch(result){
 
-            if(confirm("로그인 하시겠습니까?")){
-                location.href="/member/login";
-                return true;   
-            }   
-        }
-       
-        if(result == 3){
-
-            alert("코인이 부족합니다");
-            return false;     
-        }
-        if(result==2){
-
-            alert("캐쉬템임");
-        }
-
-        if(result==1){
-
-            if(confirm(구매성공)){
+            case "1":
                 location.href="/shop/list"
-                return true;   
-            }
-        }
-        if(result==0){
+                break;   
+                
+            case "2": 
+                alert("캐쉬템임");
+                break;        
+                
+            case "3": 
+                alert("코인이 부족합니다");
+                break;    
+                
+            case "4": 
+                alert("4번")
+                if(confirm("로그인 하시겠습니까?")){
+                location.href="/member/login";
+                 break; 
+        	    }     break; 
+                 
+            default :    
+                alert("asdasd");
+       
+        };
 
-            alert("구매실패");
-            return false;   
-        }
+        
+
+        // if(result == 4){
+        //     if(confirm("로그인 하시겠습니까?")){
+        //         location.href="/member/login";
+        //         return true;   
+        //     }   
+        // }       
+        // if(result == 3){
+
+        //     alert("코인이 부족합니다");
+        //     return false;     
+        // }
+        // if(result==2){
+
+        //     alert("캐쉬템임");
+        // }
+        // if(result==1){
+
+        //     if(confirm(구매성공)){
+        //         location.href="/shop/list"
+        //         return true;   
+        //     }
+        // }
+        // if(result==0){
+
+        //     alert("구매실패");
+        //     return false;   
+        // }
 
         
      })

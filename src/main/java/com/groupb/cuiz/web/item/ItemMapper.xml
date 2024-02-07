@@ -10,19 +10,63 @@
 
 <select id="getDetail" parameterType="ItemDTO" resultType="ItemDTO">
 
-	SELECT * FROM ITEM WHERE ITEM_NUM = #{item_Num}
+ 	SELECT * FROM ITEM WHERE ITEM_NUM = #{item_Num}
 
 </select>
-
  
  <!-- List -->
  
  <select id="getList" resultType="ItemDTO">
  
-	SELECT * FROM ITEM
+	SELECT * FROM
+	(
+	SELECT ROWNUM R, I.* FROM
+		(
+		SELECT * FROM item <include refid="Kind"/>  <include refid="searchItem"/> 
+		) I  <include refid="search"/>   ORDER BY R DESC
+	)RN
  
  </select>
+ <sql id="sort">
+ 	<if test = "sort=='PricaeAsc'">
+ 	ORDER BY ITEM_PRICE ASC;
+ 	</if>
+ 	<if test = "sort=='PricaeDesc'">
+ 	ORDER BY ITEM_PRICE ASC;
+ 	</if>
+ 	
+ </sql>
  
+ 
+<sql id="searchItem">
+
+	<where>
+	
+		<if test="searchItem =='itemName'">
+		WHERE ITEM_NAME LIKE '%'||#{"search"}||'%'
+		</if>
+		<if test="searchItem =='itemContents'">
+		WHERE ITEM_CONTENTS LIKE '%'||#{"search"}||'%'
+		</if>
+	</where>
+
+</sql>
+ 
+
+
+<sql id="kind">
+	<where>
+	
+		<if test="kind=='kind1'">
+		WHERE ITEM_NUM >10000
+		</if>
+		<if test="kind=='kind2'">
+		WHERE ITEM_NUM BETWEEN 0 and 10000
+		</if>
+		
+	</where>
+
+</sql>
 
 <!-- insert -->
 

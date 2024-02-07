@@ -26,12 +26,16 @@ public class PurchaseService {
 	@Autowired
 	private ItemDAO itemDAO;
 	
+	
+	
 	public List<ItemDTO> getList(PurchaseDTO purchaseDTO){		
 		
 		System.out.println(purchaseDTO.getMember_ID()+ purchaseDTO.getItem_Num());
 		return purchaseDAO.getList(purchaseDTO);
 		
 	}
+	
+	
 	
 	@Transactional
 	public int buyItem(HttpSession session, ItemDTO itemDTO) throws Exception {
