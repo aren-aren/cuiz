@@ -181,6 +181,22 @@
 
 	</dependencies>
     <build>
+		<!-- 빌드스 리소스 파일 설정 시작 -->
+		<resources>
+			<resource>
+				<directory>src/main/java</directory>
+				<includes>
+					<include>**/*.xml</include>
+				</includes>
+			</resource>
+			<resource>
+				<directory>src/main/resources</directory>
+				<includes>
+					<include>**/*.*</include>
+				</includes>
+			</resource>
+		</resources>
+		<!-- 빌드스 리소스 파일 설정 종료 -->
         <plugins>
             <plugin>
                 <artifactId>maven-eclipse-plugin</artifactId>

@@ -18,11 +18,13 @@
   <link rel="stylesheet" href="/resources/assets/css/owl.css">
   <link rel="stylesheet" href="/resources/assets/css/animate.css">
   <link rel="stylesheet"href="https://unpkg.com/swiper@7/swiper-bundle.min.css"/>
-<!--
+  <script defer src="/resources/commons/js/test.js"></script>
 
-TemplateMo 579 Cyborg Gaming
+  <!--
 
-https://templatemo.com/tm-579-cyborg-gaming
+  TemplateMo 579 Cyborg Gaming
 
--->
+  https://templatemo.com/tm-579-cyborg-gaming
+
+  -->
 </head>
