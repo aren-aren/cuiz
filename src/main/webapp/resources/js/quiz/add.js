@@ -4,29 +4,13 @@ const addForm = document.getElementById("addForm");
 const sampleRunModal = new bootstrap.Modal(document.getElementById("sampleRunModal"))
 const addSubmit = document.getElementById("addSubmit");
 
-let exampleInputs = [];
-let exampleOutputs = [];
-let quizInputs = [];
-let quizOutputs = [];
-
-addSubmit.addEventListener("click",()=>{
-    let data = new FormData(addForm);
-    data.append("quiz_SampleCode", sampleCode.value);
-    console.log(quizInputs);
-    quizInputs.forEach(quizInput => data.append("quiz_inputs",quizInput));
-    console.log(quizOutputs);
-    quizOutputs.forEach(quizOutput => data.append("quiz_outputs", quizOutput));
-
-    addForm.submit();
-})
+addSubmit.addEventListener("click",()=>addForm.submit())
 
 sampleRun.addEventListener("click",()=>{
+    document.getElementById("quizSampleCodeInput").value = sampleCode.value;
+
     let data = new FormData(addForm);
-    data.append("quiz_SampleCode", sampleCode.value);
-    document.getElementById("example_input").value.split(",").forEach(exin => exampleInputs.push(exin));
-    document.getElementById("quiz_input").value.split(",").forEach(qin => quizInputs.push(qin));
-    exampleInputs.forEach(exampleInput => data.append("example_inputs", exampleInput));
-    exampleOutputs.forEach(exampleOutput => data.append("example_outputs", exampleOutput));
+
     tableSpinnerToggle();
 
     document.getElementById("sampleRunResult").querySelectorAll("*").forEach(e=>e.remove());
@@ -38,13 +22,13 @@ sampleRun.addEventListener("click",()=>{
          .then(res=>res.text())
          .then(r => {
              r = r.split("###");
-             showSampleRunModalOutput(r);
-             for (let i = 0; i < exampleInputs.length; i++) {
-                 exampleOutputs.push(r[i]);
-             }
-             for (let i = exampleInputs.length; i < exampleInputs.length + quizInputs.length; i++) {
-                 quizOutputs.push(r[i]);
-             }
+             let data = [];
+             data.push(...r[0].split(","));
+             data.push(...r[1].split(","));
+             showSampleRunModalOutput(data);
+
+             document.getElementById("example_output").value = r[0];
+             document.getElementById("quiz_output").value = r[1];
          })
 })
 

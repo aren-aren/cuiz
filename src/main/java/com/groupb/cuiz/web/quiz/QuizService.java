@@ -20,8 +20,12 @@ public class QuizService {
     @Autowired
     private QuizDAO quizDAO;
 
-    public int addQuiz(QuizDTO quizDTO, String[] example_inputs, String[] example_output, String[] inputs, String[] outputs) throws Exception {
+    public int addQuiz(QuizDTO quizDTO, String[] example_inputs, String[] example_output, String[] quiz_inputs, String[] quiz_outputs) throws Exception {
         int result = 0;
+
+        quizDTO.setQuiz_Point(0);
+        quizDTO.setQuiz_Price(0);
+
         result += quizDAO.addQuiz(quizDTO);
 
         List<TestcaseDTO> testcaseDTOS = new ArrayList<>();
@@ -34,11 +38,11 @@ public class QuizService {
             testcaseDTOS.add(testcaseDTO);
         }
 
-        for (int i = 0; i < inputs.length; i++) {
+        for (int i = 0; i < quiz_inputs.length; i++) {
             TestcaseDTO testcaseDTO = new TestcaseDTO();
             testcaseDTO.setQuiz_No(quizDTO.getQuiz_No());
-            testcaseDTO.setTestcase_Input(inputs[i]);
-            testcaseDTO.setTestcase_Output(outputs[i]);
+            testcaseDTO.setTestcase_Input(quiz_inputs[i]);
+            testcaseDTO.setTestcase_Output(quiz_outputs[i]);
             testcaseDTO.setTestcase_Type("QUIZ");
             testcaseDTOS.add(testcaseDTO);
         }

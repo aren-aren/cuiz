@@ -66,10 +66,13 @@
                                             }
                                         </script>
                                     </wc-codemirror>
-                                    <input type="text" id="example_input" class="form-control mb-3"
+                                    <input type="hidden" id="quizSampleCodeInput" name="quiz_SampleCode">
+                                    <input type="text" id="example_input" class="form-control mb-3" name="example_inputs"
                                            placeholder="예제 Input을 입력하세요"/>
-                                    <input type="text" id="quiz_input" class="form-control mb-3"
+                                    <input type="hidden" id="example_output" name="example_outputs">
+                                    <input type="text" id="quiz_input" class="form-control mb-3" name="quiz_inputs"
                                            placeholder="실제 문제 Input을 입력하세요">
+                                    <input type="hidden" id="quiz_output" name="quiz_outputs">
                                     <div class="row mb-3">
                                         <div class="col-6">
                                             <input type="text" class="form-control" name="quiz_Type" placeholder="문제 유형을 입력하세요">
