@@ -44,19 +44,12 @@ public class QuizController {
 
     @PostMapping("sampleRun")
     @ResponseBody
-    public String sampleRun(String quiz_SampleCode, String example_inputs, String quiz_inputs, HttpSession session) throws Exception {
+    public String sampleRun(String quiz_SampleCode, String[] example_inputs, String[] quiz_inputs, HttpSession session) throws Exception {
         MemberDTO memberDTO = (MemberDTO) session.getAttribute("member");
 
-        System.out.println(quiz_SampleCode);
-        System.out.println(example_inputs);
-        System.out.println(quiz_inputs);
-
-        String[] exinputs = example_inputs.split(",");
-        String[] inputs = quiz_inputs.split(",");
-
         MemberAnswerDTO answerDTO = new MemberAnswerDTO();
-        List<String> inputList = new ArrayList<>(List.of(exinputs));
-        inputList.addAll(List.of(inputs));
+        List<String> inputList = new ArrayList<>(List.of(example_inputs));
+        inputList.addAll(List.of(quiz_inputs));
 
         answerDTO.setExampleInputs(inputList);
         answerDTO.setMember_Source_Code(quiz_SampleCode);
@@ -64,7 +57,7 @@ public class QuizController {
 
         answerDTO = quizService.getSampleOutput(answerDTO);
 
-        String[] outputs = new String[exinputs.length + inputs.length];
+        String[] outputs = new String[example_inputs.length + quiz_inputs.length];
 
         for (int i = 0; i < outputs.length; i++) {
             outputs[i] = answerDTO.getTestCaseResultDTOS().get(i).getResultMessage();

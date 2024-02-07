@@ -41,7 +41,7 @@
                                 <h4>Add Quiz</h4>
                             </div>
                             <div class="px-3">
-                                <form id="addForm">
+                                <form action="add" id="addForm" method="post">
                                     <input type="text"
                                            name="quiz_Title"
                                            class="form-control mb-4"
@@ -55,7 +55,6 @@
                                     <wc-codemirror mode="text/x-java"
                                                    class="mb-3"
                                                    id="quiz_SampleCode"
-                                                   name="quiz_SampleCode"
                                                    theme="tomorrow-night-eighties">
                                         <script type="wc-content">
                                             public class Main{
@@ -67,13 +66,13 @@
                                             }
                                         </script>
                                     </wc-codemirror>
-                                    <input type="text" id="example_input" class="form-control mb-3" name="example_inputs"
+                                    <input type="text" id="example_input" class="form-control mb-3"
                                            placeholder="예제 Input을 입력하세요"/>
-                                    <input type="text" id="quiz_input" class="form-control mb-3" name="quiz_inputs"
+                                    <input type="text" id="quiz_input" class="form-control mb-3"
                                            placeholder="실제 문제 Input을 입력하세요">
                                     <div class="row mb-3">
                                         <div class="col-6">
-                                            <input type="text" class="form-control" placeholder="문제 유형을 입력하세요">
+                                            <input type="text" class="form-control" name="quiz_Type" placeholder="문제 유형을 입력하세요">
                                         </div>
                                         <div class="col-6 pt-2">
                                             <div class="text-white d-inline-block me-3">문제 난이도 :</div>
@@ -107,6 +106,36 @@
                         </div>
                     </div>
 
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Modal -->
+    <div class="modal fade" id="sampleRunModal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h1 class="modal-title fs-5 text-dark" id="staticBackdropLabel">확인 후 등록 버튼을 눌러주세요</h1>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div id="sampleRunModalBody" class="modal-body">
+                    <div id="loadingSpinner" class="spinner-border d-none" role="status">
+                        <span class="visually-hidden">Loading...</span>
+                    </div>
+                    <table id="resultTable" class="table">
+                        <thead>
+                            <tr>
+                                <th>Input</th>
+                                <th>Output</th>
+                            </tr>
+                        </thead>
+                        <tbody id="sampleRunResult" class="table-striped">
+                        </tbody>
+                    </table>
+                </div>
+                <div class="modal-footer">
+                    <button id="addSubmit" type="button" class="btn btn-primary">등록하기</button>
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">닫기</button>
                 </div>
             </div>
         </div>

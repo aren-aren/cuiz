@@ -178,6 +178,7 @@ public class MemberController {
 			}
 		}
 		else {
+			session.setAttribute("member", dto);
 			return "redirect:/";
 		}
 		session.setAttribute("member", dto);

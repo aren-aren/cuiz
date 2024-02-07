@@ -8,6 +8,7 @@ public class QuizDTO {
     private String member_Id;
     private String quiz_Title;
     private String quiz_Contents;
+    private String quiz_SampleCode;
     private String quiz_Type;
     private Integer quiz_Level;
     private Integer quiz_Point;
@@ -44,6 +45,13 @@ public class QuizDTO {
 
     public void setQuiz_Contents(String quiz_Contents) {
         this.quiz_Contents = quiz_Contents;
+    }
+    public String getQuiz_SampleCode() {
+        return quiz_SampleCode;
+    }
+
+    public void setQuiz_SampleCode(String quiz_SampleCode) {
+        this.quiz_SampleCode = quiz_SampleCode;
     }
 
     public String getQuiz_Type() {
@@ -97,5 +105,6 @@ public class QuizDTO {
                 ", quiz_Price=" + quiz_Price +
                 '}';
     }
+
 
 }
