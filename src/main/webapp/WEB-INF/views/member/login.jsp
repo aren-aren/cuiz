@@ -99,7 +99,13 @@
 				
 									alert("출석 포인트 3점이 지급되었습니다.");
 								}
-								else if(res=='7')
+								else if(res.trim()=='null'){
+									alert("회원가입이 안되어있는 아이디입니다.");
+									location.href="/member/join";
+									return;
+									
+								}
+								else if(res.trim()=='7')
 								{
 									alert("출석 포인트 3점 + 7일 연속 출석 보너스 10점 \n 총 13점이 지급되었습니다.");	
 								}

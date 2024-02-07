@@ -24,7 +24,9 @@ public class MemberService {
 	}
 	@Transactional
 	public int setKakao(MemberDTO dto)throws Exception{
-		return dao.setKakao(dto);
+		int result = dao.setKakao(dto);
+		result = dao.setDefaultRole(dto);
+		return result;
 	}
 	public int getAll(MemberDTO dto) throws Exception{
 		return dao.getAll(dto);
@@ -36,6 +38,8 @@ public class MemberService {
 	
 	@Transactional
 	public int setJoin(MemberDTO dto) throws Exception{
+		dao.setDefaultRole(dto);
+		
 		return dao.SetJoin(dto);
 	}
 	public MemberDTO getDetail(MemberDTO dto) throws Exception{
@@ -123,5 +127,8 @@ public class MemberService {
 		
 		return map;
 	}
+	
+	
+
 	
 }

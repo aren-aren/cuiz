@@ -87,4 +87,7 @@ public class MemberDAO {
 	public MemberDTO getKakaoLogin(MemberDTO dto) throws Exception{
 		return sqlSession.selectOne(namespace+"getKakaoLogin",dto);
 	}
+	public int setDefaultRole(MemberDTO dto) throws Exception{
+		return sqlSession.insert(namespace+"setDefaultRole",dto);
+	}
 }
