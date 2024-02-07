@@ -6,6 +6,8 @@ import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
+import com.groupb.cuiz.support.util.pager.Pager;
+
 @Repository
 public class ItemDAO {
 	
@@ -13,9 +15,9 @@ public class ItemDAO {
 	private SqlSession sqlSession;
 	private final String NAMESPACE="com.groupb.cuiz.web.item.ItemDAO.";
 	
-	public List<ItemDTO> getList(){
-		
-		return sqlSession.selectList(NAMESPACE+"getList");
+	public List<ItemDTO> getList(Pager pager){
+		System.out.println(pager.getKind());
+		return sqlSession.selectList(NAMESPACE+"getList", pager);
 		
 	}
 	

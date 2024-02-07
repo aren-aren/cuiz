@@ -178,6 +178,9 @@ public class MemberController {
 			}
 		}
 		else {
+			session.setAttribute("member", dto);
+			session.setAttribute("avatar", "data:image/png;base64," + new String(dto.getMember_Profile_Blob(), StandardCharsets.UTF_8));
+			 
 			return "redirect:/";
 		}
 		session.setAttribute("member", dto);

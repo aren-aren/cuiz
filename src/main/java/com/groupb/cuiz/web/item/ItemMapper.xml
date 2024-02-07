@@ -16,17 +16,20 @@
  
  <!-- List -->
  
- <select id="getList" resultType="ItemDTO">
+ <select id="getList" resultType="ItemDTO" parameterType="Pager">
  
 	SELECT * FROM
 	(
 	SELECT ROWNUM R, I.* FROM
 		(
-		SELECT * FROM item <include refid="Kind"/>  <include refid="searchItem"/> 
-		) I  <include refid="search"/>   ORDER BY R DESC
+		SELECT * FROM item 
+		<include refid="kind"/>
+		 <include refid="sort"/> 
+		) I  <include refid="searchItem"/>   ORDER BY R ASC
 	)RN
  
  </select>
+ 
  <sql id="sort">
  	<if test = "sort=='PricaeAsc'">
  	ORDER BY ITEM_PRICE ASC;
@@ -39,14 +42,15 @@
  
  
 <sql id="searchItem">
-
-	<where>
-	
+	<where>	
 		<if test="searchItem =='itemName'">
-		WHERE ITEM_NAME LIKE '%'||#{"search"}||'%'
+		 ITEM_NAME LIKE '%'||#{search}||'%'
 		</if>
 		<if test="searchItem =='itemContents'">
-		WHERE ITEM_CONTENTS LIKE '%'||#{"search"}||'%'
+		 ITEM_CONTENTS LIKE '%'||#{search}||'%'
+		</if>
+		<if test="searchItem =='itemAll'">
+		 ITEM_CONTENTS LIKE '%'||#{search}||'%' AND ITEM_NAME LIKE '%'||#{search}||'%'
 		</if>
 	</where>
 
@@ -55,15 +59,21 @@
 
 
 <sql id="kind">
-	<where>
-	
+
+	<where>	
+		<if test="kind=='kind0'">
+		 ITEM_NUM BETWEEN 0 and 99999
+		</if>		
 		<if test="kind=='kind1'">
-		WHERE ITEM_NUM >10000
+		 ITEM_NUM BETWEEN 10000 and 11000
 		</if>
 		<if test="kind=='kind2'">
-		WHERE ITEM_NUM BETWEEN 0 and 10000
-		</if>
-		
+		  ITEM_NUM BETWEEN 0 and 10000
+		</if>		
+		<if test="kind=='kind3'">
+		 ITEM_NUM FLAG = 0
+		</if>	
+				
 	</where>
 
 </sql>

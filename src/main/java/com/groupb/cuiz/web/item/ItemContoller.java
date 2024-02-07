@@ -13,9 +13,10 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 
-
+import com.groupb.cuiz.support.util.pager.Pager;
 import com.groupb.cuiz.web.purchase.PurchaseService;
 
 
@@ -41,14 +42,26 @@ public class ItemContoller {
 //	
 	
 	@GetMapping("list")
-	public String getList(Model model) {
+	public String getList(Model model, Pager pager ) {
 		
 		
-		List<ItemDTO> ar = itemService.getList(); 		
+		List<ItemDTO> ar = itemService.getList(pager); 		
 		model.addAttribute("list", ar);
 		
 		return "/shop/list";
 
+	}
+	
+	@GetMapping("api/list")
+	@ResponseBody
+	public List<ItemDTO> getListJson(Pager pager){
+		
+		
+		List<ItemDTO> ar = itemService.getList(pager); 		
+		
+		
+		return ar;
+		
 	}
 	
 	@GetMapping("detail")

@@ -9,6 +9,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
+import com.groupb.cuiz.support.util.pager.Pager;
+
 @Service
 public class ItemService {
 	
@@ -16,9 +18,9 @@ public class ItemService {
 	private ItemDAO itemDAO;
 	
 	
-	public List<ItemDTO> getList(){
+	public List<ItemDTO> getList(Pager pager){
 		
-		List<ItemDTO> ar = itemDAO.getList();
+		List<ItemDTO> ar = itemDAO.getList(pager);
 		
 			ar = decoderListToString(ar);
 
