@@ -10,9 +10,7 @@
 <title>Insert title here</title>
 <c:import url="../temps/header_css.jsp"></c:import>
 <style>
-	.color-white{
-		color : white;	
-	}
+	
 	.input-join{
 	width: 450px;
 	}
@@ -118,28 +116,39 @@
 
         function kakaoLogin(){
             window.Kakao.Auth.login({
-                scope: 'profile_nickname,profile_image',
+                scope: 'profile_nickname,profile_image,openid',
                 success : function(authObj){
                     console.log(authObj);
+					console.log("id token = " + authObj.id_token)
+					let id_token = authObj.id_token;
                     window.Kakao.API.request({
                         url : '/v2/user/me',
                         success : res => {
                             const kakao_account = res.kakao_account;
                             console.log(kakao_account);
 							console.log(kakao_account.profile.nickname);
-							fetch('/member/kakaoJoin?nickname='+kakao_account.profile.nickname,{
+							
+							// fetch('https://kapi.kakao.com/v2/user/me',{
+							// 	headers: {
+							// 	"Authorization": `Bearer${kakao_account.access_token}`,
+							// 	"Content-type": "application/x-www-form-urlencoded;charset=utf-8"   
+							// 	},
+							// 	method : 'POST'
+							// })
+							// .then(res =>res.json())
+							// .then(res=>console.log(res)) 
+							
+
+							fetch('/member/kakaoJoin?nickname='+kakao_account.profile.nickname+"&openid="+id_token,{
 								method : 'GET'
 							})
 							.then(res =>res.text())
 							.then(res => {
 								if(res>0){
-									 alert('가입성공');
-									 location.href="/";
+									alert('가입성공');
+									location.href="/";
 								}
-								else if(res==null){
-									alert("회원가입이 안되어있는 아이디입니다.").
-									location.href="/member/login";
-								}
+								
 								else{
 								alert("이미 가입된 아이디입니다.");
 								location.href="/member/login";

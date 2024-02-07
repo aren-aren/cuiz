@@ -128,6 +128,14 @@ public class MemberService {
 		return map;
 	}
 	
+	public MemberDTO getKakaoNickCount(MemberDTO dto) throws Exception{
+		int count = dao.getKakaoNickCount(dto);
+		String tag = dto.getMember_Nick()+"#"+(count+1);
+		
+		dto.setMember_Nick(tag);
+		
+		return dto;
+	}
 	
 
 	

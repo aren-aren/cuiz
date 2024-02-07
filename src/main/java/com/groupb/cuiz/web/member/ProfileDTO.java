@@ -3,6 +3,16 @@ package com.groupb.cuiz.web.member;
 public class ProfileDTO {
 	private String nickname;
 	private String profile_image_url;
+	private String openid;
+	
+	
+	
+	public String getOpenid() {
+		return openid;
+	}
+	public void setOpenid(String openid) {
+		this.openid = openid;
+	}
 	public String getNickname() {
 		return nickname;
 	}

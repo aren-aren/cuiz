@@ -90,4 +90,7 @@ public class MemberDAO {
 	public int setDefaultRole(MemberDTO dto) throws Exception{
 		return sqlSession.insert(namespace+"setDefaultRole",dto);
 	}
+	public int getKakaoNickCount(MemberDTO dto) throws Exception{
+		return sqlSession.selectOne(namespace+"getKakaoNickCount",dto);
+	}
 }
