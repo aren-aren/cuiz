@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.servlet.http.HttpSession;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 @Controller
@@ -25,13 +26,19 @@ public class QuizController {
     }
 
     @PostMapping("add")
-    public String addQuiz(QuizDTO quizDTO, String[] example_inputs, String[] example_outputs, String[] inputs, String[] outputs, Model model) throws Exception {
-        int result = quizService.addQuiz(quizDTO, example_inputs, example_outputs, inputs, outputs);
+    public String addQuiz(QuizDTO quizDTO, String[] example_inputs, String[] example_outputs, String[] quiz_inputs, String[] quiz_outputs, HttpSession session, Model model) throws Exception {
+        MemberDTO memberDTO = (MemberDTO)session.getAttribute("member");
+        quizDTO.setMember_Id(memberDTO.getMember_ID());
+
+        System.out.println(Arrays.toString(example_inputs));
+        System.out.println(Arrays.toString(quiz_outputs));
+
+        int result = quizService.addQuiz(quizDTO, example_inputs, example_outputs, quiz_inputs, quiz_outputs);
 
         if(result%10 == 0){
             model.addAttribute("msg", "문제 등록 실패");
             model.addAttribute("path", "./add");
-        } else if (result/10 != (example_inputs.length + inputs.length)){
+        } else if (result/10 != (example_inputs.length + quiz_inputs.length)){
             model.addAttribute("msg", "일부 테스트케이스 등록 실패");
             model.addAttribute("path", "./list");
         } else{
@@ -44,33 +51,32 @@ public class QuizController {
 
     @PostMapping("sampleRun")
     @ResponseBody
-    public String sampleRun(String quiz_SampleCode, String example_inputs, String quiz_inputs, HttpSession session) throws Exception {
+    public String sampleRun(String quiz_SampleCode, String[] example_inputs, String[] quiz_inputs, HttpSession session) throws Exception {
         MemberDTO memberDTO = (MemberDTO) session.getAttribute("member");
 
         System.out.println(quiz_SampleCode);
-        System.out.println(example_inputs);
-        System.out.println(quiz_inputs);
-
-        String[] exinputs = example_inputs.split(",");
-        String[] inputs = quiz_inputs.split(",");
+        System.out.println(Arrays.toString(example_inputs));
+        System.out.println(Arrays.toString(quiz_inputs));
 
         MemberAnswerDTO answerDTO = new MemberAnswerDTO();
-        List<String> inputList = new ArrayList<>(List.of(exinputs));
-        inputList.addAll(List.of(inputs));
-
-        answerDTO.setExampleInputs(inputList);
         answerDTO.setMember_Source_Code(quiz_SampleCode);
         answerDTO.setMember_Id(memberDTO.getMember_ID());
 
+        answerDTO.setExampleInputs(List.of(example_inputs));
         answerDTO = quizService.getSampleOutput(answerDTO);
-
-        String[] outputs = new String[exinputs.length + inputs.length];
-
-        for (int i = 0; i < outputs.length; i++) {
-            outputs[i] = answerDTO.getTestCaseResultDTOS().get(i).getResultMessage();
+        String[] exOutputs = new String[example_inputs.length];
+        for (int i = 0; i < example_inputs.length; i++) {
+            exOutputs[i] = answerDTO.getTestCaseResultDTOS().get(i).getResultMessage();
         }
 
-        return String.join("###",outputs);
+        answerDTO.setExampleInputs(List.of(quiz_inputs));
+        answerDTO = quizService.getSampleOutput(answerDTO);
+        String[] qOutputs = new String[quiz_inputs.length];
+        for (int i = 0; i < quiz_inputs.length; i++) {
+            qOutputs[i] = answerDTO.getTestCaseResultDTOS().get(i).getResultMessage();
+        }
+
+        return String.join(",",exOutputs) + "###" + String.join(",",qOutputs);
     }
 }
 
