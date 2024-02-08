@@ -41,7 +41,7 @@ public class NoticeService implements BoardService{
 
 	//add
 	@Override
-	public int getAdd(BoardDTO boardDTO, MultipartFile[] attchs) throws Exception {
+	public int getAdd(BoardDTO boardDTO, MultipartFile[] attachs) throws Exception {
 		// TODO Auto-generated method stub
 		
 		//글 번호 소환
@@ -49,9 +49,9 @@ public class NoticeService implements BoardService{
 		
 		//경로
 		String path = servletContext.getRealPath("/resources/upload/notice");
-		
+		System.out.println(path);
 		//파일명 소환
-		for(MultipartFile f: attchs) {
+		for(MultipartFile f: attachs) {
 			if (f.isEmpty()) {
 				continue;
 			}
@@ -61,7 +61,7 @@ public class NoticeService implements BoardService{
 			BoardFileDTO boardFileDTO = new BoardFileDTO();
 			boardFileDTO.setFile_Name(file_Name);
 			boardFileDTO.setOri_Name(f.getOriginalFilename());
-			boardFileDTO.setFile_Num(boardDTO.getBoard_Num());
+			boardFileDTO.setBoard_Num(boardDTO.getBoard_Num());
 			result = boardDAO.getFileAdd(boardFileDTO);
 		}
 		
