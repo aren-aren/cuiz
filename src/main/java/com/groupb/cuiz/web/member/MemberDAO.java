@@ -93,4 +93,10 @@ public class MemberDAO {
 	public int getKakaoNickCount(MemberDTO dto) throws Exception{
 		return sqlSession.selectOne(namespace+"getKakaoNickCount",dto);
 	}
+	public int setNaver(MemberDTO dto) throws Exception{
+		return sqlSession.insert(namespace+"setNaver",dto);
+	}
+	public int getNaver(MemberDTO dto) throws Exception{
+		return sqlSession.selectOne(namespace+"getNaver",dto);
+	}
 }

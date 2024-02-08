@@ -24,8 +24,7 @@
 		height :200px;
 	}
 	.kakaoLogin{
-		width: 300px;
-		height: 100px;
+		width: 41%;
 	}
 </style>
 <c:import url="../temps/header_css.jsp"></c:import>
@@ -67,11 +66,12 @@
 			<a class="join btn btn-secondary" href="/member/join">회원가입</a>
 		</div>
 		<div>
-			
 				<a href="javascript:kakaoLogin();"><img class="kakaoLogin" src="/resources/assets/images/kakao_login.jpg"/> </a>
-			
 		</div>
-		
+		<div>
+			<a href="/member/naver_login"><img class="kakaoLogin" src="/resources/assets/images/naver_login.png"/> </a>
+		</div>
+
 	</form>
 	<c:import url="../temps/footer.jsp"></c:import>
 	<script src="https://developers.kakao.com/sdk/js/kakao.js"></script>
@@ -80,7 +80,7 @@
 
         function kakaoLogin(){
             window.Kakao.Auth.login({
-                scope: 'profile_nickname,profile_image',
+                scope: 'profile_nickname,profile_image,account_email',
                 success : function(authObj){
                     console.log(authObj);
                     window.Kakao.API.request({
@@ -89,7 +89,7 @@
                             const kakao_account = res.kakao_account;
                             console.log(kakao_account);
 							console.log(kakao_account.profile.nickname);
-							fetch('/member/kakaoLogin?nickname='+kakao_account.profile.nickname,{
+							fetch('/member/kakaoLogin?nickname='+kakao_account.profile.nickname+"&account_Email="+kakao_account.email,{
 								method : 'GET'
 							})
 							.then(res =>res.text())
