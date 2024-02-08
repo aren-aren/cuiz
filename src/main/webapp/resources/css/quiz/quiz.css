@@ -62,3 +62,12 @@ nav > .pagination > .page-item > .page-link:hover{
     padding: 2px;
     margin-bottom: 1.75rem;
 }
+
+.CodeMirror{
+    height: 100% !important;
+}
+
+.note-editable{
+    background-color: white !important;
+    border-radius: 0.375rem;
+}

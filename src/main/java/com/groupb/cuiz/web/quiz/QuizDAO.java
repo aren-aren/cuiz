@@ -15,6 +15,7 @@ public class QuizDAO {
     private final String NAMESPACE = "com.groupb.cuiz.web.quiz.QuizDAO.";
 
     public int addTestcase(Map<String, Object> testcase) throws Exception {
+        System.out.println("testcase = " + testcase);
         return sqlSession.insert(NAMESPACE + "addTestcase", testcase);
     }
 
@@ -28,5 +29,9 @@ public class QuizDAO {
 
     public List<QuizDTO> getList(Pager pager) {
         return sqlSession.selectList(NAMESPACE + "getList", pager);
+    }
+
+    public QuizDTO getDetail(QuizDTO quizDTO) {
+        return sqlSession.selectOne(NAMESPACE + "getDetail", quizDTO);
     }
 }

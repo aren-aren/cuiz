@@ -47,10 +47,8 @@
                                            class="form-control mb-4"
                                            id="quiz_Title"
                                            placeholder="문제 제목을 입력하세요"/>
-                                    <textarea class="form-control mb-3"
-                                              id="quiz_Contents"
+                                    <textarea id="quiz_Contents_summernote"
                                               name="quiz_Contents"
-                                              rows="10"
                                               placeholder="문제 내용을 입력하세요"></textarea>
                                     <wc-codemirror mode="text/x-java"
                                                    class="mb-3"
@@ -147,9 +145,11 @@
     <c:import url="../temps/footer.jsp"></c:import>
     <script type="module" src="https://cdn.jsdelivr.net/gh/vanillawc/wc-codemirror@1/index.js"></script>
     <script type="module" src="https://cdn.jsdelivr.net/gh/vanillawc/wc-codemirror@1/mode/clike/clike.js"></script>
-    <script src="/resources/js/quiz/add.js" type="text/javascript"></script>
+    <script src="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote.min.js"></script>
+    <link href="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote.min.css" rel="stylesheet">
     <link rel="stylesheet"
           href="https://cdn.jsdelivr.net/gh/vanillawc/wc-codemirror@1/theme/tomorrow-night-eighties.css">
+    <script src="/resources/js/quiz/add.js" type="text/javascript"></script>
 
 </body>
 
