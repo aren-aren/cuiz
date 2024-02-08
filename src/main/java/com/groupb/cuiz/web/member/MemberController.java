@@ -29,10 +29,13 @@ public class MemberController {
 	@GetMapping("kakaoJoin")
 	public String setKakao(MemberDTO dto,HttpSession session,ProfileDTO profile,Model model) throws Exception{
 		System.out.println(profile.getNickname());
-		dto.setMember_ID(profile.getNickname());
+		System.out.println("아이디 토큰 : "+profile.getOpenid());
+		dto.setMember_ID(profile.getOpenid());
+		dto.setMember_Nick(profile.getNickname());
 		int check = memberService.getAll(dto);
 		if(check==0) {
 			dto.setMember_Token(1);
+			dto = memberService.getKakaoNickCount(dto);
 			int result = memberService.setKakao(dto);
 			
 			
@@ -74,6 +77,9 @@ public class MemberController {
 			model.addAttribute("result",conatt);
 		}
 		session.setAttribute("member", dto);
+		if(dto.getMember_Profile_Blob()!=null)
+		session.setAttribute("avatar", "data:image/png;base64," + new String(dto.getMember_Profile_Blob(), StandardCharsets.UTF_8));
+		 
 		System.out.println("result : " + result);
 		return "commons/ajaxResult";
 		
@@ -183,6 +189,8 @@ public class MemberController {
 		}
 		else {
 			session.setAttribute("member", dto);
+			session.setAttribute("avatar", "data:image/png;base64," + new String(dto.getMember_Profile_Blob(), StandardCharsets.UTF_8));
+			 
 			return "redirect:/";
 		}
 		session.setAttribute("member", dto);
