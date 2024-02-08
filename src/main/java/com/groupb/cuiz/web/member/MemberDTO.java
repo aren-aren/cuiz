@@ -17,7 +17,7 @@ public class MemberDTO {
 
 	private String member_ID;
 	private String member_Password;
-	private byte [] member_Token;
+	private Integer member_Token;
 	private String member_Email;
 	private Integer member_Flag;
 	private Integer member_Jumsu;
@@ -110,10 +110,11 @@ public class MemberDTO {
 	public void setMember_DelDate(Date member_DelDate) {
 		this.member_DelDate = member_DelDate;
 	}
-	public byte[] getMember_Token() {
+	
+	public Integer getMember_Token() {
 		return member_Token;
 	}
-	public void setMember_Token(byte[] member_Token) {
+	public void setMember_Token(Integer member_Token) {
 		this.member_Token = member_Token;
 	}
 	public MultipartFile getMember_Profile() {
@@ -133,15 +134,6 @@ public class MemberDTO {
 		this.member_Profile_Blob = member_Profile_Blob;
 	}
 	
-	@Override
-	public String toString() {
-		return "MemberDTO [member_ID=" + member_ID + ", member_Password=" + member_Password + ", member_Token="
-				+ Arrays.toString(member_Token) + ", member_Email=" + member_Email + ", member_Flag=" + member_Flag
-				+ ", member_Jumsu=" + member_Jumsu + ", member_Profile=" + member_Profile + ", member_Profile_Blob="
-				+ Arrays.toString(member_Profile_Blob) + ", member_Nick=" + member_Nick + ", member_Role=" + member_Role
-				+ ", member_Coin=" + member_Coin + ", member_PhoneNumber=" + member_PhoneNumber + ", member_RegDate="
-				+ member_RegDate + ", member_DelDate=" + member_DelDate + "]";
-	}
 	
 
 	

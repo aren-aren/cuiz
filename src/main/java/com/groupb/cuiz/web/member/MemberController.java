@@ -8,6 +8,7 @@ import java.util.Map;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -24,6 +25,65 @@ public class MemberController {
 
 	@Autowired
 	private MemberService memberService;
+	
+	@GetMapping("kakaoJoin")
+	public String setKakao(MemberDTO dto,HttpSession session,ProfileDTO profile,Model model) throws Exception{
+		System.out.println(profile.getNickname());
+		System.out.println("아이디 토큰 : "+profile.getOpenid());
+		dto.setMember_ID(profile.getOpenid());
+		dto.setMember_Nick(profile.getNickname());
+		int check = memberService.getAll(dto);
+		if(check==0) {
+			dto.setMember_Token(1);
+			dto = memberService.getKakaoNickCount(dto);
+			int result = memberService.setKakao(dto);
+			
+			
+			model.addAttribute("result", result);
+		
+		return "commons/ajaxResult";
+		}
+		model.addAttribute("result", 0);
+		return "commons/ajaxResult";
+	}
+	
+	@GetMapping("kakaoLogin")
+	public String setKakaoLogin(ProfileDTO profile,HttpSession session,MemberDTO memberDTO,Model model) throws Exception{
+		MemberDTO dto = new MemberDTO();
+		memberDTO.setMember_ID(profile.getNickname());
+		dto = memberService.getKakaoLogin(memberDTO);
+		System.out.println(dto);
+		if(dto==null) {
+			model.addAttribute("result", "null");
+			return "commons/ajaxResult";
+		}
+		
+		if(dto.getMember_Flag()!=0) {
+			 model.addAttribute("msg", "회원탈퇴된 계정입니다.");
+			 model.addAttribute("path", "/");
+			 return "commons/result";
+		 }
+		
+		Map<String, Object> map = memberService.getAtendence(dto);
+		int result = (int) map.get("result");
+		int conatt = (int) map.get("conatt");
+		dto = (MemberDTO)map.get("dto");
+		
+		if(result==0) {
+			model.addAttribute("result", result);
+			
+		}
+		else {
+			model.addAttribute("result",conatt);
+		}
+		session.setAttribute("member", dto);
+		if(dto.getMember_Profile_Blob()!=null)
+		session.setAttribute("avatar", "data:image/png;base64," + new String(dto.getMember_Profile_Blob(), StandardCharsets.UTF_8));
+		 
+		System.out.println("result : " + result);
+		return "commons/ajaxResult";
+		
+	}
 	
 	@GetMapping("delete")
 	public String setDelete(MemberDTO dto, Model model,HttpSession session) throws Exception{
@@ -80,7 +140,7 @@ public class MemberController {
 		int result = memberService.setJoin(dto);
 		memberService.insertRole(roleDTO);
 		
-		model.addAttribute("msg", dto);
+		model.addAttribute("msg", result);
 		
 		return ("redirect:/member/login");
 				
@@ -115,9 +175,6 @@ public class MemberController {
 		 
 		 
 		 
-		session.setAttribute("member", dto);
-		//System.out.println( new String(dto.getMember_Profile_byte(), "UTF-8") );
-		session.setAttribute("avatar", "data:image/png;base64," + new String(dto.getMember_Profile_Blob(), StandardCharsets.UTF_8));
 		Map<String, Object> map = memberService.getAtendence(dto);
 		int result = (int) map.get("result");
 		dto = (MemberDTO)map.get("dto");
@@ -125,14 +182,20 @@ public class MemberController {
 		if(result ==0) {
 			model.addAttribute("msg", "출석 포인트 3점이 지급되었습니다.");
 			model.addAttribute("path", "/");
-			if(dto.getMember_Conatt()==6) {
-				model.addAttribute("msg", "출석 포인트 3점 + 7일 연속 출석 보너스 10점 : 총 13점이 지급되었습니다.");
+			if(dto.getMember_Conatt()==7) {
+				model.addAttribute("msg", "출석 포인트 3점 + 7일 연속 출석 보너스 10점 \n 총 13점이 지급되었습니다.");
 				
 			}
 		}
 		else {
+			session.setAttribute("member", dto);
+			session.setAttribute("avatar", "data:image/png;base64," + new String(dto.getMember_Profile_Blob(), StandardCharsets.UTF_8));
+			 
 			return "redirect:/";
 		}
+		session.setAttribute("member", dto);
+		//System.out.println( new String(dto.getMember_Profile_byte(), "UTF-8") );
+		session.setAttribute("avatar", "data:image/png;base64," + new String(dto.getMember_Profile_Blob(), StandardCharsets.UTF_8));
 		 
 		return "commons/result";
 	}

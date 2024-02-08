@@ -10,9 +10,7 @@
 <title>Insert title here</title>
 <c:import url="../temps/header_css.jsp"></c:import>
 <style>
-	.color-white{
-		color : white;	
-	}
+	
 	.input-join{
 	width: 450px;
 	}
@@ -32,6 +30,10 @@
 	}
 	#join-btn{
 		margin-left : 40px;
+	}
+	.kakaoLogin{
+		width: 400px;
+		height: 200px;
 	}
 </style>
 </head>
@@ -96,15 +98,11 @@
 	</div>
 	<br><br>
 	
-	<div>
-
-		<label for="profile">���� ����</label>
-		<input type="file" id="profile" name="flie" accept="image/*">
-
-		<input id="sns" type="button" value="SNS 들어갈 자리">
-
-	</div>
 	
+
+	<div>
+		<a href="javascript:kakaoLogin();"><img class="kakaoLogin" src="/resources/assets/images/kakao_login.jpg"/> </a>
+	</div>
 	<div>
 		<button id="join-btn" disabled="n" class="btn btn-secondary">회원가입</button>
 	</div>
@@ -112,6 +110,58 @@
 
 	<c:import url="../temps/footer.jsp"></c:import>
 	<script src="/resources/member/join.js"></script>
-	
+	<script src="https://developers.kakao.com/sdk/js/kakao.js"></script>
+    <script>
+        window.Kakao.init("a58598cd3cea0b5410f80d01ccdc89b5");
+
+        function kakaoLogin(){
+            window.Kakao.Auth.login({
+                scope: 'profile_nickname,profile_image,openid',
+                success : function(authObj){
+                    console.log(authObj);
+					console.log("id token = " + authObj.id_token)
+					let id_token = authObj.id_token;
+                    window.Kakao.API.request({
+                        url : '/v2/user/me',
+                        success : res => {
+                            const kakao_account = res.kakao_account;
+                            console.log(kakao_account);
+							console.log(kakao_account.profile.nickname);
+							
+							// fetch('https://kapi.kakao.com/v2/user/me',{
+							// 	headers: {
+							// 	"Authorization": `Bearer${kakao_account.access_token}`,
+							// 	"Content-type": "application/x-www-form-urlencoded;charset=utf-8"   
+							// 	},
+							// 	method : 'POST'
+							// })
+							// .then(res =>res.json())
+							// .then(res=>console.log(res)) 
+							
+
+							fetch('/member/kakaoJoin?nickname='+kakao_account.profile.nickname+"&openid="+id_token,{
+								method : 'GET'
+							})
+							.then(res =>res.text())
+							.then(res => {
+								if(res>0){
+									alert('가입성공');
+									location.href="/";
+								}
+								
+								else{
+								alert("이미 가입된 아이디입니다.");
+								location.href="/member/login";
+								return;}
+							})
+
+							
+                        }
+                    });
+                }
+            })
+        }
+
+    </script>
 </body>
 </html>
