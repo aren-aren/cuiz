@@ -25,7 +25,7 @@
         VALUES (#{quiz_No}, #{member_Id}, #{quiz_Title}, #{quiz_Contents}, #{quiz_Type}, #{quiz_Level}, #{quiz_Point}, #{quiz_Price})
     </insert>
 
-    <select id="getTotalCount" parameterType="Pager">
+    <select id="getTotalCount" parameterType="Pager" resultType="Long">
         SELECT COUNT(QUIZ_NO) FROM QUIZ
         <include refid="search"/>
         <include refid="ordered"/>
@@ -47,6 +47,16 @@
     </sql>
 
     <select id="getList" parameterType="Pager" resultType="QuizDTO">
-        
+        SELECT QUIZ_NO, QUIZ_TITLE, QUIZ_LEVEL
+        FROM(
+            SELECT ROWNUM R, QUIZ_NO, QUIZ_TITLE, QUIZ_LEVEL
+            FROM (
+                SELECT QUIZ_NO, QUIZ_TITLE, QUIZ_LEVEL
+                FROM QUIZ
+                <include refid="search"/>
+                <include refid="ordered"/>
+            )
+        )
+        WHERE R BETWEEN #{startRow} AND #{lastRow}
     </select>
 </mapper>

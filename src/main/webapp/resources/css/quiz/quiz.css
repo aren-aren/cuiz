@@ -1,0 +1,64 @@
+.CodeMirror {
+    font-family: "Courier New", serif;
+    font-size: 16px;
+}
+
+.modal-body{
+    max-height: 40vh;
+    overflow-y: scroll;
+}
+
+.middle-title{
+    font-size: 3rem;
+    text-align: center;
+}
+
+.table-item{
+    font-weight: normal;
+    margin-bottom: 0;
+    padding-bottom: 0;
+}
+
+.quiz-list-item{
+    padding-bottom: 0;
+    margin-bottom: 0;
+}
+
+.table-hover > tbody > tr:hover {
+    --bs-table-hover-bg: #e75e8d;
+}
+
+nav > .pagination > .page-item > .page-link{
+    color:white;
+    background-color: #1e1e1e;
+    border:0;
+}
+
+nav > .pagination > .page-item > .page-link:hover{
+    background-color: #e75e8d
+}
+
+.current-page{
+    background-color: #c73e6d !important;
+}
+
+.form-select > option:checked{
+    background-color: #e75e8d;
+    color: white;
+}
+
+#searchBtn{
+    background-color: #e75e8d;
+    color : white;
+}
+
+#searchBtn:hover{
+    background-color: #c73e6d;
+    border : 0;
+}
+
+
+.row > .col-2, .row > .col-7, .row > .col-1{
+    padding: 2px;
+    margin-bottom: 1.75rem;
+}

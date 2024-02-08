@@ -7,7 +7,7 @@
 <html lang="en">
 
 <c:import url="../temps/header_css.jsp"></c:import>
-<link rel="stylesheet" href="/resources/css/quiz/add.css">
+<link rel="stylesheet" href="/resources/css/quiz/quiz.css">
 
 <body>
 
