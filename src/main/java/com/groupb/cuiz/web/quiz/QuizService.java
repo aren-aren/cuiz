@@ -1,6 +1,7 @@
 package com.groupb.cuiz.web.quiz;
 
 import com.groupb.cuiz.support.util.file.FileManager;
+import com.groupb.cuiz.support.util.pager.Pager;
 import org.apache.commons.exec.*;
 import org.apache.commons.io.output.ByteArrayOutputStream;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,6 +11,7 @@ import javax.servlet.ServletContext;
 import java.io.*;
 import java.time.Duration;
 import java.util.*;
+import java.util.stream.Collectors;
 
 @Service
 public class QuizService {
@@ -55,7 +57,7 @@ public class QuizService {
         return result;
     }
 
-    public MemberAnswerDTO getSampleOutput(MemberAnswerDTO quizSampleDTO) throws Exception {
+    public List<String> getSampleOutput(MemberAnswerDTO quizSampleDTO) throws Exception {
         //문제 예제, 실제 input을 돌려보고 output을 얻는데 사용
         System.out.println("getSampleOutput start");
         List<String> inputs = quizSampleDTO.getExampleInputs();
@@ -69,9 +71,8 @@ public class QuizService {
 
         //컴파일
         if(!compileJava(realPath + "/" + filename + extension)){
-            quizSampleDTO.setAnswerResult(false);
-            quizSampleDTO.setResultMessage("컴파일 에러");
-            return quizSampleDTO;
+            System.out.println("컴파일 에러");
+            return List.of(new String[]{"컴파일 에러"});
         }
 
         TestcaseResultDTO resultDTO = new TestcaseResultDTO();
@@ -91,13 +92,15 @@ public class QuizService {
             }
         }
         System.out.println("getSampleOutput end");
-        return quizSampleDTO;
+        return quizSampleDTO.getTestCaseResultDTOS().stream()
+                .map(TestcaseResultDTO::getResultMessage)
+                .collect(Collectors.toList());
     }
 
     public TestcaseResultDTO runSampleCode(String realPath, String filename, String input) throws IOException {
         //getSampleOutput에서 input을 미리 돌려보고 output을 얻음
         TestcaseResultDTO testcaseResultDTO = new TestcaseResultDTO();
-        String command = String.format("java -cp %s %s", realPath, filename);
+        String command = String.format("java -Dfile.encoding=UTF8 -cp %s %s", realPath, filename);
         String result = sendCommandToScript(command, input);
 
         testcaseResultDTO.setResultMessage(result);
@@ -140,20 +143,38 @@ public class QuizService {
         }
         return answer;
     }
+
+    /**
+     * 자바 UTF-8 컴파일 명령어 생성 후
+     * 생성된 컴파일 명령어로 컴파일 하고 결과를 리턴한다.
+     * @param path
+     * @return
+     */
     public boolean compileJava(String path) {
         //자바파일을 컴파일
-        String command = "javac " + path;
+        String command = "javac -encoding UTF-8 " + path;
         try {
             sendCommandToScript(command, null);
         } catch (IOException e) {
+            System.out.println("e.getMessage() = " + e.getMessage());
             return false;
         }
         return true;
     }
+
+    /**
+     *
+     * @param path
+     * @param filename
+     * @param input
+     * @param output
+     * @return
+     * @throws IOException
+     */
     public TestcaseResultDTO runCode(String path, String filename, String input, String output) throws IOException {
         //코드를 실행해 테스트 케이스를 채점
         TestcaseResultDTO testcaseResultDTO = new TestcaseResultDTO();
-        String command = String.format("java -cp %s %s", path, filename);
+        String command = String.format("java -Dfile.encoding=UTF8 -cp %s %s", path, filename);
         String result = sendCommandToScript(command, input);
 
         if(result.equals("timeout")){
@@ -199,7 +220,7 @@ public class QuizService {
         //시간 제한
         ExecuteWatchdog watchdog = ExecuteWatchdog.builder().setTimeout(Duration.ofSeconds(10)).get();
 
-        executor.setExitValue(0);
+        executor.setExitValues(new int[]{0,1});
         executor.setStreamHandler(streamHandler);
         executor.setWatchdog(watchdog);
 
@@ -209,6 +230,7 @@ public class QuizService {
             exitVal = executor.execute(commandLine);
         } catch (ExecuteException e){
             os.close();
+            System.out.println("e.getMessage() = " + e.getMessage());
             if(watchdog.killedProcess()){
                 return "timeout";
             }
@@ -216,9 +238,24 @@ public class QuizService {
         }
         os.close();
 
+        System.out.println("result = " + outputStream.toString("UTF-8"));
         System.out.println("스크립트 종료--------------" + exitVal);
         return outputStream.toString("UTF-8");
     }
 
 
+    public List<QuizDTO> getList(Pager pager) {
+        Long totalCount = quizDAO.getTotalCount(pager);
+        System.out.println("totalCount = " + totalCount);
+
+        pager.makeRow();
+        pager.makeNum(totalCount);
+
+
+        return quizDAO.getList(pager);
+    }
+
+    public QuizDTO getDetail(QuizDTO quizDTO) {
+        return quizDAO.getDetail(quizDTO);
+    }
 }

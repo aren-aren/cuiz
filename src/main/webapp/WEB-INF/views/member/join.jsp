@@ -146,14 +146,18 @@
 							.then(res =>res.text())
 							.then(res => {
 								if(res>0){
-									alert('가입성공');
-									
+									 alert('가입성공');
+									 //location.href="/";
+								}
+								else if(res==null){
+									alert("회원가입이 안되어있는 아이디입니다.");
+									//location.href="/member/login";
 								}
 								
 								else{
 								alert("이미 가입된 아이디입니다.");
-							}
-							location.href="/member/login";
+								//location.href="/member/login";
+								return;}
 							})
 
 							

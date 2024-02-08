@@ -4,19 +4,6 @@ const addForm = document.getElementById("addForm");
 const sampleRunModal = new bootstrap.Modal(document.getElementById("sampleRunModal"))
 const addSubmit = document.getElementById("addSubmit");
 
-const quiz_Contents_summernote = document.getElementById("quiz_Contents_summernote");
-
-if(quiz_Contents_summernote != null){
-    $(quiz_Contents_summernote).summernote({
-        height : 300,
-        minHeight : 100,
-        maxHeight : 500,
-        toolbar : false,
-        placeholder : "문제 내용을 입력하세요.",
-        backgroundColor : "white"
-    });
-}
-
 addSubmit.addEventListener("click",()=>addForm.submit())
 
 sampleRun.addEventListener("click",()=>{
@@ -32,17 +19,16 @@ sampleRun.addEventListener("click",()=>{
           method : "post",
           body : data
      })
-         .then(res=>res.json())
+         .then(res=>res.text())
          .then(r => {
-             console.log(r);
-             // r = r.split("###");
-             // let data = [];
-             // data.push(...r[0].split(","));
-             // data.push(...r[1].split(","));
-             // showSampleRunModalOutput(data);
-             //
-             // document.getElementById("example_output").value = r[0];
-             // document.getElementById("quiz_output").value = r[1];
+             r = r.split("###");
+             let data = [];
+             data.push(...r[0].split(","));
+             data.push(...r[1].split(","));
+             showSampleRunModalOutput(data);
+
+             document.getElementById("example_output").value = r[0];
+             document.getElementById("quiz_output").value = r[1];
          })
 })
 

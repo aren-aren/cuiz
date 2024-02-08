@@ -1,5 +1,6 @@
 package com.groupb.cuiz.web.quiz;
 
+import com.groupb.cuiz.support.util.pager.Pager;
 import com.groupb.cuiz.web.member.MemberDTO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -10,9 +11,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.servlet.http.HttpSession;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
+import java.util.*;
 
 @Controller
 @RequestMapping("/quiz/*")
@@ -29,6 +28,8 @@ public class QuizController {
     public String addQuiz(QuizDTO quizDTO, String[] example_inputs, String[] example_outputs, String[] quiz_inputs, String[] quiz_outputs, HttpSession session, Model model) throws Exception {
         MemberDTO memberDTO = (MemberDTO)session.getAttribute("member");
         quizDTO.setMember_Id(memberDTO.getMember_ID());
+
+        System.out.println(quizDTO);
 
         System.out.println(Arrays.toString(example_inputs));
         System.out.println(Arrays.toString(quiz_outputs));
@@ -51,7 +52,7 @@ public class QuizController {
 
     @PostMapping("sampleRun")
     @ResponseBody
-    public String sampleRun(String quiz_SampleCode, String[] example_inputs, String[] quiz_inputs, HttpSession session) throws Exception {
+    public SampleRunResult sampleRun(String quiz_SampleCode, String[] example_inputs, String[] quiz_inputs, HttpSession session) throws Exception {
         MemberDTO memberDTO = (MemberDTO) session.getAttribute("member");
 
         System.out.println(quiz_SampleCode);
@@ -63,20 +64,31 @@ public class QuizController {
         answerDTO.setMember_Id(memberDTO.getMember_ID());
 
         answerDTO.setExampleInputs(List.of(example_inputs));
-        answerDTO = quizService.getSampleOutput(answerDTO);
-        String[] exOutputs = new String[example_inputs.length];
-        for (int i = 0; i < example_inputs.length; i++) {
-            exOutputs[i] = answerDTO.getTestCaseResultDTOS().get(i).getResultMessage();
-        }
+        List<String> exOutputs = quizService.getSampleOutput(answerDTO);
 
         answerDTO.setExampleInputs(List.of(quiz_inputs));
-        answerDTO = quizService.getSampleOutput(answerDTO);
-        String[] qOutputs = new String[quiz_inputs.length];
-        for (int i = 0; i < quiz_inputs.length; i++) {
-            qOutputs[i] = answerDTO.getTestCaseResultDTOS().get(i).getResultMessage();
-        }
+        List<String> qOutputs = quizService.getSampleOutput(answerDTO);
 
-        return String.join(",",exOutputs) + "###" + String.join(",",qOutputs);
+        System.out.println("qOutputs = " + qOutputs);
+        System.out.println("exOutputs = " + exOutputs);
+
+        return SampleRunResult.createResult(exOutputs,qOutputs);
+    }
+
+    @GetMapping("list")
+    public String getList(Pager pager, Model model){
+        List<QuizDTO> quizList = quizService.getList(pager);
+        model.addAttribute("list", quizList);
+
+        return "quiz/list";
+    }
+
+    @GetMapping("solve")
+    public String solveQuiz(QuizDTO quizDTO, Model model){
+        quizDTO = quizService.getDetail(quizDTO);
+        model.addAttribute("dto", quizDTO);
+
+        return "quiz/solve";
     }
 }
 
