@@ -32,13 +32,17 @@
         <div class="page-content">
 
           <!-- ***** Banner Start ***** -->
+          <form id="contactForm" action="delete" method="post" enctype="multipart/form-data">
           <div class="row">
             <div class="col-lg-12">
               <div class="main-profile">
                 <div class="row">
-                  <c:forEach items="${BoardDTO.fileDTOs}" var="f">
+                  <c:forEach items="${dto.fileDTOs}" var="f">
                     <div class="col-lg-4">
-                      <img src="../resources/upload/notice/${f.file_Name}">
+                      <!-- <img src="../resources/upload/${board}/${f.file_Name}"> -->
+                      <!--  <a href="/resources/upload/${board}/${f.file_Name}">${f.ori_Name}</a> -->
+                      <img src ="/resources/upload/${kind}/${f.file_Name}"   >
+                      
                     </div>
                   </c:forEach>
                   <div class="col-lg-4 align-self-center">
@@ -46,12 +50,14 @@
                       <span>${board} Detail</span>
                       <h4>${dto.board_Title}</h4>
                       <p>${dto.board_Contents}</p>
-                      <!-- <c:if test="${boardDTO.member_ID eq memberDTO.member_ID}"> -->
+                      <c:if test="${boardDTO.member_ID eq member.member_ID}">
                           <div class="main-border-button">
-                            <a href="./update">Update</a>
+                            <a href="./update?board_Num=${dto.board_Num}">Update</a>
                             <a id="delete" href="#">Delete</a>
                           </div>
-                      <!-- </c:if> -->
+                          <input type="hidden" name="board_Num" value="${boardDTO.board_Num}">
+                      </c:if>
+                      </form>
                     </div>
                   </div>
                 </div>
@@ -68,5 +74,15 @@
   <c:import url="../temps/footer.jsp"></c:import>
 
   </body>
+
+  <script>
+  const del = document.getElementById("delete");
+  const frm = document.querySelector("#contactForm");
+
+  del.addEventListener("click", (e)=>{
+      e.preventDefault();
+      contactForm.submit();
+  });
+  </script>
 
 </html>
