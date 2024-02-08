@@ -3,6 +3,15 @@ package com.groupb.cuiz.web.member;
 public class ProfileDTO {
 	private String nickname;
 	private String profile_image_url;
+	private String account_Email;
+	
+	
+	public String getAccount_Email() {
+		return account_Email;
+	}
+	public void setAccount_Email(String account_Email) {
+		this.account_Email = account_Email;
+	}
 	public String getNickname() {
 		return nickname;
 	}

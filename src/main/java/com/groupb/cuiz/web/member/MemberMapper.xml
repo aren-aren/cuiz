@@ -9,17 +9,30 @@
  	<!-- 카카오 로그인관련 -->
  	<insert id="setKakao" parameterType="MemberDTO">
  		INSERT INTO MEMBER
- 		(MEMBER_ID,MEMBER_TOKEN) VALUES (#{member_ID},1)
+ 		(MEMBER_ID,MEMBER_TOKEN,MEMBER_NICK) VALUES (#{member_ID},1,#{member_Nick})
  	</insert>
  	<!-- 내 아이디가 있는지 체크 WHY ? 기억안남 -->
  	<select id="getAll" parameterType="MemberDTO" resultType="int">
  		SELECT COUNT(MEMBER_ID) FROM MEMBER WHERE MEMBER_ID =#{member_ID}
  	</select>
+ 	<!-- 로그인 -->
  	<select id="getKakaoLogin" resultType="MemberDTO" parameterType="MemberDTO">
  		SELECT * FROM MEMBER WHERE MEMBER_ID = #{member_ID}
  	</select>
+ 	<!--  카카오 닉네임이 db에 있는지 확인 -->
+ 	<select id="getKakaoNickCount" resultType="int" parameterType="MemberDTO">
+ 		SELECT COUNT(MEMBER_NICK) FROM MEMBER WHERE MEMBER_NICK LIKE #{member_Nick}||'#%' 
+ 	</select>
  	
- 	
+ 	<!-- 굳이굳이 네이버로그인 따로 만들거임 태클 ㄴ -->
+ 	<insert id="setNaver" parameterType="MemberDTO">
+ 		INSERT INTO MEMBER
+ 		(MEMBER_ID,MEMBER_TOKEN,MEMBER_NICK,MEMBER_EMAIL) VALUES
+ 		(#{member_ID},#{member_Token},#{member_Nick},#{member_Email})
+ 	</insert>
+ 	<select id="getNaver" parameterType="MemberDTO" resultType="int" >
+ 		SELECT COUNT(MEMBER_ID) FROM MEMBER WHERE MEMBER_ID = #{member_id} AND MEMBER_TOKEN = #{member_Token}
+ 	</select>
  	
  	<!-- 회원가입 -->
  	<insert id="setJoin" parameterType="MemberDTO">
@@ -41,7 +54,7 @@
  	</select>
  	
  	<select id="getDetail" resultType="MemberDTO" parameterType="MemberDTO">
- 		SELECT * FROM MEMBER WHERE MEMBER_ID = #{member_ID} AND MEMBER_PASSWORD = #{member_Password}
+ 		SELECT * FROM MEMBER WHERE MEMBER_ID = #{member_ID} AND ( MEMBER_PASSWORD = #{member_Password} OR MEMBER_TOKEN >0 )
  	</select>
  	
 

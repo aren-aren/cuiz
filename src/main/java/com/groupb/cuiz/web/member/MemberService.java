@@ -18,6 +18,11 @@ public class MemberService {
 	@Autowired
 	private MemberDAO dao;
 	
+	public int setNaver(MemberDTO dto) throws Exception{
+		int result = dao.setNaver(dto);
+		result = dao.setDefaultRole(dto);
+		return result;
+	}
 	
 	public MemberDTO get() throws Exception{
 		return dao.get();
@@ -129,6 +134,20 @@ public class MemberService {
 	}
 	
 	
+	public MemberDTO getKakaoNickCount(MemberDTO dto) throws Exception{
+		int count = dao.getKakaoNickCount(dto);
+		String tag = dto.getMember_Nick()+"#"+(count+1);
+		
+		dto.setMember_Nick(tag);
+		
+		return dto;
+	}
+	
+	public int getNaver(MemberDTO dto) throws Exception{
+		int result = dao.getNaver(dto);
+		
+		return result;
+	}
 
 	
 }

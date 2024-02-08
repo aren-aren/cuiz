@@ -61,12 +61,12 @@ public class NoticeDAO implements BoardDAO{
 		return sqlSession.delete(namespace+"getDelete", boardDTO);
 	}
 
-	public int getFileAdd(BoardFileDTO boardFileDTO) {
+	public int getFileAdd(BoardFileDTO boardFileDTO) throws Exception{
 		// TODO Auto-generated method stub
 		return sqlSession.insert(namespace+"getFileAdd", boardFileDTO);
 	}
 
-	public List<BoardFileDTO> getFileList(BoardDTO boardDTO) {
+	public List<BoardFileDTO> getFileList(BoardDTO boardDTO) throws Exception{
 		// TODO Auto-generated method stub
 		return sqlSession.selectList(namespace+"getFileList", boardDTO);
 	}

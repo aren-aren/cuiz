@@ -72,7 +72,7 @@
   			BOARD_TITLE=#{board_Title},
   		</if>
   		<if test="board_Contents !=null">
-  			BOARD_CONTENTS=#{board_Contens}
+  			BOARD_CONTENTS=#{board_Contents}
   		</if>
   	</set>
   	WHERE BOARD_NUM=#{board_Num}
@@ -93,7 +93,7 @@
   	INSERT INTO NOTICE_FILE
   	(FILE_NUM, BOARD_NUM, FILE_NAME, ORI_NAME)
   	VALUES
-  	(BOARD_SEQ.NEXTVAL, #{board_Num}, #{file_Name}, #{ori_Name})
+  	(NOTICE_SEQ.NEXTVAL, #{board_Num}, #{file_Name}, #{ori_Name})
   </insert>
   
   <sql id="search">

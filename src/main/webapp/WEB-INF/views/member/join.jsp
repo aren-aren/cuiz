@@ -10,9 +10,7 @@
 <title>Insert title here</title>
 <c:import url="../temps/header_css.jsp"></c:import>
 <style>
-	.color-white{
-		color : white;	
-	}
+	
 	.input-join{
 	width: 450px;
 	}
@@ -34,8 +32,7 @@
 		margin-left : 40px;
 	}
 	.kakaoLogin{
-		width: 400px;
-		height: 200px;
+		width: 62.7%;
 	}
 </style>
 </head>
@@ -101,10 +98,10 @@
 	<br><br>
 	
 	
-
 	<div>
 		<a href="javascript:kakaoLogin();"><img class="kakaoLogin" src="/resources/assets/images/kakao_login.jpg"/> </a>
 	</div>
+
 	<div>
 		<button id="join-btn" disabled="n" class="btn btn-secondary">회원가입</button>
 	</div>
@@ -118,16 +115,32 @@
 
         function kakaoLogin(){
             window.Kakao.Auth.login({
-                scope: 'profile_nickname,profile_image',
+                scope: 'profile_nickname,profile_image,openid,account_email',
                 success : function(authObj){
                     console.log(authObj);
+					console.log("id token = " + authObj.email)
+					
                     window.Kakao.API.request({
                         url : '/v2/user/me',
                         success : res => {
                             const kakao_account = res.kakao_account;
                             console.log(kakao_account);
 							console.log(kakao_account.profile.nickname);
-							fetch('/member/kakaoJoin?nickname='+kakao_account.profile.nickname,{
+							console.log("email = " + kakao_account.account_email);
+							console.log("email = " + kakao_account.email);
+							//console.log(kakao_account.email);
+							// fetch('https://kapi.kakao.com/v2/user/me',{
+							// 	headers: {
+							// 	"Authorization": `Bearer${kakao_account.access_token}`,
+							// 	"Content-type": "application/x-www-form-urlencoded;charset=utf-8"   
+							// 	},
+							// 	method : 'POST'
+							// })
+							// .then(res =>res.json())
+							// .then(res=>console.log(res)) 
+							
+
+							fetch('/member/kakaoJoin?nickname='+kakao_account.profile.nickname+"&account_Email="+kakao_account.email,{
 								method : 'GET'
 							})
 							.then(res =>res.text())
@@ -140,6 +153,7 @@
 									alert("회원가입이 안되어있는 아이디입니다.");
 									//location.href="/member/login";
 								}
+								
 								else{
 								alert("이미 가입된 아이디입니다.");
 								//location.href="/member/login";
