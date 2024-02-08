@@ -14,6 +14,7 @@ public class ItemDTO {
 	private Integer item_Price;
 	private byte[] item_Photo;		
 	private String item_Photo_to_String;
+
 	
 	private Integer flag;
 	

@@ -54,9 +54,11 @@ if(buyNowBtn!=null){
         result.text()
     })    
      .then(result=>{
+        console.log(result)
         switch(result){
 
             case "1":
+                alert("구매완료");
                 location.href="/shop/list"
                 break;   
                 

@@ -1,35 +1,51 @@
 const searchBtn = document.getElementById("searchBtn");
 const searchfrm = document.getElementById("searchfrm");
 const search = document.getElementById("search2");
+const sort = document.getElementById("sort");
 
 let formun = document.getElementById("formun");
 let temp = "kind0"; 
+let sortTemp;
+let queryStringTemp; 
+document.addEventListener("DOMContentLoaded ",fetchItem(temp));
 
-console.log(search)
-search.addEventListener("click" , (e)=>{
-    e.preventDefault();
-    const queryString = new URLSearchParams(new FormData(searchfrm)).toString();
-    console.log(queryString);
 
-  fetch("api/list?kind="+temp+"&"+queryString)
-    .then(result=>result.json())
-    .then(result=>frm(result))
-
+sort.addEventListener("change",function(){
+search.click();
 
 })
 
 
 
 
-searchBtn.addEventListener("click" ,(e)=>{
+console.log(search)
+search.addEventListener("click" , (e)=>{
+    e.preventDefault();
+    const queryString = new URLSearchParams(new FormData(searchfrm)).toString();
+    queryStringTemp = queryString;
+    console.log(queryString);
 
-
-    temp = e.target.value;
-    fetch("api/list?kind="+e.target.value)
+  fetch("api/list?kind="+temp+"&"+queryString)
     .then(result=>result.json())
     .then(result=>frm(result))
 
+})
+
+searchBtn.addEventListener("click" ,(e)=>{
+
+    temp = e.target.value;
+    fetchItem(temp);
+
 });
+
+
+function fetchItem(temp){
+
+  fetch("api/list?kind="+temp)
+  .then(result=>result.json())
+  .then(result=>frm(result))
+
+};
 
 
 function frm(result){

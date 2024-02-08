@@ -171,6 +171,7 @@
 
 
           <!-- ***** Live Stream Start ***** -->
+			  <!-- ***** Item NAV Start ***** -->	 
           <div class="most-popular">
             <div class="row">
               <div class="col-lg-12">
@@ -179,9 +180,16 @@
 				    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarTogglerDemo01" aria-controls="navbarTogglerDemo01" aria-expanded="false" aria-label="Toggle navigation">
 				      <span class="navbar-toggler-icon"></span>
 				    </button>
+				    
+			  
 				    <div class="collapse navbar-collapse" id="navbarTogglerDemo01">
-				      <a class="navbar-brand text-danger" href="#">Hidden brand</a>
+				      <c:if test="${fn:toUpperCase(member.member_Role)=='ADMIN'}">     
+				   		
+				   		   <a class="navbar-brand text-danger" href="add">Insert Item</a>
+				   		
+				   	  </c:if>
 				      <div id="searchBtn">
+				      <form class="d-flex" role="search" id="searchfrm">
 					      <ul class="navbar-nav me-auto mb-2 mb-lg-0">
 					       <li class="nav-item ">
 					          <button class=" text-danger" type="button" aria-current="page" value="kind0">전체</button>
@@ -192,27 +200,44 @@
 					        <li class="nav-item ">
 					          <button class=" text-danger" type="button" aria-current="page"  value="kind1">현금</button>
 					        </li>
-					        <li class="nav-item text-danger">
-					           <c:if test="${fn:toUpperCase(member.member_Role)=='ADMIN'}">             
-							          <button class=" text-danger" type="button" aria-current="page" href="#" value="kind1">삭제된 아이템</button>
-							         <div class="main-button col-rg-4">
-					                    <a href="add">Insert Item</a>
-					                </div>
-			                   </c:if>
+					        <c:if test="${fn:toUpperCase(member.member_Role)=='ADMIN'}">     
+					        	<li class="nav-item text-danger">					               
+							         <button class=" text-danger" type="button" aria-current="page" href="#" value="kind1">삭제된 아이템</button>
+							       
+					       		</li>
+			                </c:if>
+					        <li>
+						        <select name="sort" id="sort">
+						       		<option>정렬</option>
+									<option value="PricaeAsc">가격:오름차순</option>
+									<option value="PricaeDesc">가겨:내림차순</option>				       		
+						       	</select>
 					        </li>
+					        <li>
+						        <select name="searchItem">
+									<option value="itemName">제목</option>
+									<option value="itemContents">내용</option>
+						       		<option value="itemAll">제목+내용</option>
+					     	  	</select>
+					        </li>
+					        <li>
+					       	 <input class="form-control me-2" type="search" name="search" placeholder="Search" aria-label="Search">
+					        
+					        </li>
+					        <li>
+					     	  	 <button class="main-border-button button" id="search2"  type="button">Search</button>
+					        </li>				        
+					     
 					      </ul>
 				      </div>
-				      <form class="d-flex" role="search" id="searchfrm">
+				      
 				      <div class="main-button" >
-				       	<select name="searchItem">
-							<option value="itemName">제목</option>
-							<option value="itemContents">내용</option>
-				       		<option value="itemAll">제목+내용</option>
-				       	</select>
+				       	
 				     
-				        <input class="form-control me-2" type="search" name="search" placeholder="Search" aria-label="Search">
-				        <button class="main-border-button button" id="search2"  type="button">Search</button>
+				        
+				       
 				       </div>
+				       	
 				      </form>
 				    </div>
 				  </div>

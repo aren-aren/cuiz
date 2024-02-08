@@ -38,7 +38,7 @@ public class ItemService {
 		
 		if(itemDTO.getItem_Photo()!=null) {
 //			System.out.println("service.getDetail  : " + itemDTO.getItem_Photo());			
-			String photo = new String(itemDTO.getItem_Photo(),"UTF-8");
+			String photo = new String(itemDTO.getItem_Photo());
 			itemDTO.setItem_Photo_to_String(photo);
 		}
 		
@@ -53,7 +53,8 @@ public class ItemService {
 		
 		if(!file.isEmpty()) {
 			
-			byte[] photo = photoEncoder(file); 
+			byte[] photo = fileToBlob(file); 
+		
 			System.out.println(photo);
 			itemDTO.setItem_Photo(photo);			
 		}
@@ -78,7 +79,7 @@ public class ItemService {
 		System.out.println("Service!!   "+ file);
 
 		if(!file.isEmpty()) {
-			byte[] photo = photoEncoder(file); 	
+			byte[] photo = fileToBlob(file); 	
 			System.out.println("after encoding"+ photo);
 			itemDTO.setItem_Photo(photo);			
 		}
@@ -108,12 +109,13 @@ public class ItemService {
 	return ar;		
 	}
 	
+
 	
-	public byte[] photoEncoder(MultipartFile file) throws IOException {
+	public byte[] fileToBlob(MultipartFile file) throws IOException {
 		
-		byte[] photo = Base64.getEncoder().encode(file.getBytes()); 
+		byte[] blob = Base64.getEncoder().encode(file.getBytes()); 
 		
-		return photo;
+		return blob;
 		
 	}
 	

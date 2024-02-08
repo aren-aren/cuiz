@@ -44,7 +44,7 @@ public class ItemContoller {
 	@GetMapping("list")
 	public String getList(Model model, Pager pager ) {
 		
-		
+		System.out.println(pager.getKind());	
 		List<ItemDTO> ar = itemService.getList(pager); 		
 		model.addAttribute("list", ar);
 		
@@ -87,17 +87,24 @@ public class ItemContoller {
 	public String setItem(ItemDTO itemDTO, MultipartFile file, Model model) throws Exception {
 		System.out.println("add start");
 			
-		System.out.println(file);
+//		System.out.println(file.toString());
 		
 		int result = itemService.add(itemDTO, file);
 		
-		System.out.println("test :" + itemDTO);
-		
-		System.out.println(result);
+//		System.out.println("testasdasdasdasda :" + itemDTO);
+//		
+//		System.out.println(result);
 		
 		model.addAttribute("msg", "추가완료");
 		model.addAttribute("path", "/shop/list");
-		return "/commons/result";
+		
+		if(result==0) {
+
+			model.addAttribute("msg", "추가실패");
+			model.addAttribute("path", "/shop/list");
+		}
+		
+		return "commons/result";
 	}
 	
 	@PostMapping("delete")

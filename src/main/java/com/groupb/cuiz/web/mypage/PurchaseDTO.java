@@ -2,7 +2,7 @@ package com.groupb.cuiz.web.mypage;
 
 import java.sql.Date;
 
-public class Purchase_ListDTO {
+public class PurchaseDTO {
 
 
 	public Integer Item_Num;

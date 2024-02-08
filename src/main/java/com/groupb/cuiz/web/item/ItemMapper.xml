@@ -32,10 +32,10 @@
  
  <sql id="sort">
  	<if test = "sort=='PricaeAsc'">
- 	ORDER BY ITEM_PRICE ASC;
+ 	ORDER BY ITEM_PRICE ASC
  	</if>
  	<if test = "sort=='PricaeDesc'">
- 	ORDER BY ITEM_PRICE ASC;
+ 	ORDER BY ITEM_PRICE DESC
  	</if>
  	
  </sql>
@@ -71,7 +71,7 @@
 		  ITEM_NUM BETWEEN 0 and 10000
 		</if>		
 		<if test="kind=='kind3'">
-		 ITEM_NUM FLAG = 0
+		  FLAG = 0
 		</if>	
 				
 	</where>
