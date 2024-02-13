@@ -56,7 +56,7 @@
 								<c:set var="f" value="0"></c:set>
 								
 								<c:catch>
-									<c:set var="f" value="${dto.flag }"></c:set>
+									<c:set var="f" value="${dto.flag}"></c:set>
 										<c:if test="${f eq 1 }">
 												<li><h3></h3></li>
 												<li><h3>삭제된 게시판입니다.</h3></li>
