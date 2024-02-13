@@ -7,7 +7,7 @@
 <meta charset="UTF-8">
 <title>Insert title here</title>
 	<c:import url="../temps/header_css.jsp"></c:import>
-	<style>
+<style>
 	#table{
 		margin-top : 10%;
 		
@@ -18,11 +18,9 @@
 	.member_role{
 		width : 100px;
 	}
-	.delete{
-		width : 50px;
-		
-	}
+	
 	</style>
+
 </head>
 	
 <body>
@@ -32,30 +30,22 @@
 		<tr>
 			<th class="color-white">아이디</th>
 			<th class="color-white">닉네임</th>
-			<th class="color-white">가입일</th>
+			<th class="color-white">탈퇴일</th>
 			<th class="color-white">권한</th>
-			<th class="color-white">권한 변경</th>
-			<th class="color-white">회원 추방</th>
+			<th class="color-white">계정 복구</th>
 		</tr>
 		<c:forEach items="${list}" var="dto" >
-			<c:if test="${dto.member_Flag == 0}">
+			
 		<tr>
 			<td class="color-white memberid">${dto.member_ID}</td>
 			<td class="color-white">${dto.member_Nick}</td>
-			<td class="color-white">${dto.member_RegDate}</td>
+			<td class="color-white">${dto.member_DelDate}</td>
 			<td class="color-white member_role">${dto.member_Role}</td>
-			<td class="color-white"> <select class="member_role form-select" data-ID="${dto.member_ID}" data-role="${dto.member_Role}" >
-					<option  value="ADMIN">관리자</option>
-					<option  value="MEMBER">멤버</option>
-				</select>
-		 	</td>
-		 	<td class="color-white"><a href="/member/user_delete?member_ID=${dto.member_ID}" class="btn btn-primary">X</a></td>
-		</tr>
-			</c:if>
+			<td class="color-white"><a href="/member/user_recovered?member_ID=${dto.member_ID}" class="btn btn-primary">V</a></td>
 		</c:forEach>
 	</table>
+
 	
 	<c:import url="../temps/footer.jsp"></c:import>
-	<script src="/resources/member/updateRole.js"></script>
 </body>
 </html>

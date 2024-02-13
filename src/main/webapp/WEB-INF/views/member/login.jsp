@@ -24,7 +24,7 @@
 		height :200px;
 	}
 	.kakaoLogin{
-		width: 41%;
+		width: 26%;
 	}
 </style>
 <c:import url="../temps/header_css.jsp"></c:import>
