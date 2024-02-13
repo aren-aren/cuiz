@@ -32,7 +32,6 @@
         <div class="page-content">
 
           <!-- ***** Banner Start ***** -->
-          <form id="contactForm" action="delete" method="post" enctype="multipart/form-data">
           <div class="row">
             <div class="col-lg-12">
               <div class="main-profile">
@@ -41,7 +40,7 @@
                     <div class="col-lg-4">
                       <!-- <img src="../resources/upload/${board}/${f.file_Name}"> -->
                       <!--  <a href="/resources/upload/${board}/${f.file_Name}">${f.ori_Name}</a> -->
-                      <img src ="/resources/upload/${kind}/${f.file_Name}"   >
+                      <img src ="/resources/upload/${kind}/${f.file_Name}">
                       
                     </div>
                   </c:forEach>
@@ -50,20 +49,25 @@
                       <span>${board} Detail</span>
                       <h4>${dto.board_Title}</h4>
                       <p>${dto.board_Contents}</p>
-                      <c:if test="${boardDTO.member_ID eq member.member_ID}">
-                          <div class="main-border-button">
-                            <a href="./update?board_Num=${dto.board_Num}">Update</a>
-                            <a id="delete" href="#">Delete</a>
-                          </div>
-                          <input type="hidden" name="board_Num" value="${boardDTO.board_Num}">
-                      </c:if>
-                      </form>
+	                     <c:if test="${boardDTO.member_ID eq member.member_ID}">
+	          				<form id="contactForm" action="delete" method="post" enctype="multipart/form-data">
+	                          <div class="main-border-button">
+	                            <a href="./update?board_Num=${dto.board_Num}">Update</a>
+	                            <a id="delete" href="#">Delete</a>
+	                          </div>
+	                          <input type="hidden" name="board_Num" value="${boardDTO.board_Num}">
+	          				</form>
+	                     </c:if>
+                      
                     </div>
                   </div>
+                  
                 </div>
               </div>
             </div>
           </div>
+          
+          
         </div>
       </div>
     </div>

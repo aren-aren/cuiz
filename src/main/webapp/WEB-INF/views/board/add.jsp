@@ -47,7 +47,7 @@
 											</div>
 											<!-- Message input-->
 											<div class="form-floating mb-3">
-												<textarea class="form-control" name="board_Contents" id="message" type="text" placeholder="Contents" style="height: 40rem" data-sb-validations="required"></textarea>
+												<textarea class="form-control" name="board_Contents" id="message" placeholder="Contents" style="height: 40rem" data-sb-validations="required"></textarea>
 												<label for="message">Contents</label>
 												<div class="invalid-feedback" data-sb-feedback="name:required">필수항목 입니다</div>
 											</div>
