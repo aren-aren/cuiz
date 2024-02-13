@@ -36,19 +36,19 @@
             <div class="col-lg-12">
               <div class="feature-banner header-text">
                 <div class="row">
-                 <!--  <div class="col-lg-4">
-                    <img src="/resources/assets/images/feature-left.jpg" alt="" style="border-radius: 23px;">
-                  </div> -->
-                  <!-- <div class="col-lg-8">
+           		  <div class="col-lg-4">
+                    <img src="data:image/jpeg;base64,${dto.item_Photo_to_String}" alt="" style="border-radius: 23px;">
+                  </div> 
+                  <div class="col-lg-8">
                      <div class="thumb">
                       <img src="/resources/assets/images/feature-right.jpg" alt="" style="border-radius: 23px;">
                       <a href="https://www.youtube.com/watch?v=r1b03uKWk_M" target="_blank"><i class="fa fa-play"></i></a>
                     </div> 
-                  </div> -->
+                  </div>
                 </div>
               </div>
             </div>
-          </div>
+          </div> -
           <!-- ***** Featured End ***** -->
 
           <!-- ***** Details Start ***** -->
@@ -93,10 +93,18 @@
                     </div>
                     <div class="col-lg-12">
                       <p> ${dto.item_Contents}</p>
-                    <div class="col-lg-12">
-                      <div class="main-border-button">
-                        <a href="#">Buy ${dto.item_Name} Now!</a>
-                      </div>
+                    <div class="col-lg-8">
+                      	<form id="delBtnFrm">
+                      		<input type="hidden" id="item_Num" name="item_Num" value="${dto.item_Num}">
+	                      <div class="main-border-button">
+	                        <button  type="button"   id="buyNowBtn">Buy ${dto.item_Name} Now!</button>
+	                        <button  type="button"   id="adCartBtn">Jangbaguni</button>
+	                      </div>
+	                       <div class="main-border-button">                       	           
+		                    <button type="button"   id="updateBtn">Update</button> 
+		                    <button type="button"   id="deleteBtn">Delete</button>
+		                    </div> 
+                      	</form>
                     </div>
                   </div>
                 </div>
@@ -183,5 +191,6 @@
   </div>  
   <c:import url="../temps/footer.jsp"></c:import>
   </body>
-
+  	<script src="/resources/js/shop/detail.js"></script>
+	
 </html>

@@ -10,28 +10,101 @@
 
 <select id="getDetail" parameterType="ItemDTO" resultType="ItemDTO">
 
-	SELECT * FROM ITEM WHERE ITEM_NUM = ${item_Num}
+ 	SELECT * FROM ITEM WHERE ITEM_NUM = #{item_Num}
 
 </select>
-
  
  <!-- List -->
  
- <select id="getList" resultType="ItemDTO">
+ <select id="getList" resultType="ItemDTO" parameterType="Pager">
  
-	SELECT * FROM ITEM
+	SELECT * FROM
+	(
+	SELECT ROWNUM R, I.* FROM
+		(
+		SELECT * FROM item 
+		<include refid="kind"/>
+		 <include refid="sort"/> 
+		) I  <include refid="searchItem"/>   ORDER BY R ASC
+	)RN
  
  </select>
  
+ <sql id="sort">
+ 	<if test = "sort=='PricaeAsc'">
+ 	ORDER BY ITEM_PRICE ASC
+ 	</if>
+ 	<if test = "sort=='PricaeDesc'">
+ 	ORDER BY ITEM_PRICE DESC
+ 	</if>
+ 	
+ </sql>
+ 
+ 
+<sql id="searchItem">
+	<where>	
+		<if test="searchItem =='itemName'">
+		 ITEM_NAME LIKE '%'||#{search}||'%'
+		</if>
+		<if test="searchItem =='itemContents'">
+		 ITEM_CONTENTS LIKE '%'||#{search}||'%'
+		</if>
+		<if test="searchItem =='itemAll'">
+		 ITEM_CONTENTS LIKE '%'||#{search}||'%' AND ITEM_NAME LIKE '%'||#{search}||'%'
+		</if>
+	</where>
+
+</sql>
+ 
+
+
+<sql id="kind">
+
+	<where>	
+		<if test="kind=='kind0'">
+		 ITEM_NUM BETWEEN 0 and 99999
+		</if>		
+		<if test="kind=='kind1'">
+		 ITEM_NUM BETWEEN 10000 and 11000
+		</if>
+		<if test="kind=='kind2'">
+		  ITEM_NUM BETWEEN 0 and 10000
+		</if>		
+		<if test="kind=='kind3'">
+		  FLAG = 0
+		</if>	
+				
+	</where>
+
+</sql>
 
 <!-- insert -->
 
- <insert id="setItem" parameterType="ItemDTO">
+ <insert id="add" parameterType="ItemDTO">
  
- 	INSERT INTO ITEM (ITEM_NUM,ITEM_NAME,ITEM_CONTENTS,ITEM_PRICE)
-	VALUES (#{item_Num},#{item_Name},#{item_Contents},#{item_Price})
+ 	INSERT INTO ITEM (ITEM_NUM,ITEM_NAME,ITEM_CONTENTS,ITEM_PRICE,ITEM_PHOTO)
+	VALUES (#{item_Num},#{item_Name},#{item_Contents},#{item_Price},#{item_Photo})
  
  </insert>
+ 
+ <!-- 삭제 -->
+ 
+ <update id="delete" parameterType="ItemDTO">
+ 
+ UPDATE ITEM SET FLAG = 0 WHERE ITEM_NUM = #{item_Num}
+  
+ </update>
+ 
+ <!-- update -->
+<update id="update" parameterType="ItemDTO">
+
+ UPDATE ITEM SET  	
+ 	ITEM_NAME = #{item_Name},
+ 	ITEM_CONTENTS = #{item_Contents},
+ 	ITEM_PRICE = #{item_Price},
+ 	ITEM_PHOTO = #{item_Photo}
+	WHERE ITEM_NUM = #{item_Num}
+</update> 
  
  
  

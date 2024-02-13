@@ -1,5 +1,5 @@
 (function ($) {
-	
+	console.log("asdasdasd")
 	"use strict";
 
 	// Page loading animation
@@ -23,6 +23,7 @@
         }
     });
 
+
 	// $(window).scroll(function() {
 	//   var scroll = $(window).scrollTop();
 	//   var box = $('.header-text').height();
@@ -37,8 +38,8 @@
 	
 	$('.filters ul li').click(function(){
         $('.filters ul li').removeClass('active');
+          console.log(this);
         $(this).addClass('active');
-          
           var data = $(this).attr('data-filter');
           $grid.isotope({
             filter: data

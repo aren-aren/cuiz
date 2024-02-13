@@ -17,7 +17,7 @@ public class MemberDTO {
 
 	private String member_ID;
 	private String member_Password;
-	private byte [] member_Token;
+	private Integer member_Token;
 	private String member_Email;
 	private Integer member_Flag;
 	private Integer member_Jumsu;
@@ -29,6 +29,19 @@ public class MemberDTO {
 	private String member_PhoneNumber;
 	private Date member_RegDate;
 	private Date member_DelDate;
+
+
+	private Integer member_Conatt;
+	
+	
+	
+	public Integer getMember_Conatt() {
+		return member_Conatt;
+	}
+	public void setMember_Conatt(Integer member_Conatt) {
+		this.member_Conatt = member_Conatt;
+	}
+
 	public String getMember_ID() {
 		return member_ID;
 	}
@@ -97,10 +110,11 @@ public class MemberDTO {
 	public void setMember_DelDate(Date member_DelDate) {
 		this.member_DelDate = member_DelDate;
 	}
-	public byte[] getMember_Token() {
+	
+	public Integer getMember_Token() {
 		return member_Token;
 	}
-	public void setMember_Token(byte[] member_Token) {
+	public void setMember_Token(Integer member_Token) {
 		this.member_Token = member_Token;
 	}
 	public MultipartFile getMember_Profile() {
@@ -109,7 +123,7 @@ public class MemberDTO {
 	public void setMember_Profile(MultipartFile member_Profile) throws IOException {
 		this.member_Profile = member_Profile;
 		this.member_Profile_Blob = Base64.getEncoder().encode(member_Profile.getBytes());
-		System.out.println(new String(member_Profile_Blob, "UTF-8"));
+		System.out.println(new String(member_Profile_Blob, StandardCharsets.UTF_8));
 	}
 	public byte[] getMember_Profile_Blob() throws UnsupportedEncodingException {
 		return member_Profile_Blob;
@@ -119,15 +133,7 @@ public class MemberDTO {
 	public void setMember_Profile_Blob(byte[] member_Profile_Blob) {
 		this.member_Profile_Blob = member_Profile_Blob;
 	}
-	@Override
-	public String toString() {
-		return "MemberDTO [member_ID=" + member_ID + ", member_Password=" + member_Password + ", member_Token="
-				+ Arrays.toString(member_Token) + ", member_Email=" + member_Email + ", member_Flag=" + member_Flag
-				+ ", member_Jumsu=" + member_Jumsu + ", member_Profile=" + member_Profile + ", member_Profile_Blob="
-				+ Arrays.toString(member_Profile_Blob) + ", member_Nick=" + member_Nick + ", member_Role=" + member_Role
-				+ ", member_Coin=" + member_Coin + ", member_PhoneNumber=" + member_PhoneNumber + ", member_RegDate="
-				+ member_RegDate + ", member_DelDate=" + member_DelDate + "]";
-	}
+	
 	
 
 	

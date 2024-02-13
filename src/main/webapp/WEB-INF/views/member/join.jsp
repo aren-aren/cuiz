@@ -1,48 +1,154 @@
-<%@ page language="java" contentType="text/html; charset=EUC-KR"
-    pageEncoding="EUC-KR"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+    pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-<meta charset="EUC-KR">
+
+
+<meta charset="UTF-8">
 <title>Insert title here</title>
+<c:import url="../temps/header_css.jsp"></c:import>
+<style>
+	.color-white{
+		color : white;	
+	}
+	.input-join{
+	width: 450px;
+	}
+	#frm{
+		margin-top : 10%;
+		margin-left : 40%;
+	}
+	#sns{
+	width:300px;
+	height :200px;
+	}
+	.yes{
+		color : seagreen;
+	}	
+	.no{
+		color : crimson;
+	}
+	#join-btn{
+		margin-left : 40px;
+	}
+	.kakaoLogin{
+		width: 400px;
+		height: 200px;
+	}
+</style>
 </head>
 <body>
-	<h1>join</h1>
+	<!-- ***** Preloader Start ***** -->
+  <div id="js-preloader" class="js-preloader">
+    <div class="preloader-inner">
+      <span class="dot"></span>
+      <div class="dots">
+        <span></span>
+        <span></span>
+        <span></span>
+      </div>
+    </div>
+  </div>
+  <!-- ***** Preloader End ***** -->
 	
-	<div>
-		<h2>È¸¿ø°¡ÀÔ</h2>
-	</div>
+	<c:import url="../temps/header.jsp"></c:import>
+	
 	<form id="frm" action="join" method="POST" enctype="multipart/form-data">
 	<div>
-		<label for="ID">¾ÆÀÌµğ¸¦ ÀÔ·ÂÇÏ¼¼¿ä</label>
-		<input type="text" id="ID" name="member_ID">
+		<h2>íšŒì›ê°€ì…</h2>
 	</div>
 	<div>
-		<label for="PW">ºñ¹Ğ¹øÈ£¸¦ ÀÔ·ÂÇÏ¼¼¿ä</label>
-		<input type="text" id="PW" name="member_Password">
+		<label for="ID" class="form-label color-white">ì•„ì´ë””ë¥¼ ì…ë ¥í•´ì£¼ì„¸ìš”<br>
+		
+		</label>
+		<input type="TEXT" id="ID" class="form-control input-join" name="member_ID" placeholder="ì˜ì–´ì™€ ìˆ«ìë¡œ ì´ë£¨ì–´ì§„ 4-20ê¸€ì ">
+		<div id="id_check" ></div>
+	</div>
+	<div class="mb-3">
+	<label for="PW" class="form-label color-white">ë¹„ë°€ë²ˆí˜¸ë¥¼ ì…ë ¥í•´ì£¼ì„¸ìš”</label>
+	<input type="password" id="PW" class="form-control input-join" name="member_Password" aria-describedby="passwordHelpBlock" placeholder="íŠ¹ìˆ˜ë¬¸ì(~,!,@,#,$,%,&,*)ì™€ ì˜ì–´,ìˆ«ì 8-20ì ">
+		<div id="passwordHelpBlock" class="form-text">
+	  		
+		</div>
+		<div id="password_check"></div>
+	<div>
+	</div>
+		<label for="PW2" class="form-label color-white">ë¹„ë°€ë²ˆí˜¸ í™•ì¸</label>
+		<input type="password" id="PW2" class="form-control input-join">
+		<div id="password2_check"></div>
+	</div>
+	<div class="mb-3">
+  		<label for="email" class="form-label color-white">Email ì…ë ¥í•´ì£¼ì„¸ìš”</label>
+  		<input type="email" class="form-control input-join" id="email" name="member_Email" placeholder="name@example.com" >
 	</div>
 	<div>
-		<label for="mail">E-mailÀ» ÀÔ·ÂÇÏ¼¼¿ä</label>
-		<input type="text" id="mail" name="member_Email">
+		<label for="nick" class="form-label color-white">ë‹‰ë„¤ì„ì„ ì…ë ¥í•´ì£¼ì„¸ìš”</label>
+		<input type="text" name="member_Nick" id="nick" class="form-control input-join" placeholder="ì˜ì–´ì™€ ìˆ«ìë¡œ ì´ë£¨ì–´ì§„ 4-10ê¸€ì">
+		<div id="nick_check"></div>
 	</div>
 	<div>
-		<label for="nick">´Ğ³×ÀÓÀ» ÀÔ·ÂÇÏ¼¼¿ä</label>
-		<input type="text" id="nick" name="member_Nick">
+		<label for="phone" class="form-label color-white">íœ´ëŒ€í° ë²ˆí˜¸ë¥¼ ì…ë ¥í•´ì£¼ì„¸ìš”</label><br>
+		<input type="text" id="phone" name="member_PhoneNumber" class="form-control input-join" placeholder="-ë¥¼ ì œì™¸í•˜ê³  ì…ë ¥í•´ì£¼ì„¸ìš”">
 	</div>
 	<div>
-		<label for="phone">ÀüÈ­¹øÈ£¸¦ ÀÔ·ÂÇÏ¼¼¿ä</label>
-		<input type="text" id="phone" name="member_PhoneNumber" placeholder="-´Â Á¦¿ÜÇØÁÖ¼¼¿ä.">
+		<br><label for="profile" class="color-white">í”„ë¡œí•„ ì‚¬ì§„ì„ ì„ íƒí•´ì£¼ì„¸ìš”.</label><br><br>
 	</div>
-	<div>
-		<label for="profile">»çÁø ¼±ÅÃ</label>
-		<input type="file" id="profile" name="member_Profile" accept="image/*">
+	<div class="input-group mb-3 input-join">
+		 <input type="file" id="profile" class="form-control" name="member_Profile">
 	</div>
+	<br><br>
 	
+	
+
 	<div>
-		<button>°¡ÀÔÇÏ±â</button>
+		<a href="javascript:kakaoLogin();"><img class="kakaoLogin" src="/resources/assets/images/kakao_login.jpg"/> </a>
+	</div>
+	<div>
+		<button id="join-btn" disabled="n" class="btn btn-secondary">íšŒì›ê°€ì…</button>
 	</div>
 	</form>
 
-	
+	<c:import url="../temps/footer.jsp"></c:import>
+	<script src="/resources/member/join.js"></script>
+	<script src="https://developers.kakao.com/sdk/js/kakao.js"></script>
+    <script>
+        window.Kakao.init("a58598cd3cea0b5410f80d01ccdc89b5");
+
+        function kakaoLogin(){
+            window.Kakao.Auth.login({
+                scope: 'profile_nickname,profile_image',
+                success : function(authObj){
+                    console.log(authObj);
+                    window.Kakao.API.request({
+                        url : '/v2/user/me',
+                        success : res => {
+                            const kakao_account = res.kakao_account;
+                            console.log(kakao_account);
+							console.log(kakao_account.profile.nickname);
+							fetch('/member/kakaoJoin?nickname='+kakao_account.profile.nickname,{
+								method : 'GET'
+							})
+							.then(res =>res.text())
+							.then(res => {
+								if(res>0){
+									 alert('ê°€ì…ì„±ê³µ');
+									 location.href="/";
+								}
+								else{
+								alert("ì´ë¯¸ ê°€ì…ëœ ì•„ì´ë””ì…ë‹ˆë‹¤.");
+								location.href="/member/login";
+								return;}
+							})
+
+							
+                        }
+                    });
+                }
+            })
+        }
+
+    </script>
 </body>
 </html>
