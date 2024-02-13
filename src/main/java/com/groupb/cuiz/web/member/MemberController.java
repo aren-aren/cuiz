@@ -2,6 +2,7 @@ package com.groupb.cuiz.web.member;
 
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
+import java.io.PrintWriter;
 import java.math.BigInteger;
 import java.net.HttpURLConnection;
 import java.net.URL;
@@ -15,6 +16,7 @@ import java.util.List;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -60,7 +62,7 @@ public class MemberController {
 	}
 	
 	@RequestMapping(value= "naver_callback", method = {RequestMethod.GET,RequestMethod.POST},produces = "application/json")
-	public String naver_Callback(@RequestParam(value="code") String code,@RequestParam(value="state")String state) throws Exception{
+	public String naver_Callback(@RequestParam(value="code") String code,@RequestParam(value="state")String state,HttpServletResponse hsresponse) throws Exception{
 		
 		/*
 		 * WebClient webClient = WebClient.builder() .baseUrl("https://nid.naver.com")
@@ -137,18 +139,31 @@ public class MemberController {
 	             System.out.println("=====================");
 	             System.out.println(accessToken);
 	             conn.disconnect();
-	             getUserInfo(accessToken);
+	             
+	             //자바에서 alert창 띄우기
+	             String msg = getUserInfo(accessToken,hsresponse);
+	             hsresponse.setContentType("text/html");
+	             PrintWriter out = hsresponse.getWriter();
+	             out.println(msg);
+	             System.out.println("msg = " + msg);
+	             //자바에서 alert창 띄우기
+	             
+	             
 	           //  return accessToken;
 	          }catch(Exception e) {
 	             e.printStackTrace();
 	             throw new RuntimeException("액세스토큰 조회 오류 발생!");
 	          }
+	  
+	    	return "redirect:/";
+	    	
 	          
-	          return "redirect:/";
-		
 	}
 	
-	public void getUserInfo(String accessToken) {
+
+	
+	
+	public String getUserInfo(String accessToken,HttpServletResponse hrresponse) {
 	      StringBuilder urlBuilder = new StringBuilder();
 	      try {
 
@@ -184,19 +199,24 @@ public class MemberController {
 	         System.out.println("nick = " + nickName);
 	         System.out.println("email = " + email);
 	         conn.disconnect();
+	         
+	         
+	         
 	         MemberDTO dto = new MemberDTO();
 	         dto.setMember_ID(email);
 	         dto.setMember_Email(email);
 	         dto.setMember_Nick(nickName);
 	         dto.setMember_Token(1);
 	         
-	         if(memberService.getNaver(dto) == 0)
-	         naver_join(dto);
-	         else {
-	        	 HttpSession session = null;
-	        	 naver_login(dto);
-	         }
+	         if(memberService.getNaver(dto) == 0) {
+	        	 String msg = naver_join(dto,hrresponse);
+	        	 return msg;
 	         
+	         }
+	         else {
+	        	 naver_login(dto,hrresponse);
+	         }
+	         return "";
 	         
 	      }catch(Exception e) {
 	         e.printStackTrace();
@@ -230,8 +250,8 @@ public class MemberController {
 //			System.out.println("email = " + email);
 //			
 //	}
-		@GetMapping
-		public String naver_join(MemberDTO dto) throws Exception {
+		
+		public String naver_join(MemberDTO dto,HttpServletResponse response) throws Exception {
 			Model model = new ExtendedModelMap();
 			
 			
@@ -239,23 +259,21 @@ public class MemberController {
 			if(check==0) {
 				dto= memberService.getKakaoNickCount(dto);
 				int result = memberService.setKakao(dto);
-				model.addAttribute("msg", "회원가입 성공");
-				model.addAttribute("path", "/member/join");
+				 
 				
-				return "commons/result";
+				return "<script>alert('회원가입이 완료되었습니다');</script>";
 			}
-			System.out.println("test1");
-			model.addAttribute("msg", "이미 가입된 아이디이거나 회원가입 오류입니다.");
-			model.addAttribute("path", "/member/login");
-			return "commons/result";
+			
+			return "<script>alert('이미 가입된 아이디이거나 회원가입 오류입니다.');</script>";
 		}
 	
 		
-		public String naver_login(MemberDTO dto) throws Exception{
+		public String naver_login(MemberDTO dto,HttpServletResponse response) throws Exception{
 			Model model = new ExtendedModelMap();
 			ServletRequestAttributes attr = (ServletRequestAttributes) RequestContextHolder.currentRequestAttributes();
 			HttpServletRequest request = attr.getRequest();
 			HttpSession session = request.getSession();
+			
  			dto = memberService.naver_login(dto);
 			if(dto==null) {
 				model.addAttribute("msg", "오류");
