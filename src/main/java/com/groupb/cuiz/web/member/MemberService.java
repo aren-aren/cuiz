@@ -148,6 +148,9 @@ public class MemberService {
 		
 		return result;
 	}
-
+	public MemberDTO naver_login(MemberDTO dto) throws Exception{
+		return dao.naver_login(dto);
+		
+	}
 	
 }

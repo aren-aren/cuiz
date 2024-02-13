@@ -99,4 +99,9 @@ public class MemberDAO {
 	public int getNaver(MemberDTO dto) throws Exception{
 		return sqlSession.selectOne(namespace+"getNaver",dto);
 	}
+	public MemberDTO naver_login(MemberDTO dto) throws Exception{
+		return sqlSession.selectOne(namespace+"naver_login",dto);
+	}
+	
+	
 }

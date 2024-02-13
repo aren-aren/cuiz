@@ -9,10 +9,12 @@ import java.net.URLEncoder;
 import java.net.http.HttpRequest;
 import java.nio.charset.StandardCharsets;
 import java.security.SecureRandom;
+import java.util.Base64;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,7 +28,8 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
-
+import org.springframework.web.context.request.RequestContextHolder;
+import org.springframework.web.context.request.ServletRequestAttributes;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.util.JSONPObject;
@@ -50,14 +53,14 @@ public class MemberController {
 		url.append("https://nid.naver.com/oauth2.0/authorize?");
 		url.append("client_id="+"Uzjdng8GLBiFqeurZWu7");
 		url.append("&response_type=code");
-		url.append("&redirect_uri=http://127.0.0.1/member/naver_callback");
+		url.append("&redirect_uri=http://localhost/member/naver_callback");
 		url.append("&state="+state);
 		
 		return "redirect:"+url;
 	}
 	
 	@RequestMapping(value= "naver_callback", method = {RequestMethod.GET,RequestMethod.POST},produces = "application/json")
-	public void naver_Callback(@RequestParam(value="code") String code,@RequestParam(value="state")String state) throws Exception{
+	public String naver_Callback(@RequestParam(value="code") String code,@RequestParam(value="state")String state) throws Exception{
 		
 		/*
 		 * WebClient webClient = WebClient.builder() .baseUrl("https://nid.naver.com")
@@ -141,6 +144,7 @@ public class MemberController {
 	             throw new RuntimeException("액세스토큰 조회 오류 발생!");
 	          }
 	          
+	          return "redirect:/";
 		
 	}
 	
@@ -184,11 +188,12 @@ public class MemberController {
 	         dto.setMember_ID(email);
 	         dto.setMember_Email(email);
 	         dto.setMember_Nick(nickName);
-	         dto.setMember_Token(2);
+	         dto.setMember_Token(1);
 	         
 	         if(memberService.getNaver(dto) == 0)
 	         naver_join(dto);
 	         else {
+	        	 HttpSession session = null;
 	        	 naver_login(dto);
 	         }
 	         
@@ -225,9 +230,11 @@ public class MemberController {
 //			System.out.println("email = " + email);
 //			
 //	}
-	
+		@GetMapping
 		public String naver_join(MemberDTO dto) throws Exception {
 			Model model = new ExtendedModelMap();
+			
+			
 			int check = memberService.getAll(dto);
 			if(check==0) {
 				dto= memberService.getKakaoNickCount(dto);
@@ -237,12 +244,62 @@ public class MemberController {
 				
 				return "commons/result";
 			}
-			
+			System.out.println("test1");
 			model.addAttribute("msg", "이미 가입된 아이디이거나 회원가입 오류입니다.");
 			model.addAttribute("path", "/member/login");
 			return "commons/result";
 		}
 	
+		
+		public String naver_login(MemberDTO dto) throws Exception{
+			Model model = new ExtendedModelMap();
+			ServletRequestAttributes attr = (ServletRequestAttributes) RequestContextHolder.currentRequestAttributes();
+			HttpServletRequest request = attr.getRequest();
+			HttpSession session = request.getSession();
+ 			dto = memberService.naver_login(dto);
+			if(dto==null) {
+				model.addAttribute("msg", "오류");
+				model.addAttribute("path", "/");
+				return "commons/result";
+			}
+			if(dto.getMember_Flag()!=0) {
+				 model.addAttribute("msg", "회원탈퇴된 계정입니다.");
+				 model.addAttribute("path", "/");
+				 return "commons/result";
+			 }
+			
+			Map<String, Object> map = memberService.getAtendence(dto);
+			int result = (int) map.get("result");
+			int conatt = (int) map.get("conatt");
+			dto = (MemberDTO)map.get("dto");
+			
+			if(result==0) {
+				model.addAttribute("result", result);
+				
+			}
+			else {
+				model.addAttribute("result",conatt);
+			}
+			
+			session.setAttribute("member", dto);
+			if(dto.getMember_Profile_Blob()!=null) {
+				session.setAttribute("avatar", "data:image/png;base64," + new String(dto.getMember_Profile_Blob(), StandardCharsets.UTF_8));
+			}
+			else {
+				session.setAttribute("avatar", null);
+			}
+			
+			System.out.println("result : " + result);
+
+			System.out.println("test2");
+			return "commons/result";
+			
+			//나중에 여기서부터 다시해라
+			// 네이버 로그인과정 하고있다 겁나 복잡하다
+			
+			
+		}
+		
 	@GetMapping("kakaoJoin")
 	public String setKakao(MemberDTO dto,HttpSession session,ProfileDTO profile,Model model) throws Exception{
 		System.out.println(profile.getNickname());
@@ -264,30 +321,7 @@ public class MemberController {
 		return "commons/ajaxResult";
 	}
 	
-	public String naver_login(MemberDTO dto) throws Exception{
-		Model model = new ExtendedModelMap();
-		dto = memberService.getDetail(dto);
-		if(dto==null) {
-			model.addAttribute("msg", "오류");
-			model.addAttribute("path", "/");
-			return "commons/result";
-		}
-		if(dto.getMember_Flag()!=0) {
-			 model.addAttribute("msg", "회원탈퇴된 계정입니다.");
-			 model.addAttribute("path", "/");
-			 return "commons/result";
-		 }
-		
-		Map<String, Object> map = memberService.getAtendence(dto);
-		int result = (int) map.get("result");
-		int conatt = (int) map.get("conatt");
-		dto = (MemberDTO)map.get("dto");
-		
-		//나중에 여기서부터 다시해라
-		// 네이버 로그인과정 하고있다 겁나 복잡하다
-		
-		return null;
-	}
+	
 	
 	@GetMapping("kakaoLogin")
 	public String setKakaoLogin(ProfileDTO profile,HttpSession session,MemberDTO memberDTO,Model model) throws Exception{
@@ -319,9 +353,12 @@ public class MemberController {
 			model.addAttribute("result",conatt);
 		}
 		session.setAttribute("member", dto);
-		if(dto.getMember_Profile_Blob()!=null)
-		session.setAttribute("avatar", "data:image/png;base64," + new String(dto.getMember_Profile_Blob(), StandardCharsets.UTF_8));
-		 
+		if(dto.getMember_Profile_Blob()!=null) {
+			session.setAttribute("avatar", "data:image/png;base64," + new String(dto.getMember_Profile_Blob(), StandardCharsets.UTF_8));
+		}
+		else {
+			session.setAttribute("avatar", null);
+		}
 		System.out.println("result : " + result);
 		return "commons/ajaxResult";
 		
