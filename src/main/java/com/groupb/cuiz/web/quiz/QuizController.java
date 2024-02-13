@@ -5,10 +5,7 @@ import com.groupb.cuiz.web.member.MemberDTO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpSession;
 import java.util.*;
@@ -50,24 +47,21 @@ public class QuizController {
     }
 
 
-    @PostMapping("sampleRun")
     @ResponseBody
+    @PostMapping("sampleRun")
     public SampleRunResult sampleRun(String quiz_SampleCode, String[] example_inputs, String[] quiz_inputs, HttpSession session) throws Exception {
         MemberDTO memberDTO = (MemberDTO) session.getAttribute("member");
 
         System.out.println(quiz_SampleCode);
-        System.out.println(Arrays.toString(example_inputs));
-        System.out.println(Arrays.toString(quiz_inputs));
+        System.out.println("exampleInputs = " + Arrays.toString(example_inputs));
+        System.out.println("quizInputs = " + Arrays.toString(quiz_inputs));
 
         MemberAnswerDTO answerDTO = new MemberAnswerDTO();
         answerDTO.setMember_Source_Code(quiz_SampleCode);
         answerDTO.setMember_Id(memberDTO.getMember_ID());
 
-        answerDTO.setExampleInputs(List.of(example_inputs));
-        List<String> exOutputs = quizService.getSampleOutput(answerDTO);
-
-        answerDTO.setExampleInputs(List.of(quiz_inputs));
-        List<String> qOutputs = quizService.getSampleOutput(answerDTO);
+        List<String> exOutputs = quizService.getSampleOutput(answerDTO, List.of(example_inputs));
+        List<String> qOutputs = quizService.getSampleOutput(answerDTO, List.of(quiz_inputs));
 
         System.out.println("qOutputs = " + qOutputs);
         System.out.println("exOutputs = " + exOutputs);
@@ -87,6 +81,22 @@ public class QuizController {
     public String solveQuiz(QuizDTO quizDTO, Model model){
         quizDTO = quizService.getDetail(quizDTO);
         model.addAttribute("dto", quizDTO);
+
+        return "quiz/solve";
+    }
+
+    @ResponseBody
+    @PostMapping("run")
+    public MemberAnswerDTO runQuiz(@RequestBody MemberAnswerDTO answerDTO, HttpSession session) throws Exception {
+        MemberDTO memberDTO = (MemberDTO) session.getAttribute("member");
+        answerDTO.setMember_Id(memberDTO.getMember_ID());
+
+        answerDTO = quizService.runExampleQuiz(answerDTO);
+        return answerDTO;
+    }
+
+    @GetMapping("solvetest")
+    public String solveQuizs(){
 
         return "quiz/solve";
     }
