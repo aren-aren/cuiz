@@ -26,15 +26,18 @@ function frm(id){
         // let item = JSON.parse(list);
         let item_group = list.item_Group;
         
+        let tag = `<img src="${list.item_Photo_to_String}" alt="" style="overflow:hidden; margin:0 auto; "/>`;
+        
+        if(item_group==1){
+          tag = `<video src="${list.item_Photo_to_String}" muted autoplay playsinline loop width=100%>`;   
+        }
+
         let html ="";
         html =`
         
         <div class="col-lg-3 col-sm-6" style="display: inline-block;">
           <div class="item" style="height: 200px">                              
-            <img src="${list.item_Photo_to_String}" alt="" style="overflow:hidden; margin:0 auto; "/> 
-           <video muted autoplay playsinline loop width=100%>
-           <source src="data:video/mp4;base64,${list.item_Photo_to_String}" alt="" style="overflow:hidden; margin:0 auto; "/> 
-           </video> 
+            ${tag}
            <h4>${list.item_Name}<br><span>${list.item_Price}</span></h4>
           
            <ul>
