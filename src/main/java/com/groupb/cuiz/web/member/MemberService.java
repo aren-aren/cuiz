@@ -40,6 +40,12 @@ public class MemberService {
 		return dao.getKakaoLogin(dto);
 	}
 	
+	public List<MemberDTO> delete_list() throws Exception{
+		return dao.delete_list();
+	}
+	public int user_recovered(MemberDTO dto) throws Exception{
+		return dao.user_recovered(dto);
+	}
 	
 	@Transactional
 	public int setJoin(MemberDTO dto) throws Exception{
@@ -148,6 +154,9 @@ public class MemberService {
 		
 		return result;
 	}
-
+	public MemberDTO naver_login(MemberDTO dto) throws Exception{
+		return dao.naver_login(dto);
+		
+	}
 	
 }

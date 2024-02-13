@@ -32,7 +32,7 @@
 		margin-left : 40px;
 	}
 	.kakaoLogin{
-		width: 62.7%;
+		width: 40%;
 	}
 </style>
 </head>
@@ -101,6 +101,10 @@
 	<div>
 		<a href="javascript:kakaoLogin();"><img class="kakaoLogin" src="/resources/assets/images/kakao_login.jpg"/> </a>
 	</div>
+	<div>
+			<a href="/member/naver_login"><img class="kakaoLogin" src="/resources/assets/images/naver_login.png"/> </a>
+	</div>
+	
 
 	<div>
 		<button id="join-btn" disabled="n" class="btn btn-secondary">회원가입</button>

@@ -44,6 +44,14 @@ public class MemberDAO {
 		return sqlSession.selectList(namespace+"getList",dto);
 	}
 	
+	public List<MemberDTO> delete_list() throws Exception{
+		return sqlSession.selectList(namespace+"delete_list");
+	}
+	public int user_recovered(MemberDTO dto) throws Exception{
+		return sqlSession.update(namespace+"user_recovered",dto);
+	}
+	
+	
 	public int setUpdateRole(MemberDTO dto) throws Exception{
 		return sqlSession.update(namespace+"setUpdateRole",dto);
 	}
@@ -99,4 +107,9 @@ public class MemberDAO {
 	public int getNaver(MemberDTO dto) throws Exception{
 		return sqlSession.selectOne(namespace+"getNaver",dto);
 	}
+	public MemberDTO naver_login(MemberDTO dto) throws Exception{
+		return sqlSession.selectOne(namespace+"naver_login",dto);
+	}
+	
+	
 }
