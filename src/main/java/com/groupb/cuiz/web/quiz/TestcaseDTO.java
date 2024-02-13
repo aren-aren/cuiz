@@ -5,7 +5,7 @@ public class TestcaseDTO {
     private Integer quiz_No;
     private String testcase_Input;
     private String testcase_Output;
-    private String testcase_Type;
+    private String testcase_Type;/*EXAMPLE : 예제, QUIZ : 실제 문제*/
 
     public Integer getTestcase_No() {
         return testcase_No;
@@ -45,5 +45,16 @@ public class TestcaseDTO {
 
     public void setTestcase_Type(String testcase_Type) {
         this.testcase_Type = testcase_Type;
+    }
+
+    @Override
+    public String toString() {
+        return "TestcaseDTO{" +
+                "testcase_No=" + testcase_No +
+                ", quiz_No=" + quiz_No +
+                ", testcase_Input='" + testcase_Input + '\'' +
+                ", testcase_Output='" + testcase_Output + '\'' +
+                ", testcase_Type='" + testcase_Type + '\'' +
+                '}';
     }
 }

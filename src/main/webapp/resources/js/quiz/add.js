@@ -34,15 +34,12 @@ sampleRun.addEventListener("click",()=>{
      })
          .then(res=>res.json())
          .then(r => {
-             console.log(r);
-             // r = r.split("###");
-             // let data = [];
-             // data.push(...r[0].split(","));
-             // data.push(...r[1].split(","));
-             // showSampleRunModalOutput(data);
-             //
-             // document.getElementById("example_output").value = r[0];
-             // document.getElementById("quiz_output").value = r[1];
+             showSampleRunModalOutput([...r.exOutputs, ...r.qOutputs]);
+
+             const exampleOutput = document.getElementById("example_output");
+             const quizOutput = document.getElementById("quiz_output");
+             exampleOutput.value = r.exOutputs.join(",");
+             quizOutput.value = r.qOutputs.join(",");
          })
 })
 

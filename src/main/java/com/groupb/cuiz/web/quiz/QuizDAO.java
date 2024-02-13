@@ -34,4 +34,8 @@ public class QuizDAO {
     public QuizDTO getDetail(QuizDTO quizDTO) {
         return sqlSession.selectOne(NAMESPACE + "getDetail", quizDTO);
     }
+
+    public List<TestcaseDTO> getTestCases(Map<String, Object> map) {
+        return sqlSession.selectList(NAMESPACE + "getExampleTestCases", map);
+    }
 }

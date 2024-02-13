@@ -27,46 +27,69 @@
 <!-- ***** Header Area Start ***** -->
 <c:import url="../temps/header.jsp"></c:import>
 <!-- ***** Header Area End ***** -->
-
+<input type="hidden" id="quiz_no" value="${dto.quiz_No}">
 <div class="container-fluid">
     <div class="row">
         <div class="col-12" style="height: 180px">
-&nbsp;
+            &nbsp;
         </div>
         <div class="featured-games header-text">
             <div class="heading-section">
                 <h4 class="text-center">${dto.quiz_Title}</h4>
             </div>
         </div>
-        <div class="row">
-        <div class="col-5">
-            <div class="container">
-                <div class="featured-games text-white bg-black">
-                    ${dto.quiz_Contents}
+        <div class="row min-vh-70">
+            <div class="col-5">
+                <div class="container">
+                    <div class="featured-games text-white bg-black">
+                        ${dto.quiz_Contents}
+                    </div>
+                </div>
+            </div>
+            <div id="codeAndResult" class="col-7">
+                <div>
+                    <wc-codemirror mode="text/x-java"
+                                   class="code-editor"
+                                   id="quiz-member-code"
+                                   theme="tomorrow-night-eighties">
+                        <script type="wc-content">
+                            public class Main{
+
+                                public static void main(String[] args){
+                                    /* 입력되는 Input에 대한 답을 출력해주세요 */
+                                    System.out.println("hello, world");
+                                }
+                            }
+                        </script>
+                    </wc-codemirror>
+                </div>
+                <div class="bg-black solve-result-area">
+                    <div class="border-bottom border-top text-white p-2">
+                        실행결과
+                    </div>
+                    <div id="solve-result" class="text-white p-2">
+                        실행결과가 여기에 표시됩니다.
+                    </div>
+                </div>
+            </div>
+            <div class="col-12 mb-3">
+                <div class="float-start">
+                    <a class="btn btn-secondary">질문 게시판</a>
+                </div>
+                <div class="float-end" style="min-width: 90px">
+                    <button class="btn btn-cuiz" id="submit-btn">제출하기</button>
+                </div>
+                <div class="float-end mx-1" style="min-width: 95px">
+                    <button class="btn btn-info" id="run-btn">코드 실행</button>
+                </div>
+                <div class="float-end mx-1" style="min-width: 75px">
+                    <button class="btn btn-secondary" id="init-btn">초기화</button>
                 </div>
             </div>
         </div>
-        <div class="col-7">
-            <wc-codemirror mode="text/x-java"
-                           class="mb-3"
-                           id="quiz_SampleCode"
-                           style="height: 100%"
-                           theme="tomorrow-night-eighties">
-                <script type="wc-content">
-                    public class Main{
-
-                        public static void main(String[] args){
-                            /* 입력되는 Input에 대한 답을 출력해주세요 */
-                            System.out.println("hello, world");
-                        }
-                    }
-                </script>
-            </wc-codemirror>
-        </div>
-        </div>
     </div>
     <!-- Modal -->
-    <div class="modal fade" id="sampleRunModal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
+    <div class="modal fade" id="run-code-modal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
          aria-labelledby="staticBackdropLabel" aria-hidden="true">
         <div class="modal-dialog">
             <div class="modal-content">
@@ -78,16 +101,7 @@
                     <div id="loadingSpinner" class="spinner-border d-none" role="status">
                         <span class="visually-hidden">Loading...</span>
                     </div>
-                    <table id="resultTable" class="table">
-                        <thead>
-                        <tr>
-                            <th>Input</th>
-                            <th>Output</th>
-                        </tr>
-                        </thead>
-                        <tbody id="sampleRunResult" class="table-striped">
-                        </tbody>
-                    </table>
+                    <div id="sampleRunResult" class=""></div>
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">닫기</button>
