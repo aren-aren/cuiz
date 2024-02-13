@@ -12,17 +12,22 @@
 		 <typeAlias type="java.util.List" alias="List"/>
 		 <typeAlias type="java.util.Map" alias="Map"/>
 
+		 <typeAlias type="com.groupb.cuiz.support.util.pager.Pager" alias="Pager"/>
+
 		 <typeAlias type="com.groupb.cuiz.web.member.MemberDTO" alias="MemberDTO"/>
-		 <typeAlias type="com.groupb.cuiz.web.board.notice.NoticeDTO" alias="NoticeDTO"/>
+		 <typeAlias type="com.groupb.cuiz.web.member.role.RoleDTO" alias="RoleDTO"/>
+
 		 <typeAlias type="com.groupb.cuiz.web.board.BoardDTO" alias="BoardDTO"/>
+		 <typeAlias type="com.groupb.cuiz.web.board.notice.NoticeDTO" alias="NoticeDTO"/>
 		 <typeAlias type="com.groupb.cuiz.web.board.qna.QnaDTO" alias="QnaDTO"/>
 		 <typeAlias type="com.groupb.cuiz.web.board.BoardFileDTO" alias="BoardFileDTO"/>
-		 <typeAlias type="com.groupb.cuiz.support.util.pager.Pager" alias="Pager"/>
+
 		 <typeAlias type="com.groupb.cuiz.web.item.ItemDTO" alias="ItemDTO"/>
+
 		 <typeAlias type="com.groupb.cuiz.web.cart.CartDTO" alias="CartDTO"/>
-		 <typeAlias type="com.groupb.cuiz.web.member.role.RoleDTO" alias="RoleDTO"/>
 
 		 <typeAlias type="com.groupb.cuiz.web.quiz.TestcaseDTO" alias="TestcaseDTO"/>
 		 <typeAlias type="com.groupb.cuiz.web.quiz.QuizDTO" alias="QuizDTO"/>
+		 <typeAlias type="com.groupb.cuiz.web.quiz.MemberAnswerDTO" alias="MemberAnswerDTO"/>
 	 </typeAliases>
 </configuration>

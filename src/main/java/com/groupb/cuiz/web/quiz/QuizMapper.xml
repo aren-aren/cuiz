@@ -65,4 +65,9 @@
         FROM QUIZ
         WHERE QUIZ_NO = #{quiz_No}
     </select>
+
+    <select id="getExampleTestCases" parameterType="Map" resultType="TestcaseDTO">
+        SELECT TESTCASE_INPUT,TESTCASE_OUTPUT FROM TESTCASE
+        WHERE QUIZ_NO = #{dto.quiz_No} AND TESTCASE_TYPE = #{type}
+    </select>
 </mapper>
