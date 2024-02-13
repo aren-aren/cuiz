@@ -375,6 +375,26 @@ public class MemberController {
 		
 		return "redirect:/";
 	}
+	@GetMapping("user_delete")
+	public String getUser_delete(MemberDTO dto) throws Exception{
+		memberService.setDelete(dto);
+		
+		return "redirect:/member/list";
+	}
+	
+	@GetMapping("delete_list")
+	public String delete_list(Model model) throws Exception{
+		List<MemberDTO> ar = memberService.delete_list();
+		
+		model.addAttribute("list", ar);
+		return "member/delete_list";
+	}
+	@GetMapping("user_recovered")
+	public String user_recovered(MemberDTO dto) throws Exception{
+		memberService.user_recovered(dto);
+		return "redirect:/member/delete_list";
+	}
+	
 	
 	@GetMapping("list")
 	public String getList(MemberDTO dto,Model model) throws Exception{

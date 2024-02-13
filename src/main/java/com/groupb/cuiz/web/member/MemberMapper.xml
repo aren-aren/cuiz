@@ -54,6 +54,14 @@
  	<select id="getList" parameterType="MemberDTO" resultType="MemberDTO">
  		SELECT * FROM MEMBER
  	</select>
+	<!-- 탈퇴 된 계정들 가져오기 -->
+	<select id="delete_list" resultType="MemberDTO">
+		SELECT * FROM MEMBER WHERE MEMBER_FLAG = 1
+	</select>
+	<!-- 계정 복구 -->
+	<update id="user_recovered" parameterType="MemberDTO">
+		UPDATE MEMBER SET MEMBER_FLAG = 0 WHERE MEMBER_ID = #{member_ID}
+	</update>
 	
 	<!-- 테스트 --> 	
  	<select id="get" resultType="MemberDTO">
