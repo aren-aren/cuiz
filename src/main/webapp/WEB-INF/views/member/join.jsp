@@ -32,8 +32,7 @@
 		margin-left : 40px;
 	}
 	.kakaoLogin{
-		width: 400px;
-		height: 200px;
+		width: 40%;
 	}
 </style>
 </head>
@@ -99,10 +98,14 @@
 	<br><br>
 	
 	
-
 	<div>
 		<a href="javascript:kakaoLogin();"><img class="kakaoLogin" src="/resources/assets/images/kakao_login.jpg"/> </a>
 	</div>
+	<div>
+			<a href="/member/naver_login"><img class="kakaoLogin" src="/resources/assets/images/naver_login.png"/> </a>
+	</div>
+	
+
 	<div>
 		<button id="join-btn" disabled="n" class="btn btn-secondary">회원가입</button>
 	</div>
@@ -116,18 +119,20 @@
 
         function kakaoLogin(){
             window.Kakao.Auth.login({
-                scope: 'profile_nickname,profile_image,openid',
+                scope: 'profile_nickname,profile_image,openid,account_email',
                 success : function(authObj){
                     console.log(authObj);
-					console.log("id token = " + authObj.id_token)
-					let id_token = authObj.id_token;
+					console.log("id token = " + authObj.email)
+					
                     window.Kakao.API.request({
                         url : '/v2/user/me',
                         success : res => {
                             const kakao_account = res.kakao_account;
                             console.log(kakao_account);
 							console.log(kakao_account.profile.nickname);
-							
+							console.log("email = " + kakao_account.account_email);
+							console.log("email = " + kakao_account.email);
+							//console.log(kakao_account.email);
 							// fetch('https://kapi.kakao.com/v2/user/me',{
 							// 	headers: {
 							// 	"Authorization": `Bearer${kakao_account.access_token}`,
@@ -139,19 +144,23 @@
 							// .then(res=>console.log(res)) 
 							
 
-							fetch('/member/kakaoJoin?nickname='+kakao_account.profile.nickname+"&openid="+id_token,{
+							fetch('/member/kakaoJoin?nickname='+kakao_account.profile.nickname+"&account_Email="+kakao_account.email,{
 								method : 'GET'
 							})
 							.then(res =>res.text())
 							.then(res => {
 								if(res>0){
-									alert('가입성공');
-									location.href="/";
+									 alert('가입성공');
+									 //location.href="/";
+								}
+								else if(res==null){
+									alert("회원가입이 안되어있는 아이디입니다.");
+									//location.href="/member/login";
 								}
 								
 								else{
 								alert("이미 가입된 아이디입니다.");
-								location.href="/member/login";
+								//location.href="/member/login";
 								return;}
 							})
 

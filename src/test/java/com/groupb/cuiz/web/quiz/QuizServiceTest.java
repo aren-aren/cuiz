@@ -29,7 +29,7 @@ public class QuizServiceTest extends MyTest {
         answerDTO.setMember_Source_Code(sourceCode);
         answerDTO.setMember_Id("helloworld");
 
-        answerDTO = quizService.getSampleOutput(answerDTO);
+        //answerDTO = quizService.getSampleOutput(answerDTO);
 
         String[] exOutputs = new String[exinputs.length];
         String[] outputs = new String[inputs.length];

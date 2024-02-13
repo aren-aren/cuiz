@@ -1,9 +1,0 @@
-.CodeMirror {
-    font-family: "Courier New", serif;
-    font-size: 16px;
-}
-
-.modal-body{
-    max-height: 40vh;
-    overflow-y: scroll;
-}

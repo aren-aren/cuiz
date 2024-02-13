@@ -1,22 +1,38 @@
 package com.groupb.cuiz.web.member;
 
+import java.io.BufferedReader;
+import java.io.InputStreamReader;
+import java.math.BigInteger;
+import java.net.HttpURLConnection;
+import java.net.URL;
+import java.net.URLEncoder;
+import java.net.http.HttpRequest;
 import java.nio.charset.StandardCharsets;
+import java.security.SecureRandom;
 import java.util.Base64;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Profile;
+import org.springframework.http.MediaType;
+import org.springframework.http.HttpHeaders;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.ExtendedModelMap;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.context.request.RequestContextHolder;
+import org.springframework.web.context.request.ServletRequestAttributes;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.util.JSONPObject;
 import com.groupb.cuiz.web.member.role.RoleDTO;
 
 @Controller
@@ -26,11 +42,269 @@ public class MemberController {
 	@Autowired
 	private MemberService memberService;
 	
+	@GetMapping("naver_login")
+	public String naver_Login() {
+		//난수 생성
+		SecureRandom random = new SecureRandom();
+		String state = new BigInteger(130,random).toString();
+		
+		// 네이버 약관동의 + 로그인창으로 이동 / 로그인 성공시 콜백 
+		StringBuffer url = new StringBuffer();
+		url.append("https://nid.naver.com/oauth2.0/authorize?");
+		url.append("client_id="+"Uzjdng8GLBiFqeurZWu7");
+		url.append("&response_type=code");
+		url.append("&redirect_uri=http://localhost/member/naver_callback");
+		url.append("&state="+state);
+		
+		return "redirect:"+url;
+	}
+	
+	@RequestMapping(value= "naver_callback", method = {RequestMethod.GET,RequestMethod.POST},produces = "application/json")
+	public String naver_Callback(@RequestParam(value="code") String code,@RequestParam(value="state")String state) throws Exception{
+		
+		/*
+		 * WebClient webClient = WebClient.builder() .baseUrl("https://nid.naver.com")
+		 * .defaultHeader(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON_VALUE)
+		 * .build();
+		 * 
+		 * JSONObject response = webClient.post() .uri(uriBuilder -> uriBuilder
+		 * .path("/oauth2.0/token") .queryParam("client_id","Uzjdng8GLBiFqeurZWu7")
+		 * .queryParam("client_secret","C60_bEeiCa")
+		 * .queryParam("grant_type","authorization_code") .queryParam("state",state)
+		 * .queryParam("code",code) .build())
+		 * .retrieve().bodyToMono(JSONObject.class).block();
+		 * 
+		 * 
+		 * String token = (String) response.get("access_token"); getUserInfo(token);
+		 */
+		
+		
+	    	  StringBuilder urlBuilder = new StringBuilder();
+	          try {
+	           
+	             /* 요청 URL 생성 */
+	             urlBuilder.append("https://nid.naver.com");//BaseURL
+	             urlBuilder.append("/oauth2.0/token");//BaseURL
+
+	             
+	            
+	             /* POST 파라미터 생성  */
+	             Map<String, Object> params = new LinkedHashMap<>();
+	             params.put("client_id","Uzjdng8GLBiFqeurZWu7");
+	             params.put("client_secret","C60_bEeiCa");
+	             params.put("grant_type","authorization_code");
+	             //params.put("grant_type","refresh_token");
+	             params.put("state",state);
+	             params.put("code", code);
+	             StringBuilder postData = new StringBuilder();
+	             for(Map.Entry<String,Object> param :params.entrySet()){
+	                if(postData.length()!=0) postData.append('&');
+	                postData.append(URLEncoder.encode(param.getKey(),"UTF-8"));
+	                postData.append('=');
+	                postData.append(URLEncoder.encode(String.valueOf(param.getValue()),"UTF-8"));
+	             }
+	             byte[] postDataBytes = postData.toString().getBytes("UTF-8");
+
+	             URL url = new URL(urlBuilder.toString()); //URL 생성
+	             
+	             //token을 주려는 url이랑 길만 뚫어 준거고
+	             HttpURLConnection conn = (HttpURLConnection) url.openConnection();
+	             
+	             //통신정보 헤더부분이랑     바디를 사용하겠다고 설정(POST)
+	             conn.setRequestMethod("POST");
+	               conn.setRequestProperty("Content-type", "application/x-www-form-urlencoded");
+	             //conn.setRequestProperty("Content-Length",String.valueOf(postDataBytes.length));
+//	             conn.setRequestProperty("Accept", "application/json");
+	             conn.setDoOutput(true);
+	             
+	             //url에 인코딩한거 그대로  (?) 던져줬어 
+	             conn.getOutputStream().write(postDataBytes);
+	             
+	             
+	             // 응답 읽기
+	             BufferedReader br = new BufferedReader(new InputStreamReader((conn.getInputStream())));
+	             String inputLine;
+	             StringBuilder response = new StringBuilder();
+	             while ((inputLine = br.readLine()) != null) {
+	                response.append(inputLine);
+	             }
+	             br.close();
+	             // JSON 데이터 파싱
+	             ObjectMapper objectMapper = new ObjectMapper();
+	             Map<String, Object> data = objectMapper.readValue(response.toString(), Map.class);
+	             System.out.println("data = " + data);
+	             String accessToken =  (String) data.get("access_token");
+	             System.out.println("=====================");
+	             System.out.println(accessToken);
+	             conn.disconnect();
+	             getUserInfo(accessToken);
+	           //  return accessToken;
+	          }catch(Exception e) {
+	             e.printStackTrace();
+	             throw new RuntimeException("액세스토큰 조회 오류 발생!");
+	          }
+	          
+	          return "redirect:/";
+		
+	}
+	
+	public void getUserInfo(String accessToken) {
+	      StringBuilder urlBuilder = new StringBuilder();
+	      try {
+
+	         /* 요청 URL 생성 */
+	         urlBuilder.append("https://openapi.naver.com");//BaseURL
+	         urlBuilder.append("/v1/nid/me");//End Point
+
+	         URL url = new URL(urlBuilder.toString()); //URL 생성
+	         HttpURLConnection conn = (HttpURLConnection) url.openConnection();
+	         conn.setRequestMethod("GET");
+	         conn.setRequestProperty("Content-type", "application/json");
+	         conn.setRequestProperty("Authorization", "Bearer "+accessToken);
+	         // 응답 읽기
+	         BufferedReader br = new BufferedReader(new InputStreamReader((conn.getInputStream())));
+	         String inputLine;
+	         StringBuilder response = new StringBuilder();
+	         while ((inputLine = br.readLine()) != null) {
+	            response.append(inputLine);
+	         }
+	         br.close();
+	         // JSON 데이터 파싱
+	         ObjectMapper objectMapper = new ObjectMapper();
+	         Map<String, Object> data = objectMapper.readValue(response.toString(), Map.class);
+	         System.out.println("data = " + data);
+
+	         Map<String, Object> result = (Map<String, Object>) data.get("response");
+
+	         String name= (String) result.get("name");
+	         String nickName = (String) result.get("nickname");
+	         String email = (String) result.get("email");
+
+	         System.out.println("name = " + name);
+	         System.out.println("nick = " + nickName);
+	         System.out.println("email = " + email);
+	         conn.disconnect();
+	         MemberDTO dto = new MemberDTO();
+	         dto.setMember_ID(email);
+	         dto.setMember_Email(email);
+	         dto.setMember_Nick(nickName);
+	         dto.setMember_Token(1);
+	         
+	         if(memberService.getNaver(dto) == 0)
+	         naver_join(dto);
+	         else {
+	        	 HttpSession session = null;
+	        	 naver_login(dto);
+	         }
+	         
+	         
+	      }catch(Exception e) {
+	         e.printStackTrace();
+	         throw new RuntimeException("2차 액세스토큰 조회 오류 발생!");
+	      }
+	}
+	
+	
+	
+//	public void getUserInfo(String accessToken) {
+//		WebClient webClient = WebClient.builder()
+//			.baseUrl("https://openapi.naver.com")
+//			.defaultHeader(HttpHeaders.CONTENT_TYPE,MediaType.APPLICATION_JSON_VALUE)
+//			.build();
+//		
+//			JSONObject response = webClient.get()
+//				.uri(uriBuilder -> uriBuilder
+//					.path("/v1/nid/me")
+//					.build())
+//				.header("Autohorization", "Bearer"+accessToken)
+//				.retrieve()
+//				.bodyToMono(JSONObject.class).block();
+//		
+//			Map<String, Object> res = (Map<String, Object>)response.get("response");
+//			String id= (String) res.get("id");
+//			String nickName = (String) res.get("nickname");
+//			String email = (String) res.get("email");
+//			
+//			System.out.println("id = " + id);
+//			System.out.println("nick = " + nickName);
+//			System.out.println("email = " + email);
+//			
+//	}
+		@GetMapping
+		public String naver_join(MemberDTO dto) throws Exception {
+			Model model = new ExtendedModelMap();
+			
+			
+			int check = memberService.getAll(dto);
+			if(check==0) {
+				dto= memberService.getKakaoNickCount(dto);
+				int result = memberService.setKakao(dto);
+				model.addAttribute("msg", "회원가입 성공");
+				model.addAttribute("path", "/member/join");
+				
+				return "commons/result";
+			}
+			System.out.println("test1");
+			model.addAttribute("msg", "이미 가입된 아이디이거나 회원가입 오류입니다.");
+			model.addAttribute("path", "/member/login");
+			return "commons/result";
+		}
+	
+		
+		public String naver_login(MemberDTO dto) throws Exception{
+			Model model = new ExtendedModelMap();
+			ServletRequestAttributes attr = (ServletRequestAttributes) RequestContextHolder.currentRequestAttributes();
+			HttpServletRequest request = attr.getRequest();
+			HttpSession session = request.getSession();
+ 			dto = memberService.naver_login(dto);
+			if(dto==null) {
+				model.addAttribute("msg", "오류");
+				model.addAttribute("path", "/");
+				return "commons/result";
+			}
+			if(dto.getMember_Flag()!=0) {
+				 model.addAttribute("msg", "회원탈퇴된 계정입니다.");
+				 model.addAttribute("path", "/");
+				 return "commons/result";
+			 }
+			
+			Map<String, Object> map = memberService.getAtendence(dto);
+			int result = (int) map.get("result");
+			int conatt = (int) map.get("conatt");
+			dto = (MemberDTO)map.get("dto");
+			
+			if(result==0) {
+				model.addAttribute("result", result);
+				
+			}
+			else {
+				model.addAttribute("result",conatt);
+			}
+			
+			session.setAttribute("member", dto);
+			if(dto.getMember_Profile_Blob()!=null) {
+				session.setAttribute("avatar", "data:image/png;base64," + new String(dto.getMember_Profile_Blob(), StandardCharsets.UTF_8));
+			}
+			else {
+				session.setAttribute("avatar", null);
+			}
+			
+			System.out.println("result : " + result);
+
+			System.out.println("test2");
+			return "commons/result";
+			
+			//나중에 여기서부터 다시해라
+			// 네이버 로그인과정 하고있다 겁나 복잡하다
+			
+			
+		}
+		
 	@GetMapping("kakaoJoin")
 	public String setKakao(MemberDTO dto,HttpSession session,ProfileDTO profile,Model model) throws Exception{
 		System.out.println(profile.getNickname());
-		System.out.println("아이디 토큰 : "+profile.getOpenid());
-		dto.setMember_ID(profile.getOpenid());
+		
+		dto.setMember_ID(profile.getAccount_Email());
 		dto.setMember_Nick(profile.getNickname());
 		int check = memberService.getAll(dto);
 		if(check==0) {
@@ -47,10 +321,12 @@ public class MemberController {
 		return "commons/ajaxResult";
 	}
 	
+	
+	
 	@GetMapping("kakaoLogin")
 	public String setKakaoLogin(ProfileDTO profile,HttpSession session,MemberDTO memberDTO,Model model) throws Exception{
 		MemberDTO dto = new MemberDTO();
-		memberDTO.setMember_ID(profile.getNickname());
+		memberDTO.setMember_ID(profile.getAccount_Email());
 		dto = memberService.getKakaoLogin(memberDTO);
 		System.out.println(dto);
 		if(dto==null) {
@@ -77,9 +353,12 @@ public class MemberController {
 			model.addAttribute("result",conatt);
 		}
 		session.setAttribute("member", dto);
-		if(dto.getMember_Profile_Blob()!=null)
-		session.setAttribute("avatar", "data:image/png;base64," + new String(dto.getMember_Profile_Blob(), StandardCharsets.UTF_8));
-		 
+		if(dto.getMember_Profile_Blob()!=null) {
+			session.setAttribute("avatar", "data:image/png;base64," + new String(dto.getMember_Profile_Blob(), StandardCharsets.UTF_8));
+		}
+		else {
+			session.setAttribute("avatar", null);
+		}
 		System.out.println("result : " + result);
 		return "commons/ajaxResult";
 		
@@ -96,6 +375,26 @@ public class MemberController {
 		
 		return "redirect:/";
 	}
+	@GetMapping("user_delete")
+	public String getUser_delete(MemberDTO dto) throws Exception{
+		memberService.setDelete(dto);
+		
+		return "redirect:/member/list";
+	}
+	
+	@GetMapping("delete_list")
+	public String delete_list(Model model) throws Exception{
+		List<MemberDTO> ar = memberService.delete_list();
+		
+		model.addAttribute("list", ar);
+		return "member/delete_list";
+	}
+	@GetMapping("user_recovered")
+	public String user_recovered(MemberDTO dto) throws Exception{
+		memberService.user_recovered(dto);
+		return "redirect:/member/delete_list";
+	}
+	
 	
 	@GetMapping("list")
 	public String getList(MemberDTO dto,Model model) throws Exception{
