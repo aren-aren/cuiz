@@ -225,11 +225,11 @@
 					        
 					        </li>
 					        <li>
-					     	  	 <button class="main-border-button button" id="search2"  type="button">Search</button>
 					        </li>				        
 					     
 					      </ul>
 				      </div>
+					     	  	 <button class="main-border-button button" id="search2"  type="button">Search</button>
 				      
 				      <div class="main-button" >
 				       	
@@ -247,47 +247,7 @@
                   <h4><em>Most Popular</em> Right Now</h4>              
                 </div>
                 
-                <div class="row" id="formun">            
-                
-                
-           <%--      <c:forEach items="${list}" var="list">
-           		
-           		<c:if test="${list.item_Num>=10000 and list.item_Num<=10100 }">
-           		 <div class="col-lg-3 col-sm-6">
-                    <div class="item">
-                  	 <a href="detail?item_Num=${list.item_Num}">
-                      	<img src="data:image/jpeg;base64,${list.item_Photo_to_String}" alt="">
-                     </a>
-                     
-                      <a href="detail?item_Num=${list.item_Num}">
-                      	<h4>${list.item_Name}<br><span>${list.item_Price}</span></h4> 
-                      </a>
-                     
-                     	
-                      <ul>
-                        <li><i class="fa fa-star"></i> 4.8</li>
-                        <li><i class="fa fa-download"></i> 2.3M</li>
-                      </ul>
-                    </div>
-                  </div>
-           		</c:if>
-               </c:forEach>   
-                 --%>
-           
-           
-           <%--  삭제등 기타 여부
-                <c:if test="${list.flag eq 1}">
-            --%>
-
-        <%--         
-                </c:if>
-                 --%>
-                
-             
-                 
-                  
-                  
-                  
+                <div class="row" id="formun">
                   
                   <div class="col-lg-12">
                     <div class="main-button">

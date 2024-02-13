@@ -10,8 +10,10 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.groupb.cuiz.web.item.ItemDAO;
 import com.groupb.cuiz.web.item.ItemDTO;
 
 
@@ -33,19 +35,16 @@ public class PurchaseController {
 		
 	}
 	@PostMapping("buy")
+	@ResponseBody
 	public int buyItem(ItemDTO itemDTO,HttpSession httpSession) throws Exception {
 		if(httpSession.getAttribute("member")==null) {
 			return 4;
-		}
+		}		
+	
+	
+		int result = purchaseService.buyItem(httpSession, itemDTO);
 		
-		System.out.println(itemDTO.getItem_Num());
-		int itemNum = itemDTO.getItem_Num();
-		int result = 2;
-		
-		if(itemNum<10000) {			
-			 result = purchaseService.buyItem(httpSession, itemDTO);
-			 System.out.println("controller   "+result);
-		}
+		System.out.println(result);
 		//0: 실패
 		//1: 성공
 		//2: 캐쉬템임

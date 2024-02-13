@@ -12,15 +12,9 @@ document.addEventListener("DOMContentLoaded ",fetchItem(temp));
 
 sort.addEventListener("change",function(){
 search.click();
-
 })
 
-
-
-
-console.log(search)
-search.addEventListener("click" , (e)=>{
-    e.preventDefault();
+search.addEventListener("click" , (e)=>{   
     const queryString = new URLSearchParams(new FormData(searchfrm)).toString();
     queryStringTemp = queryString;
     console.log(queryString);
@@ -28,8 +22,9 @@ search.addEventListener("click" , (e)=>{
   fetch("api/list?kind="+temp+"&"+queryString)
     .then(result=>result.json())
     .then(result=>frm(result))
-
+   
 })
+
 
 searchBtn.addEventListener("click" ,(e)=>{
 
@@ -39,6 +34,7 @@ searchBtn.addEventListener("click" ,(e)=>{
 });
 
 
+
 function fetchItem(temp){
 
   fetch("api/list?kind="+temp)
@@ -46,6 +42,7 @@ function fetchItem(temp){
   .then(result=>frm(result))
 
 };
+
 
 
 function frm(result){
@@ -70,9 +67,7 @@ function frm(result){
            </ul>    
            </div>
            </div>
-          `    
-        
-
+          `            
         }
         formun.innerHTML=html;
 }

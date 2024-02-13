@@ -44,10 +44,12 @@
                     <div class="main-info header-text">
                       <span>${member.member_Role}</span>
                       <h4>${member.member_Nick}</h4>
-                      <p>You Haven't Gone Live yet. Go Live By Touching The Button Below.</p>
+                       <h4 class="data-id">${member.member_ID}</h4>
                       <div class="main-border-button">
                         <a href="#">Start Live Stream</a>
                       </div>
+                    
+                      
                     </div>
                   </div>
                   <div class="col-lg-4 align-self-center">
@@ -138,62 +140,41 @@
           <!-- ***** Banner End ***** -->
           <div class="most-popular">
             <div class="row">
-              <div class="col-lg-12">
-              <nav class="navbar navbar-expand-lg bg-body-tertiary">
-				  <div class="container-fluid">
-				    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarTogglerDemo01" aria-controls="navbarTogglerDemo01" aria-expanded="false" aria-label="Toggle navigation">
-				      <span class="navbar-toggler-icon"></span>
-				    </button>   
-			  
-				    <div class="collapse navbar-collapse" id="navbarTogglerDemo01">
-				    
-				      <div id="searchBtn">
-				      <form class="d-flex" role="search" id="searchfrm">
-					      <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-					       <li class="nav-item ">
-					          <button class=" text-danger" type="button" aria-current="page" value="kind0">전체</button>
-					        </li>
-					        <li class="nav-item ">
-					          <button class=" text-danger" type="button" aria-current="page"  value="kind2">Coin</button>
-					        </li>
-					        <li class="nav-item ">
-					          <button class=" text-danger" type="button" aria-current="page"  value="kind1">현금</button>
-					        </li>					      
-					        <li>
-						        <select name="searchItem">
-									<option value="itemName">제목</option>
-									<option value="itemContents">내용</option>
-						       		<option value="itemAll">제목+내용</option>
-					     	  	</select>
-					        </li>
-					        <li>
-					       	 	<input class="form-control me-2" type="search" name="search" placeholder="Search" aria-label="Search">					        
-					        </li>
-					        <li>
-					     	  	<button class="main-border-button button" id="search2"  type="button">Search</button>
-					        </li>				        
-					     
-					      </ul>
-				      </div>
-				      
-				      <div class="main-button" >				       	
-				       </div>				       	
-				      </form>
-				    </div>
-				  </div>
-				</nav>            
+              <div class="col-lg-12">             		
+			  	<ul class="nav nav-pills mb-3" id="pills-tab" role="tablist">
+				  <li class="nav-item" role="presentation">
+				    <button class="nav-link active" id="pills-list-tab" data-bs-toggle="pill" data-bs-target="#list-all" type="button" role="tab" aria-controls="pills-home" aria-selected="true">전체</button>
+				  </li>
+				  <li class="nav-item" role="presentation">
+				    <button class="nav-link" id="pills-list1-tab" data-bs-toggle="pill" data-bs-target="#list-group1" type="button" role="tab" aria-controls="pills-list1" aria-selected="false">배경</button>
+				  </li>
+				  <li class="nav-item" role="presentation">
+				    <button class="nav-link" id="pills-list2-tab" data-bs-toggle="pill" data-bs-target="#list-group2" type="button" role="tab" aria-controls="pills-contact" aria-selected="false">테두리</button>
+				  </li>
+				  <li class="nav-item" role="presentation">
+				    <button class="nav-link" id="pills-list3-tab" data-bs-toggle="pill" data-bs-target="#list-group3" type="button" role="tab" aria-controls="pills-disabled" aria-selected="false" >기타</button>
+				  </li>
+				   <li class="nav-item" role="presentation">
+				    <button class="nav-link" id="pills-list4-tab" data-bs-toggle="pill" data-bs-target="#list-group4" type="button" role="tab" aria-controls="pills-disabled" aria-selected="false" >기타</button>
+				  </li>
+				   
+				</ul>
+				<div class="tab-content row" id="pills-tabContent" >
+				  <div class="tab-pane fade show active col-lg-12" id="list-all" role="tabpanel" aria-labelledby="pills-list-tab" tabindex="0"></div>
+				  <div class="tab-pane fade row" id="list-group1" role="tabpanel" aria-labelledby="pills-list1-tab" tabindex="0"></div>
+				  <div class="tab-pane fade row" id="list-group2" role="tabpanel" aria-labelledby="pills-list2-tab" tabindex="0"></div>
+				  <div class="tab-pane fade row" id="list-group3" role="tabpanel" aria-labelledby="pills-disabled-tab" tabindex="0"></div>
+				  <div class="tab-pane fade row" id="list-group4" role="tabpanel" aria-labelledby="pills-list2-tab" tabindex="0"></div>
+				  
+				</div>
              	
                 <div class="heading-section">
                   <h4><em>Most Popular</em> Right Now</h4>              
-                </div>
-                
-                <div class="row" id="formun">  
-                  
-                  <div class="col-lg-12">
+                </div>     
+               
                     <div class="main-button">
                       <a href="browse.html">Discover Popular</a>
-                    </div>
-                  </div>
+                    </div>               
                   
                 </div>
               </div>
@@ -204,9 +185,10 @@
       </div>
     </div>
   </div>
-  
+<input id="memberID"  type="hidden" value="${member.member_ID}"/> 
   <c:import url="../temps/footer.jsp"></c:import>
+  <script src="/resources/js/Mypage/Mypage.js"></script>
+</body>
 
-  </body>
 
 </html>

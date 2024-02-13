@@ -49,12 +49,9 @@ if(buyNowBtn!=null){
         },       
         body:"item_Num="+item_Num
      })
-     .then(result=>{
-        console.log(result)
-        result.text()
-    })    
-     .then(result=>{
-        console.log(result)
+     .then(result=> result.text())    
+     .then(result=>{       
+         console.log(result);
         switch(result){
 
             case "1":
