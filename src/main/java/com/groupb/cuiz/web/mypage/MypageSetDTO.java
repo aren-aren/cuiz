@@ -4,8 +4,8 @@ public class MypageSetDTO {
 
 	private Integer item_Num;
 	private String member_ID;
-	private byte[] bgSet;
-	private byte[] pFrame;
+	private Integer BG_SET;
+	private Integer FRAME_SET;
 	
 	
 	
@@ -22,19 +22,18 @@ public class MypageSetDTO {
 	public void setMember_ID(String member_ID) {
 		this.member_ID = member_ID;
 	}
-	public byte[] getBgSet() {
-		return bgSet;
+	public Integer getBG_SET() {
+		return BG_SET;
 	}
-	public void setBgSet(byte[] bgSet) {
-		this.bgSet = bgSet;
+	public void setBG_SET(Integer bG_SET) {
+		BG_SET = bG_SET;
 	}
-	public byte[] getpFrame() {
-		return pFrame;
+	public Integer getFRAME_SET() {
+		return FRAME_SET;
 	}
-	public void setpFrame(byte[] pFrame) {
-		this.pFrame = pFrame;
-	}	
-	
+	public void setFRAME_SET(Integer fRAME_SET) {
+		FRAME_SET = fRAME_SET;
+	}
 
 	
 	

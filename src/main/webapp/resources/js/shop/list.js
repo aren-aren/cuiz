@@ -51,12 +51,18 @@ function frm(result){
     console.log(result)
         for(let list of result){
 
+        let tag = `<img src="${list.item_Photo_to_String}" alt="" style="overflow:hidden; margin:0 auto; ">`;
+
+        if(list.item_Group==1){
+          tag = `<video src="${list.item_Photo_to_String}" muted autoplay playsinline loop width=100%></video>`;
+        }
+
         html +=
            `
            <div class="col-lg-3 col-sm-6">
            <div class="item" style="height: 200px">
            <a href="detail?item_Num=${list.item_Num}">
-           <img src="data:image/jpeg;base64,${list.item_Photo_to_String}" alt="" style="overflow:hidden; margin:0 auto; ">
+           ${tag}
            </a>
            <a href="detail?item_Num=${list.item_Num}">
            <h4>${list.item_Name}<br><span>${list.item_Price}</span></h4>

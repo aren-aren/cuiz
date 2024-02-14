@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.groupb.cuiz.support.util.pager.Pager;
+import com.groupb.cuiz.support.util.photo.PhotoEncoder;
 import com.groupb.cuiz.web.purchase.PurchaseService;
 
 
@@ -26,6 +27,8 @@ public class ItemContoller {
 
 	@Autowired
 	private ItemService itemService;
+	@Autowired
+	private PhotoEncoder photoEncoder;
 	/*
 	 * @Autowired private PurchaseService purchaseService;
 	 */
@@ -52,13 +55,14 @@ public class ItemContoller {
 
 	}
 	
+	
 	@GetMapping("api/list")
 	@ResponseBody
 	public List<ItemDTO> getListJson(Pager pager){
 		
 		
 		List<ItemDTO> ar = itemService.getList(pager); 		
-		
+		ar = photoEncoder.ListToString(ar);
 		
 		return ar;
 		

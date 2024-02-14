@@ -1,6 +1,6 @@
 package com.groupb.cuiz.support.util.photo;
 
-import java.io.UnsupportedEncodingException;
+
 import java.nio.charset.StandardCharsets;
 import java.util.List;
 
@@ -21,7 +21,7 @@ public List<ItemDTO> ListToString(List<ItemDTO> ar){
 		ar.stream().forEach(p -> {
 			String select = photo;
 			if(p.getItem_Photo()!=null) {				
-				
+			
 				if(p.getItem_Group()==1) {
 					 select = video;
 				}
@@ -30,8 +30,29 @@ public List<ItemDTO> ListToString(List<ItemDTO> ar){
 			}
 			
 		});		
+		
+		
 	return ar;		
 	}
+
+public ItemDTO blobToString(ItemDTO itemDTO) {
 	
+	String photo = "data:image/png;base64,";
+	String video = "data:video/mp4;base64,";
+	
+	String select = photo;
+	
+	if(itemDTO.getItem_Photo()!=null) {				
+		
+		if(itemDTO.getItem_Group()==1) {
+			 select = video;
+		}
+		
+		itemDTO.setItem_Photo_to_String(select+new String(itemDTO.getItem_Photo(),StandardCharsets.UTF_8));
+	}
+
+	return itemDTO;
+	
+}
 	
 }

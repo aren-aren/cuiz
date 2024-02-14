@@ -28,6 +28,7 @@ public class ItemDAO {
 	}
 	
 	public ItemDTO getDetail(ItemDTO itemDTO) {
+		System.out.println(itemDTO.getItem_Num());
 		
 		return sqlSession.selectOne(NAMESPACE+"getDetail", itemDTO);		
 		
