@@ -23,6 +23,19 @@
 	
 	<context:component-scan base-package="com.groupb.cuiz" />
 	
-	
+	<interceptors>
+		<interceptor>
+			<mapping path="/member/list"/>
+			<mapping path="/member/delete_list"/>
+			<beans:ref bean= "adminInterceptor"/>
+		</interceptor>
+		
+		<interceptor>
+			<mapping path="/member/mypage"/>
+			<mapping path="/member/update"/>
+			<beans:ref bean="memberInterceptor"/>
+		</interceptor>
+		
+	</interceptors>
 	
 </beans:beans>

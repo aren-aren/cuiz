@@ -17,7 +17,7 @@
 		color : crimson;
 	}
 	.join{
-		margin-left : 12%;
+		margin-left : 6%;
 	}
 	#sns{
 		width:300px;
@@ -26,6 +26,35 @@
 	.kakaoLogin{
 		width: 26%;
 	}
+	.btn-login{
+	font-size: 14px;
+    color: #fff;
+    background-color: #e75e8d;
+    padding: 12px 30px;
+    display: inline;
+    border-radius: 25px;
+    font-weight: 400;
+    text-transform: capitalize;
+    letter-spacing: 0.5px;
+    transition: all .3s;
+    position: relative;
+    overflow: hidden;
+    }
+    .btn-join{
+    font-size: 14px;
+    color: white;
+    background-color: #4D3DD4;
+    
+    padding: 12px 30px;
+    display: inline;
+    border-radius: 25px;
+    font-weight: 400;
+    text-transform: capitalize;
+    letter-spacing: 0.5px;
+    transition: all .3s;
+    position: relative;
+    overflow: hidden;
+    }
 </style>
 <c:import url="../temps/header_css.jsp"></c:import>
 <meta charset="UTF-8">
@@ -62,8 +91,8 @@
 			<input style="width:300px" type="password" id="PW" class="form-control input-join" name="member_Password">
 		</div>
 		<div>
-			<button class="btn btn-primary">로그인</button>
-			<a class="join btn btn-secondary" href="/member/join">회원가입</a>
+			<button class="btn-login">로그인</button>
+			<a class="join btn-join" href="/member/join">회원가입</a>
 		</div>
 		<div>
 				<a href="javascript:kakaoLogin();"><img class="kakaoLogin" src="/resources/assets/images/kakao_login.jpg"/> </a>
@@ -104,6 +133,10 @@
 									location.href="/member/join";
 									return;
 									
+								}
+								else if(res.trim()=='delete'){
+									alert("회원탈퇴된 계정입니다.");
+									location.href="/";
 								}
 								else if(res.trim()=='7')
 								{

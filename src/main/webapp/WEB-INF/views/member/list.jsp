@@ -9,7 +9,7 @@
 	<c:import url="../temps/header_css.jsp"></c:import>
 	<style>
 	#table{
-		margin-top : 10%;
+		margin-top : 1%;
 		
 	}
 	.color-white{
@@ -22,11 +22,29 @@
 		width : 50px;
 		
 	}
+	.main-button{
+	margin-top : 7%;
+    font-size: 14px;
+    color: #fff;
+    background-color: #e75e8d;
+    padding: 12px 30px;
+    display: inline-block;
+    border-radius: 25px;
+    font-weight: 400;
+    text-transform: capitalize;
+    letter-spacing: 0.5px;
+    transition: all .3s;
+    position: relative;
+    overflow: hidden;
 	</style>
 </head>
 	
 <body>
 	<c:import url="../temps/header.jsp"></c:import>
+	
+	<div>
+		<a class="main-button" href="/member/delete_list">Delete_List</a>
+	</div>
 	
 	<table id="table" class="table table=dark">
 		<tr>
