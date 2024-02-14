@@ -1,5 +1,7 @@
 package com.groupb.cuiz.web.member;
 
+//kakao에서 정보를 매개변수로 받기 위함.
+
 public class ProfileDTO {
 	private String nickname;
 	private String profile_image_url;

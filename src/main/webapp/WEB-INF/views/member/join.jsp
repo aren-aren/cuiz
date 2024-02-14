@@ -14,6 +14,9 @@
 	.input-join{
 	width: 450px;
 	}
+	.color-white{
+	color : white;
+	}
 	#frm{
 		margin-top : 10%;
 		margin-left : 40%;
@@ -29,7 +32,20 @@
 		color : crimson;
 	}
 	#join-btn{
-		margin-left : 40px;
+		margin-left : 13%;
+		margin-bottom : 2%;
+		font-size: 14px;
+    color: #fff;
+    background-color: #e75e8d;
+    padding: 12px 30px;
+    display: inline-block;
+    border-radius: 25px;
+    font-weight: 400;
+    text-transform: capitalize;
+    letter-spacing: 0.5px;
+    transition: all .3s;
+    position: relative;
+    overflow: hidden;	
 	}
 	.kakaoLogin{
 		width: 40%;
@@ -97,6 +113,9 @@
 	</div>
 	<br><br>
 	
+	<div>
+		<button id="join-btn" disabled="n" class="btn btn-secondary">회원가입</button>
+	</div>
 	
 	<div>
 		<a href="javascript:kakaoLogin();"><img class="kakaoLogin" src="/resources/assets/images/kakao_login.jpg"/> </a>
@@ -106,9 +125,6 @@
 	</div>
 	
 
-	<div>
-		<button id="join-btn" disabled="n" class="btn btn-secondary">회원가입</button>
-	</div>
 	</form>
 
 	<c:import url="../temps/footer.jsp"></c:import>
