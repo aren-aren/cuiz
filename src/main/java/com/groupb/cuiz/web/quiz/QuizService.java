@@ -41,9 +41,6 @@ public class QuizService {
         addTestCasesToList(quizDTO, example_inputs, example_output, testcaseDTOS, "EXAMPLE"); //EXAMPLE Type의 TestcaseDTO를 List에 넣어줌
         addTestCasesToList(quizDTO, quiz_inputs, quiz_outputs, testcaseDTOS, "QUIZ"); //QUIZ Type의 TestcaseDTO를 List에 넣어줌
 
-        //Map<String, Object> map = new HashMap<>();
-        //map.put("testcase", testcaseDTOS);
-
         result += quizDAO.addTestcase(testcaseDTOS) * 10;
 
         return result;
@@ -67,6 +64,39 @@ public class QuizService {
             testcaseDTO.setTestcase_Type(testCaseType);
             testcaseDTOS.add(testcaseDTO);
         }
+    }
+
+    /**
+     * 제출한 answerDTO를 채점하고 <br>
+     * 결과를 DB에 저장하고 리턴한다.
+     * @param answerDTO
+     * @return
+     */
+    public MemberAnswerDTO submitQuiz(MemberAnswerDTO answerDTO) throws Exception {
+        System.out.println("answerDTO = " + answerDTO);
+
+        Map<String, Object> map = new HashMap<>();
+        map.put("dto", answerDTO);
+        map.put("type", "QUIZ");
+
+        List<TestcaseDTO> testcaseDTOS = quizDAO.getTestCases(map);
+
+        answerDTO = checkAnswer(answerDTO, testcaseDTOS, "QUIZ");
+        answerDTO.setAnswer_Check(answerDTO.getTestcase_Results().stream()
+                                                .allMatch(TestcaseResult::isResult));
+
+        MemberAnswerDTO oldAnswer = quizDAO.getAnswer(answerDTO);
+        System.out.println("oldAnswer = " + oldAnswer);
+
+        if(oldAnswer == null) {
+            quizDAO.setAnswer(answerDTO);
+            System.out.println("Seted!");
+        } else if(!oldAnswer.getAnswer_Check()){
+            quizDAO.updateAnswer(answerDTO);
+            System.out.println("Updated!");
+        }
+
+        return answerDTO;
     }
 
     /**
@@ -112,7 +142,7 @@ public class QuizService {
             QuizSourceExecutor.compileJava(realPath + "/" + filename + extension);
         } catch (RuntimeException e){
             System.out.println("e.getMessage() = " + e.getMessage().replace(realPath, ""));
-            return List.of("컴파일 에러");
+            return List.of("컴파일 에러 : " + e.getMessage().replace(realPath, ""));
         }
 
         List<String> results = new ArrayList<>();
@@ -138,7 +168,7 @@ public class QuizService {
      * @throws Exception
      */
     public List<String> getSampleOutput(MemberAnswerDTO quizSampleDTO, List<String> inputs) throws Exception {
-        return quizSourceBuild(quizSampleDTO.getMember_Id(), quizSampleDTO.getMember_Source_Code(), inputs);
+        return quizSourceBuild(quizSampleDTO.getMember_Id(), quizSampleDTO.getSourcecode(), inputs);
     }
 
     /**
@@ -159,7 +189,7 @@ public class QuizService {
         }
 
         //코드 실행후 outputs를 얻어옴
-        List<String> results = quizSourceBuild(answer.getMember_Id(), answer.getMember_Source_Code(), inputs);
+        List<String> results = quizSourceBuild(answer.getMember_Id(), answer.getSourcecode(), inputs);
 
         //코드 실행 결과와 정답을 비교하여 채점
         List<TestcaseResult> testcaseResults = new ArrayList<>();
@@ -167,7 +197,7 @@ public class QuizService {
             testcaseResults.add(checkTestcase(outputs.get(i).trim(), results.get(i).trim(), checkType));
         }
 
-        answer.setTestCaseResultDTOS(testcaseResults);
+        answer.setTestcase_Results(testcaseResults);
 
         return answer;
     }

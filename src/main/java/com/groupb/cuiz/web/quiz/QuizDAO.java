@@ -37,4 +37,16 @@ public class QuizDAO {
     public List<TestcaseDTO> getTestCases(Map<String, Object> map) {
         return sqlSession.selectList(NAMESPACE + "getExampleTestCases", map);
     }
+
+    public MemberAnswerDTO getAnswer(MemberAnswerDTO answerDTO) {
+        return sqlSession.selectOne(NAMESPACE + "getAnswer", answerDTO);
+    }
+
+    public int updateAnswer(MemberAnswerDTO answerDTO) {
+        return sqlSession.update(NAMESPACE + "updateAnswer", answerDTO);
+    }
+
+    public int setAnswer(MemberAnswerDTO answerDTO) {
+        return sqlSession.insert(NAMESPACE + "setAnswer", answerDTO);
+    }
 }

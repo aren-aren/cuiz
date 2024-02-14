@@ -1,13 +1,16 @@
 package com.groupb.cuiz.web.quiz;
 
+import java.sql.Date;
 import java.util.List;
 
 public class MemberAnswerDTO {
     private String member_Id;
     private String quiz_No;
-    private String member_Source_Code;
-    private String resultMessage;
-    private List<TestcaseResult> testCaseResultDTOS;
+    private String sourcecode;
+    private Date answer_Date;
+    private Boolean answer_Check;
+    private String result_Message;
+    private List<TestcaseResult> testcase_Results;
 
     public String getMember_Id() {
         return member_Id;
@@ -25,28 +28,44 @@ public class MemberAnswerDTO {
         this.quiz_No = quiz_No;
     }
 
-    public String getMember_Source_Code() {
-        return member_Source_Code;
+    public String getSourcecode() {
+        return sourcecode;
     }
 
-    public void setMember_Source_Code(String member_Source_Code) {
-        this.member_Source_Code = member_Source_Code;
+    public void setSourcecode(String sourcecode) {
+        this.sourcecode = sourcecode;
     }
 
-    public String getResultMessage() {
-        return resultMessage;
+    public String getResult_Message() {
+        return result_Message;
     }
 
-    public void setResultMessage(String resultMessage) {
-        this.resultMessage = resultMessage;
+    public void setResult_Message(String result_Message) {
+        this.result_Message = result_Message;
     }
 
-    public List<TestcaseResult> getTestCaseResultDTOS() {
-        return testCaseResultDTOS;
+    public List<TestcaseResult> getTestcase_Results() {
+        return testcase_Results;
     }
 
-    public void setTestCaseResultDTOS(List<TestcaseResult> testCaseResultDTOS) {
-        this.testCaseResultDTOS = testCaseResultDTOS;
+    public void setTestcase_Results(List<TestcaseResult> testcase_Results) {
+        this.testcase_Results = testcase_Results;
+    }
+
+    public Date getAnswer_Date() {
+        return answer_Date;
+    }
+
+    public void setAnswer_Date(Date answer_Date) {
+        this.answer_Date = answer_Date;
+    }
+
+    public Boolean getAnswer_Check() {
+        return answer_Check;
+    }
+
+    public void setAnswer_Check(Boolean answer_Check) {
+        this.answer_Check = answer_Check;
     }
 
     @Override
@@ -54,9 +73,9 @@ public class MemberAnswerDTO {
         return "MemberAnswerDTO{" +
                 "member_Id='" + member_Id + '\'' +
                 ", quiz_No='" + quiz_No + '\'' +
-                ", member_Source_Code='" + member_Source_Code + '\'' +
-                ", resultMessage='" + resultMessage + '\'' +
-                ", testCaseResultDTOS=" + testCaseResultDTOS +
+                ", source_Code='" + sourcecode + '\'' +
+                ", resultMessage='" + result_Message + '\'' +
+                ", testcaseResults=" + testcase_Results +
                 '}';
     }
 }

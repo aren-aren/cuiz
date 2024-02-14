@@ -70,4 +70,19 @@
         SELECT TESTCASE_INPUT,TESTCASE_OUTPUT FROM TESTCASE
         WHERE QUIZ_NO = #{dto.quiz_No} AND TESTCASE_TYPE = #{type}
     </select>
+
+    <select id="getAnswer" parameterType="MemberAnswerDTO" resultType="MemberAnswerDTO">
+        SELECT QUIZ_NO, MEMBER_ID, SOURCECODE, ANSWER_DATE, ANSWER_CHECK FROM MEMBER_QUIZ_ANSWER
+        WHERE MEMBER_ID = #{member_Id} AND QUIZ_NO = #{quiz_No}
+    </select>
+
+    <update id="updateAnswer" parameterType="MemberAnswerDTO">
+        UPDATE MEMBER_QUIZ_ANSWER SET SOURCECODE = #{sourcecode}, ANSWER_DATE = SYSDATE, ANSWER_CHECK = #{answer_Check}
+        WHERE MEMBER_ID = #{member_Id} AND QUIZ_NO = #{quiz_No}
+    </update>
+
+    <insert id="setAnswer" parameterType="MemberAnswerDTO">
+        INSERT INTO MEMBER_QUIZ_ANSWER(QUIZ_NO, MEMBER_ID, SOURCECODE, ANSWER_CHECK)
+        VALUES(#{quiz_No}, #{member_Id}, #{sourcecode}, #{answer_Check})
+    </insert>
 </mapper>
