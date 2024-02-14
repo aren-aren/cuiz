@@ -1,5 +1,15 @@
 package com.groupb.cuiz.web.mypage;
 
-public class MypageSetService {
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
+@Service
+public class MypageSetService {
+	
+	@Autowired 
+	private MypageSetDAO mypageSetDAO;
+	
+	
+	
+	
 }
