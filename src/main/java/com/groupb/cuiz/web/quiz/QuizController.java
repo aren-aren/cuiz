@@ -57,7 +57,7 @@ public class QuizController {
         System.out.println("quizInputs = " + Arrays.toString(quiz_inputs));
 
         MemberAnswerDTO answerDTO = new MemberAnswerDTO();
-        answerDTO.setMember_Source_Code(quiz_SampleCode);
+        answerDTO.setSourcecode(quiz_SampleCode);
         answerDTO.setMember_Id(memberDTO.getMember_ID());
 
         List<String> exOutputs = quizService.getSampleOutput(answerDTO, List.of(example_inputs));
@@ -92,6 +92,16 @@ public class QuizController {
         answerDTO.setMember_Id(memberDTO.getMember_ID());
 
         answerDTO = quizService.runExampleQuiz(answerDTO);
+        return answerDTO;
+    }
+
+    @ResponseBody
+    @PostMapping("submit")
+    public MemberAnswerDTO submitQuiz(@RequestBody MemberAnswerDTO answerDTO, HttpSession session) throws Exception {
+        MemberDTO memberDTO = (MemberDTO) session.getAttribute("member");
+        answerDTO.setMember_Id(memberDTO.getMember_ID());
+
+        answerDTO = quizService.submitQuiz(answerDTO);
         return answerDTO;
     }
 

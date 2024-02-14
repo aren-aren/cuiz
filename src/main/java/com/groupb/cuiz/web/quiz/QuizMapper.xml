@@ -4,10 +4,10 @@
         "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
 <mapper namespace="com.groupb.cuiz.web.quiz.QuizDAO">
-    <insert id="addTestcase" parameterType="Map">
+    <insert id="addTestcase" parameterType="List">
         INSERT INTO TESTCASE(TESTCASE_NO, QUIZ_NO, TESTCASE_INPUT, TESTCASE_OUTPUT, TESTCASE_TYPE)
         SELECT TESTCASE_SEQ.NEXTVAL as "TESTCASE_NO", t.* FROM (
-            <foreach collection="testcase" item="item" separator="UNION ALL">
+            <foreach collection="list" item="item" separator="UNION ALL">
                 SELECT  #{item.quiz_No} QUIZ_NO,
                         #{item.testcase_Input} TESTCASE_INPUT,
                         #{item.testcase_Output} TESTCASE_OUTPUT,
@@ -70,4 +70,19 @@
         SELECT TESTCASE_INPUT,TESTCASE_OUTPUT FROM TESTCASE
         WHERE QUIZ_NO = #{dto.quiz_No} AND TESTCASE_TYPE = #{type}
     </select>
+
+    <select id="getAnswer" parameterType="MemberAnswerDTO" resultType="MemberAnswerDTO">
+        SELECT QUIZ_NO, MEMBER_ID, SOURCECODE, ANSWER_DATE, ANSWER_CHECK FROM MEMBER_QUIZ_ANSWER
+        WHERE MEMBER_ID = #{member_Id} AND QUIZ_NO = #{quiz_No}
+    </select>
+
+    <update id="updateAnswer" parameterType="MemberAnswerDTO">
+        UPDATE MEMBER_QUIZ_ANSWER SET SOURCECODE = #{sourcecode}, ANSWER_DATE = SYSDATE, ANSWER_CHECK = #{answer_Check}
+        WHERE MEMBER_ID = #{member_Id} AND QUIZ_NO = #{quiz_No}
+    </update>
+
+    <insert id="setAnswer" parameterType="MemberAnswerDTO">
+        INSERT INTO MEMBER_QUIZ_ANSWER(QUIZ_NO, MEMBER_ID, SOURCECODE, ANSWER_CHECK)
+        VALUES(#{quiz_No}, #{member_Id}, #{sourcecode}, #{answer_Check})
+    </insert>
 </mapper>

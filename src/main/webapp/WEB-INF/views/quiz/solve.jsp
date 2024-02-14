@@ -88,20 +88,18 @@
             </div>
         </div>
     </div>
+
     <!-- Modal -->
-    <div class="modal fade" id="run-code-modal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
-         aria-labelledby="staticBackdropLabel" aria-hidden="true">
+    <div class="modal fade" id="answer_correct_modal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h1 class="modal-title fs-5 text-dark" id="staticBackdropLabel">채점 결과</h1>
+                    <h1 class="modal-title fs-5 text-dark" id="staticBackdropLabel">축하합니다.</h1>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div id="sampleRunModalBody" class="modal-body">
-                    <div id="loadingSpinner" class="spinner-border d-none" role="status">
-                        <span class="visually-hidden">Loading...</span>
-                    </div>
-                    <div id="sampleRunResult" class=""></div>
+                    <h2>정답입니다.</h2>
+                    <h5>대충 점수 올랐단는 알림</h5>
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">닫기</button>
