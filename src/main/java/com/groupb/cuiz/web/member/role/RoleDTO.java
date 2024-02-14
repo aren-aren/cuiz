@@ -1,5 +1,6 @@
 package com.groupb.cuiz.web.member.role;
 
+//member_role 임.. 꼬임 ㅋ 
 public class RoleDTO {
 
 	private Integer role_Num;

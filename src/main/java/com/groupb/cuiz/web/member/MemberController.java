@@ -346,16 +346,15 @@ public class MemberController {
 		MemberDTO dto = new MemberDTO();
 		memberDTO.setMember_ID(profile.getAccount_Email());
 		dto = memberService.getKakaoLogin(memberDTO);
-		System.out.println(dto);
+		System.out.println("dto : " + dto);
 		if(dto==null) {
 			model.addAttribute("result", "null");
 			return "commons/ajaxResult";
 		}
 		
 		if(dto.getMember_Flag()!=0) {
-			 model.addAttribute("msg", "회원탈퇴된 계정입니다.");
-			 model.addAttribute("path", "/");
-			 return "commons/result";
+			 model.addAttribute("result", "delete");
+			 return "commons/ajaxResult";
 		 }
 		
 		Map<String, Object> map = memberService.getAtendence(dto);
@@ -363,6 +362,7 @@ public class MemberController {
 		int conatt = (int) map.get("conatt");
 		dto = (MemberDTO)map.get("dto");
 		
+		System.out.println("result = " + result);
 		if(result==0) {
 			model.addAttribute("result", result);
 			
@@ -370,6 +370,7 @@ public class MemberController {
 		else {
 			model.addAttribute("result",conatt);
 		}
+		
 		session.setAttribute("member", dto);
 		if(dto.getMember_Profile_Blob()!=null) {
 			session.setAttribute("avatar", "data:image/png;base64," + new String(dto.getMember_Profile_Blob(), StandardCharsets.UTF_8));
@@ -377,6 +378,7 @@ public class MemberController {
 		else {
 			session.setAttribute("avatar", null);
 		}
+		
 		System.out.println("result : " + result);
 		return "commons/ajaxResult";
 		
