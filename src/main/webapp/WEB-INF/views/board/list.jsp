@@ -56,7 +56,7 @@
 								<c:set var="f" value="0"></c:set>
 								
 								<c:catch>
-									<c:set var="f" value="${dto.flag }"></c:set>
+									<c:set var="f" value="${dto.flag}"></c:set>
 										<c:if test="${f eq 1 }">
 												<li><h3></h3></li>
 												<li><h3>삭제된 게시판입니다.</h3></li>
@@ -73,13 +73,15 @@
 											<li><h3>${dto.member_ID}</h3></li>
 											<li><h3>${dto.board_Date}</h3></li>
 											<li>
-												<div class="main-border-button">
-													<a href="./detail?board_Num=${dto.board_Num }">
-														<c:catch>
-															<c:forEach begin="1" end="${dto.board_Depth }">--</c:forEach>
-														</c:catch>
-													자세히 보기</a>
-												</div>
+												<c:if test="${not empty member}">
+													<div class="main-border-button">
+														<a href="./detail?board_Num=${dto.board_Num}">
+															<c:catch>
+																<c:forEach begin="1" end="${dto.board_Depth}">--</c:forEach>
+															</c:catch>
+														자세히 보기</a>
+													</div>
+												</c:if>
 											</li>
 										</ul>
 									</div>
@@ -140,21 +142,14 @@
 							</form>
 						</div>
 							
-						<c:if test="${empty member}">
+
+						<c:if test="${not empty member}">
 							<div class="col-lg-12">
 								<div class="main-button">
 									<a href="./add">Add</a>
 								</div>
 							</div>
 						</c:if>
-
-						<!-- <c:if test="${not empty member}">
-							<div class="col-lg-12">
-								<div class="main-button">
-									<a href="./add">Add</a>
-								</div>
-							</div>
-						</c:if> -->
 
 
 					</div>

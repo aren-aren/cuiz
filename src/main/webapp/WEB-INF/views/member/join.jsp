@@ -10,11 +10,12 @@
 <title>Insert title here</title>
 <c:import url="../temps/header_css.jsp"></c:import>
 <style>
-	.color-white{
-		color : white;	
-	}
+	
 	.input-join{
 	width: 450px;
+	}
+	.color-white{
+	color : white;
 	}
 	#frm{
 		margin-top : 10%;
@@ -31,11 +32,23 @@
 		color : crimson;
 	}
 	#join-btn{
-		margin-left : 40px;
+		margin-left : 13%;
+		margin-bottom : 2%;
+		font-size: 14px;
+    color: #fff;
+    background-color: #e75e8d;
+    padding: 12px 30px;
+    display: inline-block;
+    border-radius: 25px;
+    font-weight: 400;
+    text-transform: capitalize;
+    letter-spacing: 0.5px;
+    transition: all .3s;
+    position: relative;
+    overflow: hidden;	
 	}
 	.kakaoLogin{
-		width: 400px;
-		height: 200px;
+		width: 40%;
 	}
 </style>
 </head>
@@ -100,14 +113,18 @@
 	</div>
 	<br><br>
 	
+	<div>
+		<button id="join-btn" disabled="n" class="btn btn-secondary">회원가입</button>
+	</div>
 	
-
 	<div>
 		<a href="javascript:kakaoLogin();"><img class="kakaoLogin" src="/resources/assets/images/kakao_login.jpg"/> </a>
 	</div>
 	<div>
-		<button id="join-btn" disabled="n" class="btn btn-secondary">회원가입</button>
+			<a href="/member/naver_login"><img class="kakaoLogin" src="/resources/assets/images/naver_login.png"/> </a>
 	</div>
+	
+
 	</form>
 
 	<c:import url="../temps/footer.jsp"></c:import>
@@ -118,27 +135,48 @@
 
         function kakaoLogin(){
             window.Kakao.Auth.login({
-                scope: 'profile_nickname,profile_image',
+                scope: 'profile_nickname,profile_image,openid,account_email',
                 success : function(authObj){
                     console.log(authObj);
+					console.log("id token = " + authObj.email)
+					
                     window.Kakao.API.request({
                         url : '/v2/user/me',
                         success : res => {
                             const kakao_account = res.kakao_account;
                             console.log(kakao_account);
 							console.log(kakao_account.profile.nickname);
-							fetch('/member/kakaoJoin?nickname='+kakao_account.profile.nickname,{
+							console.log("email = " + kakao_account.account_email);
+							console.log("email = " + kakao_account.email);
+							//console.log(kakao_account.email);
+							// fetch('https://kapi.kakao.com/v2/user/me',{
+							// 	headers: {
+							// 	"Authorization": `Bearer${kakao_account.access_token}`,
+							// 	"Content-type": "application/x-www-form-urlencoded;charset=utf-8"   
+							// 	},
+							// 	method : 'POST'
+							// })
+							// .then(res =>res.json())
+							// .then(res=>console.log(res)) 
+							
+
+							fetch('/member/kakaoJoin?nickname='+kakao_account.profile.nickname+"&account_Email="+kakao_account.email,{
 								method : 'GET'
 							})
 							.then(res =>res.text())
 							.then(res => {
 								if(res>0){
 									 alert('가입성공');
-									 location.href="/";
+									 //location.href="/";
 								}
+								else if(res==null){
+									alert("회원가입이 안되어있는 아이디입니다.");
+									//location.href="/member/login";
+								}
+								
 								else{
 								alert("이미 가입된 아이디입니다.");
-								location.href="/member/login";
+								//location.href="/member/login";
 								return;}
 							})
 

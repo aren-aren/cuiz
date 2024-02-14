@@ -5,17 +5,41 @@
  
 
  <mapper namespace="com.groupb.cuiz.web.member.MemberDAO">
+ 	
+ 	<!-- 카카오 로그인관련 -->
  	<insert id="setKakao" parameterType="MemberDTO">
  		INSERT INTO MEMBER
- 		(MEMBER_ID,MEMBER_TOKEN) VALUES (#{member_ID},1)
+ 		(MEMBER_ID,MEMBER_TOKEN,MEMBER_NICK) VALUES (#{member_ID},1,#{member_Nick})
  	</insert>
- 	
+ 	<!-- 내 아이디가 있는지 체크 WHY ? 기억안남 -->
  	<select id="getAll" parameterType="MemberDTO" resultType="int">
  		SELECT COUNT(MEMBER_ID) FROM MEMBER WHERE MEMBER_ID =#{member_ID}
  	</select>
+ 	<!-- 로그인 -->
  	<select id="getKakaoLogin" resultType="MemberDTO" parameterType="MemberDTO">
  		SELECT * FROM MEMBER WHERE MEMBER_ID = #{member_ID}
  	</select>
+ 	<!--  카카오 닉네임이 db에 있는지 확인 -->
+ 	<select id="getKakaoNickCount" resultType="int" parameterType="MemberDTO">
+ 		SELECT COUNT(MEMBER_NICK) FROM MEMBER WHERE MEMBER_NICK LIKE #{member_Nick}||'#%' 
+ 	</select>
+ 	
+ 	<!-- 굳이굳이 네이버로그인 따로 만들거임 태클 ㄴ -->
+ 	<insert id="setNaver" parameterType="MemberDTO">
+ 		INSERT INTO MEMBER
+ 		(MEMBER_ID,MEMBER_TOKEN,MEMBER_NICK,MEMBER_EMAIL) VALUES
+ 		(#{member_ID},#{member_Token},#{member_Nick},#{member_Email})
+ 	</insert>
+ 	<!-- 네이버 로그인 계정있는지 확인 -->
+ 	<select id="getNaver" parameterType="MemberDTO" resultType="int" >
+ 		SELECT COUNT(MEMBER_ID) FROM MEMBER WHERE MEMBER_ID = #{member_ID} AND MEMBER_TOKEN = #{member_Token}
+ 	</select>
+ 	<!-- 네이버 로그인 계정 디테일 -->
+ 	<select id="naver_login" parameterType="MemberDTO" resultType="MemberDTO">
+ 		SELECT * FROM MEMBER WHERE MEMBER_ID = #{member_ID}
+ 	</select>
+ 	
+ 	<!-- 회원가입 -->
  	<insert id="setJoin" parameterType="MemberDTO">
  		INSERT INTO MEMBER
  		(MEMBER_ID,MEMBER_PASSWORD,MEMBER_EMAIL,MEMBER_NICK,MEMBER_PROFILE_BLOB,MEMBER_PHONENUMBER)
@@ -23,20 +47,34 @@
  		(#{member_ID},#{member_Password},#{member_Email},#{member_Nick},#{member_Profile_Blob},#{member_PhoneNumber})
  	</insert>
  	
+ 	
+ 	
+ 	
+ 	<!-- 관리자 페이지 MEMBER/LIST  ( 권한변경 가능) -->
  	<select id="getList" parameterType="MemberDTO" resultType="MemberDTO">
  		SELECT * FROM MEMBER
  	</select>
- 	
+	<!-- 탈퇴 된 계정들 가져오기 -->
+	<select id="delete_list" resultType="MemberDTO">
+		SELECT * FROM MEMBER WHERE MEMBER_FLAG = 1
+	</select>
+	<!-- 계정 복구 -->
+	<update id="user_recovered" parameterType="MemberDTO">
+		UPDATE MEMBER SET MEMBER_FLAG = 0 WHERE MEMBER_ID = #{member_ID}
+	</update>
+	
+	<!-- 테스트 --> 	
  	<select id="get" resultType="MemberDTO">
  		SELECT MEMBER_PROFILE "member_Profile_byte"
  		FROM MEMBER WHERE MEMBER_ID = '1234324'
  	</select>
  	
  	<select id="getDetail" resultType="MemberDTO" parameterType="MemberDTO">
- 		SELECT * FROM MEMBER WHERE MEMBER_ID = #{member_ID} AND MEMBER_PASSWORD = #{member_Password}
+ 		SELECT * FROM MEMBER WHERE MEMBER_ID = #{member_ID} AND ( MEMBER_PASSWORD = #{member_Password} OR MEMBER_TOKEN >0 )
  	</select>
  	
 
+	<!-- 중복체크 -->
  	<select id="setIdcheck" resultType="int" parameterType="MemberDTO">
  		SELECT COUNT(MEMBER_ID) FROM MEMBER WHERE MEMBER_ID = #{member_ID}
  	</select>
@@ -45,12 +83,10 @@
  		SELECT COUNT(MEMBER_NICK) FROM MEMBER WHERE MEMBER_NICK = #{member_Nick}
  	</select>
  	
- 	<update id="setUpdateRole" parameterType="MemberDTO">
- 		UPDATE MEMBER SET
- 		MEMBER_ROLE  =#{member_Role}
- 		WHERE MEMBER_ID = #{member_ID}
- 	</update>
+ 	
  	  
+ 	  
+ 	<!-- 회원정보 수정 -->
  	<update id="setUpdate" parameterType="MemberDTO">
  		UPDATE MEMBER <set>
  		<if test="member_Password != '' "> MEMBER_Password =#{member_Password},</if>
@@ -61,17 +97,35 @@
  		WHERE MEMBER_ID = #{member_ID}
  	</update>
  	
+ 	
+ 	<!-- 계정탈퇴 플래그1로 변경 및 오늘날짜로 탈퇴일 지정 -->
  	<update id="setDelete" parameterType="MemberDTO">
  		UPDATE MEMBER SET MEMBER_FLAG = 1 , MEMBER_DELDATE = SYSDATE
  		WHERE MEMBER_ID = #{member_ID}
  	</update>
  	
+ 	
+ 	<!-- 멤버 권한 변경 -->
+ 	<!-- 회원의 권한 이름 변경 -->
+ 	<update id="setUpdateRole" parameterType="MemberDTO">
+ 		UPDATE MEMBER SET
+ 		MEMBER_ROLE  =#{member_Role}
+ 		WHERE MEMBER_ID = #{member_ID}
+ 	</update>
+ 	<!-- 관리자 > 멤버로 변경시 관리자 100번 권한 삭제  -->
  	<delete id="deleteRole" parameterType="RoleDTO">
  		DELETE MEMBER_ROLE WHERE MEMBER_ID = #{member_ID} AND ROLE_NUM = 100
  	</delete>
+ 	<!-- 멤버 > 관리자 변경시 관리자 권한 추가 -->
  	<insert id="insertRole" parameterType="RoleDTO">
  		INSERT INTO MEMBER_ROLE VALUES(#{member_ID},100)
  	</insert>
+ 	<!-- 회원가입 시 멤버(200)번 권한 발행 -->
+ 	<insert id="setDefaultRole" parameterType="MemberDTO">
+ 		INSERT INTO MEMBER_ROLE VALUES(#{member_ID},200)
+ 	</insert>
+ 	
+ 	
  	<!-- 출석 시작 출석일자 조회 -->
  	<select id="getAtendence" parameterType="MemberDTO" resultType="int">
  		SELECT COUNT(MEMBER_ID) FROM ATTENDENCE WHERE MEMBER_ID = #{member_ID} AND AT_DATE = TO_CHAR(SYSDATE,'YYYY-MM-DD')

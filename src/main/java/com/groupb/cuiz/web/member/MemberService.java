@@ -18,13 +18,20 @@ public class MemberService {
 	@Autowired
 	private MemberDAO dao;
 	
+	public int setNaver(MemberDTO dto) throws Exception{
+		int result = dao.setNaver(dto);
+		result = dao.setDefaultRole(dto);
+		return result;
+	}
 	
 	public MemberDTO get() throws Exception{
 		return dao.get();
 	}
 	@Transactional
 	public int setKakao(MemberDTO dto)throws Exception{
-		return dao.setKakao(dto);
+		int result = dao.setKakao(dto);
+		result = dao.setDefaultRole(dto);
+		return result;
 	}
 	public int getAll(MemberDTO dto) throws Exception{
 		return dao.getAll(dto);
@@ -33,9 +40,17 @@ public class MemberService {
 		return dao.getKakaoLogin(dto);
 	}
 	
+	public List<MemberDTO> delete_list() throws Exception{
+		return dao.delete_list();
+	}
+	public int user_recovered(MemberDTO dto) throws Exception{
+		return dao.user_recovered(dto);
+	}
 	
 	@Transactional
 	public int setJoin(MemberDTO dto) throws Exception{
+		dao.setDefaultRole(dto);
+		
 		return dao.SetJoin(dto);
 	}
 	public MemberDTO getDetail(MemberDTO dto) throws Exception{
@@ -122,6 +137,26 @@ public class MemberService {
 		map.put("dto", dto);
 		
 		return map;
+	}
+	
+	
+	public MemberDTO getKakaoNickCount(MemberDTO dto) throws Exception{
+		int count = dao.getKakaoNickCount(dto);
+		String tag = dto.getMember_Nick()+"#"+(count+1);
+		
+		dto.setMember_Nick(tag);
+		
+		return dto;
+	}
+	
+	public int getNaver(MemberDTO dto) throws Exception{
+		int result = dao.getNaver(dto);
+		
+		return result;
+	}
+	public MemberDTO naver_login(MemberDTO dto) throws Exception{
+		return dao.naver_login(dto);
+		
 	}
 	
 }

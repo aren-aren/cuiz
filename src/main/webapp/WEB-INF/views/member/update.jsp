@@ -32,6 +32,20 @@
 	.no{
 		color : crimson;
 	}
+	.btn-update{
+		font-size: 14px;
+	    color: #fff;
+	    background-color: #e75e8d;
+	    padding: 12px 30px;
+	    display: inline-block;
+	    border-radius: 25px;
+	    font-weight: 400;
+	    text-transform: capitalize;
+	    letter-spacing: 0.5px;
+	    transition: all .3s;
+	    position: relative;
+	    overflow: hidden;
+	}
 </style>
 
 </head>
@@ -95,7 +109,7 @@
 			<label for="profile" class="color-white">프로필 사진 변경</label><br>
 			<input id="profile_change" name="member_Profile" type="file" class="form-control input-join">
 		</div>
-		<button id="join-btn">회원정보 수정</button>
+		<button id="join-btn" class="btn-update">회원정보 수정</button>
 	</form>
 		
 		</div>

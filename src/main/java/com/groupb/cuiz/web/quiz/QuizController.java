@@ -1,17 +1,14 @@
 package com.groupb.cuiz.web.quiz;
 
+import com.groupb.cuiz.support.util.pager.Pager;
 import com.groupb.cuiz.web.member.MemberDTO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpSession;
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
 
 @Controller
 @RequestMapping("/quiz/*")
@@ -25,13 +22,21 @@ public class QuizController {
     }
 
     @PostMapping("add")
-    public String addQuiz(QuizDTO quizDTO, String[] example_inputs, String[] example_outputs, String[] inputs, String[] outputs, Model model) throws Exception {
-        int result = quizService.addQuiz(quizDTO, example_inputs, example_outputs, inputs, outputs);
+    public String addQuiz(QuizDTO quizDTO, String[] example_inputs, String[] example_outputs, String[] quiz_inputs, String[] quiz_outputs, HttpSession session, Model model) throws Exception {
+        MemberDTO memberDTO = (MemberDTO)session.getAttribute("member");
+        quizDTO.setMember_Id(memberDTO.getMember_ID());
+
+        System.out.println(quizDTO);
+
+        System.out.println(Arrays.toString(example_inputs));
+        System.out.println(Arrays.toString(quiz_outputs));
+
+        int result = quizService.addQuiz(quizDTO, example_inputs, example_outputs, quiz_inputs, quiz_outputs);
 
         if(result%10 == 0){
             model.addAttribute("msg", "문제 등록 실패");
             model.addAttribute("path", "./add");
-        } else if (result/10 != (example_inputs.length + inputs.length)){
+        } else if (result/10 != (example_inputs.length + quiz_inputs.length)){
             model.addAttribute("msg", "일부 테스트케이스 등록 실패");
             model.addAttribute("path", "./list");
         } else{
@@ -42,35 +47,68 @@ public class QuizController {
     }
 
 
-    @PostMapping("sampleRun")
     @ResponseBody
-    public String sampleRun(String quiz_SampleCode, String example_inputs, String quiz_inputs, HttpSession session) throws Exception {
+    @PostMapping("sampleRun")
+    public SampleRunResult sampleRun(String quiz_SampleCode, String[] example_inputs, String[] quiz_inputs, HttpSession session) throws Exception {
         MemberDTO memberDTO = (MemberDTO) session.getAttribute("member");
 
         System.out.println(quiz_SampleCode);
-        System.out.println(example_inputs);
-        System.out.println(quiz_inputs);
-
-        String[] exinputs = example_inputs.split(",");
-        String[] inputs = quiz_inputs.split(",");
+        System.out.println("exampleInputs = " + Arrays.toString(example_inputs));
+        System.out.println("quizInputs = " + Arrays.toString(quiz_inputs));
 
         MemberAnswerDTO answerDTO = new MemberAnswerDTO();
-        List<String> inputList = new ArrayList<>(List.of(exinputs));
-        inputList.addAll(List.of(inputs));
-
-        answerDTO.setExampleInputs(inputList);
-        answerDTO.setMember_Source_Code(quiz_SampleCode);
+        answerDTO.setSourcecode(quiz_SampleCode);
         answerDTO.setMember_Id(memberDTO.getMember_ID());
 
-        answerDTO = quizService.getSampleOutput(answerDTO);
+        List<String> exOutputs = quizService.getSampleOutput(answerDTO, List.of(example_inputs));
+        List<String> qOutputs = quizService.getSampleOutput(answerDTO, List.of(quiz_inputs));
 
-        String[] outputs = new String[exinputs.length + inputs.length];
+        System.out.println("qOutputs = " + qOutputs);
+        System.out.println("exOutputs = " + exOutputs);
 
-        for (int i = 0; i < outputs.length; i++) {
-            outputs[i] = answerDTO.getTestCaseResultDTOS().get(i).getResultMessage();
-        }
+        return SampleRunResult.createResult(exOutputs,qOutputs);
+    }
 
-        return String.join("###",outputs);
+    @GetMapping("list")
+    public String getList(Pager pager, Model model){
+        List<QuizDTO> quizList = quizService.getList(pager);
+        model.addAttribute("list", quizList);
+
+        return "quiz/list";
+    }
+
+    @GetMapping("solve")
+    public String solveQuiz(QuizDTO quizDTO, Model model){
+        quizDTO = quizService.getDetail(quizDTO);
+        model.addAttribute("dto", quizDTO);
+
+        return "quiz/solve";
+    }
+
+    @ResponseBody
+    @PostMapping("run")
+    public MemberAnswerDTO runQuiz(@RequestBody MemberAnswerDTO answerDTO, HttpSession session) throws Exception {
+        MemberDTO memberDTO = (MemberDTO) session.getAttribute("member");
+        answerDTO.setMember_Id(memberDTO.getMember_ID());
+
+        answerDTO = quizService.runExampleQuiz(answerDTO);
+        return answerDTO;
+    }
+
+    @ResponseBody
+    @PostMapping("submit")
+    public MemberAnswerDTO submitQuiz(@RequestBody MemberAnswerDTO answerDTO, HttpSession session) throws Exception {
+        MemberDTO memberDTO = (MemberDTO) session.getAttribute("member");
+        answerDTO.setMember_Id(memberDTO.getMember_ID());
+
+        answerDTO = quizService.submitQuiz(answerDTO);
+        return answerDTO;
+    }
+
+    @GetMapping("solvetest")
+    public String solveQuizs(){
+
+        return "quiz/solve";
     }
 }
 

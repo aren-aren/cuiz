@@ -1,0 +1,129 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+  
+  <mapper namespace="com.groupb.cuiz.web.board.qna.QnaDAO">
+  
+  <sql id="search">
+  	<where>
+  		<if test="kind== 'kind1'">
+  			BOARD_TITLE LIKE '%'||#{search}||'%'
+  		</if>
+  		 <if test="kind== 'kind2'">
+  			BOARD_CONTENTS LIKE '%'||#{search}||'%'
+  		</if>
+  		 <if test="kind== 'kind3'">
+  			MEMBER_ID LIKE '%'||#{search}||'%'
+  		</if>
+  	</where>
+  </sql>
+  
+  
+  <!-- list -->
+  <select id="getList" resultType="QnaDTO" parameterType="Pager">
+  	SELECT * FROM
+  	(SELECT ROWNUM R, N.*FROM
+  		(
+  			SELECT * FROM QNA
+  			<include refid="search"></include>
+  			ORDER BY BOARD_REF DESC, BOARD_STEP ASC
+  		)
+  	N)
+  	WHERE R BETWEEN #{startRow} AND #{lastRow}
+  </select>
+  
+  
+  <!-- getTotalCount -->
+  <select id="getTotalCount" resultType="Long" parameterType="Pager">
+  	SELECT COUNT(BOARD_NUM) FROM QNA
+  	<include refid="search"></include>
+  </select>
+  
+  
+  <!-- add -->
+  <insert id="getAdd" parameterType="BoardDTO">
+  	<selectKey keyProperty="board_Num" resultType="Long" order="BEFORE">
+  		SELECT QNA_SEQ.NEXTVAL FROM DUAL
+  	</selectKey>
+  	INSERT INTO QNA
+  	(BOARD_NUM, BOARD_TITLE, MEMBER_ID, BOARD_CONTENTS, BOARD_DATE, BOARD_HIT,
+  	BOARD_REF, BOARD_STEP, BOARD_DEPTH)
+  	VALUES
+  	(#{board_Num}, #{board_Title}, #{member_ID}, #{board_Contents}, SYSDATE, 0, #{board_Num}, 0, 0, 0)
+  </insert>
+  
+  
+  <!-- detail -->
+  <select id="getDetail" parameterType="BoardDTO" resultMap="getDetailResult">
+  	SELECT *
+  	FROM QNA Q
+  		LEFT JOIN
+  		QNAFILES QF
+  		USING (BOARD_NUM)
+  	WHERE BOARD_NUM=#{board_Num}
+  </select>
+  
+  <resultMap type="QNADTO" id="getDetailResult">
+  	<id column="BOARD_NUM" property="board_Num"/>
+  	<result column="BOARD_TITLE" property="board_Title"/>
+  	<result column="MEMBER_ID" property="member_ID"/>
+  	<result column="BOARD_CONTENTS" property="board_Contents"/>
+  	<result column="BOARD_DATE" property="board_Date"/>
+  	<result column="BOARD_HIT" property="board_Hit"/>
+  	<result column="BOARD_REF" property="board_Ref"/>
+  	<result column="BOARD_STEP" property="board_Step"/>
+  	<result column="BOARD_DEPTH" property="board_Depth"/>
+  	
+  	<collection property="fileDTOs" javaType="List" ofType="BoardFileDTO">
+  		<id column="FILE_NUM" property="file_Num"/>
+  	  	<result column="FILE_NAME" property="file_Name"/>
+  	  	<result column="ORI_NAME" property="ori_Name"/>
+  	</collection>
+  	
+  </resultMap>
+  
+  
+  <!-- update -->
+  <update id="getUpdate" parameterType="BoardDTO">
+  	UPDATE QNA
+  	<set>
+  		<if test="board_Title !=null and board_Title">
+  		BOARD_TITLE=#{board_Title},
+  		</if>
+  		<if test="board_Contents !=null">
+  		BOARD_CONTENTS=#{board_Contents}
+  		</if>
+  	</set>
+  	WHERE BOARD_NUM=#{board_Num}
+  </update>
+  
+  
+  <!-- delete -->
+  <update id="getDelete" parameterType="QnaDTO">
+  	UPDATE QNA SET FLAG=#{flag}
+  	WHERE BOARD_NUM=#{board_Num}
+  </update>
+  
+  
+  <!-- file list -->
+  <select id="getFileList" parameterType="BoardDTO" resultType="BoardFileDTO">
+  	SELECT FILE_NAME FROM QNAFILES WHERE BOARD_NUM=#{board_Num}
+  </select>
+  
+  
+  <!-- file add -->
+  <insert id="getFileAdd" parameterType="BoardFileDTO">
+  	INSERT INTO QNAFILES
+  	(FILE_NUM, BOARD_NUM, FILE_NAME, ORI_NAME)
+  	VALUES
+  	(QNA_SEQ.NEXTVAL, #{board_Num},#{file_Name}, #{ori_Name})
+  </insert>
+  
+  
+  <!-- file delete -->
+  <delete id="getFileDelete" parameterType="BoardDTO">
+  	DELETE QNAFILES WHERE BOARD_NUM=#{board_Num}
+  </delete>
+  
+  </mapper>
