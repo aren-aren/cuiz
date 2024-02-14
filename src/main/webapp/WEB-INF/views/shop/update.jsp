@@ -37,10 +37,10 @@
 	</div>
 	
 	<div>
-		<button type="button" id="updateBtn">Update</button>
+		<button type="submit" id="updateBtn">Update</button>
 	</div>
 	</form>
 
-	<script src="/resources/js/shop/detail.js"></script>
+	<!-- <script src="/resources/js/shop/detail.js"></script> -->
 </body>
 </html>

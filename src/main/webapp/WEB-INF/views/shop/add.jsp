@@ -1,15 +1,36 @@
-
 <%@ page language="java" contentType="text/html; charset=UTF-8"
-	pageEncoding="UTF-8"%>
-<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
-
+    pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <!DOCTYPE html>
 <html lang="en">
- <c:import url="../temps/header_css.jsp"></c:import>
+<head>
 
+
+<meta charset="UTF-8">
+<title>Insert title here</title>
+<c:import url="../temps/header_css.jsp"></c:import>
+<style>
+	.color-white{
+		color : white;	
+	}
+	.input-join{
+	width: 450px;
+	}
+	#updBtnFrm{
+		margin-top : 10%;
+		margin-left : 40%;
+	}
+
+	.yes{
+		color : seagreen;
+	}	
+	.no{
+		color : crimson;
+	
+</style>
+</head>
 <body>
-
-  <!-- ***** Preloader Start ***** -->
+	<!-- ***** Preloader Start ***** -->
   <div id="js-preloader" class="js-preloader">
     <div class="preloader-inner">
       <span class="dot"></span>
@@ -21,171 +42,44 @@
     </div>
   </div>
   <!-- ***** Preloader End ***** -->
+	
+	<c:import url="../temps/header.jsp"></c:import>
+	
+	<form id="updBtnFrm" action="./add" method="POST" enctype="multipart/form-data">
+	<div>
+		<h2>아이템 추가</h2>
+	</div>
+	<input type="text" name="item_Num" value="${dto.item_Num}" >
+	<div>
+		<label for="item_Name" class="form-label color-white">닉네임을 입력해주세요</label>
+		<input type="text" name="item_Name" id="item_Name" class="form-control input-join" placeholder="영어와 숫자로 이루어진 4-10글자">
+		<div id="item_Name"></div>
+	</div>
+	<div>
+		<label for="item_Price" class="form-label color-white">가격을 입력해주세요</label>
+		<input type="text" name="item_Price" id="item_Price" class="form-control input-join" placeholder="영어와 숫자로 이루어진 4-10글자">
+		<div id="item_Price"></div>
+	</div>
+	<div>
+		<label for="item_Contents" class="form-label color-white">아이템 설명을 입력하세요</label><br>
+		<input type="text" id="item_Contents" name="item_Contents" class="form-control input-join" placeholder="아이템 설명을 입력하세요">
+	</div>
+	<div>
+		<br><label for="profile" class="color-white"> 사진을 선택해주세요.</label><br><br>
+	</div>
+	<div class="input-group mb-3 input-join">
+		 <input type="file" id="profile" class="form-control" name="file">
+	</div>
+	<br><br>
+		
+	<div class="col-lg-8">
+	<div class="main-border-button">
+		<button type="submit" id="updateBtn">Update</button>
+	</div>
+	</div>
+	</form>
 
-  <!-- ***** Header Area Start ***** -->
-  <c:import url="../temps/header.jsp"></c:import>
-  <!-- ***** Header Area End ***** -->
-
-  <div class="container">
-    <div class="row">
-      <div class="col-lg-12">
-        <div class="page-content">
-
-          <!-- ***** Featured Start ***** -->
-          <div class="row">
-            <div class="col-lg-12">
-              <div class="feature-banner header-text">
-                <div class="row">
-                 <!--  <div class="col-lg-4">
-                    <img src="/resources/assets/images/feature-left.jpg" alt="" style="border-radius: 23px;">
-                  </div> -->
-                  <!-- <div class="col-lg-8">
-                     <div class="thumb">
-                      <img src="/resources/assets/images/feature-right.jpg" alt="" style="border-radius: 23px;">
-                      <a href="https://www.youtube.com/watch?v=r1b03uKWk_M" target="_blank"><i class="fa fa-play"></i></a>
-                    </div> 
-                  </div> -->
-                </div>
-              </div>
-            </div>
-          </div>
-          <!-- ***** Featured End ***** -->
-
-          <!-- ***** Details Start ***** -->
-          <form>
-          <div class="game-details">
-            <div class="row">
-              <div class="col-lg-12">
-                <h2>Insert Item</h2>
-              </div>
-              <div class="col-lg-12">
-                <div class="content">
-                  <div class="row">
-                    <div class="col-lg-6">
-                      <div class="left-info">
-                        <div class="search-input">
-	                        <input style="
-	                        background-color: transparent;
-						    position: absolute;"
-						    type="text" placeholder="Type Something" id='searchText' name="searchKeyword" onkeypress="handle" />
-	                        <i class="fa fa-search"></i>
-	                    </div>
-                        <ul>
-                          <li><i class="fa fa-star"></i> 4.8</li>
-                          <li><i class="fa fa-download"></i> 2.3M</li>
-                        </ul>
-                      </div>
-                    </div>
-                    <div class="col-lg-6">
-                      <div class="right-info">
-                        <ul>
-                          <li><i class="fa fa-star"></i> 4.8</li>
-                          <li><i class="fa fa-download"></i> 2.3M</li>
-                          <li><i class="fa fa-server"></i> 36GB</li>
-                          <li><i class="fa fa-gamepad"></i> Action</li>
-                        </ul>
-                      </div>
-                    </div>
-                    <div class="col-lg-4">
-                    
-                                        
-                    </div>
-                    <div class="main-border-button">
-                     	<button type="button" class="btn btn-primary" id="fileAdd">Insert File</button>	
-                    </div>
-                    
-                    <div class="col-lg-12">
-                      <p> ${dto.item_Contents}</p>
-                    <div class="col-lg-12">
-                      <div class="main-border-button">
-                        <button type="submit">Insert Now!</button>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-          </form>
-          <!-- ***** Details End ***** -->
-
-      <!--     ***** Other Start *****
-          <div class="other-games">
-            <div class="row">
-              <div class="col-lg-12">
-                <div class="heading-section">
-                  <h4><em>Other Related</em> Games</h4>
-                </div>
-              </div>
-              <div class="col-lg-6">
-                <div class="item">
-                  <img src="/resources/assets/images/game-01.jpg" alt="" class="templatemo-item">
-                  <h4>Dota 2</h4><span>Sandbox</span>
-                  <ul>
-                    <li><i class="fa fa-star"></i> 4.8</li>
-                    <li><i class="fa fa-download"></i> 2.3M</li>
-                  </ul>
-                </div>
-              </div>
-              <div class="col-lg-6">
-                <div class="item">
-                  <img src="/resources/assets/images/game-02.jpg" alt="" class="templatemo-item">
-                  <h4>Dota 2</h4><span>Sandbox</span>
-                  <ul>
-                    <li><i class="fa fa-star"></i> 4.8</li>
-                    <li><i class="fa fa-download"></i> 2.3M</li>
-                  </ul>
-                </div>
-              </div>
-              <div class="col-lg-6">
-                <div class="item">
-                  <img src="/resources/assets/images/game-03.jpg" alt="" class="templatemo-item">
-                  <h4>Dota 2</h4><span>Sandbox</span>
-                  <ul>
-                    <li><i class="fa fa-star"></i> 4.8</li>
-                    <li><i class="fa fa-download"></i> 2.3M</li>
-                  </ul>
-                </div>
-              </div>
-              <div class="col-lg-6">
-                <div class="item">
-                  <img src="/resources/assets/images/game-02.jpg" alt="" class="templatemo-item">
-                  <h4>Dota 2</h4><span>Sandbox</span>
-                  <ul>
-                    <li><i class="fa fa-star"></i> 4.8</li>
-                    <li><i class="fa fa-download"></i> 2.3M</li>
-                  </ul>
-                </div>
-              </div>
-              <div class="col-lg-6">
-                <div class="item">
-                  <img src="/resources/assets/images/game-03.jpg" alt="" class="templatemo-item">
-                  <h4>Dota 2</h4><span>Sandbox</span>
-                  <ul>
-                    <li><i class="fa fa-star"></i> 4.8</li>
-                    <li><i class="fa fa-download"></i> 2.3M</li>
-                  </ul>
-                </div>
-              </div>
-              <div class="col-lg-6">
-                <div class="item">
-                  <img src="/resources/assets/images/game-01.jpg" alt="" class="templatemo-item">
-                  <h4>Dota 2</h4><span>Sandbox</span>
-                  <ul>
-                    <li><i class="fa fa-star"></i> 4.8</li>
-                    <li><i class="fa fa-download"></i> 2.3M</li>
-                  </ul>
-                </div>
-              </div>
-            </div>
-          </div>
-          ***** Other End ***** -->
-
-        </div>
-      </div>
-    </div>
-  </div>  
-  <c:import url="../temps/footer.jsp"></c:import>
-  </body>
-
+	<c:import url="../temps/footer.jsp"></c:import>
+	
+</body>
 </html>
