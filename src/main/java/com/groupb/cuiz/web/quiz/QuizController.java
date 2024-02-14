@@ -71,7 +71,7 @@ public class QuizController {
 
     @GetMapping("list")
     public String getList(Pager pager, Model model){
-        List<QuizDTO> quizList = quizService.getList(pager);
+        List<QuizListDTO> quizList = quizService.getList(pager);
         model.addAttribute("list", quizList);
 
         return "quiz/list";

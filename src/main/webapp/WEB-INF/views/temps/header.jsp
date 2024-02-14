@@ -41,6 +41,8 @@
                         <li><a href="/notice/list">Notice</a></li>
                         <li><a href="/qna/list">QnA</a></li>
 
+                        <li><a href="/quiz/list">QuizList</a></li>
+
                         <li><a href="/mypage/profile">Profile <img src="/resources/assets/images/profile-header.jpg" alt=""></a></li>
 
                     </ul>   

@@ -242,7 +242,7 @@ public class QuizService {
      * @param pager
      * @return
      */
-    public List<QuizDTO> getList(Pager pager) {
+    public List<QuizListDTO> getList(Pager pager) {
         Long totalCount = quizDAO.getTotalCount(pager);
         System.out.println("totalCount = " + totalCount);
 

@@ -29,5 +29,6 @@
 		 <typeAlias type="com.groupb.cuiz.web.quiz.TestcaseDTO" alias="TestcaseDTO"/>
 		 <typeAlias type="com.groupb.cuiz.web.quiz.QuizDTO" alias="QuizDTO"/>
 		 <typeAlias type="com.groupb.cuiz.web.quiz.MemberAnswerDTO" alias="MemberAnswerDTO"/>
+		 <typeAlias type="com.groupb.cuiz.web.quiz.QuizListDTO" alias="QuizListDTO"/>
 	 </typeAliases>
 </configuration>

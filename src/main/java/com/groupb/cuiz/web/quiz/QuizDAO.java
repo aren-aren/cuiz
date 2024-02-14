@@ -26,7 +26,7 @@ public class QuizDAO {
         return sqlSession.selectOne(NAMESPACE + "getTotalCount",pager);
     }
 
-    public List<QuizDTO> getList(Pager pager) {
+    public List<QuizListDTO> getList(Pager pager) {
         return sqlSession.selectList(NAMESPACE + "getList", pager);
     }
 

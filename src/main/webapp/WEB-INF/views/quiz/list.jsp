@@ -42,7 +42,7 @@
                             </div>
                             <div class="row">
                                 <div class="col-2">
-                                <select name="quiz_Level" class="form-select form-select-sm">
+                                <select id="level-select" name="quiz_Level" class="form-select form-select-sm">
                                     <option value="0" selected>난이도</option>
                                     <option value="1">1</option>
                                     <option value="2">2</option>
@@ -52,7 +52,7 @@
                                 </select>
                                 </div>
                                 <div class="col-2">
-                                <select name="quiz_State" class="form-select form-select-sm">
+                                <select id="kind-select" name="quiz_State" class="form-select form-select-sm">
                                     <option value="0" selected>범주</option>
                                     <option value="1">푼 문제</option>
                                     <option value="2">안 푼 문제</option>
@@ -70,21 +70,23 @@
                                 <table class="table table-dark table-striped table-hover">
                                     <thead>
                                     <tr>
-                                        <th style="width: 13%">번호</th>
-                                        <th style="width: 60%">제목</th>
-                                        <th style="width: 9%">난이도</th>
-                                        <th style="width: 9%">맞힌 사람</th>
-                                        <th style="width: 9%">정답률</th>
+                                        <th style="width: 10%">번호</th>
+                                        <th style="width: 50%">제목</th>
+                                        <th style="width: 10%">난이도</th>
+                                        <th style="width: 10%">도전한 사람</th>
+                                        <th style="width: 10%">맞힌 사람</th>
+                                        <th style="width: 10%">정답률</th>
                                     </tr>
                                     </thead>
                                     <tbody>
                                     <c:forEach items="${list}" var="dto">
                                         <tr>
                                             <td>${dto.quiz_No}</td>
-                                            <td>${dto.quiz_Title}</td>
+                                            <td><a href="solve?quiz_No=${dto.quiz_No}">${dto.quiz_Title}</a></td>
                                             <td>${dto.quiz_Level}</td>
-                                            <td></td>
-                                            <td></td>
+                                            <td>${dto.total_Count}</td>
+                                            <td>${dto.correct_Count}</td>
+                                            <td>${dto.correct_Rate}%</td>
                                         </tr>
                                     </c:forEach>
                                     </tbody>
