@@ -4,10 +4,10 @@
         "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
 <mapper namespace="com.groupb.cuiz.web.quiz.QuizDAO">
-    <insert id="addTestcase" parameterType="Map">
+    <insert id="addTestcase" parameterType="List">
         INSERT INTO TESTCASE(TESTCASE_NO, QUIZ_NO, TESTCASE_INPUT, TESTCASE_OUTPUT, TESTCASE_TYPE)
         SELECT TESTCASE_SEQ.NEXTVAL as "TESTCASE_NO", t.* FROM (
-            <foreach collection="testcase" item="item" separator="UNION ALL">
+            <foreach collection="list" item="item" separator="UNION ALL">
                 SELECT  #{item.quiz_No} QUIZ_NO,
                         #{item.testcase_Input} TESTCASE_INPUT,
                         #{item.testcase_Output} TESTCASE_OUTPUT,

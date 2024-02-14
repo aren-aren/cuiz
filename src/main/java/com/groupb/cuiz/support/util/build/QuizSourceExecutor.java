@@ -17,9 +17,8 @@ public class QuizSourceExecutor {
      * @return
      * @throws IOException
      */
-    public static String runCode(String path, String filename, String input) throws IOException {
+    public static String runCode(String path, String filename, String input) throws RuntimeException, IOException {
         String command = String.format("java -Dfile.encoding=UTF8 -cp %s %s", path, filename);
-
         return sendCommandToScript(command, input);
     }
 
@@ -29,16 +28,10 @@ public class QuizSourceExecutor {
      * @param path
      * @return
      */
-    public static boolean compileJava(String path) {
+    public static void compileJava(String path) throws RuntimeException, IOException {
         //자바파일을 컴파일
         String command = "javac -encoding UTF-8 " + path;
-        try {
-            sendCommandToScript(command, null);
-        } catch (IOException e) {
-            System.out.println("e.getMessage() = " + e.getMessage());
-            return false;
-        }
-        return true;
+        sendCommandToScript(command, null);
     }
 
     /**
@@ -48,11 +41,12 @@ public class QuizSourceExecutor {
      * @return
      * @throws IOException
      */
-    public static String sendCommandToScript(String command, String input) throws IOException {
+    private static String sendCommandToScript(String command, String input) throws RuntimeException, IOException {
         //스크립트에 command를 보내고 출력값을 받아온다
         System.out.println("스크립트 실행 : command = " + command);
         //출력을 받을 outputStream
         ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
+        ByteArrayOutputStream errorOutputStream = new ByteArrayOutputStream();
 
         //command를 파싱
         CommandLine commandLine = CommandLine.parse(command);
@@ -72,12 +66,12 @@ public class QuizSourceExecutor {
         ByteArrayInputStream ins = new ByteArrayInputStream(os.toByteArray());
 
         //연결후 데이터를 주고 받는 handler
-        PumpStreamHandler streamHandler = new PumpStreamHandler(outputStream, OutputStream.nullOutputStream(), ins);
+        PumpStreamHandler streamHandler = new PumpStreamHandler(outputStream, errorOutputStream, ins);
 
         //시간 제한
         ExecuteWatchdog watchdog = ExecuteWatchdog.builder().setTimeout(Duration.ofSeconds(10)).get();
 
-        executor.setExitValues(new int[]{0,1});
+        executor.setExitValues(new int[]{0});
         executor.setStreamHandler(streamHandler);
         executor.setWatchdog(watchdog);
 
@@ -87,11 +81,13 @@ public class QuizSourceExecutor {
             exitVal = executor.execute(commandLine);
         } catch (ExecuteException e){
             os.close();
-            System.out.println("e.getMessage() = " + e.getMessage());
+            String msg;
             if(watchdog.killedProcess()){
-                return "timeout";
+                msg = "timeout";
+            } else {
+                msg = errorOutputStream.toString("UTF-8");
             }
-            throw e;
+            throw new RuntimeException(msg);
         }
         os.close();
 

@@ -14,9 +14,8 @@ public class QuizDAO {
     private SqlSession sqlSession;
     private final String NAMESPACE = "com.groupb.cuiz.web.quiz.QuizDAO.";
 
-    public int addTestcase(Map<String, Object> testcase) throws Exception {
-        System.out.println("testcase = " + testcase);
-        return sqlSession.insert(NAMESPACE + "addTestcase", testcase);
+    public int addTestcase(List<TestcaseDTO> list) throws Exception {
+        return sqlSession.insert(NAMESPACE + "addTestcase", list);
     }
 
     public int addQuiz(QuizDTO quizDTO) throws Exception {
