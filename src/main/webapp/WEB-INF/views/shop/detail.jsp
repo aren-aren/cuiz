@@ -37,7 +37,15 @@
               <div class="feature-banner header-text">
                 <div class="row">
            		  <div class="col-lg-4">
-                    <img src="data:image/jpeg;base64,${dto.item_Photo_to_String}" alt="" style="border-radius: 23px;">
+           		  <c:choose>
+           		  	<c:when test="${dto.item_Group==1}">
+                    <video src="${dto.item_Photo_to_String}" width=100%></video>         		  	
+           		  	</c:when>
+           		  	<c:when test="${dto.item_Group!=1}">
+           		  	 <img src="${dto.item_Photo_to_String}" alt="" style="border-radius: 23px;">           		  	
+           		  	</c:when>
+           		  </c:choose>
+           		  	
                   </div> 
                   <div class="col-lg-8">
                      <div class="thumb">
@@ -97,8 +105,18 @@
                       	<form id="delBtnFrm">
                       		<input type="hidden" id="item_Num" name="item_Num" value="${dto.item_Num}">
 	                      <div class="main-border-button">
-	                        <button  type="button"   id="buyNowBtn">Buy ${dto.item_Name} Now!</button>
-	                        <button  type="button"   id="adCartBtn">Jangbaguni</button>
+	                        
+	                      
+	                         <c:choose>
+			           		  	<c:when test="${dto.item_Group==0}">
+			                    	<button  type="button"   id="kakaopBtn">Buy ${dto.item_Name} Now!</buttons>		  	
+			           		  	</c:when>
+			           		  	<c:when test="${dto.item_Group>0}">
+			           		  		<button  type="button"   id="buyNowBtn">Buy ${dto.item_Name} Now!</button>    		  	
+			           		  	</c:when>
+			           		  </c:choose>
+	                        
+	                      <!--   <button  type="button"   id="adCartBtn">Jangbaguni</button> -->
 	                      </div>
 	                       <div class="main-border-button">                       	           
 		                    <button type="button"   id="updateBtn">Update</button> 

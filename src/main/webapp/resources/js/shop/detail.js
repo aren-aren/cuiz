@@ -4,8 +4,21 @@ const updateBtn = document.getElementById("updateBtn");
 const updBtnFrm = document.getElementById("updBtnFrm");
 const adCartBtn = document.getElementById("adCartBtn");
 const buyNowBtn = document.getElementById("buyNowBtn");
+const kakaopBtn = document.getElementById("kakaopBtn");
 
 
+
+
+
+//kakaopay
+
+kakaopBtn.addEventListener("click",(e)=>{
+
+    fetch("/purchase/kakaopay",{
+        method:"post"
+    })
+
+})
 
 
 

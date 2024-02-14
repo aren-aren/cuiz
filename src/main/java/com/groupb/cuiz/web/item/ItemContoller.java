@@ -72,7 +72,7 @@ public class ItemContoller {
 	public String getDetail(Model model, ItemDTO itemDTO) throws UnsupportedEncodingException {
 		
 		itemDTO = itemService.getDetail(itemDTO);
-		
+						
 		model.addAttribute("dto", itemDTO);
 		
 		return "/shop/detail";
