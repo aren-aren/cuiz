@@ -36,6 +36,86 @@ if(adCartBtn!=null){
     })
 }
 
+if(buyNowBtn!=null){
+
+    buyNowBtn.addEventListener("click",(e)=>{
+
+     let item_Num = document.getElementById("item_Num").value;
+     console.log(item_Num);
+     fetch("/purchase/buy", {
+        method:"POST",
+        headers:{
+            "Content-type":"application/x-www-form-urlencoded"
+        },       
+        body:"item_Num="+item_Num
+     })
+     .then(result=> result.text())    
+     .then(result=>{       
+         console.log(result);
+        switch(result){
+
+            case "1":
+                alert("구매완료");
+                location.href="/shop/list"
+                break;   
+                
+            case "2": 
+                alert("캐쉬템임");
+                break;        
+                
+            case "3": 
+                alert("코인이 부족합니다");
+                break;    
+                
+            case "4": 
+                alert("4번")
+                if(confirm("로그인 하시겠습니까?")){
+                location.href="/member/login";
+                 break; 
+        	    }     break; 
+                 
+            default :    
+                alert("asdasd");
+       
+        };
+
+        
+
+        // if(result == 4){
+        //     if(confirm("로그인 하시겠습니까?")){
+        //         location.href="/member/login";
+        //         return true;   
+        //     }   
+        // }       
+        // if(result == 3){
+
+        //     alert("코인이 부족합니다");
+        //     return false;     
+        // }
+        // if(result==2){
+
+        //     alert("캐쉬템임");
+        // }
+        // if(result==1){
+
+        //     if(confirm(구매성공)){
+        //         location.href="/shop/list"
+        //         return true;   
+        //     }
+        // }
+        // if(result==0){
+
+        //     alert("구매실패");
+        //     return false;   
+        // }
+
+        
+     })
+
+    })
+}
+
+
 // if(adCartBtn!=null){
 //     adCartBtn.addEventListener("click",(e)=>{
 //         let item_Num = document.getElementById("item_Num").value;

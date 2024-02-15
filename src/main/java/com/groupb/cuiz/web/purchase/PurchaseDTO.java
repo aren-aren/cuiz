@@ -1,8 +1,8 @@
-package com.groupb.cuiz.web.cart;
+package com.groupb.cuiz.web.purchase;
 
 import java.sql.Date;
 
-public class CartDTO {
+public class PurchaseDTO {
 
 	public Integer item_Num;
 	public String member_ID;

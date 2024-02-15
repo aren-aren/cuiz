@@ -14,11 +14,19 @@ public class ItemDTO {
 	private Integer item_Price;
 	private byte[] item_Photo;		
 	private String item_Photo_to_String;
+	private Integer item_Group;
+
 	
 	private Integer flag;
 	
 	
 	
+	public Integer getItem_Group() {
+		return item_Group;
+	}
+	public void setItem_Group(Integer item_Group) {
+		this.item_Group = item_Group;
+	}
 	public String getItem_Photo_to_String() {
 		return item_Photo_to_String;
 	}

@@ -37,23 +37,19 @@
                         <li><a href="/member/list">Member List</a></li>
                         <li><a href="details.html">Details</a></li>
                         <li><a href="/shop/list">Shop</a></li>
-
-                        <li><a href="/notice/list">Notice</a></li>
-                        <li><a href="/qna/list">QnA</a></li>
-
-                        <li><a href="/mypage/profile">Profile <img src="/resources/assets/images/profile-header.jpg" alt=""></a></li>
-
-                    </ul>   
-                    <ul class="nav">
-                   		 <c:if test="${member eq null }">
-                    		<li><a href="/member/login">Login</a></li>
-                    		<li><a href="/member/join">Join</a> </li>
+                    	 <c:if test="${not empty member}">
+                    		<li><a href="/member/logout">Logout</a></li>
+                        <li><a href="/mypage/profile">${member.member_Nick} <img src="/resources/assets/images/profile-header.jpg" alt=""></a></li>
                     	</c:if>
+                   		 <c:if test="${member eq null }">
+                    		<li><a href="/member/login">Login<img src="/resources/assets/images/profile-header.jpg" alt=""></a></li>                    		
+                    	</c:if>
+                    </ul>   
+                   <%--  <ul class="nav">
                			<c:if test="${not empty member}">	
                				<li><a href="/member/mypage">Mypage <img src="/resources/assets/images/profile-header.jpg" alt="" style = width:40px;></a></li>
-                    		<li><a href="/member/logout">Logout</a>
                     	</c:if>
-                    </ul>
+                    </ul> --%>
                     <a class='menu-trigger'>
                         <span>Menu</span>
                     </a>

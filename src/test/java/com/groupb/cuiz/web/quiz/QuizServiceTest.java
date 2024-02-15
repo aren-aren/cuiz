@@ -3,12 +3,6 @@ package com.groupb.cuiz.web.quiz;
 import com.groupb.cuiz.MyTest;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.test.context.web.WebAppConfiguration;
-
-import java.util.ArrayList;
-import java.util.List;
-
-import static org.junit.Assert.*;
 
 public class QuizServiceTest extends MyTest {
 
@@ -64,10 +58,10 @@ public class QuizServiceTest extends MyTest {
                 "Scanner scan = new Scanner(System.in);" +
                 "System.out.println(scan.nextInt() * scan.nextInt());" +
                 "}}";
-        answerDTO.setMember_Source_Code(sourceCode);
+        answerDTO.setSourcecode(sourceCode);
 
         answerDTO = quizService.runExampleQuiz(answerDTO);
 
-        System.out.println(answerDTO.getTestCaseResultDTOS());
+        System.out.println(answerDTO.getTestcase_Results());
     }
 }

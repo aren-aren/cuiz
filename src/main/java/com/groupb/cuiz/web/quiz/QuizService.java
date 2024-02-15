@@ -3,7 +3,6 @@ package com.groupb.cuiz.web.quiz;
 import com.groupb.cuiz.support.util.build.QuizSourceExecutor;
 import com.groupb.cuiz.support.util.file.FileManager;
 import com.groupb.cuiz.support.util.pager.Pager;
-import org.apache.commons.exec.ExecuteException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -42,10 +41,7 @@ public class QuizService {
         addTestCasesToList(quizDTO, example_inputs, example_output, testcaseDTOS, "EXAMPLE"); //EXAMPLE Type의 TestcaseDTO를 List에 넣어줌
         addTestCasesToList(quizDTO, quiz_inputs, quiz_outputs, testcaseDTOS, "QUIZ"); //QUIZ Type의 TestcaseDTO를 List에 넣어줌
 
-        Map<String, Object> map = new HashMap<>();
-        map.put("testcase", testcaseDTOS);
-
-        result += quizDAO.addTestcase(map) * 10;
+        result += quizDAO.addTestcase(testcaseDTOS) * 10;
 
         return result;
     }
@@ -71,6 +67,39 @@ public class QuizService {
     }
 
     /**
+     * 제출한 answerDTO를 채점하고 <br>
+     * 결과를 DB에 저장하고 리턴한다.
+     * @param answerDTO
+     * @return
+     */
+    public MemberAnswerDTO submitQuiz(MemberAnswerDTO answerDTO) throws Exception {
+        System.out.println("answerDTO = " + answerDTO);
+
+        Map<String, Object> map = new HashMap<>();
+        map.put("dto", answerDTO);
+        map.put("type", "QUIZ");
+
+        List<TestcaseDTO> testcaseDTOS = quizDAO.getTestCases(map);
+
+        answerDTO = checkAnswer(answerDTO, testcaseDTOS, "QUIZ");
+        answerDTO.setAnswer_Check(answerDTO.getTestcase_Results().stream()
+                                                .allMatch(TestcaseResult::isResult));
+
+        MemberAnswerDTO oldAnswer = quizDAO.getAnswer(answerDTO);
+        System.out.println("oldAnswer = " + oldAnswer);
+
+        if(oldAnswer == null) {
+            quizDAO.setAnswer(answerDTO);
+            System.out.println("Seted!");
+        } else if(!oldAnswer.getAnswer_Check()){
+            quizDAO.updateAnswer(answerDTO);
+            System.out.println("Updated!");
+        }
+
+        return answerDTO;
+    }
+
+    /**
      * 실행해보는 기능. quiz_No에 해당하는 테스트케이스들을 가져와서 정답을 맞춰본다.
      *
      * @param answerDTO
@@ -86,7 +115,7 @@ public class QuizService {
 
         List<TestcaseDTO> testcaseDTOS = quizDAO.getTestCases(map);
 
-        return checkAnswer(answerDTO, testcaseDTOS);
+        return checkAnswer(answerDTO, testcaseDTOS, "EXAMPLE");
     }
 
     /**
@@ -109,17 +138,20 @@ public class QuizService {
         fileManager.fileSaveByString(realPath, filename, sourceCode, extension);
 
         //컴파일
-        if (!QuizSourceExecutor.compileJava(realPath + "/" + filename + extension)) {
-            System.out.println("컴파일 에러");
-            return List.of("컴파일 에러");
+        try {
+            QuizSourceExecutor.compileJava(realPath + "/" + filename + extension);
+        } catch (RuntimeException e){
+            System.out.println("e.getMessage() = " + e.getMessage().replace(realPath, ""));
+            return List.of("컴파일 에러 : " + e.getMessage().replace(realPath, ""));
         }
 
         List<String> results = new ArrayList<>();
         for (int i = 0; i < inputs.size(); i++) {
             try {
                 results.add(QuizSourceExecutor.runCode(realPath, filename, inputs.get(i)));
-            } catch (ExecuteException e) {
-                results.add(e.getMessage());
+            } catch (RuntimeException e) {
+                System.out.println("e.getMessage() = " + e.getMessage().split("\n")[1]);
+                results.add(e.getMessage().split("\n")[1]);
             }
         }
 
@@ -136,7 +168,7 @@ public class QuizService {
      * @throws Exception
      */
     public List<String> getSampleOutput(MemberAnswerDTO quizSampleDTO, List<String> inputs) throws Exception {
-        return quizSourceBuild(quizSampleDTO.getMember_Id(), quizSampleDTO.getMember_Source_Code(), inputs);
+        return quizSourceBuild(quizSampleDTO.getMember_Id(), quizSampleDTO.getSourcecode(), inputs);
     }
 
     /**
@@ -147,8 +179,7 @@ public class QuizService {
      * @return
      * @throws Exception
      */
-    public MemberAnswerDTO checkAnswer(MemberAnswerDTO answer, List<TestcaseDTO> testcaseDTOS) throws Exception {
-        //DB에서 테스트 케이스를 가져옴
+    public MemberAnswerDTO checkAnswer(MemberAnswerDTO answer, List<TestcaseDTO> testcaseDTOS, String checkType) throws Exception {
         List<String> inputs = new ArrayList<>();
         List<String> outputs = new ArrayList<>();
 
@@ -158,39 +189,51 @@ public class QuizService {
         }
 
         //코드 실행후 outputs를 얻어옴
-        List<String> results = quizSourceBuild(answer.getMember_Id(), answer.getMember_Source_Code(), inputs);
-        //코드 실행 결과와 정답을 비교하여 채점
-        List<TestcaseResult> testcaseResults = getTestcaseResultDTOS(results, outputs);
+        List<String> results = quizSourceBuild(answer.getMember_Id(), answer.getSourcecode(), inputs);
 
-        answer.setTestCaseResultDTOS(testcaseResults);
+        //코드 실행 결과와 정답을 비교하여 채점
+        List<TestcaseResult> testcaseResults = new ArrayList<>();
+        for (int i = 0; i < results.size(); i++) {
+            testcaseResults.add(checkTestcase(outputs.get(i).trim(), results.get(i).trim(), checkType));
+        }
+
+        answer.setTestcase_Results(testcaseResults);
 
         return answer;
     }
 
     /**
-     * result와 output을 비교하여 정답여부를 testcaseDTO에 저장후
-     * DTO로 List를 만든후 List를 리턴
-     * @param results
-     * @param outputs
+     * answer와 output을 비교하여 정답과 오답 판별 <br>
+     * checkType이 'EXAMPLE' 일 경우 오답일 때 기댓값과 출력값을 같이 알려줌
+     * @param answer
+     * @param output
+     * @param checkType
      * @return
      */
-    private static List<TestcaseResult> getTestcaseResultDTOS(List<String> results, List<String> outputs) {
-        List<TestcaseResult> testcaseResults = new ArrayList<>();
-        for (int i = 0; i < results.size(); i++) {
-            TestcaseResult testcaseResult = new TestcaseResult();
-            if (results.get(i).equals("timeout")) {
-                testcaseResult.setResult(false);
-                testcaseResult.setResultMessage("시간초과");
-            } else if (results.get(i).trim().equals(outputs.get(i).trim())) {
-                testcaseResult.setResult(true);
-                testcaseResult.setResultMessage("정답입니다.");
-            } else {
-                testcaseResult.setResult(false);
-                testcaseResult.setResultMessage("오답입니다.");
-            }
-            testcaseResults.add(testcaseResult);
+    private TestcaseResult checkTestcase(String answer, String output, String checkType){
+        TestcaseResult testcaseResult = new TestcaseResult();
+        System.out.println("answer = " + answer);
+        System.out.println("output = " + output);
+        if (output.equals("timeout")) {
+            testcaseResult.setResult(false);
+            testcaseResult.setResultMessage("시간초과");
+            return testcaseResult;
         }
-        return testcaseResults;
+
+        if (answer.equals(output)) {
+            testcaseResult.setResult(true);
+            testcaseResult.setResultMessage("정답입니다.");
+            return testcaseResult;
+        }
+
+        testcaseResult.setResult(false);
+        if(checkType.equals("EXAMPLE")){
+            testcaseResult.setResultMessage(String.format("기댓값: %s , 출력값: %s , 오답입니다.", answer, output));
+        } else if (checkType.equals("QUIZ")) {
+            testcaseResult.setResultMessage("오답입니다.");
+        }
+
+        return testcaseResult;
     }
 
     /**
@@ -199,7 +242,7 @@ public class QuizService {
      * @param pager
      * @return
      */
-    public List<QuizDTO> getList(Pager pager) {
+    public List<QuizListDTO> getList(Pager pager) {
         Long totalCount = quizDAO.getTotalCount(pager);
         System.out.println("totalCount = " + totalCount);
 
