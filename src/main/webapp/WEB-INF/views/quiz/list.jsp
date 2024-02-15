@@ -61,7 +61,13 @@
                                         </select>
                                     </div>
                                     <div class="col-7">
-                                        <input type="text" value="${pager.search}" name="search" class="form-control form-control-sm">
+                                        <input
+                                                id="search-Input"
+                                                type="text"
+                                                data-search="${pager.search}"
+                                                value="${pager.search}"
+                                                name="search"
+                                                class="form-control form-control-sm">
                                     </div>
                                     <div class="col-1">
                                         <button class="btn btn-sm" id="searchBtn">검색</button>
@@ -93,22 +99,23 @@
                                     </c:forEach>
                                     </tbody>
                                 </table>
-                                <div>
+                                <div id="paging-div" data-page="${pager.page}">
                                     <nav aria-label="Page navigation example">
                                         <ul class="pagination justify-content-center">
                                             <c:if test="${!pager.start}">
-                                                <li class="page-item"><a class="page-link"
-                                                                         href="?page=${pager.startNum-1}">Previous</a>
+                                                <li class="page-item">
+                                                    <button class="page-link" data-page="${pager.startNum-1}">Previous</button>
                                                 </li>
                                             </c:if>
                                             <c:forEach begin="${pager.startNum}" end="${pager.lastNum}" var="i">
-                                                <li class="page-item"><a
-                                                        class="page-link ${(pager.page == i)?"current-page":""}"
-                                                        href="?page=${i}">${i}</a></li>
+                                                <li class="page-item">
+                                                    <button class="page-link ${(pager.page == i)?"current-page":""}" data-page="${i}">${i}</button>
+                                                </li>
                                             </c:forEach>
                                             <c:if test="${!pager.last}">
-                                                <li class="page-item"><a class="page-link"
-                                                                         href="?page=${pager.lastNum+1}">Next</a></li>
+                                                <li class="page-item">
+                                                    <button class="page-link" data-page="${pager.lastNum+1}">Next</button>
+                                                </li>
                                             </c:if>
                                         </ul>
                                     </nav>
