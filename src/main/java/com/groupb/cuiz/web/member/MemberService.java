@@ -3,20 +3,44 @@ package com.groupb.cuiz.web.member;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Random;
+
+import javax.mail.Message;
+import javax.mail.internet.InternetAddress;
+import javax.mail.internet.MimeMessage;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.mail.MailSender;
+import org.springframework.mail.javamail.JavaMailSenderImpl;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.groupb.cuiz.web.member.role.RoleDTO;
-
+import java.lang.Math;
 @Service
 @Transactional(readOnly = true)
 public class MemberService {
 
 	@Autowired
 	private MemberDAO dao;
+	@Autowired
+	private JavaMailSenderImpl mail;
+	
+	public int sendEmail(MemberDTO dto) throws Exception {
+		
+		Random random = new Random();
+		int number = random.nextInt(900000)+100000;
+		
+		MimeMessage send = mail.createMimeMessage();
+		String mailContent = "이메일 인증 번호입니다. \n"+ number;
+		
+		send.setSubject("회원가입 이메일 인증 ","utf-8");
+		send.setText(mailContent+"utf-8","html");
+		send.addRecipient(Message.RecipientType.TO, new InternetAddress(dto.getMember_Email()));
+		mail.send(send);
+		return number;
+	}
 	
 	public int setNaver(MemberDTO dto) throws Exception{
 		int result = dao.setNaver(dto);

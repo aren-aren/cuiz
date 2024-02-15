@@ -1,4 +1,6 @@
 database.properties
+*-ignore.properties
+
 
 src/main/webapp/META-INF/*
 src/main/webapp/WEB-INF/classes/*

@@ -14,9 +14,6 @@
 	.input-join{
 	width: 450px;
 	}
-	.color-white{
-	color : white;
-	}
 	#frm{
 		margin-top : 10%;
 		margin-left : 40%;
@@ -32,20 +29,7 @@
 		color : crimson;
 	}
 	#join-btn{
-		margin-left : 13%;
-		margin-bottom : 2%;
-		font-size: 14px;
-    color: #fff;
-    background-color: #e75e8d;
-    padding: 12px 30px;
-    display: inline-block;
-    border-radius: 25px;
-    font-weight: 400;
-    text-transform: capitalize;
-    letter-spacing: 0.5px;
-    transition: all .3s;
-    position: relative;
-    overflow: hidden;	
+		margin-left : 40px;
 	}
 	.kakaoLogin{
 		width: 40%;
@@ -95,6 +79,12 @@
 	<div class="mb-3">
   		<label for="email" class="form-label color-white">Email 입력해주세요</label>
   		<input type="email" class="form-control input-join" id="email" name="member_Email" placeholder="name@example.com" >
+		<input id="emailRequest" type="button" value="인증요청"/>
+		<input id="emailText" type="text"/>
+		<input id="emailCheck" type="button" value="확인" />
+		<div id="emailDiv">
+		
+		</div>
 	</div>
 	<div>
 		<label for="nick" class="form-label color-white">닉네임을 입력해주세요</label>
@@ -113,9 +103,6 @@
 	</div>
 	<br><br>
 	
-	<div>
-		<button id="join-btn" disabled="n" class="btn btn-secondary">회원가입</button>
-	</div>
 	
 	<div>
 		<a href="javascript:kakaoLogin();"><img class="kakaoLogin" src="/resources/assets/images/kakao_login.jpg"/> </a>
@@ -125,6 +112,9 @@
 	</div>
 	
 
+	<div>
+		<button id="join-btn" disabled="n" class="btn btn-secondary">회원가입</button>
+	</div>
 	</form>
 
 	<c:import url="../temps/footer.jsp"></c:import>
@@ -167,16 +157,16 @@
 							.then(res => {
 								if(res>0){
 									 alert('가입성공');
-									 //location.href="/";
+									 location.href="/";
 								}
 								else if(res==null){
 									alert("회원가입이 안되어있는 아이디입니다.");
-									//location.href="/member/login";
+									location.href="/member/login";
 								}
 								
 								else{
 								alert("이미 가입된 아이디입니다.");
-								//location.href="/member/login";
+								location.href="/member/login";
 								return;}
 							})
 
