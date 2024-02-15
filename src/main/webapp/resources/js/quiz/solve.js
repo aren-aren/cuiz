@@ -80,7 +80,7 @@ const onSubmit = () => {
     }).then(r=>r.json())
         .then(r=> {
             showSolveResult(r.testcase_Results);
-            if(r.answer_Coeerect === "CORRECT"){
+            if(r.answer_Check){
                 answerCorrectModal.show();
             }
         })

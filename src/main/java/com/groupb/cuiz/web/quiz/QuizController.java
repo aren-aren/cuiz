@@ -70,8 +70,13 @@ public class QuizController {
     }
 
     @GetMapping("list")
-    public String getList(Pager pager, Model model){
-        List<QuizDTO> quizList = quizService.getList(pager);
+    public String getList(Pager pager, Model model, HttpSession session){
+        MemberDTO memberDTO = (MemberDTO) session.getAttribute("member");
+        if(memberDTO != null){
+            pager.setMember_Id(memberDTO.getMember_ID());
+        }
+
+        List<QuizListDTO> quizList = quizService.getList(pager);
         model.addAttribute("list", quizList);
 
         return "quiz/list";

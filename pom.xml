@@ -20,6 +20,23 @@
 			<artifactId>commons-fileupload</artifactId>
 			<version>1.5</version>
 		</dependency>
+		
+		<!-- https://mvnrepository.com/artifact/com.sun.mail/javax.mail -->
+		<!-- 메일을 보내기 위한 라이브러리  -->
+		<dependency>
+		    <groupId>com.sun.mail</groupId>
+		    <artifactId>javax.mail</artifactId>
+		    <version>1.6.2</version>
+		</dependency>
+				
+		<!-- https://mvnrepository.com/artifact/org.springframework/spring-context-support -->
+		<!-- 메일을 보내기 위한 라이브러리 -->
+		<dependency>
+		    <groupId>org.springframework</groupId>
+		    <artifactId>spring-context-support</artifactId>
+		    <version>${org.springframework-version}</version>
+		</dependency>
+		
 	
 		<!-- https://mvnrepository.com/artifact/org.json/json -->
 		<!-- JSONObject 객체 사용 -->
@@ -81,6 +98,12 @@
 			<version>1.4.0</version>
 		</dependency>
 
+		<!-- mybatis에서 query보낼때 로그 찍기 -->
+		<dependency>
+			<groupId>org.lazyluke</groupId>
+			<artifactId>log4jdbc-remix</artifactId>
+			<version>0.2.7</version>
+		</dependency>
 
 		<!-- https://mvnrepository.com/artifact/org.mybatis/mybatis-spring -->
 		<dependency>
