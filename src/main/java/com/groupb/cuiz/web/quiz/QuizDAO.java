@@ -23,15 +23,15 @@ public class QuizDAO {
     }
 
     public Long getTotalCount(Pager pager) {
-        return sqlSession.selectOne(NAMESPACE + "getTotalCount",pager);
+        return sqlSession.selectOne(NAMESPACE + "getQuizTotalCount",pager);
     }
 
     public List<QuizListDTO> getList(Pager pager) {
-        return sqlSession.selectList(NAMESPACE + "getList", pager);
+        return sqlSession.selectList(NAMESPACE + "getQuizList", pager);
     }
 
     public QuizDTO getDetail(QuizDTO quizDTO) {
-        return sqlSession.selectOne(NAMESPACE + "getDetail", quizDTO);
+        return sqlSession.selectOne(NAMESPACE + "getQuizDetail", quizDTO);
     }
 
     public List<TestcaseDTO> getTestCases(Map<String, Object> map) {

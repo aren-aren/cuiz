@@ -5,6 +5,8 @@
 
 <mapper namespace="com.groupb.cuiz.web.quiz.QuizDAO">
     <insert id="addTestcase" parameterType="List">
+
+        /* addTestcase - 퀴즈 테스트케이스 추가 */
         INSERT INTO TESTCASE(TESTCASE_NO, QUIZ_NO, TESTCASE_INPUT, TESTCASE_OUTPUT, TESTCASE_TYPE)
         SELECT TESTCASE_SEQ.NEXTVAL as "TESTCASE_NO", t.* FROM (
             <foreach collection="list" item="item" separator="UNION ALL">
@@ -18,6 +20,8 @@
     </insert>
 
     <insert id="addQuiz" parameterType="QuizDTO">
+
+        /* addQuiz - 퀴즈 문제 추가 */
         <selectKey resultType="Integer" keyProperty="quiz_No" order="BEFORE">
             SELECT QUIZ_SEQ.NEXTVAL FROM DUAL
         </selectKey>
@@ -25,13 +29,16 @@
         VALUES (#{quiz_No}, #{member_Id}, #{quiz_Title}, #{quiz_Contents}, #{quiz_Type}, #{quiz_Level}, #{quiz_Point}, #{quiz_Price})
     </insert>
 
-    <select id="getTotalCount" parameterType="Pager" resultType="Long">
+    <select id="getQuizTotalCount" parameterType="Pager" resultType="Long">
+
+        /* getQuizTotalCount - 퀴즈 전체 갯수 조회 */
         SELECT COUNT(QUIZ_NO) FROM QUIZ
         <include refid="search"/>
         <include refid="ordered"/>
     </select>
 
-    <select id="getList" parameterType="Pager" resultType="QuizListDTO">
+    <select id="getQuizList" parameterType="Pager" resultType="QuizListDTO">
+        /* getQuizList - 퀴즈 전체 조회 */
         SELECT
             QUIZ_NO
           , QUIZ_TITLE
@@ -104,28 +111,38 @@
         ORDER BY QUIZ_NO DESC
     </sql>
 
-    <select id="getDetail" parameterType="QuizDTO" resultType="QuizDTO">
+    <select id="getQuizDetail" parameterType="QuizDTO" resultType="QuizDTO">
+        /* getQuizTotalCount - 퀴즈 전체 갯수 조회 */
+
         SELECT QUIZ_NO, QUIZ_TITLE, QUIZ_CONTENTS, QUIZ_LEVEL, QUIZ_TYPE, QUIZ_POINT, QUIZ_PRICE
         FROM QUIZ
         WHERE QUIZ_NO = #{quiz_No}
     </select>
 
     <select id="getExampleTestCases" parameterType="Map" resultType="TestcaseDTO">
+        /* getExampleTestCases - 퀴즈 테스트케이스 조회 */
+
         SELECT TESTCASE_INPUT,TESTCASE_OUTPUT FROM TESTCASE
         WHERE QUIZ_NO = #{dto.quiz_No} AND TESTCASE_TYPE = #{type}
     </select>
 
     <select id="getAnswer" parameterType="MemberAnswerDTO" resultType="MemberAnswerDTO">
+        /* getAnswer - 퀴즈 제출답안 조회 */
+
         SELECT QUIZ_NO, MEMBER_ID, SOURCECODE, ANSWER_DATE, ANSWER_CHECK FROM MEMBER_QUIZ_ANSWER
         WHERE MEMBER_ID = #{member_Id} AND QUIZ_NO = #{quiz_No}
     </select>
 
     <update id="updateAnswer" parameterType="MemberAnswerDTO">
+        /* updateAnswer - 퀴즈 제출답안 수정 */
+
         UPDATE MEMBER_QUIZ_ANSWER SET SOURCECODE = #{sourcecode}, ANSWER_DATE = SYSDATE, ANSWER_CHECK = #{answer_Check}
         WHERE MEMBER_ID = #{member_Id} AND QUIZ_NO = #{quiz_No}
     </update>
 
     <insert id="setAnswer" parameterType="MemberAnswerDTO">
+        /* setAnswer - 퀴즈 제출답안 저장 */
+
         INSERT INTO MEMBER_QUIZ_ANSWER(QUIZ_NO, MEMBER_ID, SOURCECODE, ANSWER_CHECK)
         VALUES(#{quiz_No}, #{member_Id}, #{sourcecode}, #{answer_Check})
     </insert>
