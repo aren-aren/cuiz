@@ -40,32 +40,34 @@
                             <div class="heading-section">
                                 <h4 class="middle-title"><em>Quiz</em> List</h4>
                             </div>
+                                <form action="list" method="get">
                             <div class="row">
-                                <div class="col-2">
-                                <select id="level-select" name="quiz_Level" class="form-select form-select-sm">
-                                    <option value="0" selected>난이도</option>
-                                    <option value="1">1</option>
-                                    <option value="2">2</option>
-                                    <option value="3">3</option>
-                                    <option value="4">4</option>
-                                    <option value="5">5</option>
-                                </select>
-                                </div>
-                                <div class="col-2">
-                                <select id="kind-select" name="quiz_State" class="form-select form-select-sm">
-                                    <option value="0" selected>범주</option>
-                                    <option value="1">푼 문제</option>
-                                    <option value="2">안 푼 문제</option>
-                                    <option value="3">실패한 문제</option>
-                                </select>
-                                </div>
-                                <div class="col-7">
-                                <input type="text" name="search" class="form-control form-control-sm">
-                                </div>
-                                <div class="col-1">
-                                <button class="btn btn-sm" id="searchBtn">검색</button>
-                                </div>
+                                    <div class="col-2">
+                                        <select id="level-select" name="searchItem" class="form-select form-select-sm">
+                                            <option value="0" selected>난이도</option>
+                                            <option value="1">1</option>
+                                            <option value="2">2</option>
+                                            <option value="3">3</option>
+                                            <option value="4">4</option>
+                                            <option value="5">5</option>
+                                        </select>
+                                    </div>
+                                    <div class="col-2">
+                                        <select id="kind-select" name="kind" class="form-select form-select-sm">
+                                            <option value="0" selected>모든 문제</option>
+                                            <option value="1">푼 문제</option>
+                                            <option value="2">안 푼 문제</option>
+                                            <option value="3">실패한 문제</option>
+                                        </select>
+                                    </div>
+                                    <div class="col-7">
+                                        <input type="text" name="search" class="form-control form-control-sm">
+                                    </div>
+                                    <div class="col-1">
+                                        <button class="btn btn-sm" id="searchBtn">검색</button>
+                                    </div>
                             </div>
+                                </form>
                             <div class="col-12">
                                 <table class="table table-dark table-striped table-hover">
                                     <thead>
@@ -95,13 +97,18 @@
                                     <nav aria-label="Page navigation example">
                                         <ul class="pagination justify-content-center">
                                             <c:if test="${!pager.start}">
-                                                <li class="page-item"><a class="page-link" href="?page=${pager.startNum-1}">Previous</a></li>
+                                                <li class="page-item"><a class="page-link"
+                                                                         href="?page=${pager.startNum-1}">Previous</a>
+                                                </li>
                                             </c:if>
                                             <c:forEach begin="${pager.startNum}" end="${pager.lastNum}" var="i">
-                                                <li class="page-item"><a class="page-link ${(pager.page == i)?"current-page":""}" href="?page=${i}">${i}</a></li>
+                                                <li class="page-item"><a
+                                                        class="page-link ${(pager.page == i)?"current-page":""}"
+                                                        href="?page=${i}">${i}</a></li>
                                             </c:forEach>
                                             <c:if test="${!pager.last}">
-                                                <li class="page-item"><a class="page-link" href="?page=${pager.lastNum+1}">Next</a></li>
+                                                <li class="page-item"><a class="page-link"
+                                                                         href="?page=${pager.lastNum+1}">Next</a></li>
                                             </c:if>
                                         </ul>
                                     </nav>
