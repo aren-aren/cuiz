@@ -19,6 +19,7 @@ public class Pager {
 	private String search;
 	private String kind;
 	private String searchItem;
+	private String member_Id;
 	private String sort;
 	
 	
@@ -157,6 +158,14 @@ public class Pager {
 
 	public void setSearchItem(String searchItem) {
 		this.searchItem = searchItem;
+	}
+
+	public String getMember_Id() {
+		return member_Id;
+	}
+
+	public void setMember_Id(String member_Id) {
+		this.member_Id = member_Id;
 	}
 
 	public String getSort() {
