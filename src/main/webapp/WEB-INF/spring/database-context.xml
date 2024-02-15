@@ -4,7 +4,7 @@
 	xmlns:context="http://www.springframework.org/schema/context"
 	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
 		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-4.3.xsd">
-<context:property-placeholder location="classpath:database/config/database.properties"/>
+<context:property-placeholder location="classpath:database/config/database-ignore.properties"/>
 
 <bean class="org.springframework.jdbc.datasource.DriverManagerDataSource" id="dataSource">
 	<property name="username" value="${oracle.user}"/>

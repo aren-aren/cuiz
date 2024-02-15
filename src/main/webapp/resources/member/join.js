@@ -9,6 +9,39 @@ let nick_check = document.getElementById("nick_check");
 
 let join_btn = document.getElementById("join-btn");
 
+let emailRequest = document.getElementById("emailRequest");
+let emailCheck = document.getElementById("emailCheck");
+let emailText = document.getElementById("emailText").value;
+let emailDiv = document.getElementById("emailDiv");
+
+emailRequest.addEventListener("click",function(){
+    let email = document.getElementById("email").value;
+    console.log(email);
+
+    fetch("/member/emailCheck?member_Email="+email,{
+        method : 'GET'
+    })
+    .then(res=>res.text())
+    .then(res => {
+        console.log("emailcheck끝");
+        console.log("인증번호 : " + res);
+    })
+
+
+})
+
+emailCheck.addEventListener("click",function(){
+    if(emailText=='a'){
+        emailDiv.setAttribute("class","yes")
+        emailDiv.innerHTML("이메일 인증이 완료되었습니다.");
+    }else{
+        emailDiv.setAttribute("class","no")
+        emailDiv.innerHTML("이메일 인증번호가 다릅니다.");    
+    }
+
+})
+
+
 join_btn.setAttribute("disabled","disabled")
 nick_check.setAttribute("class","no");
 divID.setAttribute("class","no");
