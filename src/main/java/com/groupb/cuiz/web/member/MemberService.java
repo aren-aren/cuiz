@@ -11,7 +11,9 @@ import javax.mail.internet.MimeMessage;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.mail.MailSender;
+import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.JavaMailSenderImpl;
+import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
@@ -25,20 +27,27 @@ public class MemberService {
 	@Autowired
 	private MemberDAO dao;
 	@Autowired
-	private JavaMailSenderImpl mail;
+	private JavaMailSender javaMailSender;
 	
 	public int sendEmail(MemberDTO dto) throws Exception {
 		
 		Random random = new Random();
 		int number = random.nextInt(900000)+100000;
 		
-		MimeMessage send = mail.createMimeMessage();
-		String mailContent = "이메일 인증 번호입니다. \n"+ number;
-		
-		send.setSubject("회원가입 이메일 인증 ","utf-8");
-		send.setText(mailContent+"utf-8","html");
-		send.addRecipient(Message.RecipientType.TO, new InternetAddress(dto.getMember_Email()));
-		mail.send(send);
+		MimeMessage mimeMessage = javaMailSender.createMimeMessage();
+		MimeMessageHelper mimeMessageHelper = new MimeMessageHelper(mimeMessage);
+		mimeMessageHelper.setTo(dto.getMember_Email());
+		mimeMessageHelper.setSubject("[Cuiz!!] 회원가입 이메일 인증");
+		mimeMessageHelper.setText("인증버노 : "+number);
+		javaMailSender.send(mimeMessage);
+		/*
+		 * String mailContent = "이메일 인증 번호입니다. \n"+ number;
+		 * 
+		 * send.setSubject("회원가입 이메일 인증 ","utf-8");
+		 * send.setText(mailContent+"utf-8","html");
+		 * send.addRecipient(Message.RecipientType.TO, new
+		 * InternetAddress(dto.getMember_Email())); mail.send(send);
+		 */
 		return number;
 	}
 	
