@@ -31,35 +31,6 @@
         <include refid="ordered"/>
     </select>
 
-    <sql id="search">
-        <if test="(kind!='0' and kind!=null) or (searchItem!='0' and searchItem!=null)">
-            LEFT JOIN MEMBER_QUIZ_ANSWER mqa USING(QUIZ_NO)
-            <where>
-                <if test="searchItem!='0' and searchItem!=null">
-                    AND QUIZ_LEVEL = #{searchItem}
-                </if>
-                <if test="kind!='0' and kind!=null">
-                    <choose>
-                        <when test="kind='1'">
-                            AND (mqa.MEMBER_ID = #{member_Id} AND ANSWER_CHECK = 1)
-                        </when>
-                        <otherwise>
-                            AND ((mqa.MEMBER_ID = #{member_Id} AND ANSWER_CHECK = 0)
-                            <if test="kind='2'">
-                                OR mqa.MEMBER_ID IS NULL
-                            </if>
-                            )
-                        </otherwise>
-                    </choose>
-                </if>
-            </where>
-        </if>
-    </sql>
-
-    <sql id="ordered">
-        ORDER BY QUIZ_NO DESC
-    </sql>
-
     <select id="getList" parameterType="Pager" resultType="QuizListDTO">
         SELECT
             QUIZ_NO
@@ -82,10 +53,10 @@
                     QUIZ_NO
                   , QUIZ_TITLE
                   , QUIZ_LEVEL
-                  , c.TOTAL_COUNT
-                  , c.CORRECT_COUNT
+                  , NVL(c.TOTAL_COUNT, 0) AS TOTAL_COUNT
+                  , NVL(c.CORRECT_COUNT, 0) AS CORRECT_COUNT
                 FROM QUIZ
-                    INNER JOIN (
+                    LEFT JOIN (
                         SELECT
                               QUIZ_NO
                             , COUNT(QUIZ_NO) AS TOTAL_COUNT
@@ -100,6 +71,38 @@
         )
         WHERE R BETWEEN #{startRow} AND #{lastRow}
     </select>
+
+    <sql id="search">
+        <if test="(kind!='0' and kind!=null) or (searchItem!='0' and searchItem!=null)">
+            LEFT JOIN MEMBER_QUIZ_ANSWER mqa USING(QUIZ_NO)
+            <where>
+                <if test="searchItem != 0 and searchItem != null">
+                    AND QUIZ_LEVEL = #{searchItem}
+                </if>
+                <if test="kind != 0">
+                    <choose>
+                        <when test="kind == 1">
+                            AND (mqa.MEMBER_ID = #{member_Id} AND ANSWER_CHECK = 1)
+                        </when>
+                        <otherwise>
+                            AND ((mqa.MEMBER_ID = #{member_Id} AND ANSWER_CHECK = 0)
+                            <if test="kind == 2">
+                                OR mqa.MEMBER_ID IS NULL
+                            </if>
+                            )
+                        </otherwise>
+                    </choose>
+                </if>
+                <if test="search != null">
+                    AND QUIZ_TITLE LIKE '%'||#{search}||'%'
+                </if>
+            </where>
+        </if>
+    </sql>
+
+    <sql id="ordered">
+        ORDER BY QUIZ_NO DESC
+    </sql>
 
     <select id="getDetail" parameterType="QuizDTO" resultType="QuizDTO">
         SELECT QUIZ_NO, QUIZ_TITLE, QUIZ_CONTENTS, QUIZ_LEVEL, QUIZ_TYPE, QUIZ_POINT, QUIZ_PRICE

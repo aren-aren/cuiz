@@ -40,10 +40,10 @@
                             <div class="heading-section">
                                 <h4 class="middle-title"><em>Quiz</em> List</h4>
                             </div>
-                                <form action="list" method="get">
-                            <div class="row">
+                            <form action="list" method="get">
+                                <div class="row">
                                     <div class="col-2">
-                                        <select id="level-select" name="searchItem" class="form-select form-select-sm">
+                                        <select id="level-select" data-level="${pager.searchItem}" name="searchItem" class="form-select form-select-sm">
                                             <option value="0" selected>난이도</option>
                                             <option value="1">1</option>
                                             <option value="2">2</option>
@@ -53,7 +53,7 @@
                                         </select>
                                     </div>
                                     <div class="col-2">
-                                        <select id="kind-select" name="kind" class="form-select form-select-sm">
+                                        <select id="kind-select" data-kind="${pager.kind}" name="kind" class="form-select form-select-sm">
                                             <option value="0" selected>모든 문제</option>
                                             <option value="1">푼 문제</option>
                                             <option value="2">안 푼 문제</option>
@@ -61,13 +61,13 @@
                                         </select>
                                     </div>
                                     <div class="col-7">
-                                        <input type="text" name="search" class="form-control form-control-sm">
+                                        <input type="text" value="${pager.search}" name="search" class="form-control form-control-sm">
                                     </div>
                                     <div class="col-1">
                                         <button class="btn btn-sm" id="searchBtn">검색</button>
                                     </div>
-                            </div>
-                                </form>
+                                </div>
+                            </form>
                             <div class="col-12">
                                 <table class="table table-dark table-striped table-hover">
                                     <thead>
@@ -122,6 +122,7 @@
     </div>
 </div>
 
+<script src="/resources/js/quiz/list.js"></script>
 <c:import url="../temps/footer.jsp"></c:import>
 
 </body>
