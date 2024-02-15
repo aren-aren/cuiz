@@ -9,7 +9,14 @@
 			<param name="ConversionPattern" value="%-5p: %c - %m%n" />
 		</layout>
 	</appender>
-	
+	<appender name="console-mybatis" class="org.apache.log4j.ConsoleAppender">
+		<param name="Target" value="System.out" />
+		<layout class="org.apache.log4j.PatternLayout">
+			<param name="ConversionPattern" value="%n|%6p|%n|%------|-------|----------|-----|----------------------|-----|-----|-------|%n| |%-5.5msg|%n|%------|-------|----------|-----|----------------------|-----|-----|-------|%n|%d{HH:mm:ss.SSS} [%t] %-5level %logger{36} - %msg%n" />
+		</layout>
+	</appender>
+
+
 	<!-- Application Loggers -->
 	<logger name="com.groupb.cuiz">
 		<level value="info" />
@@ -41,6 +48,12 @@
 	//log4jdbc에서 출력되는 로그들에 대한 설정
 	<logger name="jdbc.audit">
 		<level value="info" />
+	</logger>
+
+
+	<logger name="jdbc.resultsettable" additivity="false">
+		<level value="info" />
+		<appender-ref ref="console-mybatis" />
 	</logger>
 
 </log4j:configuration>
