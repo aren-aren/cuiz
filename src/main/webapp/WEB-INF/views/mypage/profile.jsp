@@ -26,11 +26,12 @@
    <!-- ***** Header Area Start ***** -->
   <c:import url="../temps/header.jsp"></c:import>
   <!-- ***** Header Area End ***** -->
+<div style="background-color: white; margin-top: 120px; padding-top: 0px">
 
   <div class="container">
     <div class="row">
       <div class="col-lg-12">
-        <div class="page-content">
+        <div class="page-content" style="margin-top:10px">
 
           <!-- ***** Banner Start ***** -->
           <div class="row">
@@ -177,6 +178,7 @@
       </div>
     </div>
   </div>
+</div>
 	<input id="memberID"  type="hidden" value="${member.member_ID}"/> 
 	<c:import url="../temps/footer.jsp"></c:import>
 	<script src="/resources/js/Mypage/Mypage.js"></script>

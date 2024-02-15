@@ -7,12 +7,17 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import com.groupb.cuiz.support.util.pager.Pager;
+import com.groupb.cuiz.support.util.photo.PhotoEncoder;
 
 @Repository
 public class ItemDAO {
 	
 	@Autowired
 	private SqlSession sqlSession;
+	
+	@Autowired
+	private PhotoEncoder photoEncoder;
+	
 	private final String NAMESPACE="com.groupb.cuiz.web.item.ItemDAO.";
 	
 	public List<ItemDTO> getList(Pager pager){
@@ -30,7 +35,10 @@ public class ItemDAO {
 	public ItemDTO getDetail(ItemDTO itemDTO) {
 		System.out.println(itemDTO.getItem_Num());
 		
-		return sqlSession.selectOne(NAMESPACE+"getDetail", itemDTO);		
+		itemDTO = sqlSession.selectOne(NAMESPACE+"getDetail", itemDTO);			
+		
+		
+		return photoEncoder.blobToString(itemDTO);
 		
 	}
 	

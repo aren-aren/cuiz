@@ -4,8 +4,37 @@ const updateBtn = document.getElementById("updateBtn");
 const updBtnFrm = document.getElementById("updBtnFrm");
 const adCartBtn = document.getElementById("adCartBtn");
 const buyNowBtn = document.getElementById("buyNowBtn");
+const kakaopBtn = document.getElementById("kakaopBtn");
 
 
+
+
+
+//kakaopay
+
+kakaopBtn.addEventListener("click",(e)=>{
+
+    let formdata = new FormData;
+    let name = document.getElementById("item_Name").innerHTML;
+    let price = document.getElementById("item_Price").innerHTML;
+    let item_Num = document.getElementById("item_Num").value;
+    formdata.append("item_Name",name);
+    formdata.append("item_Price",price);
+    formdata.append("item_Num",item_Num);
+    
+    fetch("/purchase/kakaopay",{
+        method:"post",
+        body: formdata
+    })
+    .then(result=>result.text())
+    .then(result=>{
+       let a = result;
+       console.log(a);
+       location.href=a;
+    })
+    
+
+})
 
 
 
