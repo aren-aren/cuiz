@@ -71,8 +71,8 @@
                     <div class="col-lg-6">
                       <div class="left-info">
                         <div class="left">
-                          <h4>${dto.item_Name}</h4>
-                          <span>${dto.item_Price}</span>
+                          <h4 id="item_Name">${dto.item_Name}</h4>
+                          <span id="item_Price">${dto.item_Price}</span>
                         </div>
                         <ul>
                           <li><i class="fa fa-star"></i> 4.8</li>
