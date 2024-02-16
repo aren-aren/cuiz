@@ -106,7 +106,10 @@ public class QuizController {
         MemberDTO memberDTO = (MemberDTO) session.getAttribute("member");
         answerDTO.setMember_Id(memberDTO.getMember_ID());
 
-        answerDTO = quizService.submitQuiz(answerDTO);
+        answerDTO = quizService.submitQuiz(answerDTO, memberDTO);
+
+        session.setAttribute("member", memberDTO);
+
         return answerDTO;
     }
 
