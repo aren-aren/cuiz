@@ -3,6 +3,7 @@ package com.groupb.cuiz.web.quiz;
 import com.groupb.cuiz.support.util.build.QuizSourceExecutor;
 import com.groupb.cuiz.support.util.file.FileManager;
 import com.groupb.cuiz.support.util.pager.Pager;
+import com.groupb.cuiz.web.member.MemberDAO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -17,6 +18,8 @@ public class QuizService {
     private ServletContext servletContext;
     @Autowired
     private QuizDAO quizDAO;
+    @Autowired
+    private MemberDAO memberDAO;
 
     /**
      * DB의 QUIZ 테이블에 Quiz 정보를 넣고, 예제 input과 output, 실제 input과 output TESTCASE 테이블에 넣는다
@@ -94,6 +97,10 @@ public class QuizService {
         } else if(!oldAnswer.getAnswer_Check()){
             quizDAO.updateAnswer(answerDTO);
             System.out.println("Updated!");
+        }
+
+        if(answerDTO.getAnswer_Check()){
+            memberDAO.setCoin()
         }
 
         return answerDTO;
