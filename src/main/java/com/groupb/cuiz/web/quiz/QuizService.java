@@ -4,6 +4,7 @@ import com.groupb.cuiz.support.util.build.QuizSourceExecutor;
 import com.groupb.cuiz.support.util.file.FileManager;
 import com.groupb.cuiz.support.util.pager.Pager;
 import com.groupb.cuiz.web.member.MemberDAO;
+import com.groupb.cuiz.web.member.MemberDTO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -20,6 +21,9 @@ public class QuizService {
     private QuizDAO quizDAO;
     @Autowired
     private MemberDAO memberDAO;
+
+    private final Integer[] COINTABLE = {1,3,5,7,9};
+    private final Integer[] JUMSUTABLE = {2,5,10,15,20};
 
     /**
      * DB의 QUIZ 테이블에 Quiz 정보를 넣고, 예제 input과 output, 실제 input과 output TESTCASE 테이블에 넣는다
@@ -75,7 +79,7 @@ public class QuizService {
      * @param answerDTO
      * @return
      */
-    public MemberAnswerDTO submitQuiz(MemberAnswerDTO answerDTO) throws Exception {
+    public MemberAnswerDTO submitQuiz(MemberAnswerDTO answerDTO, MemberDTO memberDTO) throws Exception {
         System.out.println("answerDTO = " + answerDTO);
 
         Map<String, Object> map = new HashMap<>();
@@ -99,8 +103,13 @@ public class QuizService {
             System.out.println("Updated!");
         }
 
+        Integer quizLevel = quizDAO.getQuizLevel(answerDTO);
+
         if(answerDTO.getAnswer_Check()){
-            memberDAO.setCoin()
+            memberDTO.setMember_Coin(memberDTO.getMember_Coin() + COINTABLE[quizLevel-1]);
+            memberDAO.setCoin(memberDTO);
+            memberDTO.setMember_Jumsu(memberDTO.getMember_Jumsu() + JUMSUTABLE[quizLevel-1]);
+            memberDAO.setJumsu(memberDTO);
         }
 
         return answerDTO;

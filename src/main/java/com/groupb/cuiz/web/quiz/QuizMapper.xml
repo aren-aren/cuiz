@@ -146,4 +146,10 @@
         INSERT INTO MEMBER_QUIZ_ANSWER(QUIZ_NO, MEMBER_ID, SOURCECODE, ANSWER_CHECK)
         VALUES(#{quiz_No}, #{member_Id}, #{sourcecode}, #{answer_Check})
     </insert>
+
+    <select id="getQuizLevel" parameterType="MemberAnswerDTO" resultType="Integer">
+        /* getQuizLevel - 퀴즈 난이도 조회 */
+
+        SELECT QUIZ_LEVEL FROM QUIZ WHERE QUIZ_NO = #{quiz_No}
+    </select>
 </mapper>
