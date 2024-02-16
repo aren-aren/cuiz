@@ -59,7 +59,7 @@ const onRunCode = ()=> {
         headers: {"Content-type" : "application/json"},
         body: JSON.stringify(data)
     }).then(r=>r.json())
-        .then(r=> showSolveResult(r.testcase_Results))
+        .then(r=> showSolveResult(r.testcase_Results, false))
 }
 
 /**
@@ -68,42 +68,70 @@ const onRunCode = ()=> {
  */
 const onSubmit = () => {
     let data = {
-        quiz_No : quizNo.value,
-        sourcecode : memberCode.value
+        quiz_No: quizNo.value,
+        sourcecode: memberCode.value
     }
-    solveResult.innerHTML =spinner;
+    solveResult.innerHTML = spinner;
 
-    fetch('submit',{
+    fetch('submit', {
         method: "post",
-        headers: {"Content-type" : "application/json"},
+        headers: {"Content-type": "application/json"},
         body: JSON.stringify(data)
-    }).then(r=>r.json())
-        .then(r=> {
-            showSolveResult(r.testcase_Results);
-            if(r.answer_Check){
+    }).then(r => r.json())
+        .then(r => {
+            showSolveResult(r.testcase_Results, true);
+            if (r.answer_Check) {
+                document.querySelectorAll(".correct-notice").forEach(e=>e.classList.remove("d-none"));
+                document.querySelectorAll(".hint-notice").forEach(e=>e.classList.add("d-none"));
                 answerCorrectModal.show();
             }
         })
+}
+
+const onHintBtnClick = event => {
+    if(!event.target.classList.contains("tc-show")) return;
+
+    console.log(event.target);
+
+    document.querySelectorAll(".correct-notice").forEach(e=>e.classList.add("d-none"));
+    document.querySelectorAll(".hint-notice").forEach(e=>e.classList.remove("d-none"));
+
+    let testcaseNum = event.target.getAttribute("data-testcase");
+
+
+    answerCorrectModal.show();
 }
 
 /**
  * 실행 결과 데이터를 실행결과 영역에 출력한다
  * @param results
  */
-function showSolveResult(results){
+function showSolveResult(results, isSubmit){
+    console.log(results);
     let resultTemplate = "";
     let index = 1;
     for (let result of results) {
+        let textColor = 'text-success';
+        let testcaseShowBtn = "";
+        if(!result.result){
+            textColor = 'text-danger';
+            if(isSubmit) {
+                testcaseShowBtn = `<button class="btn btn-cuiz btn-sm tc-show float-end" data-testcase="${quizNo.value}:${index}">Hint</button>`;
+                document.getElementById("hint-tip").classList.remove("d-none");
+                document.getElementById("hint-tip").classList.add("d-inline-block");
+            }
+        }
         resultTemplate += `
-            <h5 class="my-2 ${result.result? 'text-success' : 'text-danger'}">${index++} : ${result.resultMessage}</h5>
+            <h5 class="my-2 ${textColor} tc-result">${index++} : ${result.resultMessage} ${testcaseShowBtn}</h5>
         `;
     }
 
     solveResult.innerHTML = resultTemplate;
+
 }
 
 
 initBtn.addEventListener("click", onInitEditor);
-runBtn.addEventListener("click", onRunCode)
-submitBtn.addEventListener("click", onSubmit)
-
+runBtn.addEventListener("click", onRunCode);
+submitBtn.addEventListener("click", onSubmit);
+solveResult.addEventListener("click", onHintBtnClick);

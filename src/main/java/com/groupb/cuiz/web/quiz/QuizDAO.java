@@ -14,8 +14,8 @@ public class QuizDAO {
     private SqlSession sqlSession;
     private final String NAMESPACE = "com.groupb.cuiz.web.quiz.QuizDAO.";
 
-    public int addTestcase(List<TestcaseDTO> list) throws Exception {
-        return sqlSession.insert(NAMESPACE + "addTestcase", list);
+    public int addTestcases(List<TestcaseDTO> list) throws Exception {
+        return sqlSession.insert(NAMESPACE + "addTestcases", list);
     }
 
     public int addQuiz(QuizDTO quizDTO) throws Exception {
@@ -35,7 +35,7 @@ public class QuizDAO {
     }
 
     public List<TestcaseDTO> getTestCases(Map<String, Object> map) {
-        return sqlSession.selectList(NAMESPACE + "getExampleTestCases", map);
+        return sqlSession.selectList(NAMESPACE + "getTestCases", map);
     }
 
     public MemberAnswerDTO getAnswer(MemberAnswerDTO answerDTO) {
