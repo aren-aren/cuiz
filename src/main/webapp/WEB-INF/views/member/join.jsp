@@ -80,7 +80,7 @@
   		<label for="email" class="form-label color-white">Email 입력해주세요</label>
   		<input type="email" class="form-control input-join" id="email" name="member_Email" placeholder="name@example.com" >
 		<input id="emailRequest" type="button" value="인증요청"/>
-		<input id="emailText" type="text"/>
+		<input id="emailText" type="text" placeholder="인증번호를 입력하세요"/>
 		<input id="emailCheck" type="button" value="확인" />
 		<div id="emailDiv">
 		

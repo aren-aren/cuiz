@@ -11,7 +11,7 @@ let join_btn = document.getElementById("join-btn");
 
 let emailRequest = document.getElementById("emailRequest");
 let emailCheck = document.getElementById("emailCheck");
-let emailText = document.getElementById("emailText").value;
+
 let emailDiv = document.getElementById("emailDiv");
 
 emailRequest.addEventListener("click",function(){
@@ -25,21 +25,28 @@ emailRequest.addEventListener("click",function(){
     .then(res => {
         console.log("emailcheck끝");
         console.log("인증번호 : " + res);
+        emailCheck.addEventListener("click",function(){
+            let emailText = document.getElementById("emailText").value;
+            console.log("email text = ");
+            console.log(emailText);
+            console.log("res = " + res.trim())
+            if(emailText==res.trim()){
+                emailDiv.setAttribute("class","yes")
+                emailDiv.innerHTML="이메일 인증이 완료되었습니다";
+                
+            }else{
+                emailDiv.setAttribute("class","no")
+                emailDiv.innerHTML = "이메일 인증번호가 다릅니다.";    
+            }
+            btn_check();
+        })
+        
     })
 
 
 })
 
-emailCheck.addEventListener("click",function(){
-    if(emailText=='a'){
-        emailDiv.setAttribute("class","yes")
-        emailDiv.innerHTML("이메일 인증이 완료되었습니다.");
-    }else{
-        emailDiv.setAttribute("class","no")
-        emailDiv.innerHTML("이메일 인증번호가 다릅니다.");    
-    }
 
-})
 
 
 join_btn.setAttribute("disabled","disabled")
@@ -48,6 +55,14 @@ divID.setAttribute("class","no");
 divPW.setAttribute("class","no");
 divPW2.setAttribute("class","no");
 
+
+    function btn_check(){
+        if(emailDiv.getAttribute("class") == 'yes' &&nick_check.getAttribute("class") == "yes" && divID.getAttribute("class") == "yes" && divPW.getAttribute("class") == "yes" && divPW2.getAttribute("class") == "yes"){
+            join_btn.disabled = false;            
+        }else{
+            join_btn.disabled = true;
+        }
+    }
 
 
 nick.addEventListener("blur",function(){
@@ -68,11 +83,7 @@ nick.addEventListener("blur",function(){
             nick_check.setAttribute("class","yes");
         }
 
-        if(nick_check.getAttribute("class") == "yes" && divID.getAttribute("class") == "yes" && divPW.getAttribute("class") == "yes" && divPW2.getAttribute("class") == "yes"){
-            join_btn.disabled = false;            
-        }else{
-            join_btn.disabled = true;
-        }
+        btn_check();
     }
     else{
         nick_check.innerHTML = "닉네임 작성 양식을 지켜주세요";
@@ -100,11 +111,7 @@ user_id.addEventListener("blur",function(){
                 divID.innerHTML = "사용가능한 아이디입니다.";
                 divID.setAttribute("class","yes");
             }
-            if(nick_check.getAttribute("class") == "yes" && divID.getAttribute("class") == "yes" && divPW.getAttribute("class") == "yes" && divPW2.getAttribute("class") == "yes"){
-                join_btn.disabled = false;            
-            }else{
-                join_btn.disabled = true;
-            }
+            btn_check();
         }
         else{
             divID.innerHTML = "아이디는 4~20글자내에 대소문자와 숫자로 조합해주세요";
@@ -169,11 +176,7 @@ user_pw.addEventListener("blur",function(){
             divPW2.setAttribute("class","yes");
         }
 
-        if(nick_check.getAttribute("class") == "yes" && divID.getAttribute("class") == "yes" && divPW.getAttribute("class") == "yes" && divPW2.getAttribute("class") == "yes"){
-            join_btn.disabled = false;            
-        }else{
-            join_btn.disabled = true;
-        }
+        btn_check();
     }
 
 
@@ -213,11 +216,7 @@ user_pw2.addEventListener("blur",function(){
         }
     }
 
-    if(nick_check.getAttribute("class") == "yes" && divID.getAttribute("class") == "yes" && divPW.getAttribute("class") == "yes" && divPW2.getAttribute("class") == "yes"){
-        join_btn.disabled = false;            
-    }else{
-        join_btn.disabled = true;
-    }
+    btn_check();
 })
 
 
