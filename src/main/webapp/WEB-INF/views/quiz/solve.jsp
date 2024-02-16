@@ -42,7 +42,30 @@
             <div class="col-5">
                 <div class="container">
                     <div class="featured-games text-white bg-black">
-                        ${dto.quiz_Contents}
+                        <h5>문제 설명</h5>
+                        <div class="my-3">
+                            ${dto.quiz_Contents}
+                        </div>
+                        <hr>
+                        <h5>예제 입출력</h5>
+                        <div>
+                            <table class="table text-white my-3 solve-table">
+                                <thead>
+                                <tr>
+                                    <th>입력</th>
+                                    <th>출력</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                <c:forEach items="${dto.testcase}" var="tc">
+                                    <tr>
+                                        <td>${tc.testcase_Input}</td>
+                                        <td>${tc.testcase_Output}</td>
+                                    </tr>
+                                </c:forEach>
+                                </tbody>
+                            </table>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -65,7 +88,10 @@
                 </div>
                 <div class="bg-black solve-result-area">
                     <div class="border-bottom border-top text-white p-2">
-                        실행결과
+                        <div class="d-inline-block">실행결과</div>
+                        <div id="hint-tip" class="d-none text-danger">
+                            (틀린 문제에 마우스커서를 올리면 아이템을 사용하여 테스트케이스를 확인할 수 있는 버튼이 나타납니다.)
+                        </div>
                     </div>
                     <div id="solve-result" class="text-white p-2">
                         실행결과가 여기에 표시됩니다.
@@ -90,30 +116,48 @@
     </div>
 
     <!-- Modal -->
-    <div class="modal fade" id="answer_correct_modal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+    <div class="modal fade" id="answer_correct_modal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
+         aria-labelledby="staticBackdropLabel" aria-hidden="true">
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h1 class="modal-title fs-5 text-dark" id="staticBackdropLabel">축하합니다.</h1>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    <div class="d-none correct-notice">
+                        <h1 class="modal-title fs-5 text-dark">축하합니다.</h1>
+                    </div>
+                    <div class="d-none hint-notice">
+                        <h1 class="modal-title fs-5 text-dark">힌트 보기</h1>
+                    </div>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close">X</button>
                 </div>
-                <div id="sampleRunModalBody" class="modal-body">
-                    <h2>정답입니다.</h2>
-                    <h5>대충 점수 올랐단는 알림</h5>
+                <div class="d-none correct-notice">
+                    <div class="modal-body">
+                        <h2 class="text-black">정답입니다.</h2>
+                        <h5 class="text-black">대충 점수 올랐단는 알림</h5>
+                    </div>
+                </div>
+                <div class="d-none hint-notice">
+                    <div class="modal-body">
+                        <h2 class="text-black">힌트를 보려면 아이템이 필요합니다.</h2>
+                        <h5 class="text-black">필요 아이템 개수 : 100개</h5>
+                    </div>
                 </div>
                 <div class="modal-footer">
+                    <div class="d-none hint-notice">
+                        <button type="button" class="btn btn-primary">테스트 케이스 보기</button>
+                    </div>
                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">닫기</button>
                 </div>
             </div>
         </div>
     </div>
+</div>
 
-    <c:import url="../temps/footer.jsp"></c:import>
-    <script type="module" src="https://cdn.jsdelivr.net/gh/vanillawc/wc-codemirror@1/index.js"></script>
-    <script type="module" src="https://cdn.jsdelivr.net/gh/vanillawc/wc-codemirror@1/mode/clike/clike.js"></script>
-    <script src="/resources/js/quiz/solve.js" type="text/javascript"></script>
-    <link rel="stylesheet"
-          href="https://cdn.jsdelivr.net/gh/vanillawc/wc-codemirror@1/theme/tomorrow-night-eighties.css">
+<c:import url="../temps/footer.jsp"></c:import>
+<script type="module" src="https://cdn.jsdelivr.net/gh/vanillawc/wc-codemirror@1/index.js"></script>
+<script type="module" src="https://cdn.jsdelivr.net/gh/vanillawc/wc-codemirror@1/mode/clike/clike.js"></script>
+<script src="/resources/js/quiz/solve.js" type="text/javascript"></script>
+<link rel="stylesheet"
+      href="https://cdn.jsdelivr.net/gh/vanillawc/wc-codemirror@1/theme/tomorrow-night-eighties.css">
 
 </body>
 

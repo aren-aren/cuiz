@@ -4,7 +4,7 @@
         "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
 <mapper namespace="com.groupb.cuiz.web.quiz.QuizDAO">
-    <insert id="addTestcase" parameterType="List">
+    <insert id="addTestcases" parameterType="List">
 
         /* addTestcase - 퀴즈 테스트케이스 추가 */
         INSERT INTO TESTCASE(TESTCASE_NO, QUIZ_NO, TESTCASE_INPUT, TESTCASE_OUTPUT, TESTCASE_TYPE)
@@ -119,7 +119,7 @@
         WHERE QUIZ_NO = #{quiz_No}
     </select>
 
-    <select id="getExampleTestCases" parameterType="Map" resultType="TestcaseDTO">
+    <select id="getTestCases" parameterType="Map" resultType="TestcaseDTO">
         /* getExampleTestCases - 퀴즈 테스트케이스 조회 */
 
         SELECT TESTCASE_INPUT,TESTCASE_OUTPUT FROM TESTCASE

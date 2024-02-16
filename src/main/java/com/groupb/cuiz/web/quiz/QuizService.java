@@ -41,7 +41,7 @@ public class QuizService {
         addTestCasesToList(quizDTO, example_inputs, example_output, testcaseDTOS, "EXAMPLE"); //EXAMPLE Type의 TestcaseDTO를 List에 넣어줌
         addTestCasesToList(quizDTO, quiz_inputs, quiz_outputs, testcaseDTOS, "QUIZ"); //QUIZ Type의 TestcaseDTO를 List에 넣어줌
 
-        result += quizDAO.addTestcase(testcaseDTOS) * 10;
+        result += quizDAO.addTestcases(testcaseDTOS) * 10;
 
         return result;
     }
@@ -260,6 +260,16 @@ public class QuizService {
      * @return
      */
     public QuizDTO getDetail(QuizDTO quizDTO) {
-        return quizDAO.getDetail(quizDTO);
+        quizDTO = quizDAO.getDetail(quizDTO);
+
+        Map<String, Object> map = new HashMap<>();
+        map.put("dto", quizDTO);
+        map.put("type", "EXAMPLE");
+
+        List<TestcaseDTO> list = quizDAO.getTestCases(map);
+
+        quizDTO.setTestcase(list);
+
+        return quizDTO;
     }
 }
