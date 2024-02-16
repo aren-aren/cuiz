@@ -151,7 +151,10 @@
  	<update id="setBonus">
  		UPDATE MEMBER SET MEMBER_COIN = #{member_Coin} +10 WHERE MEMBER_ID = #{member_ID}
  	</update>
- 	
+
+	<update id="setJumsu" parameterType="MemberDTO">
+		UPDATE MEMBER SET MEMBER_JUMSU = #{member_Jumsu} WHERE MEMBER_ID = #{member_ID}
+	</update>
  	
  	
  	

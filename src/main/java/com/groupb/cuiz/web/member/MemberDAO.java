@@ -110,6 +110,9 @@ public class MemberDAO {
 	public MemberDTO naver_login(MemberDTO dto) throws Exception{
 		return sqlSession.selectOne(namespace+"naver_login",dto);
 	}
-	
-	
+
+
+	public int setJumsu(MemberDTO memberDTO) throws Exception {
+		return sqlSession.update(namespace + "setJumsu", memberDTO);
+	}
 }

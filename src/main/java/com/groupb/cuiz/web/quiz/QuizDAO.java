@@ -49,4 +49,8 @@ public class QuizDAO {
     public int setAnswer(MemberAnswerDTO answerDTO) {
         return sqlSession.insert(NAMESPACE + "setAnswer", answerDTO);
     }
+
+    public Integer getQuizLevel(MemberAnswerDTO answerDTO) {
+        return sqlSession.selectOne(NAMESPACE + "getQuizLevel", answerDTO);
+    }
 }
