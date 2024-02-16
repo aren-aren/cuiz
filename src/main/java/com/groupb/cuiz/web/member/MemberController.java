@@ -128,7 +128,7 @@ public class MemberController {
 	             
 	             //통신정보 헤더부분이랑     바디를 사용하겠다고 설정(POST)
 	             conn.setRequestMethod("POST");
-	               conn.setRequestProperty("Content-type", "application/x-www-form-urlencoded");
+	               conn.setRequestProperty("content-type", "application/x-www-form-urlencoded");
 	             //conn.setRequestProperty("Content-Length",String.valueOf(postDataBytes.length));
 //	             conn.setRequestProperty("Accept", "application/json");
 	             conn.setDoOutput(true);
@@ -188,8 +188,8 @@ public class MemberController {
 	         URL url = new URL(urlBuilder.toString()); //URL 생성
 	         HttpURLConnection conn = (HttpURLConnection) url.openConnection();
 	         conn.setRequestMethod("GET");
-	         conn.setRequestProperty("Content-type", "application/json");
-	         conn.setRequestProperty("Authorization", "Bearer "+accessToken);
+	         conn.setRequestProperty("content-type", "application/json");
+	         conn.setRequestProperty("authorization", "Bearer "+accessToken);
 	         // 응답 읽기
 	         BufferedReader br = new BufferedReader(new InputStreamReader((conn.getInputStream())));
 	         String inputLine;

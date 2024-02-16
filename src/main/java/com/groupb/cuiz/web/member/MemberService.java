@@ -137,8 +137,8 @@ public class MemberService {
 			att = dao.setAtendence(dto);
 			
 				if(att==1) {
-					dao.setCoin(dto);
 					dto.setMember_Coin(dto.getMember_Coin()+3);
+					dao.setCoin(dto);
 					
 				}
 				int check = dao.getConatt(dto);
