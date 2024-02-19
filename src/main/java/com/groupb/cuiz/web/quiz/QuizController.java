@@ -33,11 +33,6 @@ public class QuizController {
         MemberDTO memberDTO = (MemberDTO)session.getAttribute("member");
         quizDTO.setMember_Id(memberDTO.getMember_ID());
 
-        System.out.println(quizDTO);
-
-        System.out.println(Arrays.toString(example_inputs));
-        System.out.println(Arrays.toString(quiz_outputs));
-
         int result = quizService.addQuiz(quizDTO, example_inputs, example_outputs, quiz_inputs, quiz_outputs);
 
         if(result%10 == 0){
@@ -59,19 +54,12 @@ public class QuizController {
     public SampleRunResult sampleRun(String quiz_SampleCode, String[] example_inputs, String[] quiz_inputs, HttpSession session) throws Exception {
         MemberDTO memberDTO = (MemberDTO) session.getAttribute("member");
 
-        System.out.println(quiz_SampleCode);
-        System.out.println("exampleInputs = " + Arrays.toString(example_inputs));
-        System.out.println("quizInputs = " + Arrays.toString(quiz_inputs));
-
         MemberAnswerDTO answerDTO = new MemberAnswerDTO();
         answerDTO.setSourcecode(quiz_SampleCode);
         answerDTO.setMember_Id(memberDTO.getMember_ID());
 
         List<String> exOutputs = quizService.getSampleOutput(answerDTO, List.of(example_inputs));
         List<String> qOutputs = quizService.getSampleOutput(answerDTO, List.of(quiz_inputs));
-
-        System.out.println("qOutputs = " + qOutputs);
-        System.out.println("exOutputs = " + exOutputs);
 
         return SampleRunResult.createResult(exOutputs,qOutputs);
     }
@@ -82,8 +70,6 @@ public class QuizController {
         if(memberDTO != null){
             pager.setMember_Id(memberDTO.getMember_ID());
         }
-
-        System.out.println("pager = " + pager);
 
         List<QuizListDTO> quizList = quizService.getList(pager);
         model.addAttribute("list", quizList);
@@ -132,12 +118,6 @@ public class QuizController {
         session.setAttribute("member", memberDTO);
 
         return answerDTO;
-    }
-
-    @GetMapping("solvetest")
-    public String solveQuizs(){
-
-        return "quiz/solve";
     }
 }
 

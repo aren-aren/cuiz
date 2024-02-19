@@ -109,3 +109,7 @@ nav > .pagination > .page-item > .page-link:hover{
 .tc-result:hover > .tc-show{
     display: block;
 }
+
+.button.disabled{
+    pointer-events: none;
+}
