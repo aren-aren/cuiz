@@ -75,15 +75,9 @@
                                    class="code-editor"
                                    id="quiz-member-code"
                                    theme="tomorrow-night-eighties">
-                        <script type="wc-content">
-                            public class Main{
-
-                                public static void main(String[] args){
-                                    /* 입력되는 Input에 대한 답을 출력해주세요 */
-                                    System.out.println("hello, world");
-                                }
-                            }
-                        </script>
+<script type="wc-content">
+${answer.sourcecode}
+</script>
                     </wc-codemirror>
                 </div>
                 <div class="bg-black solve-result-area">

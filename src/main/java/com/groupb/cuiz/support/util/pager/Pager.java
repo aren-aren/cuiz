@@ -175,10 +175,15 @@ public class Pager {
 	public void setSort(String sort) {
 		this.sort = sort;
 	}
-	
 
-
-
-
-
+	@Override
+	public String toString() {
+		return "Pager{" +
+				"page=" + page +
+				", search='" + search + '\'' +
+				", kind='" + kind + '\'' +
+				", searchItem='" + searchItem + '\'' +
+				", sort='" + sort + '\'' +
+				'}';
+	}
 }
