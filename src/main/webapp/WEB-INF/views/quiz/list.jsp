@@ -42,35 +42,60 @@
                             </div>
                             <form action="list" method="get">
                                 <div class="row">
-                                    <div class="col-2">
-                                        <select id="level-select" data-level="${pager.searchItem}" name="searchItem" class="form-select form-select-sm">
-                                            <option value="0" selected>난이도</option>
-                                            <option value="1">1</option>
-                                            <option value="2">2</option>
-                                            <option value="3">3</option>
-                                            <option value="4">4</option>
-                                            <option value="5">5</option>
-                                        </select>
-                                    </div>
-                                    <div class="col-2">
-                                        <select id="kind-select" data-kind="${pager.kind}" name="kind" class="form-select form-select-sm">
-                                            <option value="0" selected>모든 문제</option>
-                                            <option value="1">푼 문제</option>
-                                            <option value="2">안 푼 문제</option>
-                                            <option value="3">실패한 문제</option>
-                                        </select>
-                                    </div>
                                     <div class="col-7">
-                                        <input
-                                                id="search-Input"
-                                                type="text"
-                                                data-search="${pager.search}"
-                                                value="${pager.search}"
-                                                name="search"
-                                                class="form-control form-control-sm">
+                                        <div class="input-group">
+                                            <div class="col-3 me-1">
+                                                <select id="level-select"
+                                                        name="searchItem"
+                                                        class="form-select form-select-sm"
+                                                        data-level="${pager.searchItem}">
+                                                    <option value="0" selected>난이도</option>
+                                                    <option value="1">1</option>
+                                                    <option value="2">2</option>
+                                                    <option value="3">3</option>
+                                                    <option value="4">4</option>
+                                                    <option value="5">5</option>
+                                                </select>
+                                            </div>
+                                            <div class="col-3 me-1">
+                                                <select id="kind-select"
+                                                        name="kind"
+                                                        class="form-select form-select-sm"
+                                                        data-kind="${pager.kind}">
+                                                    <option value="0" selected>모든 문제</option>
+                                                    <option value="1">푼 문제</option>
+                                                    <option value="2">안 푼 문제</option>
+                                                    <option value="3">실패한 문제</option>
+                                                </select>
+                                            </div>
+                                            <div class="col-3 me-1">
+                                                <input id="search-Input"
+                                                       type="text"
+                                                       class="form-control form-control-sm"
+                                                       name="search"
+                                                       value="${pager.search}"
+                                                       data-search="${pager.search}">
+                                            </div>
+                                            <div class="col-2">
+                                                <button class="btn btn-cuiz btn-sm" id="searchBtn">검색</button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-2"></div>
+                                    <div class="col-2">
+                                        <select id="sort-select"
+                                                name="sort"
+                                                class="form-select form-select-sm"
+                                                data-sort="${pager.sort}">
+                                            <option value="0" selected>기본순</option>
+                                            <option value="1">정답률 높은순</option>
+                                            <option value="2">정답률 낮은순</option>
+                                            <option value="3">많이 도전 한순</option>
+                                            <option value="4">적게 도전 한순</option>
+                                        </select>
                                     </div>
                                     <div class="col-1">
-                                        <button class="btn btn-sm" id="searchBtn">검색</button>
+                                        <button type="reset" class="btn btn-cuiz btn-sm">초기화</button>
                                     </div>
                                 </div>
                             </form>
@@ -104,17 +129,20 @@
                                         <ul class="pagination justify-content-center">
                                             <c:if test="${!pager.start}">
                                                 <li class="page-item">
-                                                    <button class="page-link" data-page="${pager.startNum-1}">Previous</button>
+                                                    <button class="page-link" data-page="${pager.startNum-1}">Previous
+                                                    </button>
                                                 </li>
                                             </c:if>
                                             <c:forEach begin="${pager.startNum}" end="${pager.lastNum}" var="i">
                                                 <li class="page-item">
-                                                    <button class="page-link ${(pager.page == i)?"current-page":""}" data-page="${i}">${i}</button>
+                                                    <button class="page-link ${(pager.page == i)?"current-page":""}"
+                                                            data-page="${i}">${i}</button>
                                                 </li>
                                             </c:forEach>
                                             <c:if test="${!pager.last}">
                                                 <li class="page-item">
-                                                    <button class="page-link" data-page="${pager.lastNum+1}">Next</button>
+                                                    <button class="page-link" data-page="${pager.lastNum+1}">Next
+                                                    </button>
                                                 </li>
                                             </c:if>
                                         </ul>

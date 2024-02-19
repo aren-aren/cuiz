@@ -10,36 +10,23 @@ const answerCorrectModal = new bootstrap.Modal(document.getElementById("answer_c
 const spinner = `<div id="loadingSpinner" class="spinner-border text-white" role="status">
                         <span class="visually-hidden">Loading...</span>
                     </div>`;
+
+[...document.querySelectorAll("[data-bs-toggle='tooltip']")].map(tool => new bootstrap.Tooltip(tool));
+
 footer[0].querySelectorAll("*").forEach(e=>e.remove());
 /**
  * 입력한 코드 에디터를 초기화시키는 이벤트리스너 함수
  */
 const onInitEditor = () => {
-    document.getElementById("codeAndResult").innerHTML = `
-                <div>
-                    <wc-codemirror mode="text/x-java"
-                                   class="code-editor"
-                                   id="quiz-member-code"
-                                   theme="tomorrow-night-eighties">
-                        <script type="wc-content">
-                            public class Main{
-
-                                public static void main(String[] args){
-                                    /* 입력되는 Input에 대한 답을 출력해주세요 */
-                                    System.out.println("hello, world");
-                                }
-                            }
-                        </script>
-                    </wc-codemirror>
-                </div>
-                <div class="bg-black solve-result-area">
-                    <div class="border-bottom border-top text-white p-2">
-                        실행결과
-                    </div>
-                    <div id="solve-result" class="text-white p-2">
-                        실행결과가 여기에 표시됩니다.
-                    </div>
-                </div>`
+    const defaultSourcecode = `public class Main{
+    public static void main(String[] args){
+    /* 입력되는 Input에 대한 답을 출력해주세요 */
+        System.out.println("hello, world");
+    }
+}`
+    document.getElementById("quiz-member-code").value = defaultSourcecode;
+    document.getElementById("solve-result").innerHTML = "실행결과가 여기에 표시됩니다.";
+    document.getElementById("hint-tip").classList.add("d-none");
 }
 
 

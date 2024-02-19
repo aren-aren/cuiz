@@ -5,7 +5,7 @@ import java.util.List;
 
 public class MemberAnswerDTO {
     private String member_Id;
-    private String quiz_No;
+    private Integer quiz_No;
     private String sourcecode;
     private Date answer_Date;
     private Boolean answer_Check;
@@ -20,11 +20,11 @@ public class MemberAnswerDTO {
         this.member_Id = member_Id;
     }
 
-    public String getQuiz_No() {
+    public Integer getQuiz_No() {
         return quiz_No;
     }
 
-    public void setQuiz_No(String quiz_No) {
+    public void setQuiz_No(Integer quiz_No) {
         this.quiz_No = quiz_No;
     }
 

@@ -35,7 +35,7 @@
                     <ul class="nav">
                         <li><a href="/" class="active">Home</a></li>
                         <li><a href="/member/list">Member List</a></li>
-                        <li><a href="details.html">Details</a></li>
+                        <li><a href="/quiz/list">Quiz</a></li>
                         <li><a href="/shop/list">Shop</a></li>
                     	 <c:if test="${not empty member}">
                     		<li><a href="/member/logout">Logout</a></li>

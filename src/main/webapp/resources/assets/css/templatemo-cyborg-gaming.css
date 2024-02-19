@@ -145,7 +145,7 @@ body .page-content {
 
 p {
   font-size: 15px;
-  color: #666;
+  color: #999;
   line-height: 30px;
   margin-bottom: 0px;
 }
@@ -208,13 +208,13 @@ p {
 }
 
 .border-no-active a {
-  border-color: #666;
-  color: #666;
+  border-color: #999;
+  color: #999;
 }
 
 .border-no-active a:hover{
-  border-color: #666;
-  color: #666;
+  border-color: #999;
+  color: #999;
   background-color: transparent;
 }
 
@@ -283,13 +283,13 @@ section {
 }
 
 .border-no-active button {
-  border-color: #666;
-  color: #666;
+  border-color: #999;
+  color: #999;
 }
 
 .border-no-active button:hover{
-  border-color: #666;
-  color: #666;
+  border-color: #999;
+  color: #999;
   background-color: transparent;
 }
 
@@ -455,14 +455,14 @@ Header Style
   height: 46px;
   border-radius: 23px;
   border: none;
-  color: #666;
+  color: #999;
   font-size: 14px;
   padding: 0px 15px 0px 45px;
 }
 
 .header-area .main-nav #search i {
   position: absolute;
-  color: #666;
+  color: #999;
   left: 20px;
   top: 16px;
   width: 18px;
@@ -519,7 +519,7 @@ Header Style
   font-weight: 400;
   font-size: 14px;
   text-transform: capitalize;
-  color: #666;
+  color: #999;
   -webkit-transition: all 0.3s ease 0s;
   -moz-transition: all 0.3s ease 0s;
   -o-transition: all 0.3s ease 0s;
@@ -908,7 +908,7 @@ Most Popular Style
 }
 
 .most-popular .item span {
-  color: #666;
+  color: #999;
   display: block;
   margin-top: 7px;
   font-weight: 400;
@@ -995,7 +995,7 @@ Gaming Library Style
 }
 
 .gaming-library .item ul li span {
-  color: #666;
+  color: #999;
   font-size: 14px;
 }
 
@@ -1081,7 +1081,7 @@ Featured Games Style
 }
 
 .featured-games .item span {
-  color: #666;
+  color: #999;
   display: block;
   margin-top: 7px;
   font-weight: 400;
@@ -1125,7 +1125,7 @@ Featured Games Style
 .featured-games .owl-nav .owl-next span  {
   font-size: 36px;
   display: inline-block;
-  color: #666;
+  color: #999;
   opacity: 1;
   transition: all .3s;
 }
@@ -1162,7 +1162,7 @@ Featured Games Style
 
 .top-downloaded ul li h6 {
   font-size: 15px;
-  color: #666;
+  color: #999;
   font-weight: 400;
   margin-top: 5px;
   margin-bottom: 5px;
@@ -1401,7 +1401,7 @@ Game Details Style
 }
 
 .game-details .content .left-info span {
-  color: #666;
+  color: #999;
   display: block;
   margin-top: 7px;
   font-weight: 400;
@@ -1495,7 +1495,7 @@ Other Related Style
 }
 
 .other-games .item span {
-  color: #666;
+  color: #999;
   font-size: 14px;
   display: block;
 }
@@ -1627,10 +1627,10 @@ Profile Style
 .main-profile ul li {
   width: 100%;
   font-size: 14px;
-  color: #666;
+  color: #999;
   margin-bottom: 20px;
   padding-bottom: 20px;
-  border-bottom: 1px solid #666;
+  border-bottom: 1px solid #999;
 }
 
 .main-profile ul li span {

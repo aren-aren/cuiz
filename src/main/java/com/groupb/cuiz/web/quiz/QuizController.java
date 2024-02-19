@@ -16,6 +16,13 @@ public class QuizController {
     @Autowired
     private QuizService quizService;
 
+    private final String DEFAULTSOURCECODE = "public class Main{\n\n" +
+            "   public static void main(String[] args){\n" +
+            "   /* 입력되는 Input에 대한 답을 출력해주세요 */\n" +
+            "       System.out.println(\"hello, world\");\n" +
+            "   }\n" +
+            "}";
+
     @GetMapping("add")
     public String addQuiz(){
         return "quiz/add";
@@ -25,11 +32,6 @@ public class QuizController {
     public String addQuiz(QuizDTO quizDTO, String[] example_inputs, String[] example_outputs, String[] quiz_inputs, String[] quiz_outputs, HttpSession session, Model model) throws Exception {
         MemberDTO memberDTO = (MemberDTO)session.getAttribute("member");
         quizDTO.setMember_Id(memberDTO.getMember_ID());
-
-        System.out.println(quizDTO);
-
-        System.out.println(Arrays.toString(example_inputs));
-        System.out.println(Arrays.toString(quiz_outputs));
 
         int result = quizService.addQuiz(quizDTO, example_inputs, example_outputs, quiz_inputs, quiz_outputs);
 
@@ -52,19 +54,12 @@ public class QuizController {
     public SampleRunResult sampleRun(String quiz_SampleCode, String[] example_inputs, String[] quiz_inputs, HttpSession session) throws Exception {
         MemberDTO memberDTO = (MemberDTO) session.getAttribute("member");
 
-        System.out.println(quiz_SampleCode);
-        System.out.println("exampleInputs = " + Arrays.toString(example_inputs));
-        System.out.println("quizInputs = " + Arrays.toString(quiz_inputs));
-
         MemberAnswerDTO answerDTO = new MemberAnswerDTO();
         answerDTO.setSourcecode(quiz_SampleCode);
         answerDTO.setMember_Id(memberDTO.getMember_ID());
 
         List<String> exOutputs = quizService.getSampleOutput(answerDTO, List.of(example_inputs));
         List<String> qOutputs = quizService.getSampleOutput(answerDTO, List.of(quiz_inputs));
-
-        System.out.println("qOutputs = " + qOutputs);
-        System.out.println("exOutputs = " + exOutputs);
 
         return SampleRunResult.createResult(exOutputs,qOutputs);
     }
@@ -83,9 +78,21 @@ public class QuizController {
     }
 
     @GetMapping("solve")
-    public String solveQuiz(QuizDTO quizDTO, Model model){
+    public String solveQuiz(QuizDTO quizDTO, Model model, HttpSession session){
         quizDTO = quizService.getDetail(quizDTO);
         model.addAttribute("dto", quizDTO);
+
+        MemberDTO memberDTO = (MemberDTO) session.getAttribute("member");
+        MemberAnswerDTO answerDTO = new MemberAnswerDTO();
+        answerDTO.setQuiz_No(quizDTO.getQuiz_No());
+        answerDTO.setMember_Id(memberDTO.getMember_ID());
+
+        answerDTO = quizService.getAnswer(answerDTO);
+        if(answerDTO.getSourcecode() == null){
+            answerDTO.setSourcecode(DEFAULTSOURCECODE);
+        }
+
+        model.addAttribute("answer", answerDTO);
 
         return "quiz/solve";
     }
@@ -111,12 +118,6 @@ public class QuizController {
         session.setAttribute("member", memberDTO);
 
         return answerDTO;
-    }
-
-    @GetMapping("solvetest")
-    public String solveQuizs(){
-
-        return "quiz/solve";
     }
 }
 
