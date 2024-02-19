@@ -105,8 +105,14 @@
 	<c:import url="../temps/footer.jsp"></c:import>
 	<script src="https://developers.kakao.com/sdk/js/kakao.js"></script>
     <script>
-        window.Kakao.init("a58598cd3cea0b5410f80d01ccdc89b5");
-
+        fetch("/member/key",{
+			method:"GET"
+		})
+		.then(res => res.text())
+		.then(res => {
+			window.Kakao.init(res.trim());
+		})
+		
         function kakaoLogin(){
             window.Kakao.Auth.login({
                 scope: 'profile_nickname,profile_image,account_email',
