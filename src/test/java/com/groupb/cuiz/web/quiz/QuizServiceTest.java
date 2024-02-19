@@ -51,7 +51,7 @@ public class QuizServiceTest extends MyTest {
     public void runQuiz() throws Exception {
         MemberAnswerDTO answerDTO = new MemberAnswerDTO();
         answerDTO.setMember_Id("a");
-        answerDTO.setQuiz_No("1026");
+        answerDTO.setQuiz_No(1026);
         String sourceCode = "import java.util.Scanner;" +
                 "public class Main{" +
                 "public static void main(String[] args){" +

@@ -34,7 +34,6 @@
         /* getQuizTotalCount - 퀴즈 전체 갯수 조회 */
         SELECT COUNT(QUIZ_NO) FROM QUIZ
         <include refid="search"/>
-        <include refid="ordered"/>
     </select>
 
     <select id="getQuizList" parameterType="Pager" resultType="QuizListDTO">
@@ -54,14 +53,15 @@
               , QUIZ_LEVEL
               , TOTAL_COUNT
               , CORRECT_COUNT
-              , CASE WHEN TOTAL_COUNT = 0 THEN 0 ELSE 100*CORRECT_COUNT/TOTAL_COUNT END AS CORRECT_RATE
+              , CORRECT_RATE
             FROM (
-                SELECT
+                SELECT DISTINCT
                     QUIZ_NO
                   , QUIZ_TITLE
                   , QUIZ_LEVEL
                   , NVL(c.TOTAL_COUNT, 0) AS TOTAL_COUNT
                   , NVL(c.CORRECT_COUNT, 0) AS CORRECT_COUNT
+                  , CASE WHEN TOTAL_COUNT IS NULL THEN 0 ELSE 100*CORRECT_COUNT/TOTAL_COUNT END AS CORRECT_RATE
                 FROM QUIZ
                     LEFT JOIN (
                         SELECT
@@ -72,7 +72,6 @@
                         GROUP BY QUIZ_NO
                     ) c USING(QUIZ_NO)
                 <include refid="search"/>
-                GROUP BY QUIZ_NO,QUIZ_TITLE, QUIZ_LEVEL, c.TOTAL_COUNT, c.CORRECT_COUNT
                 <include refid="ordered"/>
             ) q
         )
@@ -108,7 +107,20 @@
     </sql>
 
     <sql id="ordered">
-        ORDER BY QUIZ_NO DESC
+        ORDER BY
+        <if test="sort == 1">
+            CORRECT_RATE DESC,
+        </if>
+        <if test="sort == 2">
+            CORRECT_RATE ASC,
+        </if>
+        <if test="sort == 3">
+            TOTAL_COUNT DESC,
+        </if>
+        <if test="sort == 4">
+            TOTAL_COUNT ASC,
+        </if>
+        QUIZ_NO DESC
     </sql>
 
     <select id="getQuizDetail" parameterType="QuizDTO" resultType="QuizDTO">

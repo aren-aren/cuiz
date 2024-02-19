@@ -288,4 +288,9 @@ public class QuizService {
 
         return quizDTO;
     }
+
+    public MemberAnswerDTO getAnswer(MemberAnswerDTO answerDTO) {
+        MemberAnswerDTO sourcecodeDTO = quizDAO.getAnswer(answerDTO);
+        return sourcecodeDTO == null ? answerDTO : sourcecodeDTO;
+    }
 }
