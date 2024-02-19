@@ -4,7 +4,8 @@
 	xmlns:context="http://www.springframework.org/schema/context"
 	xsi:schemaLocation="http://www.springframework.org/schema/beans https://www.springframework.org/schema/beans/spring-beans.xsd
 		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-4.3.xsd">
-	<context:property-placeholder location="classpath:email/emailLoader/javamail-ignore.properties"/>
+	<context:property-placeholder order="1" ignore-unresolvable="true" location="classpath:email/config/javamail-ignore.properties"/>
+	<context:property-placeholder order="2" ignore-unresolvable="true" location="classpath:key/config/key-ignore.properties"/>
 	
 	<!-- Root Context: defines shared resources visible to all other web components -->
 	<bean class="org.springframework.web.multipart.commons.CommonsMultipartResolver" id="multipartResolver">
@@ -17,7 +18,7 @@
         <property name="host" value="smtp.gmail.com" />
         <property name="port" value="587" />
         <property name="username" value="${email.user}"/>
-        <property name="password" value="${email.pw}" />
+        <property name="password" value="${email.password}" />
         <property name="javaMailProperties">
             <props>
                <prop key="mail.transport.protocol">smtp</prop>
@@ -28,5 +29,11 @@
             </props>
         </property>
     </bean>
+	
+	<bean id="keyGet" class="com.groupb.cuiz.web.member.SecretKeyController" primary="true">
+		<property name="key123" value="${kakaoKey.password}"></property>
+	
+	</bean>
+
 	
 </beans>

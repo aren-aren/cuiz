@@ -20,6 +20,8 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.context.annotation.PropertySource;
 import org.springframework.http.MediaType;
 import org.springframework.http.HttpHeaders;
 import org.springframework.stereotype.Controller;
@@ -38,11 +40,17 @@ import com.fasterxml.jackson.databind.util.JSONPObject;
 import com.groupb.cuiz.web.member.role.RoleDTO;
 
 @Controller
+@PropertySource("classpath:key/config/key-ignore.properties")
 @RequestMapping("/member/*")
 public class MemberController {
 
+	@Value("${kakaoKey.password}")
+    private String kakaoKey;
+	
 	@Autowired
 	private MemberService memberService;
+	
+	
 	
 	@GetMapping("emailCheck")
 	public String emailCheck(MemberDTO dto,Model model ) throws Exception {
@@ -441,8 +449,7 @@ public class MemberController {
 	
 	
 	@GetMapping("join")
-	public String setJoin() throws Exception {
-	
+	public String setJoin(HttpSession session) throws Exception {
 		return ("member/join");
 				
 	}
@@ -488,6 +495,7 @@ public class MemberController {
 	
 	@GetMapping("login")
 	public String setLogin() throws Exception{
+	
 		return "member/login";
 	}
 	@PostMapping("login")

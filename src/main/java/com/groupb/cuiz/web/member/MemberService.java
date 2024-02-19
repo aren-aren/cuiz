@@ -10,6 +10,7 @@ import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeMessage;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.mail.MailSender;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.JavaMailSenderImpl;
@@ -24,10 +25,16 @@ import java.lang.Math;
 @Transactional(readOnly = true)
 public class MemberService {
 
+	
+	
+	
 	@Autowired
 	private MemberDAO dao;
 	@Autowired
 	private JavaMailSender javaMailSender;
+	
+	
+	
 	
 	public int sendEmail(MemberDTO dto) throws Exception {
 		
