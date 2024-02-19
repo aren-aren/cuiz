@@ -47,16 +47,6 @@ nav > .pagination > .page-item > .page-link:hover{
     color: white;
 }
 
-#searchBtn{
-    background-color: #e75e8d;
-    color : white;
-}
-
-#searchBtn:hover{
-    background-color: #c73e6d;
-    border : 0;
-}
-
 .btn-cuiz{
     --bs-btn-color:#FFF;
     --bs-btn-bg:#e75e8d;

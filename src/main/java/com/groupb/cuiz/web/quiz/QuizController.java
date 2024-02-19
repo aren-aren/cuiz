@@ -16,6 +16,13 @@ public class QuizController {
     @Autowired
     private QuizService quizService;
 
+    private final String DEFAULTSOURCECODE = "public class Main{\n\n" +
+            "   public static void main(String[] args){\n" +
+            "   /* 입력되는 Input에 대한 답을 출력해주세요 */\n" +
+            "       System.out.println(\"hello, world\");\n" +
+            "   }\n" +
+            "}";
+
     @GetMapping("add")
     public String addQuiz(){
         return "quiz/add";
@@ -76,6 +83,8 @@ public class QuizController {
             pager.setMember_Id(memberDTO.getMember_ID());
         }
 
+        System.out.println("pager = " + pager);
+
         List<QuizListDTO> quizList = quizService.getList(pager);
         model.addAttribute("list", quizList);
 
@@ -83,9 +92,21 @@ public class QuizController {
     }
 
     @GetMapping("solve")
-    public String solveQuiz(QuizDTO quizDTO, Model model){
+    public String solveQuiz(QuizDTO quizDTO, Model model, HttpSession session){
         quizDTO = quizService.getDetail(quizDTO);
         model.addAttribute("dto", quizDTO);
+
+        MemberDTO memberDTO = (MemberDTO) session.getAttribute("member");
+        MemberAnswerDTO answerDTO = new MemberAnswerDTO();
+        answerDTO.setQuiz_No(quizDTO.getQuiz_No());
+        answerDTO.setMember_Id(memberDTO.getMember_ID());
+
+        answerDTO = quizService.getAnswer(answerDTO);
+        if(answerDTO.getSourcecode() == null){
+            answerDTO.setSourcecode(DEFAULTSOURCECODE);
+        }
+
+        model.addAttribute("answer", answerDTO);
 
         return "quiz/solve";
     }
