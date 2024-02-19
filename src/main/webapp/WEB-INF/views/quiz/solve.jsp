@@ -93,16 +93,26 @@ ${answer.sourcecode}
                 </div>
             </div>
             <div class="col-12 mb-3">
-                <div class="float-start">
+                <div class="float-start me-1">
                     <a class="btn btn-secondary">질문 게시판</a>
                 </div>
-                <div class="float-end" style="min-width: 90px">
+                <div class="float-start"
+                     <c:if test="${!answer.answer_Check}">
+                     tabindex="0"
+                     data-bs-toggle="tooltip"
+                     data-bs-placement="right"
+                     data-bs-title="정답을 맞춘 문제만 다른사람의 풀이를 볼 수 있습니다."
+                     </c:if>
+                >
+                    <button class="btn btn-secondary <c:if test="${!answer.answer_Check}">disabled</c:if>">다른 사람 풀이</button>
+                </div>
+                <div class="float-end">
                     <button class="btn btn-cuiz" id="submit-btn">제출하기</button>
                 </div>
-                <div class="float-end mx-1" style="min-width: 95px">
+                <div class="float-end mx-1">
                     <button class="btn btn-info" id="run-btn">코드 실행</button>
                 </div>
-                <div class="float-end mx-1" style="min-width: 75px">
+                <div class="float-end">
                     <button class="btn btn-secondary" id="init-btn">초기화</button>
                 </div>
             </div>
