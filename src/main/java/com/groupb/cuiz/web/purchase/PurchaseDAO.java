@@ -17,6 +17,7 @@ public class PurchaseDAO {
 	private final String NAMESPACE = "com.groupb.cuiz.web.purchase.PurchaseDAO.";
 	
 	
+	
 	public List<ItemDTO> getList(PurchaseDTO purchaseDTO){
 		
 		return sqlSession.selectList(NAMESPACE+"getList", purchaseDTO);

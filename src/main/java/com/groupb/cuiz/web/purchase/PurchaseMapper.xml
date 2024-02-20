@@ -21,9 +21,31 @@
 
 </select>
 
+<!-- kakaoPay -->
 
+<insert id="kakopaySuccess">
 
-
+	INSURT INTO RECEPT 
+		(MEMBER_ID,
+		ITEM_NUM,
+		AID,TID,
+		CID,
+		PARTNER_ORDER_ID,
+		PARTNER_USER_ID,
+		PAYMENT_METHOD_TYPE,
+		CREATED_AT,
+		APPROVED_AT,
+		TOTAL,
+		TAX_FREE,VAT,
+		POINT,
+		DISCOUNT,
+		GREEN_DEPOSIT)
+	VALUES(
+		
+		
+	
+		)	
+</insert>
 
 
 <!-- Buy  --> 
