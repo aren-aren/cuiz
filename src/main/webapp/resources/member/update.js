@@ -1,22 +1,31 @@
-let user_pw = document.getElementById("PW");
-let user_pw2 = document.getElementById("PW2");
-let divPW = document.getElementById("password_check");
-let divPW2 = document.getElementById("password2_check");
+
 let join_btn = document.getElementById("join-btn");
 
+let hidden_Token = document.getElementById("hidden_Token").value;
 
-join_btn.setAttribute("disabled","disabled")
-divPW.setAttribute("class","no");
-divPW2.setAttribute("class","no");
 
-function pwcheck(password) {
-    let check = new RegExp('(?=.*[a-zA-Z0-9])(?=.*[~!@#$%^&*])(?=.{8,20})');
-    if(check.test(password) )
-    return true;
-    else
-    return false;
+console.log(hidden_Token);
 
-}
+
+
+if(hidden_Token==0){
+    let user_pw = document.getElementById("PW");
+    let user_pw2 = document.getElementById("PW2");
+    let divPW = document.getElementById("password_check");
+    let divPW2 = document.getElementById("password2_check");
+
+    join_btn.setAttribute("disabled","disabled")
+    divPW.setAttribute("class","no");
+    divPW2.setAttribute("class","no");
+    
+    function pwcheck(password) {
+        let check = new RegExp('(?=.*[a-zA-Z0-9])(?=.*[~!@#$%^&*])(?=.{8,20})');
+        if(check.test(password) )
+        return true;
+        else
+        return false;
+    
+    }
 
 user_pw.addEventListener("blur",function(){
     if(user_pw.value.length<8 ){
@@ -63,4 +72,6 @@ user_pw2.addEventListener("blur",function(){
     }else{
         join_btn.disabled = true;
     }
+
 })
+}

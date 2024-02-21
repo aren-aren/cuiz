@@ -15,6 +15,9 @@ public class MemberDAO {
 	private SqlSession sqlSession;
 	private String namespace = "com.groupb.cuiz.web.member.MemberDAO.";
 	
+	public int realDelete() throws Exception{
+		return sqlSession.delete(namespace+"realDelete");
+	}
 	
 	public int SetJoin(MemberDTO dto) throws Exception{
 		return sqlSession.insert(namespace+"setJoin",dto);
@@ -114,5 +117,8 @@ public class MemberDAO {
 
 	public int setJumsu(MemberDTO memberDTO) throws Exception {
 		return sqlSession.update(namespace + "setJumsu", memberDTO);
+	}
+	public int setTotalAtt(MemberDTO dto) throws Exception{
+		return sqlSession.update(namespace+"setTotalAtt",dto);
 	}
 }

@@ -15,6 +15,7 @@ import org.springframework.mail.MailSender;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.JavaMailSenderImpl;
 import org.springframework.mail.javamail.MimeMessageHelper;
+import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
@@ -22,6 +23,7 @@ import org.springframework.web.multipart.MultipartFile;
 import com.groupb.cuiz.web.member.role.RoleDTO;
 import java.lang.Math;
 @Service
+@Component
 @Transactional(readOnly = true)
 public class MemberService {
 
@@ -141,6 +143,8 @@ public class MemberService {
 		int result = dao.getAtendence(dto);
 		int att = 0;
 		if(result==0) {
+			System.out.println("dto.getid = " + dto.getMember_ID());
+			dao.setTotalAtt(dto);
 			att = dao.setAtendence(dto);
 			
 				if(att==1) {
@@ -198,5 +202,12 @@ public class MemberService {
 		return dao.naver_login(dto);
 		
 	}
+	
+	public int realDelete() throws Exception{
+		System.out.println("memberService check");
+		return dao.realDelete();
+	}
+	
+	
 	
 }

@@ -530,14 +530,23 @@ public class MemberController {
 		}
 		else {
 			session.setAttribute("member", dto);
-			session.setAttribute("avatar", "data:image/png;base64," + new String(dto.getMember_Profile_Blob(), StandardCharsets.UTF_8));
-			 
+			
+			if(dto.getMember_Profile_Blob()!=null) {
+				session.setAttribute("avatar", "data:image/png;base64," + new String(dto.getMember_Profile_Blob(), StandardCharsets.UTF_8));
+			}
+			else {
+				session.setAttribute("avatar", null);
+			}
 			return "redirect:/";
-		}
+		}	
 		session.setAttribute("member", dto);
 		//System.out.println( new String(dto.getMember_Profile_byte(), "UTF-8") );
-		session.setAttribute("avatar", "data:image/png;base64," + new String(dto.getMember_Profile_Blob(), StandardCharsets.UTF_8));
-		 
+		if(dto.getMember_Profile_Blob()!=null) {
+			session.setAttribute("avatar", "data:image/png;base64," + new String(dto.getMember_Profile_Blob(), StandardCharsets.UTF_8));
+		}
+		else {
+			session.setAttribute("avatar", null);
+		}
 		return "commons/result";
 	}
 	
@@ -555,12 +564,13 @@ public class MemberController {
 		int result = memberService.setUpdate(dto);
 		
 		if(result>0) {
-		dto = memberService.getDetail(dto);
-		}
+			if(dto.getMember_Password() == null) dto = memberService.getKakaoLogin(dto);
+			else dto = memberService.getDetail(dto);
 		session.setAttribute("member", dto);
 		session.setAttribute("avatar", "data:image/png;base64," + new String(dto.getMember_Profile_Blob(),StandardCharsets.UTF_8));
 		
-		return "redirect:/member/mypage";
+		}
+		return "redirect:/mypage/profile";	
 	}
 	
 	@GetMapping("11")

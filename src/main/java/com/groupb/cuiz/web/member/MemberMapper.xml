@@ -60,8 +60,9 @@
 	</select>
 	<!-- 계정 복구 -->
 	<update id="user_recovered" parameterType="MemberDTO">
-		UPDATE MEMBER SET MEMBER_FLAG = 0 WHERE MEMBER_ID = #{member_ID}
+		UPDATE MEMBER SET MEMBER_FLAG = 0,MEMBER_DELDATE =NULL WHERE MEMBER_ID = #{member_ID}
 	</update>
+	
 	
 	<!-- 테스트 --> 	
  	<select id="get" resultType="MemberDTO">
@@ -89,9 +90,9 @@
  	<!-- 회원정보 수정 -->
  	<update id="setUpdate" parameterType="MemberDTO">
  		UPDATE MEMBER <set>
- 		<if test="member_Password != '' "> MEMBER_Password =#{member_Password},</if>
- 		<if test="member_Email != '' ">MEMBER_EMAIL = #{member_Email},</if>
- 		<if test="member_PhoneNumber != '' ">MEMBER_PHONENUMBER = #{member_PhoneNumber}</if>
+ 		<if test="member_Password != '' and member_Password != null"> MEMBER_Password =#{member_Password},</if>
+ 		<if test="member_Email != '' and member_Email != null ">MEMBER_EMAIL = #{member_Email},</if>
+ 		<if test="member_PhoneNumber != '' and member_PhoneNumber != null ">MEMBER_PHONENUMBER = #{member_PhoneNumber},</if>
  		</set>
  		,MEMBER_PROFILE_BLOB = #{member_Profile_Blob}
  		WHERE MEMBER_ID = #{member_ID}
@@ -103,6 +104,10 @@
  		UPDATE MEMBER SET MEMBER_FLAG = 1 , MEMBER_DELDATE = SYSDATE
  		WHERE MEMBER_ID = #{member_ID}
  	</update>
+ 	<!-- deldate 랑 현재 날짜랑 3일 차이 나면 삭제 -->
+ 	<delete id="realDelete">
+ 		DELETE FROM MEMBER WHERE SYSDATE-MEMBER_DELDATE >3
+ 	</delete>
  	
  	
  	<!-- 멤버 권한 변경 -->
@@ -152,6 +157,13 @@
  		UPDATE MEMBER SET MEMBER_COIN = #{member_Coin} +10 WHERE MEMBER_ID = #{member_ID}
  	</update>
 
+	<!-- 출석시 출석 +1 -->
+	<update id="setTotalAtt" parameterType="MemberDTO">
+		UPDATE MEMBER SET MEMBER_TOTALATT = 
+			(SELECT COUNT(MEMBER_ID) FROM ATTENDENCE WHERE MEMBER_ID = #{member_ID})
+			 WHERE MEMBER_ID = #{member_ID}
+	</update>
+	
 	<update id="setJumsu" parameterType="MemberDTO">
 		UPDATE MEMBER SET MEMBER_JUMSU = #{member_Jumsu} WHERE MEMBER_ID = #{member_ID}
 	</update>
