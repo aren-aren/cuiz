@@ -38,33 +38,87 @@
                     <div class="col-lg-12">
                         <div class="featured-games header-text">
                             <div class="heading-section">
-                                <h4>Add Quiz</h4>
+                                <h4><em>Update</em> Quiz</h4>
                             </div>
                             <div class="px-3">
-                                <form action="add" id="addForm" method="post">
-                                    <input type="text"
-                                           name="quiz_Title"
-                                           class="form-control mb-4"
-                                           id="quiz_Title"
-                                           placeholder="문제 제목을 입력하세요"/>
-                                    <textarea id="quiz_Contents_summernote"
-                                              name="quiz_Contents"
-                                              placeholder="문제 내용을 입력하세요"></textarea>
+                                <div id="content-update">
+                                <div class="heading-section">
+                                    <h4>내용 수정</h4>
+                                </div>
+                                <input type="text"
+                                       name="quiz_Title"
+                                       class="form-control mb-4"
+                                       id="quiz_Title"
+                                       placeholder="문제 제목을 입력하세요"
+                                       value="${dto.quiz_Title}"/>
+                                <textarea id="quiz_Contents_summernote"
+                                          name="quiz_Contents"
+                                          placeholder="문제 내용을 입력하세요">${dto.quiz_Contents}</textarea>
+                                <div class="row mb-3">
+                                    <div class="col-6">
+                                        <input type="text"
+                                               class="form-control"
+                                               name="quiz_Type"
+                                               placeholder="문제 유형을 입력하세요"
+                                               value="${dto.quiz_Type}">
+                                    </div>
+                                    <div class="col-6 pt-2">
+                                        <div class="text-white d-inline-block me-3">
+                                            문제 난이도 :
+                                        </div>
+                                        <c:forEach var="idx" begin="1" end="5">
+                                            <input id="quiz-lev-${idx}"
+                                                   class="form-check-input "
+                                                   type="radio"
+                                                   name="quiz_Level"
+                                                   value="${idx}"
+                                                   <c:if test="${idx eq dto.quiz_Level}">checked</c:if>
+                                            >
+                                            <label for="quiz-lev-${idx}"
+                                                   class="form-check-label text-white">${idx}&nbsp;&nbsp;&nbsp;&nbsp;</label>
+                                        </c:forEach>
+                                    </div>
+                                </div>
+                                </div>
+                                <div id="code-update">
+                                    <div class="heading-section">
+                                        <h4>코드&테스트케이스 수정</h4>
+                                    </div>
                                     <wc-codemirror mode="text/x-java"
                                                    class="mb-3"
                                                    id="quiz_SampleCode"
                                                    theme="tomorrow-night-eighties">
-                                        <script type="wc-content">
-                                            public class Main{
-
-                                                public static void main(String[] args){
-                                                    /* 예제 코드를 적어주세요 */
-                                                    System.out.println("hello, world");
-                                                }
-                                            }
-                                        </script>
+<script type="wc-content">
+${dto.quiz_SampleCode}
+</script>
                                     </wc-codemirror>
-                                    <input type="hidden" id="quizSampleCodeInput" name="quiz_SampleCode">
+                                    <div>
+                                        <button id="code-update-btn" class="btn btn-cuiz">코드 수정하기</button>
+                                    </div>
+                                    <div>
+                                        <table class="table table-dark table-striped">
+                                            <thead>
+                                                <tr>
+                                                    <th style="width: 5%">번호</th>
+                                                    <th style="width: 40%;">입력</th>
+                                                    <th style="width: 40%">출력</th>
+                                                    <th style="width: 10%">타입</th>
+                                                    <th style="width: 5%"></th>
+                                                </tr>
+                                            </thead>
+                                            <tbody id="testcases-table">
+                                                <c:forEach items="${dto.testcase}" var="testcase">
+                                                    <tr>
+                                                        <td>${testcase.testcase_No}</td>
+                                                        <td>${testcase.testcase_Input}</td>
+                                                        <td>${testcase.testcase_Output}</td>
+                                                        <td>${testcase.testcase_Type}</td>
+                                                        <td><button data-tc-no="${testcase.testcase_No}" class="btn btn-outline-danger btn-sm border-0">X</button></td>
+                                                    </tr>
+                                                </c:forEach>
+                                            </tbody>
+                                        </table>
+                                    </div>
                                     <div class="row mb-3">
                                         <div class="col-6">
                                             <div class="input-group">
@@ -92,36 +146,16 @@
                                         </div>
                                     </div>
 
-                                    <input type="hidden" id="example_hidden" name="example_inputs"/>
-                                    <input type="hidden" id="example_output" name="example_outputs"/>
-                                    <input type="hidden" id="quiz_hidden" name="quiz_inputs"/>
-                                    <input type="hidden" id="quiz_output" name="quiz_outputs"/>
-
-                                    <div class="row mb-3">
-                                        <div class="col-6">
-                                            <input type="text"
-                                                   class="form-control"
-                                                   name="quiz_Type"
-                                                   placeholder="문제 유형을 입력하세요">
-                                        </div>
-                                        <div class="col-6 pt-2">
-                                            <div class="text-white d-inline-block me-3">문제 난이도 :</div>
-                                            <c:forEach var="idx" begin="1" end="5">
-                                                <input id="quiz-lev-${idx}"
-                                                       class="form-check-input "
-                                                       type="radio"
-                                                       name="quiz_Level"
-                                                       value="${idx}">
-                                                <label for="quiz-lev-${idx}"
-                                                       class="form-check-label text-white">${idx}&nbsp;&nbsp;&nbsp;&nbsp;</label>
-                                            </c:forEach>
-                                        </div>
-                                    </div>
-                                    <div class="main-button">
-                                        <a class="w-100 text-center" id="sampleRun">실행해보기</a>
-                                    </div>
-                                </form>
+                                </div>
+                                <div class="mb-3">
+                                    <button type="button" id="submit-btn" class="btn btn-cuiz">저장하기</button>
+                                    <button id="switch-body" data-body-type="content" type="button" class="btn btn-cuiz">코드&테스트케이스 수정으로</button>
+                                </div>
+                                <div>
+                                    <a class="btn btn-secondary" href="solve?quiz_No=${dto.quiz_No}">돌아가기</a>
+                                </div>
                             </div>
+
                         </div>
                     </div>
 
@@ -129,6 +163,7 @@
             </div>
         </div>
     </div>
+
     <!-- Modal -->
     <div class="modal fade" id="sampleRunModal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
          aria-labelledby="staticBackdropLabel" aria-hidden="true">
@@ -168,7 +203,7 @@
     <link href="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote.min.css" rel="stylesheet">
     <link rel="stylesheet"
           href="https://cdn.jsdelivr.net/gh/vanillawc/wc-codemirror@1/theme/tomorrow-night-eighties.css">
-    <script src="/resources/js/quiz/add.js" type="text/javascript"></script>
+    <script src="/resources/js/quiz/update.js" type="text/javascript"></script>
 
 </body>
 

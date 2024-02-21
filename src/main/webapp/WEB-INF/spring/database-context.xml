@@ -8,15 +8,7 @@
 		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-4.3.xsd">
 <context:property-placeholder ignore-unresolvable="true" location="classpath:database/config/database-ignore.properties"/>
 
-	<task:scheduled-tasks scheduler="scheduler">
-        <task:scheduled ref="testSchedule" method="testPrint" cron="*/2 * * * * ?"/>
-    	<task:scheduled ref="userDelete" method="setDelete" cron ="* 30 * * * ?"/>
-    </task:scheduled-tasks>
-	
-	<task:scheduler id="scheduler" pool-size="10"/>
-	<bean id="testSchedule" class="com.groupb.cuiz.web.schedule.TestSchedule"/>
-	
-	<bean id="userDelete" class="com.groupb.cuiz.web.schedule.UserDelete"/>
+
 	
 
 

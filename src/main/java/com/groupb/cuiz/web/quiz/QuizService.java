@@ -275,12 +275,12 @@ public class QuizService {
      * @param quizDTO
      * @return
      */
-    public QuizDTO getDetail(QuizDTO quizDTO) {
+    public QuizDTO getDetail(QuizDTO quizDTO, String type) {
         quizDTO = quizDAO.getDetail(quizDTO);
 
         Map<String, Object> map = new HashMap<>();
         map.put("dto", quizDTO);
-        map.put("type", "EXAMPLE");
+        map.put("type", type);
 
         List<TestcaseDTO> list = quizDAO.getTestCases(map);
 
@@ -292,5 +292,13 @@ public class QuizService {
     public MemberAnswerDTO getAnswer(MemberAnswerDTO answerDTO) {
         MemberAnswerDTO sourcecodeDTO = quizDAO.getAnswer(answerDTO);
         return sourcecodeDTO == null ? answerDTO : sourcecodeDTO;
+    }
+
+    public Boolean updateQuiz(QuizDTO quizDTO) {
+        return quizDAO.updateQuiz(quizDTO) > 0;
+    }
+
+    public Boolean deleteTestcase(TestcaseDTO testcaseDTO) {
+        return quizDAO.deleteTestcase(testcaseDTO) > 0;
     }
 }
