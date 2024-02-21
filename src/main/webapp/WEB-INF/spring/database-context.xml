@@ -9,6 +9,7 @@
 <context:property-placeholder ignore-unresolvable="true" location="classpath:database/config/database-ignore.properties"/>
 
 
+	
 
 
 	<bean class="org.springframework.jdbc.datasource.DriverManagerDataSource" id="dataSource">
