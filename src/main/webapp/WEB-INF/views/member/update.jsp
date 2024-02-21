@@ -58,6 +58,7 @@
 		<div>
 			<h2>회원정보 수정</h2>
 		</div>
+		<c:if test="${member.member_Token eq 0}">
 		<div>
 			<label for="ID" class="form-label color-white">아이디</label> <input
 				type="TEXT" id="ID" class="form-control input-join" name="member_ID"
@@ -109,10 +110,32 @@
 			<label for="profile" class="color-white">프로필 사진 변경</label><br>
 			<input id="profile_change" name="member_Profile" type="file" class="form-control input-join">
 		</div>
+		</c:if>
+		<c:if test="${member.member_Token eq 1}">
+			<div>
+			<label for="ID" class="form-label color-white">아이디</label> <input
+				type="TEXT" id="ID" class="form-control input-join" name="member_ID"
+				readonly value="${member.member_ID}">
+			<div id="id_check"></div>
+			</div>
+			<div class="mb-3">
+			<label for="email" class="form-label color-white">Email
+				수정해주세요</label> <input type="email" class="form-control input-join"
+				id="email" name="member_Email" placeholder="name@example.com"
+				value="${member.member_Email }">
+		</div>
+			<div >
+			<h2 class="color-white">현재 프로필사진</h2>
+			<img src="${avatar}" style="width : 200px"><br><br><br>
+			<label for="profile" class="color-white">프로필 사진 변경</label><br>
+			<input id="profile_change" name="member_Profile" type="file" class="form-control input-join">
+		</div>
+		</c:if>
 		<button id="join-btn" class="btn-update">회원정보 수정</button>
 	</form>
 		
 		</div>
+		<input id = "hidden_Token" type = "hidden" value="${member.member_Token}" />
 	<c:import url="../temps/footer.jsp"></c:import>
 	<script type="text/javascript" src= "/resources/member/update.js"  ></script>
 </body>

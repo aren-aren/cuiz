@@ -29,12 +29,17 @@ public class MemberDTO {
 	private String member_PhoneNumber;
 	private Date member_RegDate;
 	private Date member_DelDate;
-
-
+	private Integer member_TotalAtt;
 	private Integer member_Conatt;
 	
 	
 	
+	public Integer getMember_TotalAtt() {
+		return member_TotalAtt;
+	}
+	public void setMember_TotalAtt(Integer member_TotalAtt) {
+		this.member_TotalAtt = member_TotalAtt;
+	}
 	public Integer getMember_Conatt() {
 		return member_Conatt;
 	}

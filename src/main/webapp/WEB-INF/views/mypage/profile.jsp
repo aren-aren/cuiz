@@ -47,14 +47,14 @@
                       <h4>${member.member_Nick}</h4>
                        <h4 class="data-id">${member.member_ID}</h4>
                       <div class="main-border-button">
-                        <a href="#">Start Live Stream</a>
+                        <a href="/member/update">회원정보 수정</a>
                       </div>
                     </div>
                   </div>
                   <div class="col-lg-4 align-self-center">
                      <ul>
                       <li>점수<span>${member.member_Jumsu}</span></li>
-                      <li>출석일 수 <span>${member.member_Password}</span></li>
+                      <li>출석일 수 <span>${member.member_TotalAtt}</span></li>
                       <li>가입일 <span>${member.member_RegDate}</span></li>
                       <li>Coin<span>${member.member_Coin}</span></li>
                     </ul>
