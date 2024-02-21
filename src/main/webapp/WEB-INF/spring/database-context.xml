@@ -2,9 +2,23 @@
 <beans xmlns="http://www.springframework.org/schema/beans"
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xmlns:context="http://www.springframework.org/schema/context"
-	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+	xmlns:task="http://www.springframework.org/schema/task"
+	xsi:schemaLocation="http://www.springframework.org/schema/task http://www.springframework.org/schema/task/spring-task-4.3.xsd
+		http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
 		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-4.3.xsd">
 <context:property-placeholder ignore-unresolvable="true" location="classpath:database/config/database-ignore.properties"/>
+
+	<task:scheduled-tasks scheduler="scheduler">
+        <task:scheduled ref="testSchedule" method="testPrint" cron="*/2 * * * * ?"/>
+    	<task:scheduled ref="userDelete" method="setDelete" cron ="* 30 * * * ?"/>
+    </task:scheduled-tasks>
+	
+	<task:scheduler id="scheduler" pool-size="10"/>
+	<bean id="testSchedule" class="com.groupb.cuiz.web.schedule.TestSchedule"/>
+	
+	<bean id="userDelete" class="com.groupb.cuiz.web.schedule.UserDelete"/>
+	
+
 
 	<bean class="org.springframework.jdbc.datasource.DriverManagerDataSource" id="dataSource">
 		<property name="username" value="${oracle.user}"/>
