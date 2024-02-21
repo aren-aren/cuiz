@@ -107,9 +107,18 @@ public class ResponseDTO {
 	public void setAndroid_app_scheme(String android_app_scheme) {
 		this.android_app_scheme = android_app_scheme;
 	}
+	@Override
+	public String toString() {
+		return "ResponseDTO [tid=" + tid + ", tms_result=" + tms_result + ", created_at=" + created_at
+				+ ", partner_order_id=" + partner_order_id + ", partner_user_id=" + partner_user_id
+				+ ", next_redirect_pc_url=" + next_redirect_pc_url + ", next_redirect_mobile_url="
+				+ next_redirect_mobile_url + ", next_redirect_app_url=" + next_redirect_app_url
+				+ ", android_app_scheme=" + android_app_scheme + ", ios_app_scheme=" + ios_app_scheme + ", pg_token="
+				+ pg_token + ", response=" + response + ", htmlCode=" + htmlCode + ", item_Num=" + item_Num + "]";
+	}
 	
 	
-	
+	 
 	
 	
 	

@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import com.groupb.cuiz.web.item.ItemDTO;
+import com.groupb.cuiz.web.purchase.kakao.ReceiptDTO;
 
 @Repository
 public class PurchaseDAO {
@@ -15,6 +16,21 @@ public class PurchaseDAO {
 	private SqlSession sqlSession;
 	
 	private final String NAMESPACE = "com.groupb.cuiz.web.purchase.PurchaseDAO.";
+	
+	
+//	KAKAOPAY
+	public int kakopaySuccess(ReceiptDTO receiptDTO) {
+		
+		return sqlSession.insert(NAMESPACE+"kakopaySuccess", receiptDTO);
+		
+	}
+	
+	public int kakopaySuccessCard(ReceiptDTO receiptDTO) {
+		
+		return sqlSession.insert(NAMESPACE+"kakopaySuccessCard", receiptDTO);
+	}
+	
+	
 	
 	
 	

@@ -19,7 +19,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 
 import com.groupb.cuiz.web.item.ItemDTO;
-import com.groupb.cuiz.web.member.MemberDTO;
+
 import com.groupb.cuiz.web.purchase.kakao.ReceiptDTO;
 import com.groupb.cuiz.web.purchase.kakao.ResponseDTO;
 
@@ -33,18 +33,44 @@ public class PurchaseController {
 
 	private ResponseDTO responseDTO;
 	
+	
+	
+	
+	//카카오페이 결제 성공시
 	@GetMapping("success")
-	public void kakopaySuccess(String pg_token, ReceiptDTO receiptDTO, HttpSession session,ItemDTO itemDTO) throws Exception {
-		System.out.println("Pg_Token : "+ pg_token);
+	public String kakopaySuccess(String pg_token, ReceiptDTO receiptDTO, HttpSession session,ItemDTO itemDTO, Model model) throws Exception {		
+	
+
+		this.responseDTO.setPg_token(pg_token);				
+		receiptDTO = purchaseService.kakaoPaySuccess(itemDTO,responseDTO, receiptDTO, session);			
+		model.addAttribute("total", receiptDTO.getAmount().getTotal());	
+		model.addAttribute("msg", "결제가 완료되었습니다.");
+		System.out.println("결제완료");
 		
-		this.responseDTO.setPg_token(pg_token);		
-		
-		int result = purchaseService.kakaoPaySuccess(itemDTO,responseDTO, receiptDTO, session);	
-		
-		
-		
+		return "/commons/resultkakao";
 		
 	}
+	
+	//카카오페이 결제 실패시
+	@GetMapping("cancel")
+	public String kakaopayCancel(Model model) {	
+		
+		model.addAttribute("msg", "결제를 취소하였습니다.");
+		
+		return "/commons/resultkakao";
+			
+	}	
+	@GetMapping("fail")
+	public String kakaopayFail(Model model) {	
+		
+		model.addAttribute("msg", "결제중 문제가 발생하였습니다.");
+	
+		
+		return "/commons/resultkakao";
+			
+	}	
+	
+	
 	
 	@GetMapping("list")
 	public String list(PurchaseDTO purchaseDTO, Model model) {	
@@ -86,19 +112,20 @@ public class PurchaseController {
 //	}
 	@PostMapping("kakaopay")
 	@ResponseBody	
-	public String kakaoPay(ItemDTO itemDTO, ResponseDTO responseDTO, Model model) throws Exception {
+	public String kakaoPay(ItemDTO itemDTO, ResponseDTO responseDTO, Model model, HttpSession session) throws Exception {
+		
 	
-		responseDTO = purchaseService.kakaoPay(itemDTO, responseDTO);
-		this.responseDTO = responseDTO;
-		System.out.println( responseDTO.getPartner_order_id());
-	return 	responseDTO.getNext_redirect_pc_url();
+		System.out.println("카카오페이"+itemDTO.getItem_Num());
+		
+		responseDTO = purchaseService.kakaoPay(itemDTO, responseDTO);		
+		this.responseDTO = responseDTO;		
+				
+		return 	responseDTO.getNext_redirect_pc_url();
 		
 		
 	}
 	
 
-	
-	
 	
 }
 

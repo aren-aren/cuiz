@@ -8,6 +8,7 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 public class ReceiptDTO {
 	
 		private String member_ID;
+		private Integer item_Num;
 		private String cid;
 	    private String aid;
 	    private String tid;
@@ -18,8 +19,8 @@ public class ReceiptDTO {
 	    private String item_name;
 	    private String item_code;
 	    private Integer quantity;
-	    private Date createdAt;
-	    private Date approvedAt;
+	    private Date created_at;
+	    private Date approved_at;
 	    private String payload;
 	    private Amount amount;
 	    private card_info card_info;
@@ -27,6 +28,12 @@ public class ReceiptDTO {
 	    
 	    
 	    
+		public Integer getItem_Num() {
+			return item_Num;
+		}
+		public void setItem_Num(Integer item_Num) {
+			this.item_Num = item_Num;
+		}
 		public String getMember_ID() {
 			return member_ID;
 		}
@@ -129,23 +136,20 @@ public class ReceiptDTO {
 		public void setQuantity(Integer quantity) {
 			this.quantity = quantity;
 		}
+		
 
-		public Date getCreatedAt() {
-			return createdAt;
+		public Date getCreated_at() {
+			return created_at;
 		}
-
-		public void setCreatedAt(Date createdAt) {
-			this.createdAt = createdAt;
+		public void setCreated_at(Date created_at) {
+			this.created_at = created_at;
 		}
-
-		public Date getApprovedAt() {
-			return approvedAt;
+		public Date getApproved_at() {
+			return approved_at;
 		}
-
-		public void setApprovedAt(Date approvedAt) {
-			this.approvedAt = approvedAt;
+		public void setApproved_at(Date approved_at) {
+			this.approved_at = approved_at;
 		}
-
 		public Amount getAmount() {
 			return amount;
 		}

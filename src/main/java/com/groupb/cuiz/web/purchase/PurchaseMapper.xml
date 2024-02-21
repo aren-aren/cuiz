@@ -23,12 +23,13 @@
 
 <!-- kakaoPay -->
 
-<insert id="kakopaySuccess">
+<insert id="kakopaySuccess" parameterType="ReceiptDTO">
 
-	INSURT INTO RECEPT 
+	INSERT INTO RECIPT 
 		(MEMBER_ID,
 		ITEM_NUM,
-		AID,TID,
+		AID,
+		TID,
 		CID,
 		PARTNER_ORDER_ID,
 		PARTNER_USER_ID,
@@ -36,15 +37,63 @@
 		CREATED_AT,
 		APPROVED_AT,
 		TOTAL,
-		TAX_FREE,VAT,
+		TAX_FREE,
+		VAT,
 		POINT,
 		DISCOUNT,
 		GREEN_DEPOSIT)
-	VALUES(
-		
-		
-	
+	VALUES(	#{member_ID},
+			#{item_Num},
+			#{aid},
+			#{tid},
+			#{cid},
+			#{partner_order_id},
+			#{partner_user_id},
+			#{payment_method_type},
+			#{created_at},
+			#{approved_at},
+			#{amount.total},
+			#{amount.tax_free},
+			#{amount.vat},
+			#{amount.point},
+			#{amount.discount},
+			#{amount.green_deposit}
 		)	
+</insert>
+
+<insert id="kakopaySuccessCard" parameterType="ReceiptDTO">
+
+	INSERT INTO CARD_PAYMENT
+		("NO",
+		AID,
+		KAKAOPAY_PURCHASE_CORP,
+		KAKAOPAY_PURCHASE_CORP_CODE,
+		KAKAOPAY_ISSUER_CORP,
+		KAKAOPAY_ISSUER_CORP_CODE,
+		BIN,
+		CARD_TYPE,
+		INSTALL_MONTH,
+		APPROVED_ID,
+		CARD_MID,
+		INTEREST_FREE_INSTALL,
+		INSTALLMENT_TYPE,
+		CARD_ITEM_CODE)	
+	VALUES
+		(CARD_SEQ.NEXTVAL,
+		#{aid},
+		#{card_info.kakaopay_purchase_corp},
+		#{card_info.kakaopay_purchase_corp_code},
+		#{card_info.kakaopay_issuer_corp},
+		#{card_info.kakaopay_issuer_corp_code},
+		#{card_info.bin},
+		#{card_info.card_type},
+		#{card_info.install_month},
+		#{card_info.approved_id},
+		#{card_info.card_mid},
+		#{card_info.interest_free_install},
+		#{card_info.installment_type},
+		#{card_info.card_item_code}		
+		)
 </insert>
 
 
