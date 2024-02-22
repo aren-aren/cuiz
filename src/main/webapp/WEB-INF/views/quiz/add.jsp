@@ -65,38 +65,56 @@
                                         </script>
                                     </wc-codemirror>
                                     <input type="hidden" id="quizSampleCodeInput" name="quiz_SampleCode">
-                                    <input type="text" id="example_input" class="form-control mb-3" name="example_inputs"
-                                           placeholder="예제 Input을 입력하세요"/>
-                                    <input type="hidden" id="example_output" name="example_outputs">
-                                    <input type="text" id="quiz_input" class="form-control mb-3" name="quiz_inputs"
-                                           placeholder="실제 문제 Input을 입력하세요">
-                                    <input type="hidden" id="quiz_output" name="quiz_outputs">
                                     <div class="row mb-3">
                                         <div class="col-6">
-                                            <input type="text" class="form-control" name="quiz_Type" placeholder="문제 유형을 입력하세요">
+                                            <div class="input-group">
+                                                <input type="text"
+                                                       id="example_input"
+                                                       class="form-control"
+                                                       placeholder="예제 Input을 입력하세요"/>
+                                                <button type="button" class="btn btn-cuiz input-add-btn" data-input="example">추가</button>
+                                            </div>
+                                        </div>
+                                        <div class="col-6">
+                                            <div class="input-group">
+                                                <input type="text"
+                                                       id="quiz_input"
+                                                       class="form-control"
+                                                       placeholder="실제 문제 Input을 입력하세요"/>
+                                                <button type="button" class="btn btn-cuiz input-add-btn" data-input="quiz">추가</button>
+                                            </div>
+                                        </div>
+                                        <div class="col-6">
+                                            <ul id="example-input-list" class="list-group bg-white input-list"></ul>
+                                        </div>
+                                        <div class="col-6">
+                                            <ul id="quiz-input-list" class="list-group bg-white input-list"></ul>
+                                        </div>
+                                    </div>
+
+                                    <input type="hidden" id="example_hidden" name="example_inputs"/>
+                                    <input type="hidden" id="example_output" name="example_outputs"/>
+                                    <input type="hidden" id="quiz_hidden" name="quiz_inputs"/>
+                                    <input type="hidden" id="quiz_output" name="quiz_outputs"/>
+
+                                    <div class="row mb-3">
+                                        <div class="col-6">
+                                            <input type="text"
+                                                   class="form-control"
+                                                   name="quiz_Type"
+                                                   placeholder="문제 유형을 입력하세요">
                                         </div>
                                         <div class="col-6 pt-2">
                                             <div class="text-white d-inline-block me-3">문제 난이도 :</div>
-                                            <input id="quiz-lev-1" class="form-check-input " type="radio"
-                                                   name="quiz_Level" value="1">
-                                            <label for="quiz-lev-1"
-                                                   class="form-check-label text-white">1&nbsp;&nbsp;</label>
-                                            <input id="quiz-lev-2" class="form-check-input" type="radio"
-                                                   name="quiz_Level" value="2">
-                                            <label for="quiz-lev-2"
-                                                   class="form-check-label text-white">2&nbsp;&nbsp;</label>
-                                            <input id="quiz-lev-3" class="form-check-input" type="radio"
-                                                   name="quiz_Level" value="3">
-                                            <label for="quiz-lev-3"
-                                                   class="form-check-label text-white">3&nbsp;&nbsp;</label>
-                                            <input id="quiz-lev-4" class="form-check-input" type="radio"
-                                                   name="quiz_Level" value="4">
-                                            <label for="quiz-lev-4"
-                                                   class="form-check-label text-white">4&nbsp;&nbsp;</label>
-                                            <input id="quiz-lev-5" class="form-check-input" type="radio"
-                                                   name="quiz_Level" value="5">
-                                            <label for="quiz-lev-5"
-                                                   class="form-check-label text-white">5&nbsp;&nbsp;</label>
+                                            <c:forEach var="idx" begin="1" end="5">
+                                                <input id="quiz-lev-${idx}"
+                                                       class="form-check-input "
+                                                       type="radio"
+                                                       name="quiz_Level"
+                                                       value="${idx}">
+                                                <label for="quiz-lev-${idx}"
+                                                       class="form-check-label text-white">${idx}&nbsp;&nbsp;&nbsp;&nbsp;</label>
+                                            </c:forEach>
                                         </div>
                                     </div>
                                     <div class="main-button">
@@ -112,7 +130,8 @@
         </div>
     </div>
     <!-- Modal -->
-    <div class="modal fade" id="sampleRunModal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+    <div class="modal fade" id="sampleRunModal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
+         aria-labelledby="staticBackdropLabel" aria-hidden="true">
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header">
@@ -125,10 +144,10 @@
                     </div>
                     <table id="resultTable" class="table">
                         <thead>
-                            <tr>
-                                <th>Input</th>
-                                <th>Output</th>
-                            </tr>
+                        <tr>
+                            <th>Input</th>
+                            <th>Output</th>
+                        </tr>
                         </thead>
                         <tbody id="sampleRunResult" class="table-striped">
                         </tbody>

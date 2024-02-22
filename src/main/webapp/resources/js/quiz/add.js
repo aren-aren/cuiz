@@ -6,16 +6,52 @@ const addSubmit = document.getElementById("addSubmit");
 
 const quiz_Contents_summernote = document.getElementById("quiz_Contents_summernote");
 
-if(quiz_Contents_summernote != null){
-    $(quiz_Contents_summernote).summernote({
-        height : 300,
-        minHeight : 100,
-        maxHeight : 500,
-        toolbar : false,
-        placeholder : "문제 내용을 입력하세요.",
-        backgroundColor : "white"
-    });
+const inputList = {
+    "example" : [],
+    "quiz" : []
 }
+
+const getLi = (value, dataType) => {
+    const li = document.createElement("li");
+    li.classList.add("list-group-item");
+    li.innerText = value;
+
+    const btn = document.createElement("button");
+    btn.type = "button";
+    btn.classList.add("btn","btn-outline-danger","btn-sm", "border-0", "float-end");
+    btn.setAttribute("data-type",dataType);
+    btn.setAttribute("data-value", value);
+    btn.innerText = "X";
+
+    li.append(btn);
+
+    return li;
+}
+document.querySelectorAll(".input-add-btn").forEach(btn => btn.addEventListener("click", event=>{
+        const inputId = event.target.getAttribute("data-input");
+        const inputValue = document.getElementById(inputId + "_input").value;
+
+        if(!inputList[inputId].includes(inputValue)){
+            inputList[inputId].push(inputValue);
+            document.getElementById(inputId + "-input-list").prepend(getLi(inputValue, inputId));
+            document.getElementById(inputId + "_hidden").value = inputList[inputId].join(",");
+        }
+
+        document.getElementById(inputId + "_input").value = "";
+    })
+)
+
+document.querySelectorAll(".input-list").forEach(ul => ul.addEventListener("click", li=>{
+    const dataType = li.target.getAttribute("data-type");
+    if(dataType == null){
+        return;
+    }
+
+    const dataValue = li.target.getAttribute("data-value");
+    inputList[dataType] = inputList[dataType].filter(e => e!==dataValue);
+    document.getElementById(dataType + "_hidden").value = inputList[dataType].join(",");
+    li.target.parentNode.remove();
+}))
 
 addSubmit.addEventListener("click",()=>addForm.submit())
 
@@ -50,8 +86,8 @@ function tableSpinnerToggle(){
 
 function showSampleRunModalOutput(data){
     const sampleRunResult = document.getElementById("sampleRunResult");
-    let sampleRunInput = document.getElementById("example_input").value.split(",");
-    sampleRunInput.push(...document.getElementById("quiz_input").value.split(","));
+    let sampleRunInput = document.getElementById("example_hidden").value.split(",");
+    sampleRunInput.push(...document.getElementById("quiz_hidden").value.split(","));
 
     tableSpinnerToggle();
 
@@ -65,4 +101,18 @@ function showSampleRunModalOutput(data){
         tr.append(td2);
         sampleRunResult.append(tr);
     }
+}
+
+window.onload = ()=> {
+    if(quiz_Contents_summernote != null){
+        $(quiz_Contents_summernote).summernote({
+            height : 300,
+            minHeight : 100,
+            maxHeight : 500,
+            toolbar : false,
+            placeholder : "문제 내용을 입력하세요.",
+            backgroundColor : "white"
+        });
+    }
+
 }
