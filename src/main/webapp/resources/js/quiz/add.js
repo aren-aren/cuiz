@@ -41,7 +41,7 @@ document.querySelectorAll(".input-add-btn").forEach(btn => btn.addEventListener(
     })
 )
 
-document.querySelectorAll(".input-list").forEach(ui => ui.addEventListener("click", li=>{
+document.querySelectorAll(".input-list").forEach(ul => ul.addEventListener("click", li=>{
     const dataType = li.target.getAttribute("data-type");
     if(dataType == null){
         return;
