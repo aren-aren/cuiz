@@ -29,7 +29,7 @@
 
     <select id="getQuizTotalCount" parameterType="Pager" resultType="Long">
         /* getQuizTotalCount - 퀴즈 전체 갯수 조회 */
-        SELECT COUNT(QUIZ_NO) FROM QUIZ
+        SELECT COUNT(DISTINCT QUIZ_NO) FROM QUIZ
         <include refid="search"/>
     </select>
 
