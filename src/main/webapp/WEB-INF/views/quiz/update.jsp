@@ -42,48 +42,18 @@
                             </div>
                             <div class="px-3">
                                 <div id="content-update">
-                                <div class="heading-section">
-                                    <h4>내용 수정</h4>
-                                </div>
-                                <input type="text"
-                                       name="quiz_Title"
-                                       class="form-control mb-4"
-                                       id="quiz_Title"
-                                       placeholder="문제 제목을 입력하세요"
-                                       value="${dto.quiz_Title}"/>
-                                <textarea id="quiz_Contents_summernote"
-                                          name="quiz_Contents"
-                                          placeholder="문제 내용을 입력하세요">${dto.quiz_Contents}</textarea>
-                                <div class="row mb-3">
-                                    <div class="col-6">
-                                        <input type="text"
-                                               class="form-control"
-                                               name="quiz_Type"
-                                               placeholder="문제 유형을 입력하세요"
-                                               value="${dto.quiz_Type}">
-                                    </div>
-                                    <div class="col-6 pt-2">
-                                        <div class="text-white d-inline-block me-3">
-                                            문제 난이도 :
-                                        </div>
-                                        <c:forEach var="idx" begin="1" end="5">
-                                            <input id="quiz-lev-${idx}"
-                                                   class="form-check-input "
-                                                   type="radio"
-                                                   name="quiz_Level"
-                                                   value="${idx}"
-                                                   <c:if test="${idx eq dto.quiz_Level}">checked</c:if>
-                                            >
-                                            <label for="quiz-lev-${idx}"
-                                                   class="form-check-label text-white">${idx}&nbsp;&nbsp;&nbsp;&nbsp;</label>
-                                        </c:forEach>
-                                    </div>
-                                </div>
-                                </div>
-                                <div id="code-update">
                                     <div class="heading-section">
-                                        <h4>코드&테스트케이스 수정</h4>
+                                        <h4>내용 수정</h4>
                                     </div>
+                                    <input type="text"
+                                           name="quiz_Title"
+                                           class="form-control mb-4"
+                                           id="quiz_Title"
+                                           placeholder="문제 제목을 입력하세요"
+                                           value="${dto.quiz_Title}"/>
+                                    <textarea id="quiz_Contents_summernote"
+                                              name="quiz_Contents"
+                                              placeholder="문제 내용을 입력하세요">${dto.quiz_Contents}</textarea>
                                     <wc-codemirror mode="text/x-java"
                                                    class="mb-3"
                                                    id="quiz_SampleCode"
@@ -92,32 +62,69 @@
 ${dto.quiz_SampleCode}
 </script>
                                     </wc-codemirror>
-                                    <div>
-                                        <button id="code-update-btn" class="btn btn-cuiz">코드 수정하기</button>
+                                    <div class="row mb-3">
+                                        <div class="col-6">
+                                            <input type="text"
+                                                   class="form-control"
+                                                   id="quiz_type"
+                                                   name="quiz_Type"
+                                                   placeholder="문제 유형을 입력하세요"
+                                                   value="${dto.quiz_Type}">
+                                        </div>
+                                        <div class="col-6 pt-2">
+                                            <div class="text-white d-inline-block me-3">
+                                                문제 난이도 :
+                                            </div>
+                                            <c:forEach var="idx" begin="1" end="5">
+                                                <input id="quiz-lev-${idx}"
+                                                       class="form-check-input "
+                                                       type="radio"
+                                                       name="quiz_Level"
+                                                       value="${idx}"
+                                                       <c:if test="${idx eq dto.quiz_Level}">checked</c:if>
+                                                >
+                                                <label for="quiz-lev-${idx}"
+                                                       class="form-check-label text-white">${idx}&nbsp;&nbsp;&nbsp;&nbsp;</label>
+                                            </c:forEach>
+                                        </div>
                                     </div>
-                                    <div>
+                                </div>
+                                <div id="code-update">
+                                    <div class="heading-section">
+                                        <h4>테스트케이스 추가, 삭제</h4>
+                                    </div>
+                                    <div class="mb-3">
                                         <table class="table table-dark table-striped">
                                             <thead>
-                                                <tr>
-                                                    <th style="width: 5%">번호</th>
-                                                    <th style="width: 40%;">입력</th>
-                                                    <th style="width: 40%">출력</th>
-                                                    <th style="width: 10%">타입</th>
-                                                    <th style="width: 5%"></th>
-                                                </tr>
+                                            <tr>
+                                                <th style="width: 5%">번호</th>
+                                                <th style="width: 36%;">입력</th>
+                                                <th style="width: 36%">출력</th>
+                                                <th style="width: 5%"></th>
+                                                <th style="width: 9%">타입</th>
+                                                <th style="width: 9%"></th>
+                                            </tr>
                                             </thead>
                                             <tbody id="testcases-table">
-                                                <c:forEach items="${dto.testcase}" var="testcase">
-                                                    <tr>
-                                                        <td>${testcase.testcase_No}</td>
-                                                        <td>${testcase.testcase_Input}</td>
-                                                        <td>${testcase.testcase_Output}</td>
-                                                        <td>${testcase.testcase_Type}</td>
-                                                        <td><button data-tc-no="${testcase.testcase_No}" class="btn btn-outline-danger btn-sm border-0">X</button></td>
-                                                    </tr>
-                                                </c:forEach>
+                                            <c:forEach items="${dto.testcase}" var="testcase">
+                                                <tr>
+                                                    <td>${testcase.testcase_No}</td>
+                                                    <td>${testcase.testcase_Input}</td>
+                                                    <td>${testcase.testcase_Output}</td>
+                                                    <td data-tc-no="${testcase.testcase_No}" class="check-result"></td>
+                                                    <td>${testcase.testcase_Type}</td>
+                                                    <td>
+                                                        <button data-tc-no="${testcase.testcase_No}"
+                                                                class="btn btn-outline-danger btn-sm border-0">삭제
+                                                        </button>
+                                                    </td>
+                                                </tr>
+                                            </c:forEach>
                                             </tbody>
                                         </table>
+                                        <button id="check-testcase-btn" data-body-type="content" type="button"
+                                                class="btn btn-cuiz">테스트케이스 검증
+                                        </button>
                                     </div>
                                     <div class="row mb-3">
                                         <div class="col-6">
@@ -126,7 +133,9 @@ ${dto.quiz_SampleCode}
                                                        id="example_input"
                                                        class="form-control"
                                                        placeholder="예제 Input을 입력하세요"/>
-                                                <button type="button" class="btn btn-cuiz input-add-btn" data-input="example">추가</button>
+                                                <button type="button" class="btn btn-cuiz input-add-btn"
+                                                        data-input="example">추가
+                                                </button>
                                             </div>
                                         </div>
                                         <div class="col-6">
@@ -135,7 +144,9 @@ ${dto.quiz_SampleCode}
                                                        id="quiz_input"
                                                        class="form-control"
                                                        placeholder="실제 문제 Input을 입력하세요"/>
-                                                <button type="button" class="btn btn-cuiz input-add-btn" data-input="quiz">추가</button>
+                                                <button type="button" class="btn btn-cuiz input-add-btn"
+                                                        data-input="quiz">추가
+                                                </button>
                                             </div>
                                         </div>
                                         <div class="col-6">
@@ -149,7 +160,12 @@ ${dto.quiz_SampleCode}
                                 </div>
                                 <div class="mb-3">
                                     <button type="button" id="submit-btn" class="btn btn-cuiz">저장하기</button>
-                                    <button id="switch-body" data-body-type="content" type="button" class="btn btn-cuiz">코드&테스트케이스 수정으로</button>
+                                    <button id="switch-body"
+                                            data-body-type="content"
+                                            type="button"
+                                            class="btn btn-cuiz">
+                                        테스트케이스 수정으로
+                                    </button>
                                 </div>
                                 <div>
                                     <a class="btn btn-secondary" href="solve?quiz_No=${dto.quiz_No}">돌아가기</a>
@@ -189,7 +205,7 @@ ${dto.quiz_SampleCode}
                     </table>
                 </div>
                 <div class="modal-footer">
-                    <button id="addSubmit" type="button" class="btn btn-primary">등록하기</button>
+                    <button id="updateSubmit" type="button" class="btn btn-primary">등록하기</button>
                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">닫기</button>
                 </div>
             </div>

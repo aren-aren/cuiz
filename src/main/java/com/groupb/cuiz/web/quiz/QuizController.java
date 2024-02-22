@@ -9,7 +9,6 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpSession;
 import java.util.*;
-import java.util.stream.Collectors;
 
 @Controller
 @RequestMapping("/quiz/*")
@@ -63,6 +62,15 @@ public class QuizController {
         List<String> qOutputs = quizService.getSampleOutput(answerDTO, List.of(quiz_inputs));
 
         return SampleRunResult.createResult(exOutputs,qOutputs);
+    }
+
+    @ResponseBody
+    @GetMapping("checkRun")
+    public List<TestcaseResult> sampleRun(MemberAnswerDTO checkDTO, HttpSession session) throws Exception {
+        MemberDTO memberDTO = (MemberDTO) session.getAttribute("member");
+        checkDTO.setMember_Id(memberDTO.getMember_ID());
+
+        return quizService.checkRun(checkDTO);
     }
 
     @GetMapping("list")
@@ -121,40 +129,35 @@ public class QuizController {
         return answerDTO;
     }
 
+    @ResponseBody
+    @GetMapping("getTestcases")
+    public List<TestcaseDTO> getTestcases(QuizDTO quizDTO){
+        return quizService.getTestcases(quizDTO);
+    }
+
     @GetMapping("update")
     public String updateQuiz(QuizDTO quizDTO, Model model) throws Exception {
         quizDTO = quizService.getDetail(quizDTO, null);
         model.addAttribute("dto", quizDTO);
-        //List<TestcaseDTO> list = quizDTO.getTestcase();
-
-//        List<String> exampleInputs = new ArrayList<>();
-//        List<String> exampleOutputs = new ArrayList<>();
-//        List<String> quizInputs = new ArrayList<>();
-//        List<String> quizOutputs = new ArrayList<>();
-//
-//        for (TestcaseDTO testcaseDTO : list) {
-//            if(testcaseDTO.getTestcase_Type().equals("EXAMPLE")){
-//                exampleInputs.add(testcaseDTO.getTestcase_Input());
-//                exampleOutputs.add(testcaseDTO.getTestcase_Output());
-//            } else {
-//                quizInputs.add(testcaseDTO.getTestcase_Input());
-//                quizOutputs.add(testcaseDTO.getTestcase_Output());
-//            }
-//        }
-//
-//        model.addAttribute("quizInputs", String.join(",",quizInputs));
-//        model.addAttribute("exampleInputs", String.join(",",exampleInputs));
-//        model.addAttribute("quizOutputs", String.join(",",quizOutputs));
-//        model.addAttribute("exampleOutputs", String.join(",",exampleOutputs));
-
         return "quiz/update";
     }
 
-    @PostMapping("update/sourcecode")
+    @PostMapping("update/content")
     @ResponseBody
     public Boolean updateSourcecode(@RequestBody QuizDTO quizDTO){
-
         return quizService.updateQuiz(quizDTO);
+    }
+
+    @PostMapping("update/testcase")
+    @ResponseBody
+    public  Boolean updateTestcase(@RequestBody List<TestcaseDTO> testcaseDTOS) throws Exception {
+        System.out.println("testcaseDTOS = " + testcaseDTOS);
+        System.out.println("testcaseDTOS = " + testcaseDTOS);
+        System.out.println("testcaseDTOS = " + testcaseDTOS);
+        System.out.println("testcaseDTOS = " + testcaseDTOS);
+        System.out.println("testcaseDTOS = " + testcaseDTOS);
+        System.out.println("testcaseDTOS = " + testcaseDTOS);
+        return quizService.updateTestcases(testcaseDTOS);
     }
 
     @PostMapping("delete/testcase")

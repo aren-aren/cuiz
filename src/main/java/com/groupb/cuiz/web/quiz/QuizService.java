@@ -210,7 +210,7 @@ public class QuizService {
         //코드 실행 결과와 정답을 비교하여 채점
         List<TestcaseResult> testcaseResults = new ArrayList<>();
         for (int i = 0; i < results.size(); i++) {
-            testcaseResults.add(checkTestcase(outputs.get(i).trim(), results.get(i).trim(), checkType));
+            testcaseResults.add(checkTestcase(testcaseDTOS.get(i).getTestcase_No(), outputs.get(i).trim(), results.get(i).trim(), checkType));
         }
 
         answer.setTestcase_Results(testcaseResults);
@@ -226,8 +226,10 @@ public class QuizService {
      * @param checkType
      * @return
      */
-    private TestcaseResult checkTestcase(String answer, String output, String checkType){
+    private TestcaseResult checkTestcase(Integer testcase_No, String answer, String output, String checkType){
         TestcaseResult testcaseResult = new TestcaseResult();
+        testcaseResult.setTestcase_No(testcase_No);
+
         System.out.println("answer = " + answer);
         System.out.println("output = " + output);
         if (output.equals("timeout")) {
@@ -300,5 +302,32 @@ public class QuizService {
 
     public Boolean deleteTestcase(TestcaseDTO testcaseDTO) {
         return quizDAO.deleteTestcase(testcaseDTO) > 0;
+    }
+
+    public List<TestcaseResult> checkRun(MemberAnswerDTO checkDTO) throws Exception {
+        QuizDTO quizDTO = new QuizDTO();
+        quizDTO.setQuiz_No(checkDTO.getQuiz_No());
+        quizDTO = quizDAO.getDetail(quizDTO);
+
+        checkDTO.setSourcecode(quizDTO.getQuiz_SampleCode());
+
+        Map<String, Object> map = new HashMap<>();
+        map.put("dto", quizDTO);
+
+        List<TestcaseDTO> testcases = quizDAO.getTestCases(map);
+
+        checkDTO = checkAnswer(checkDTO, testcases, "QUIZ");
+        return checkDTO.getTestcase_Results();
+    }
+
+    public Boolean updateTestcases(List<TestcaseDTO> testcaseDTOS) throws Exception {
+        return quizDAO.addTestcases(testcaseDTOS) > 0;
+    }
+
+    public List<TestcaseDTO> getTestcases(QuizDTO quizDTO) {
+        Map<String, Object> map = new HashMap<>();
+        map.put("dto", quizDTO);
+
+        return quizDAO.getTestCases(map);
     }
 }

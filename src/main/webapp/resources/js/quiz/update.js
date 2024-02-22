@@ -1,9 +1,21 @@
 const codeUpdate = document.getElementById("code-update");
 const contentUpdate = document.getElementById("content-update");
 const switchBodyBtn = document.getElementById("switch-body");
-const codeUpdateBtn = document.getElementById("code-update-btn");
 const sampleRunModal = new bootstrap.Modal(document.getElementById("sampleRunModal"));
+const testcasesTable = document.getElementById("testcases-table");
 const urlParams = new URLSearchParams(window.location.search);
+const exampleInputList = document.getElementById("example-input-list");
+const quizInputList = document.getElementById("quiz-input-list");
+
+const quizTitle = document.getElementById("quiz_Title");
+const quizContents = document.getElementById("quiz_Contents_summernote");
+const quizSampleCode = document.getElementById("quiz_SampleCode");
+const quizType = document.getElementById("quiz_type");
+const quizLevels = document.getElementsByName("quiz_Level");
+const checkTestcaseBtn = document.getElementById("check-testcase-btn");
+
+const updateSubmit = document.getElementById("updateSubmit");
+
 const inputList = {
     "example" : [],
     "exampleOutputs" : [],
@@ -11,28 +23,66 @@ const inputList = {
     "quizOutputs" : []
 }
 
-codeUpdateBtn.addEventListener("click", ()=>{
-    if(!confirm("소스코드를 수정하시겠습니까?")){
-        return;
-    }
+const checkTestcase = event => {
+    fetch("checkRun?quiz_No=" + urlParams.get("quiz_No"))
+        .then(r=>r.json())
+        .then(r=>{
+            let resultObject = r.reduce((acc, val)=>({...acc, [val.testcase_No]:val.result}), {});
+            const checkResult = testcasesTable.querySelectorAll(`td[data-tc-no]`);
 
-    const sourcecode = document.getElementById("quiz_SampleCode").value;
-    const quizNo = urlParams.get('quiz_No');
+            checkResult.forEach(e=>{
+                const tcNo = e.getAttribute("data-tc-no");
+                e.innerHTML = `<i class="fa-regular ${resultObject[tcNo] ? "fa-circle text-success " : "fa-x text-danger"}"></i>`;
+            })
+        })
+}
 
-    const data = {
-        quiz_SampleCode : sourcecode,
-        quiz_No : quizNo
-    }
+const makeTr = data =>{
+    const tr = document.createElement("tr");
+    tr.innerHTML = `
+        <td>${data.testcase_No}</td>
+        <td>${data.testcase_Input}</td>
+        <td>${data.testcase_Output}</td>
+        <td data-tc-no="${data.testcase_No}" class="check-result"></td>
+        <td>${data.testcase_Type}</td>
+        <td>
+            <button data-tc-no="${data.testcase_No}"
+                class="btn btn-outline-danger btn-sm border-0">삭제
+            </button>
+        </td>
+    `;
+    return tr;
+}
 
-    saveQuiz("sourcecode", JSON.stringify(data));
-})
+const getTestcases = () => {
+    fetch("getTestcases?quiz_No=" + urlParams.get("quiz_No"))
+        .then(r=> r.json())
+        .then(r => {
+            testcasesTable.innerHTML = "";
+            for (let tc of r) {
+                testcasesTable.append(makeTr(tc));
+            }
+            exampleInputList.innerHTML = "";
+            quizInputList.innerHTML = "";
+            inputList.quizOutputs = [];
+            inputList.quiz = [];
+            inputList.example = [];
+            inputList.exampleOutputs = [];
+        })
+}
+
+const updateTestcase = event => {
+    const data = getUpdateData("code");
+    saveQuiz("testcase", JSON.stringify(data), getTestcases);
+    sampleRunModal.hide();
+}
 
 document.getElementById("testcases-table").addEventListener("click", event=>{
-    const tcNo = event.target.getAttribute("data-tc-no");
-    if(tcNo === ''){
+    if(event.target.tagName!=="BUTTON"){
         return;
     }
 
+    const tcNo = event.target.getAttribute("data-tc-no");
     fetch("delete/testcase", {
         method : "post",
         headers : {
@@ -55,33 +105,39 @@ document.getElementById("testcases-table").addEventListener("click", event=>{
 const getUpdateData = type => {
     let data = null;
     if(type === "content"){
-
-    } else if (type === "code"){
         data = {
-            quiz_No : [],
-            testcase_Input : [],
-            testcase_Output : [],
-            testcase_Type : []
+            quiz_No : urlParams.get("quiz_No"),
+            quiz_Title : quizTitle.value,
+            quiz_Contents : quizContents.value,
+            quiz_SampleCode : quizSampleCode.value,
+            quiz_Type : quizType.value,
+            quiz_Level : [...quizLevels].filter(e=>e.checked)[0].value
         }
+    } else if (type === "code"){
+        data = []
         for (let idx in inputList.example) {
-            data.quiz_No.push(urlParams.get("quiz_No"));
-            data.testcase_Input.push(inputList.example[idx]);
-            data.testcase_Output.push(inputList.exampleOutputs[idx]);
-            data.testcase_Type.push("EXAMPLE");
+            let element = {};
+            element.quiz_No = urlParams.get("quiz_No");
+            element.testcase_Input = inputList.example[idx];
+            element.testcase_Output = inputList.exampleOutputs[idx];
+            element.testcase_Type = "EXAMPLE";
+            data.push(element);
         }
 
         for (let idx in inputList.quiz) {
-            data.quiz_No.push(urlParams.get("quiz_No"));
-            data.testcase_Input.push(inputList.quiz[idx]);
-            data.testcase_Output.push(inputList.quizOutputs[idx]);
-            data.testcase_Type.push("QUIZ");
+            let element = {};
+            element.quiz_No = urlParams.get("quiz_No");
+            element.testcase_Input = inputList.quiz[idx];
+            element.testcase_Output = inputList.quizOutputs[idx];
+            element.testcase_Type = "QUIZ";
+            data.push(element);
         }
 
     }
     return data;
 }
 
-const saveQuiz = (bodyType, updateData) => {
+const saveQuiz = (bodyType, updateData, after) => {
     fetch("update/"+bodyType, {
         method : "post",
         headers : {
@@ -96,16 +152,20 @@ const saveQuiz = (bodyType, updateData) => {
             else{
                 alert("저장에 실패했습니다.");
             }
+
+            if(after !== undefined){
+                after();
+            }
         })
 }
 
 switchBodyBtn.addEventListener("click", event=>{
     const bodyType = event.target.getAttribute("data-body-type");
 
-    if(confirm("변경사항을 저장 하시겠습니까?")){
+    if(bodyType === "content" && confirm("변경사항을 저장 하시겠습니까?")){
         /* 저장 실행 */
         const updateData = getUpdateData(bodyType);
-        saveQuiz(bodyType, updateData);
+        saveQuiz(bodyType, JSON.stringify(updateData));
     }
 
     codeUpdate.classList.toggle("d-none");
@@ -117,7 +177,7 @@ switchBodyBtn.addEventListener("click", event=>{
         event.target.setAttribute("data-body-type", "code");
     }
     else if(bodyType === "code"){
-        document.getElementById("switch-body").innerText = "코드&테스트케이스 수정으로";
+        document.getElementById("switch-body").innerText = "테스트케이스 관리";
         document.getElementById("submit-btn").innerText = "저장하기"
         event.target.setAttribute("data-body-type", "content");
     }
@@ -157,12 +217,12 @@ function showSampleRunModalOutput(){
 document.getElementById("submit-btn").addEventListener("click",event => {
     const type = switchBodyBtn.getAttribute("data-body-type");
 
-    const data = new FormData();
-    data.append("quiz_SampleCode", document.getElementById("quiz_SampleCode").value);
-    data.append("example_inputs", inputList.example.join(","));
-    data.append("quiz_inputs", inputList.quiz.join(","));
-
     if(type === 'code'){
+        const data = new FormData();
+        data.append("quiz_SampleCode", document.getElementById("quiz_SampleCode").value);
+        data.append("example_inputs", inputList.example.join(","));
+        data.append("quiz_inputs", inputList.quiz.join(","));
+
         tableSpinnerToggle();
         document.getElementById("sampleRunResult").querySelectorAll("*").forEach(e=>e.remove());
         sampleRunModal.show();
@@ -178,7 +238,7 @@ document.getElementById("submit-btn").addEventListener("click",event => {
                 showSampleRunModalOutput();
             })
     } else if(type === 'content'){
-
+        saveQuiz(type, JSON.stringify(getUpdateData(type)));
     }
 })
 
@@ -210,6 +270,20 @@ document.querySelectorAll(".input-add-btn").forEach(btn => btn.addEventListener(
         document.getElementById(inputId + "_input").value = "";
     })
 )
+
+document.querySelectorAll(".input-list").forEach(ul => ul.addEventListener("click", li=>{
+    const dataType = li.target.getAttribute("data-type");
+    if(dataType == null){
+        return;
+    }
+
+    const dataValue = li.target.getAttribute("data-value");
+    inputList[dataType] = inputList[dataType].filter(e => e!==dataValue);
+    li.target.parentNode.remove();
+}))
+
+checkTestcaseBtn.addEventListener("click", checkTestcase);
+updateSubmit.addEventListener("click", updateTestcase);
 
 window.onload = ()=> {
     if(quiz_Contents_summernote != null){
