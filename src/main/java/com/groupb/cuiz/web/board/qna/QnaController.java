@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.servlet.ModelAndView;
 
 import com.groupb.cuiz.support.util.pager.Pager;
 import com.groupb.cuiz.web.board.BoardDTO;
@@ -23,6 +24,10 @@ public class QnaController {
 
 	@Autowired
 	private QnaService qnaService;
+	
+	@Autowired
+	private ReplyService replyService;
+	
 	
 	@ModelAttribute("bbs")
 	public Integer getKind() {
@@ -39,6 +44,8 @@ public class QnaController {
 	public String getList(Pager pager, Model model)throws Exception {
 		
 		List<BoardDTO> ar = qnaService.getList(pager);
+		
+		System.out.println("list : " + ar.size());
 		
 		model.addAttribute("list", ar);
 		model.addAttribute("pager", pager);
@@ -57,7 +64,7 @@ public class QnaController {
 	public String getAdd(BoardDTO boardDTO, MultipartFile[] attachs, HttpSession session)throws Exception {
 		MemberDTO memberDTO = (MemberDTO) session.getAttribute("member");
 		boardDTO.setMember_ID(memberDTO.getMember_ID());
-		
+
 		int result = qnaService.getAdd(boardDTO, attachs);
 		return "redirect:./list";
 
@@ -66,8 +73,19 @@ public class QnaController {
 	@GetMapping("detail")
 	public String getDetail(BoardDTO boardDTO, Model model)throws Exception {
 		boardDTO = qnaService.getDetail(boardDTO);
-		model.addAttribute("dto", boardDTO);
+		model.addAttribute("boardDTO", boardDTO);
 		model.addAttribute("kind", "qna");
+		
+		//처음 가지고 올 때만 댓글 목록도 조회
+		/*
+		 * ReplyDTO replyDTO = new ReplyDTO(); Pager pager = new Pager();
+		 * replyDTO.setBoard_Num(boardDTO.getBoard_Num()); List<ReplyDTO> replyList =
+		 * replyService.getList(pager);
+
+		 * model.addAttribute("pager", pager); model.addAttribute("replyList",
+		 * replyList);
+		 */
+		
 		return "board/detail";
 		
 	}
@@ -88,7 +106,8 @@ public class QnaController {
 	}
 	
 	@PostMapping("delete")
-	public String getDelete (BoardDTO boardDTO)throws Exception {
+	public String getDelete (QnaDTO boardDTO)throws Exception {
+		boardDTO.setFlag(1);
 		int result = qnaService.getDelete(boardDTO);
 		return "redirect:./list";
 		

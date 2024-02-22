@@ -50,18 +50,14 @@
   	(BOARD_NUM, BOARD_TITLE, MEMBER_ID, BOARD_CONTENTS, BOARD_DATE, BOARD_HIT,
   	BOARD_REF, BOARD_STEP, BOARD_DEPTH)
   	VALUES
-  	(#{board_Num}, #{board_Title}, #{member_ID}, #{board_Contents}, SYSDATE, 0, #{board_Num}, 0, 0, 0)
+  	(#{board_Num}, #{board_Title}, #{member_ID}, #{board_Contents}, SYSDATE, 0,#{board_Num},0,0)
   </insert>
   
   
   <!-- detail -->
   <select id="getDetail" parameterType="BoardDTO" resultMap="getDetailResult">
-  	SELECT *
-  	FROM QNA Q
-  		LEFT JOIN
-  		QNAFILES QF
-  		USING (BOARD_NUM)
-  	WHERE BOARD_NUM=#{board_Num}
+	SELECT * FROM QNA
+  		WHERE BOARD_NUM=#{board_Num}
   </select>
   
   <resultMap type="QNADTO" id="getDetailResult">
@@ -88,7 +84,7 @@
   <update id="getUpdate" parameterType="BoardDTO">
   	UPDATE QNA
   	<set>
-  		<if test="board_Title !=null and board_Title">
+  		<if test="board_Title !=null and board_Title !=''">
   		BOARD_TITLE=#{board_Title},
   		</if>
   		<if test="board_Contents !=null">
@@ -105,25 +101,28 @@
   	WHERE BOARD_NUM=#{board_Num}
   </update>
   
-  
+ 
   <!-- file list -->
+  <!--
   <select id="getFileList" parameterType="BoardDTO" resultType="BoardFileDTO">
   	SELECT FILE_NAME FROM QNAFILES WHERE BOARD_NUM=#{board_Num}
   </select>
-  
+    -->
   
   <!-- file add -->
+  <!-- 
   <insert id="getFileAdd" parameterType="BoardFileDTO">
   	INSERT INTO QNAFILES
   	(FILE_NUM, BOARD_NUM, FILE_NAME, ORI_NAME)
   	VALUES
   	(QNA_SEQ.NEXTVAL, #{board_Num},#{file_Name}, #{ori_Name})
   </insert>
-  
+   -->
   
   <!-- file delete -->
+  <!-- 
   <delete id="getFileDelete" parameterType="BoardDTO">
   	DELETE QNAFILES WHERE BOARD_NUM=#{board_Num}
   </delete>
-  
+   -->
   </mapper>
