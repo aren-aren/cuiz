@@ -261,7 +261,7 @@ public class QuizService {
      * @return
      */
     public List<QuizListDTO> getList(Pager pager) {
-        Long totalCount = quizDAO.getTotalCount(pager);
+        Long totalCount = quizDAO.getQuizTotalCount(pager);
         System.out.println("totalCount = " + totalCount);
 
         pager.makeRow();
@@ -329,5 +329,28 @@ public class QuizService {
         map.put("dto", quizDTO);
 
         return quizDAO.getTestCases(map);
+    }
+
+    public List<MemberAnswerDTO> getAnswers(QuizDTO quizDTO, Pager pager) {
+        Map<String, Object> map = new HashMap<>();
+        map.put("dto", quizDTO);
+        map.put("pager", pager);
+        Long totalCount = quizDAO.getAnswerTotalCount(map);
+
+        pager.makeRow();
+        pager.makeNum(totalCount);
+
+        map.put("pager", pager);
+
+
+        if(totalCount == 0){
+            return null;
+        }
+
+        return quizDAO.getAnswers(map);
+    }
+
+    public QuizDTO getQuizInfo(QuizDTO quizDTO) {
+        return quizDAO.getDetail(quizDTO);
     }
 }

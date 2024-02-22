@@ -138,6 +138,13 @@ public class MemberDTO {
 	public void setMember_Profile_Blob(byte[] member_Profile_Blob) {
 		this.member_Profile_Blob = member_Profile_Blob;
 	}
+
+	public String getProfileBLOBToString(){
+		if(member_Profile_Blob == null){
+			return null;
+		}
+		return new String(member_Profile_Blob, StandardCharsets.UTF_8);
+	}
 	
 	
 
