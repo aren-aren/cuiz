@@ -96,6 +96,11 @@
   	(NOTICE_SEQ.NEXTVAL, #{board_Num}, #{file_Name}, #{ori_Name})
   </insert>
   
+  <!-- file delete --> 
+  <delete id="getFileDelete" parameterType="BoardDTO">
+  	DELETE NOTICE_FILE WHERE BOARD_NUM=#{board_Num}
+  </delete>
+  
   <sql id="search">
   	<where>
   		<if test="kind=='kind1'">

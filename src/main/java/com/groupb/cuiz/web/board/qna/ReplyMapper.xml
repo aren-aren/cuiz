@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+ "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+ 
+ <mapper namespace="com.groupb.cuiz.web.board.qna.ReplyDAO">
+
+ <insert id="getAdd" parameterType="ReplyDTO">
+ 	<selectKey keyProperty="reply_Num" resultType="Long" order="BEFORE">
+    		SELECT QNA_SEQ.NEXTVAL FROM DUAL
+    </selectKey>
+ 	INSERT INTO REPLY
+ 	(REPLY_NUM, BOARD_NUM, USER_NAME, REPLY_CONTENTS, REPLY_DATE)
+ 	VALUES
+ 	(#{reply_Num}, #{board_Num}, #{user_Name}, #{reply_Contents}, SYSDATE)
+ </insert>
+ 
+ <select id="getTotalCount" parameterType="ReplyDTO" resultType="Long">
+ 	SELECT COUNT(REPLY_NUM) FROM REPLY
+ 	WHERE BOARD_NUM=#{board_Num}
+ </select>
+ 
+ <select id="getList" parameterType="Pager" resultType="ReplyDTO">
+ 	SELECT * FROM
+ 	(SELECT ROWNUM RN, R. * FROM
+ 	(SELECT * FROM REPLY
+ 	WHERE BOARD_NUM=#{replyDTO.board_Num}
+ 	ORDER BY REPLY_NUM DESC)
+ 	R)
+ 	WHERE RN BETWEEN #{startRow} AND #{lastRow}
+ </select>
+</mapper>
