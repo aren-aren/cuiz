@@ -2,6 +2,7 @@ package com.groupb.cuiz.web.member;
 
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
+import java.io.PrintWriter;
 import java.math.BigInteger;
 import java.net.HttpURLConnection;
 import java.net.URL;
@@ -15,9 +16,12 @@ import java.util.List;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.context.annotation.PropertySource;
 import org.springframework.http.MediaType;
 import org.springframework.http.HttpHeaders;
 import org.springframework.stereotype.Controller;
@@ -33,14 +37,35 @@ import org.springframework.web.context.request.ServletRequestAttributes;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.util.JSONPObject;
+import com.groupb.cuiz.support.util.pager.Pager;
 import com.groupb.cuiz.web.member.role.RoleDTO;
 
 @Controller
+@PropertySource("classpath:key/config/key-ignore.properties")
 @RequestMapping("/member/*")
 public class MemberController {
 
+	@Value("${kakaoKey.password}")
+    private String kakaoKey;
+	
 	@Autowired
 	private MemberService memberService;
+	
+	
+	
+	@GetMapping("emailCheck")
+	public String emailCheck(MemberDTO dto,Model model ) throws Exception {
+		System.out.println("emailCheck 진입");
+		System.out.println(dto.getMember_Email());
+		
+		
+		int number = memberService.sendEmail(dto);
+		
+		System.out.println("emailCheck 아웃 : " + number);
+		model.addAttribute("result", number);
+		return "/commons/ajaxResult";
+		
+	}
 	
 	@GetMapping("naver_login")
 	public String naver_Login() {
@@ -60,7 +85,7 @@ public class MemberController {
 	}
 	
 	@RequestMapping(value= "naver_callback", method = {RequestMethod.GET,RequestMethod.POST},produces = "application/json")
-	public String naver_Callback(@RequestParam(value="code") String code,@RequestParam(value="state")String state) throws Exception{
+	public String naver_Callback(@RequestParam(value="code") String code,@RequestParam(value="state")String state,HttpServletResponse hsresponse) throws Exception{
 		
 		/*
 		 * WebClient webClient = WebClient.builder() .baseUrl("https://nid.naver.com")
@@ -112,7 +137,7 @@ public class MemberController {
 	             
 	             //통신정보 헤더부분이랑     바디를 사용하겠다고 설정(POST)
 	             conn.setRequestMethod("POST");
-	               conn.setRequestProperty("Content-type", "application/x-www-form-urlencoded");
+	               conn.setRequestProperty("content-type", "application/x-www-form-urlencoded");
 	             //conn.setRequestProperty("Content-Length",String.valueOf(postDataBytes.length));
 //	             conn.setRequestProperty("Accept", "application/json");
 	             conn.setDoOutput(true);
@@ -137,18 +162,31 @@ public class MemberController {
 	             System.out.println("=====================");
 	             System.out.println(accessToken);
 	             conn.disconnect();
-	             getUserInfo(accessToken);
+	             
+	             //자바에서 alert창 띄우기
+	             String msg = getUserInfo(accessToken,hsresponse);
+	             hsresponse.setContentType("text/html");
+	             PrintWriter out = hsresponse.getWriter();
+	             out.println(msg);
+	             System.out.println("msg = " + msg);
+	             //자바에서 alert창 띄우기
+	             
+	             
 	           //  return accessToken;
 	          }catch(Exception e) {
 	             e.printStackTrace();
 	             throw new RuntimeException("액세스토큰 조회 오류 발생!");
 	          }
+	  
+	    	return "redirect:/";
+	    	
 	          
-	          return "redirect:/";
-		
 	}
 	
-	public void getUserInfo(String accessToken) {
+
+	
+	
+	public String getUserInfo(String accessToken,HttpServletResponse hrresponse) {
 	      StringBuilder urlBuilder = new StringBuilder();
 	      try {
 
@@ -159,8 +197,8 @@ public class MemberController {
 	         URL url = new URL(urlBuilder.toString()); //URL 생성
 	         HttpURLConnection conn = (HttpURLConnection) url.openConnection();
 	         conn.setRequestMethod("GET");
-	         conn.setRequestProperty("Content-type", "application/json");
-	         conn.setRequestProperty("Authorization", "Bearer "+accessToken);
+	         conn.setRequestProperty("content-type", "application/json");
+	         conn.setRequestProperty("authorization", "Bearer "+accessToken);
 	         // 응답 읽기
 	         BufferedReader br = new BufferedReader(new InputStreamReader((conn.getInputStream())));
 	         String inputLine;
@@ -184,19 +222,24 @@ public class MemberController {
 	         System.out.println("nick = " + nickName);
 	         System.out.println("email = " + email);
 	         conn.disconnect();
+	         
+	         
+	         
 	         MemberDTO dto = new MemberDTO();
 	         dto.setMember_ID(email);
 	         dto.setMember_Email(email);
 	         dto.setMember_Nick(nickName);
 	         dto.setMember_Token(1);
 	         
-	         if(memberService.getNaver(dto) == 0)
-	         naver_join(dto);
-	         else {
-	        	 HttpSession session = null;
-	        	 naver_login(dto);
-	         }
+	         if(memberService.getNaver(dto) == 0) {
+	        	 String msg = naver_join(dto,hrresponse);
+	        	 return msg;
 	         
+	         }
+	         else {
+	        	 naver_login(dto,hrresponse);
+	         }
+	         return "";
 	         
 	      }catch(Exception e) {
 	         e.printStackTrace();
@@ -230,8 +273,8 @@ public class MemberController {
 //			System.out.println("email = " + email);
 //			
 //	}
-		@GetMapping
-		public String naver_join(MemberDTO dto) throws Exception {
+		
+		public String naver_join(MemberDTO dto,HttpServletResponse response) throws Exception {
 			Model model = new ExtendedModelMap();
 			
 			
@@ -239,23 +282,21 @@ public class MemberController {
 			if(check==0) {
 				dto= memberService.getKakaoNickCount(dto);
 				int result = memberService.setKakao(dto);
-				model.addAttribute("msg", "회원가입 성공");
-				model.addAttribute("path", "/member/join");
+				 
 				
-				return "commons/result";
+				return "<script>alert('회원가입이 완료되었습니다');</script>";
 			}
-			System.out.println("test1");
-			model.addAttribute("msg", "이미 가입된 아이디이거나 회원가입 오류입니다.");
-			model.addAttribute("path", "/member/login");
-			return "commons/result";
+			
+			return "<script>alert('이미 가입된 아이디이거나 회원가입 오류입니다.');</script>";
 		}
 	
 		
-		public String naver_login(MemberDTO dto) throws Exception{
+		public String naver_login(MemberDTO dto,HttpServletResponse response) throws Exception{
 			Model model = new ExtendedModelMap();
 			ServletRequestAttributes attr = (ServletRequestAttributes) RequestContextHolder.currentRequestAttributes();
 			HttpServletRequest request = attr.getRequest();
 			HttpSession session = request.getSession();
+			
  			dto = memberService.naver_login(dto);
 			if(dto==null) {
 				model.addAttribute("msg", "오류");
@@ -328,16 +369,15 @@ public class MemberController {
 		MemberDTO dto = new MemberDTO();
 		memberDTO.setMember_ID(profile.getAccount_Email());
 		dto = memberService.getKakaoLogin(memberDTO);
-		System.out.println(dto);
+		System.out.println("dto : " + dto);
 		if(dto==null) {
 			model.addAttribute("result", "null");
 			return "commons/ajaxResult";
 		}
 		
 		if(dto.getMember_Flag()!=0) {
-			 model.addAttribute("msg", "회원탈퇴된 계정입니다.");
-			 model.addAttribute("path", "/");
-			 return "commons/result";
+			 model.addAttribute("result", "delete");
+			 return "commons/ajaxResult";
 		 }
 		
 		Map<String, Object> map = memberService.getAtendence(dto);
@@ -345,6 +385,7 @@ public class MemberController {
 		int conatt = (int) map.get("conatt");
 		dto = (MemberDTO)map.get("dto");
 		
+		System.out.println("result = " + result);
 		if(result==0) {
 			model.addAttribute("result", result);
 			
@@ -352,6 +393,7 @@ public class MemberController {
 		else {
 			model.addAttribute("result",conatt);
 		}
+		
 		session.setAttribute("member", dto);
 		if(dto.getMember_Profile_Blob()!=null) {
 			session.setAttribute("avatar", "data:image/png;base64," + new String(dto.getMember_Profile_Blob(), StandardCharsets.UTF_8));
@@ -359,6 +401,7 @@ public class MemberController {
 		else {
 			session.setAttribute("avatar", null);
 		}
+		
 		System.out.println("result : " + result);
 		return "commons/ajaxResult";
 		
@@ -382,13 +425,7 @@ public class MemberController {
 		return "redirect:/member/list";
 	}
 	
-	@GetMapping("delete_list")
-	public String delete_list(Model model) throws Exception{
-		List<MemberDTO> ar = memberService.delete_list();
-		
-		model.addAttribute("list", ar);
-		return "member/delete_list";
-	}
+	
 	@GetMapping("user_recovered")
 	public String user_recovered(MemberDTO dto) throws Exception{
 		memberService.user_recovered(dto);
@@ -397,18 +434,24 @@ public class MemberController {
 	
 	
 	@GetMapping("list")
-	public String getList(MemberDTO dto,Model model) throws Exception{
-		List<MemberDTO> ar = memberService.getList(dto);
+	public String getList(MemberDTO dto,Model model,Pager pager) throws Exception{
+		List<MemberDTO> ar = memberService.getList(pager);
 		
 		model.addAttribute("list", ar);
 		
 		return "member/list";
 	}
 	
+	@GetMapping("delete_list")
+	public String delete_list(Model model,Pager pager) throws Exception{
+		List<MemberDTO> ar = memberService.delete_list(pager);
+		
+		model.addAttribute("list", ar);
+		return "member/delete_list";
+	}
 	
 	@GetMapping("join")
-	public String setJoin() throws Exception {
-	
+	public String setJoin(HttpSession session) throws Exception {
 		return ("member/join");
 				
 	}
@@ -454,6 +497,7 @@ public class MemberController {
 	
 	@GetMapping("login")
 	public String setLogin() throws Exception{
+	
 		return "member/login";
 	}
 	@PostMapping("login")
@@ -488,14 +532,23 @@ public class MemberController {
 		}
 		else {
 			session.setAttribute("member", dto);
-			session.setAttribute("avatar", "data:image/png;base64," + new String(dto.getMember_Profile_Blob(), StandardCharsets.UTF_8));
-			 
+			
+			if(dto.getMember_Profile_Blob()!=null) {
+				session.setAttribute("avatar", "data:image/png;base64," + new String(dto.getMember_Profile_Blob(), StandardCharsets.UTF_8));
+			}
+			else {
+				session.setAttribute("avatar", null);
+			}
 			return "redirect:/";
-		}
+		}	
 		session.setAttribute("member", dto);
 		//System.out.println( new String(dto.getMember_Profile_byte(), "UTF-8") );
-		session.setAttribute("avatar", "data:image/png;base64," + new String(dto.getMember_Profile_Blob(), StandardCharsets.UTF_8));
-		 
+		if(dto.getMember_Profile_Blob()!=null) {
+			session.setAttribute("avatar", "data:image/png;base64," + new String(dto.getMember_Profile_Blob(), StandardCharsets.UTF_8));
+		}
+		else {
+			session.setAttribute("avatar", null);
+		}
 		return "commons/result";
 	}
 	
@@ -513,12 +566,13 @@ public class MemberController {
 		int result = memberService.setUpdate(dto);
 		
 		if(result>0) {
-		dto = memberService.getDetail(dto);
-		}
+			if(dto.getMember_Password() == null) dto = memberService.getKakaoLogin(dto);
+			else dto = memberService.getDetail(dto);
 		session.setAttribute("member", dto);
 		session.setAttribute("avatar", "data:image/png;base64," + new String(dto.getMember_Profile_Blob(),StandardCharsets.UTF_8));
 		
-		return "redirect:/member/mypage";
+		}
+		return "redirect:/mypage/profile";	
 	}
 	
 	@GetMapping("11")

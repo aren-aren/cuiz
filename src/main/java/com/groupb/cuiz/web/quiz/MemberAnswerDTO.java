@@ -1,16 +1,16 @@
 package com.groupb.cuiz.web.quiz;
 
+import java.sql.Date;
 import java.util.List;
 
 public class MemberAnswerDTO {
     private String member_Id;
-    private String quiz_No;
-    private String member_Source_Code;
-    private Boolean answerResult;
-    private String resultMessage;
-    private List<String> exampleInputs;
-    private List<String> exampleOutputs;
-    private List<TestcaseResultDTO> testCaseResultDTOS;
+    private Integer quiz_No;
+    private String sourcecode;
+    private Date answer_Date;
+    private Boolean answer_Check;
+    private String result_Message;
+    private List<TestcaseResult> testcase_Results;
 
     public String getMember_Id() {
         return member_Id;
@@ -20,60 +20,52 @@ public class MemberAnswerDTO {
         this.member_Id = member_Id;
     }
 
-    public String getQuiz_No() {
+    public Integer getQuiz_No() {
         return quiz_No;
     }
 
-    public void setQuiz_No(String quiz_No) {
+    public void setQuiz_No(Integer quiz_No) {
         this.quiz_No = quiz_No;
     }
 
-    public String getMember_Source_Code() {
-        return member_Source_Code;
+    public String getSourcecode() {
+        return sourcecode;
     }
 
-    public void setMember_Source_Code(String member_Source_Code) {
-        this.member_Source_Code = member_Source_Code;
+    public void setSourcecode(String sourcecode) {
+        this.sourcecode = sourcecode;
     }
 
-    public Boolean getAnswerResult() {
-        return answerResult;
+    public String getResult_Message() {
+        return result_Message;
     }
 
-    public void setAnswerResult(Boolean answerResult) {
-        this.answerResult = answerResult;
+    public void setResult_Message(String result_Message) {
+        this.result_Message = result_Message;
     }
 
-    public String getResultMessage() {
-        return resultMessage;
+    public List<TestcaseResult> getTestcase_Results() {
+        return testcase_Results;
     }
 
-    public void setResultMessage(String resultMessage) {
-        this.resultMessage = resultMessage;
+    public void setTestcase_Results(List<TestcaseResult> testcase_Results) {
+        this.testcase_Results = testcase_Results;
     }
 
-    public List<String> getExampleInputs() {
-        return exampleInputs;
+    public Date getAnswer_Date() {
+        return answer_Date;
     }
 
-    public void setExampleInputs(List<String> exampleInputs) {
-        this.exampleInputs = exampleInputs;
+    public void setAnswer_Date(Date answer_Date) {
+        this.answer_Date = answer_Date;
     }
 
-    public List<String> getExampleOutputs() {
-        return exampleOutputs;
+    public Boolean getAnswer_Check() {
+        return answer_Check;
     }
 
-    public void setExampleOutputs(List<String> exampleOutputs) {
-        this.exampleOutputs = exampleOutputs;
-    }
-
-    public List<TestcaseResultDTO> getTestCaseResultDTOS() {
-        return testCaseResultDTOS;
-    }
-
-    public void setTestCaseResultDTOS(List<TestcaseResultDTO> testCaseResultDTOS) {
-        this.testCaseResultDTOS = testCaseResultDTOS;
+    public void setAnswer_Check(Boolean answer_Check) {
+        this.answer_Check = answer_Check;
     }
 
     @Override
@@ -81,12 +73,9 @@ public class MemberAnswerDTO {
         return "MemberAnswerDTO{" +
                 "member_Id='" + member_Id + '\'' +
                 ", quiz_No='" + quiz_No + '\'' +
-                ", member_Source_Code='" + member_Source_Code + '\'' +
-                ", answerResult=" + answerResult +
-                ", resultMessage='" + resultMessage + '\'' +
-                ", exampleInputs=" + exampleInputs +
-                ", exampleOutputs=" + exampleOutputs +
-                ", testCaseResultDTOS=" + testCaseResultDTOS +
+                ", source_Code='" + sourcecode + '\'' +
+                ", resultMessage='" + result_Message + '\'' +
+                ", testcaseResults=" + testcase_Results +
                 '}';
     }
 }

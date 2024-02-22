@@ -6,6 +6,7 @@ import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
+import com.groupb.cuiz.support.util.pager.Pager;
 import com.groupb.cuiz.web.member.role.RoleDTO;
 
 @Repository
@@ -15,6 +16,9 @@ public class MemberDAO {
 	private SqlSession sqlSession;
 	private String namespace = "com.groupb.cuiz.web.member.MemberDAO.";
 	
+	public int realDelete() throws Exception{
+		return sqlSession.delete(namespace+"realDelete");
+	}
 	
 	public int SetJoin(MemberDTO dto) throws Exception{
 		return sqlSession.insert(namespace+"setJoin",dto);
@@ -40,13 +44,20 @@ public class MemberDAO {
 		return sqlSession.selectOne(namespace+"setIdcheck",dto);
 	}
 	
-	public List<MemberDTO> getList(MemberDTO dto) throws Exception{
-		return sqlSession.selectList(namespace+"getList",dto);
+	public List<MemberDTO> getList(Pager pager) throws Exception{
+		return sqlSession.selectList(namespace+"getList",pager);
+	}
+	public List<MemberDTO> delete_list(Pager pager) throws Exception{
+		return sqlSession.selectList(namespace+"delete_list",pager);
+	}
+	public Long getCommonTotalCount() throws Exception{
+		return sqlSession.selectOne(namespace+"getCommonTotalCount");
+	}
+	public Long getDeleteTotalCount() throws Exception{
+		return sqlSession.selectOne(namespace+"getDeleteTotalCount");
 	}
 	
-	public List<MemberDTO> delete_list() throws Exception{
-		return sqlSession.selectList(namespace+"delete_list");
-	}
+	
 	public int user_recovered(MemberDTO dto) throws Exception{
 		return sqlSession.update(namespace+"user_recovered",dto);
 	}
@@ -110,6 +121,12 @@ public class MemberDAO {
 	public MemberDTO naver_login(MemberDTO dto) throws Exception{
 		return sqlSession.selectOne(namespace+"naver_login",dto);
 	}
-	
-	
+
+
+	public int setJumsu(MemberDTO memberDTO) throws Exception {
+		return sqlSession.update(namespace + "setJumsu", memberDTO);
+	}
+	public int setTotalAtt(MemberDTO dto) throws Exception{
+		return sqlSession.update(namespace+"setTotalAtt",dto);
+	}
 }

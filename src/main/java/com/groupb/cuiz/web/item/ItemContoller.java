@@ -2,10 +2,10 @@ package com.groupb.cuiz.web.item;
 
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
-import java.util.Base64;
+
 import java.util.List;
 
-import javax.servlet.http.HttpSession;
+
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -13,11 +13,12 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 
-import com.groupb.cuiz.web.cart.CartDTO;
-import com.groupb.cuiz.web.cart.CartService;
-import com.groupb.cuiz.web.member.MemberDTO;
+import com.groupb.cuiz.support.util.pager.Pager;
+import com.groupb.cuiz.support.util.photo.PhotoEncoder;
+import com.groupb.cuiz.web.purchase.PurchaseService;
 
 
 @Controller
@@ -27,35 +28,51 @@ public class ItemContoller {
 	@Autowired
 	private ItemService itemService;
 	@Autowired
-	private CartService cartService;
+	private PhotoEncoder photoEncoder;
+	/*
+	 * @Autowired private PurchaseService purchaseService;
+	 */
 	
 	
-	@GetMapping("addCart")
-	public int addList(CartDTO cartDTO, Model model) {
-		System.out.println("addcart on itemcontroller");
-		cartDTO.setMember_ID("hello");	
-		int result = cartService.addList(cartDTO);		
-		return result;
-		
-	}
-	
+//	@GetMapping("addCart")
+//	public int addList(PurchaseDTO purchaseDTO, Model model) {
+//		System.out.println("addcart on itemcontroller");
+//		purchaseDTO.setMember_ID("hello");	
+//		int result = purchaseService.addList(purchaseDTO);		
+//		return result;
+//		
+//	}
+//	
 	
 	@GetMapping("list")
-	public String getList(Model model) {
+	public String getList(Model model, Pager pager ) {
 		
-		
-		List<ItemDTO> ar = itemService.getList(); 		
+		System.out.println(pager.getKind());	
+		List<ItemDTO> ar = itemService.getList(pager); 		
 		model.addAttribute("list", ar);
 		
 		return "/shop/list";
 
 	}
 	
+	
+	@GetMapping("api/list")
+	@ResponseBody
+	public List<ItemDTO> getListJson(Pager pager){
+		
+		
+		List<ItemDTO> ar = itemService.getList(pager); 		
+		ar = photoEncoder.ListToString(ar);
+		
+		return ar;
+		
+	}
+	
 	@GetMapping("detail")
 	public String getDetail(Model model, ItemDTO itemDTO) throws UnsupportedEncodingException {
 		
 		itemDTO = itemService.getDetail(itemDTO);
-		
+						
 		model.addAttribute("dto", itemDTO);
 		
 		return "/shop/detail";
@@ -71,17 +88,27 @@ public class ItemContoller {
 	
 	
 	@PostMapping("add")
-	public void setItem(ItemDTO itemDTO, MultipartFile file) throws Exception {
+	public String setItem(ItemDTO itemDTO, MultipartFile file, Model model) throws Exception {
 		System.out.println("add start");
 			
-		System.out.println(file);
+//		System.out.println(file.toString());
 		
-		int result = itemService.setItem(itemDTO, file);
+		int result = itemService.add(itemDTO, file);
 		
-		System.out.println("test :" + itemDTO);
+//		System.out.println("testasdasdasdasda :" + itemDTO);
+//		
+//		System.out.println(result);
 		
-		System.out.println(result);
+		model.addAttribute("msg", "추가완료");
+		model.addAttribute("path", "/shop/list");
 		
+		if(result==0) {
+
+			model.addAttribute("msg", "추가실패");
+			model.addAttribute("path", "/shop/list");
+		}
+		
+		return "commons/result";
 	}
 	
 	@PostMapping("delete")

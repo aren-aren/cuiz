@@ -79,6 +79,12 @@
 	<div class="mb-3">
   		<label for="email" class="form-label color-white">Email 입력해주세요</label>
   		<input type="email" class="form-control input-join" id="email" name="member_Email" placeholder="name@example.com" >
+		<input id="emailRequest" type="button" value="인증요청"/>
+		<input id="emailText" type="text" placeholder="인증번호를 입력하세요"/>
+		<input id="emailCheck" type="button" value="확인" />
+		<div id="emailDiv">
+		
+		</div>
 	</div>
 	<div>
 		<label for="nick" class="form-label color-white">닉네임을 입력해주세요</label>
@@ -111,11 +117,22 @@
 	</div>
 	</form>
 
+	<input id="kakaoKey" type="hidden" data-kakaoKey="${kakaoKey}">
+
 	<c:import url="../temps/footer.jsp"></c:import>
 	<script src="/resources/member/join.js"></script>
 	<script src="https://developers.kakao.com/sdk/js/kakao.js"></script>
     <script>
-        window.Kakao.init("a58598cd3cea0b5410f80d01ccdc89b5");
+        
+		
+		fetch("/member/key",{
+			method:"GET"
+		})
+		.then(res => res.text())
+		.then(res => {
+			window.Kakao.init(res.trim());
+		})
+		
 
         function kakaoLogin(){
             window.Kakao.Auth.login({
@@ -151,16 +168,16 @@
 							.then(res => {
 								if(res>0){
 									 alert('가입성공');
-									 //location.href="/";
+									 location.href="/";
 								}
 								else if(res==null){
 									alert("회원가입이 안되어있는 아이디입니다.");
-									//location.href="/member/login";
+									location.href="/member/login";
 								}
 								
 								else{
 								alert("이미 가입된 아이디입니다.");
-								//location.href="/member/login";
+								location.href="/member/login";
 								return;}
 							})
 

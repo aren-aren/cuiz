@@ -1,16 +1,17 @@
 package com.groupb.cuiz.web.quiz;
 
-public class TestcaseResultDTO {
-    private Integer testcaseNum;
+public class TestcaseResult {
+    private Integer testcase_No;
     private boolean result;
     private String resultMessage;
 
-    public Integer getTestcaseNum() {
-        return testcaseNum;
+
+    public Integer getTestcase_No() {
+        return testcase_No;
     }
 
-    public void setTestcaseNum(Integer testcaseNum) {
-        this.testcaseNum = testcaseNum;
+    public void setTestcase_No(Integer testcase_No) {
+        this.testcase_No = testcase_No;
     }
 
     public boolean isResult() {
@@ -31,8 +32,8 @@ public class TestcaseResultDTO {
 
     @Override
     public String toString() {
-        return "TestcaseResultDTO{" +
-                "testcaseNum=" + testcaseNum +
+        return "TestcaseResult{" +
+                "testcase_No=" + testcase_No +
                 ", result=" + result +
                 ", resultMessage='" + resultMessage + '\'' +
                 '}';

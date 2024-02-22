@@ -21,7 +21,7 @@ public class ItemTest extends MyTest {
 //	@Test
 	public void testList() {
 		
-		itemDAO.getList();
+		//itemDAO.getList();
 		
 	}
 
@@ -42,9 +42,9 @@ public class ItemTest extends MyTest {
 
 			System.out.println(itemDTO.getItem_Name());
 
-			int temp = itemDAO.setItem(itemDTO);
+			//int temp = itemDAO.setItem(itemDTO);
 
-			result = temp + result;
+			//result = temp + result;
 		}
 
 		assertEquals(result, 20);

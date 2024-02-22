@@ -11,5 +11,15 @@
  
  </select>
  
+ <select id="getList" parameterType="MemberDTO" resultType="ItemDTO">
+ 
+ 
+	SELECT * 
+		FROM ITEM 
+		LEFT JOIN PURCHASE
+		USING(ITEM_NUM)
+	WHERE MEMBER_ID = #{member_ID}
+ 
+ </select>
  
 </mapper>

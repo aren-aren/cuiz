@@ -14,11 +14,16 @@ public class Pager {
 	//블록이 없으면 true
 	private boolean start;
 	private boolean last;
-	
+		
 	//검색
 	private String search;
 	private String kind;
+	private String searchItem;
+	private String member_Id;
+	private String sort;
 	
+	
+
 	//startRow, lastRow 계산
 	public void makeRow() {
 		this.lastRow=this.getPage()*this.getPerPage();
@@ -147,11 +152,38 @@ public class Pager {
 		this.kind = kind;
 	}
 	
-	
-	
+	public String getSearchItem() {
+		return searchItem;
+	}
 
+	public void setSearchItem(String searchItem) {
+		this.searchItem = searchItem;
+	}
 
+	public String getMember_Id() {
+		return member_Id;
+	}
 
+	public void setMember_Id(String member_Id) {
+		this.member_Id = member_Id;
+	}
 
+	public String getSort() {
+		return sort;
+	}
 
+	public void setSort(String sort) {
+		this.sort = sort;
+	}
+
+	@Override
+	public String toString() {
+		return "Pager{" +
+				"page=" + page +
+				", search='" + search + '\'' +
+				", kind='" + kind + '\'' +
+				", searchItem='" + searchItem + '\'' +
+				", sort='" + sort + '\'' +
+				'}';
+	}
 }
