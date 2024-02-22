@@ -37,6 +37,7 @@ import org.springframework.web.context.request.ServletRequestAttributes;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.util.JSONPObject;
+import com.groupb.cuiz.support.util.pager.Pager;
 import com.groupb.cuiz.web.member.role.RoleDTO;
 
 @Controller
@@ -424,13 +425,7 @@ public class MemberController {
 		return "redirect:/member/list";
 	}
 	
-	@GetMapping("delete_list")
-	public String delete_list(Model model) throws Exception{
-		List<MemberDTO> ar = memberService.delete_list();
-		
-		model.addAttribute("list", ar);
-		return "member/delete_list";
-	}
+	
 	@GetMapping("user_recovered")
 	public String user_recovered(MemberDTO dto) throws Exception{
 		memberService.user_recovered(dto);
@@ -439,14 +434,21 @@ public class MemberController {
 	
 	
 	@GetMapping("list")
-	public String getList(MemberDTO dto,Model model) throws Exception{
-		List<MemberDTO> ar = memberService.getList(dto);
+	public String getList(MemberDTO dto,Model model,Pager pager) throws Exception{
+		List<MemberDTO> ar = memberService.getList(pager);
 		
 		model.addAttribute("list", ar);
 		
 		return "member/list";
 	}
 	
+	@GetMapping("delete_list")
+	public String delete_list(Model model,Pager pager) throws Exception{
+		List<MemberDTO> ar = memberService.delete_list(pager);
+		
+		model.addAttribute("list", ar);
+		return "member/delete_list";
+	}
 	
 	@GetMapping("join")
 	public String setJoin(HttpSession session) throws Exception {

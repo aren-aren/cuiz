@@ -22,7 +22,7 @@
         <property name="host" value="smtp.gmail.com" />
         <property name="port" value="587" />
         <property name="username" value="${email.user}"/>
-        <property name="password" value="${email.password}" />
+        <property name="password" value="${email.password}"/>
         <property name="javaMailProperties">
             <props>
                <prop key="mail.transport.protocol">smtp</prop>
@@ -38,6 +38,9 @@
 		<property name="key123" value="${kakaoKey.password}"></property>
 	
 	</bean>
+	
+
+	
 
 	
 </beans>
