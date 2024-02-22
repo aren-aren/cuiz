@@ -48,15 +48,39 @@
  	</insert>
  	
  	
- 	
+ 	<!-- pager part -->
+ 	<!-- 회원 리스트 -->
+ 	<select id="getCommonTotalCount" resultType="Long">
+ 		SELECT COUNT(MEMBER_ID) FROM MEMBER WHERE MEMBER_DELDATE IS NULL
+ 	</select>
+ 	<!-- 회원 탈퇴된 계정 리스트-->
+ 	<select id="getDeleteTotalCount" resultType="Long">
+ 		SELECT COUNT(MEMBER_ID) FROM MEMBER WHERE MEMBER_DELDATE IS NOT NULL
+ 	</select>
  	
  	<!-- 관리자 페이지 MEMBER/LIST  ( 권한변경 가능) -->
- 	<select id="getList" parameterType="MemberDTO" resultType="MemberDTO">
- 		SELECT * FROM MEMBER
+ 	<select id="getList" parameterType="Pager" resultType="MemberDTO">
+ 	SELECT * FROM
+  		(SELECT ROWNUM R, N.*FROM
+  			(
+  				SELECT * FROM MEMBER
+  				WHERE MEMBER_FLAG = 0
+  			)
+  		N)
+  	WHERE R BETWEEN #{startRow} AND #{lastRow}
+  	ORDER BY ROWNUM ASC
  	</select>
 	<!-- 탈퇴 된 계정들 가져오기 -->
-	<select id="delete_list" resultType="MemberDTO">
-		SELECT * FROM MEMBER WHERE MEMBER_FLAG = 1
+	<select id="delete_list" parameterType="Pager" resultType="MemberDTO">
+			SELECT * FROM
+  		(SELECT ROWNUM R, N.*FROM
+  			(
+  				SELECT * FROM MEMBER
+  				WHERE MEMBER_FLAG = 1
+  			)
+  		N)
+  	WHERE R BETWEEN #{startRow} AND #{lastRow}
+  	ORDER BY ROWNUM ASC
 	</select>
 	<!-- 계정 복구 -->
 	<update id="user_recovered" parameterType="MemberDTO">
