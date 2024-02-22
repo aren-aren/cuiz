@@ -11,7 +11,7 @@ import com.groupb.cuiz.web.member.MemberDAO;
 import com.groupb.cuiz.web.member.MemberService;
 
 
-@Component
+
 public class UserDelete {
 //
 //	@Autowired
@@ -20,33 +20,32 @@ public class UserDelete {
 	@Autowired
 	private MemberDAO dao;
 	
-	@Autowired
-	private ItemDAO itemDAO;
+
 	
-//	public UserDelete() {
-//		
-//	}
-//	@Autowired
-//	public UserDelete(MemberService memberService) {
-//		this.memberService = memberService;
-//	}
-	
-	public int setDelete()  throws Exception{
-		int result = 10;
+	public void setDelete()  throws Exception{
+		
 		System.out.println("30분 알람입니다.");
-//		result = dao.realDelete();
-//		
-//		ItemDTO itemDTO = new ItemDTO();
-//		itemDTO.setItem_Num(0);
-//		
-//		result = itemDAO.delete(itemDTO);
-//		System.out.println("3일 차이 삭제 횟수 : " + result);
+		System.out.println(dao);
+		int result = dao.realDelete();
+				
 		
-		
-		return 1;
 			
 		
 	}
+
+
+
+	public MemberDAO getDao() {
+		return dao;
+	}
+
+
+
+	public void setDao(MemberDAO dao) {
+		this.dao = dao;
+	}
+	
+	
 	
 
 	

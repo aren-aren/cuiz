@@ -3,7 +3,9 @@
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xmlns:beans="http://www.springframework.org/schema/beans"
 	xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:task="http://www.springframework.org/schema/task"
 	xsi:schemaLocation="http://www.springframework.org/schema/mvc https://www.springframework.org/schema/mvc/spring-mvc.xsd
+		http://www.springframework.org/schema/task http://www.springframework.org/schema/task/spring-task-4.3.xsd
 		http://www.springframework.org/schema/beans https://www.springframework.org/schema/beans/spring-beans.xsd
 		http://www.springframework.org/schema/context https://www.springframework.org/schema/context/spring-context.xsd">
 
@@ -37,5 +39,17 @@
 		</interceptor>
 		
 	</interceptors>
+	
+	<task:scheduled-tasks scheduler="scheduler">
+        <task:scheduled ref="testSchedule" method="testPrint" cron="*/2 * * * * ?"/>
+    	<task:scheduled ref="userDelete" method="setDelete" cron ="0 */30 * * * ?"/>
+    </task:scheduled-tasks>
+	
+	<task:scheduler id="scheduler" pool-size="10"/>
+	<beans:bean id="testSchedule" class="com.groupb.cuiz.web.schedule.TestSchedule"/>
+	
+	<beans:bean id="userDelete" class="com.groupb.cuiz.web.schedule.UserDelete">
+		
+	</beans:bean>
 	
 </beans:beans>

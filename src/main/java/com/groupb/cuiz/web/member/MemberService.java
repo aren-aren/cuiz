@@ -20,6 +20,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
+import com.groupb.cuiz.support.util.pager.Pager;
 import com.groupb.cuiz.web.member.role.RoleDTO;
 import java.lang.Math;
 @Service
@@ -44,10 +45,66 @@ public class MemberService {
 		int number = random.nextInt(900000)+100000;
 		
 		MimeMessage mimeMessage = javaMailSender.createMimeMessage();
-		MimeMessageHelper mimeMessageHelper = new MimeMessageHelper(mimeMessage);
+		MimeMessageHelper mimeMessageHelper = new MimeMessageHelper(mimeMessage,true,"UTF-8");
 		mimeMessageHelper.setTo(dto.getMember_Email());
 		mimeMessageHelper.setSubject("[Cuiz!!] 회원가입 이메일 인증");
-		mimeMessageHelper.setText("인증버노 : "+number);
+		String message = "<!DOCTYPE html>\r\n"
+				+ "<html lang=\"en\">\r\n"
+				+ "<head>\r\n"
+				+ "    <meta charset=\"UTF-8\">\r\n"
+				+ "    <meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0\">\r\n"
+				+ "    <title>Document</title>\r\n"
+				+ "    <style>\r\n"
+				+ "        .titleNumber{\r\n"
+				+ "            text-align: center;\r\n"
+				+ "        }\r\n"
+				+ "        .number{\r\n"
+				+ "            text-align: center;\r\n"
+				+ "            font-size: larger;\r\n"
+				+ "            color: dimgrey;\r\n"
+				+ "        }\r\n"
+				+ "        .header{\r\n"
+				+ "            text-align: center;\r\n"
+				+ "            background-color: black;\r\n"
+				+ "            color: #e75e8d;\r\n"
+				+ "            margin-top: 15%;\r\n"
+				+ "            margin-left: 10%;\r\n"
+				+ "            margin-right: 10%;\r\n"
+				+ "            padding-top: 1%;\r\n"
+				+ "            padding-bottom: 1%;\r\n"
+				+ "        }\r\n"
+				+ "        .footer{\r\n"
+				+ "            color: cadetblue;\r\n"
+				+ "            text-align: center;\r\n"
+				+ "            margin-top: 5%;\r\n"
+				+ "        }\r\n"
+				+ "        .body{\r\n"
+				+ "            text-align: center;\r\n"
+				+ "        }\r\n"
+				+ "    </style>\r\n"
+				+ "</head>\r\n"
+				+ "<body>\r\n"
+				+ "    <div>\r\n"
+				+ "        <div class=\"header\">\r\n"
+				+ "            CUIZ\r\n"
+				+ "        </div>\r\n"
+				+ "        <div class=\"body\">\r\n"
+				+ "            CUIZ를 이용해주셔서 감사합니다. 사용자가 본인임을 확인하는 과정입니다.<br>\r\n"
+				+ "            계정을 생성하지 않는 경우에는 이 메시지를 무시해도 됩니다.\r\n"
+				+ "        </div>\r\n"
+				+ "        <h2 class=\"titleNumber\">인증 코드</h2>\r\n"
+				+ "        <div class=\"number\">\r\n"
+				+ "            5 6 7 8 9 0\r\n"
+				+ "        </div>\r\n"
+				+ "        <div class=\"footer\">\r\n"
+				+ "            sang ul이꺼\r\n"
+				+ "\r\n"
+				+ "        </div>\r\n"
+				+ "    </div>    \r\n"
+				+ "</body>\r\n"
+				+ "</html>";
+		mimeMessageHelper.setText(message, true);
+		
 		javaMailSender.send(mimeMessage);
 		/*
 		 * String mailContent = "이메일 인증 번호입니다. \n"+ number;
@@ -82,9 +139,7 @@ public class MemberService {
 		return dao.getKakaoLogin(dto);
 	}
 	
-	public List<MemberDTO> delete_list() throws Exception{
-		return dao.delete_list();
-	}
+	
 	public int user_recovered(MemberDTO dto) throws Exception{
 		return dao.user_recovered(dto);
 	}
@@ -134,9 +189,25 @@ public class MemberService {
 		return dao.insertRole(dto);
 	}
 	
-	public List<MemberDTO> getList(MemberDTO dto) throws Exception{
-		return dao.getList(dto);
+	public List<MemberDTO> getList(Pager pager) throws Exception{
+		Long totalCount = dao.getCommonTotalCount();
+		pager.setPerPage(5L);
+		pager.makeRow();
+        pager.makeNum(totalCount);
+		
+		return dao.getList(pager);
 	}
+	public List<MemberDTO> delete_list(Pager pager) throws Exception{
+		Long totalCount = dao.getDeleteTotalCount();
+		
+		pager.setPerPage(5L);
+		pager.makeRow();
+        pager.makeNum(totalCount);
+		
+		
+		return dao.delete_list(pager);
+	}
+	
 	
 	@Transactional
 	public Map<String, Object> getAtendence(MemberDTO dto) throws Exception{
