@@ -117,7 +117,6 @@ function showSolveResult(results, isSubmit){
 
 }
 
-
 initBtn.addEventListener("click", onInitEditor);
 runBtn.addEventListener("click", onRunCode);
 submitBtn.addEventListener("click", onSubmit);
