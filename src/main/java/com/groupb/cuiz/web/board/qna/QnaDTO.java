@@ -12,9 +12,17 @@ public class QnaDTO extends BoardDTO{
 		private Long board_Depth;
 		private Integer flag;
 		private List<FileDTO> fileDTOs;
+		private List<ReplyDTO> replyDTOs;
+		
+
 		
 		
-		
+		public List<ReplyDTO> getReplyDTOs() {
+			return replyDTOs;
+		}
+		public void setReplyDTOs(List<ReplyDTO> replyDTOs) {
+			this.replyDTOs = replyDTOs;
+		}
 		public Integer getFlag() {
 			return flag;
 		}

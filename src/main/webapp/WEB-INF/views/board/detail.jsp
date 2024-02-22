@@ -9,6 +9,7 @@
 
 <body>
 
+
   <!-- ***** Preloader Start ***** -->
   <div id="js-preloader" class="js-preloader">
     <div class="preloader-inner">
@@ -30,37 +31,46 @@
     <div class="row">
       <div class="col-lg-12">
         <div class="page-content">
+        
+        
 
-          <!-- ***** Banner Start ***** -->
+          <!-- mini box -->
           <div class="row">
             <div class="col-lg-12">
               <div class="main-profile">
                 <div class="row">
-                  <c:forEach items="${dto.fileDTOs}" var="f">
-                    <div class="col-lg-4">
-                      <!-- <img src="../resources/upload/${board}/${f.file_Name}"> -->
-                      <!--  <a href="/resources/upload/${board}/${f.file_Name}">${f.ori_Name}</a> -->
-                      <img src ="/resources/upload/${kind}/${f.file_Name}">
-                      
-                    </div>
-                  </c:forEach>
-                  <div class="col-lg-4 align-self-center">
-                    <div class="main-info header-text">
-                      <span>${board} Detail</span>
-                      <h4>${dto.board_Title}</h4>
-                      <p>${dto.board_Contents}</p>
-	                     <c:if test="${boardDTO.member_ID eq member.member_ID}">
+	                <c:set var="b" value="${board}"></c:set>
+					 <c:if test="${b eq 'Notice'}" >
+		                 
+	                  </c:if>
+	                  
+	                  <div class="col-lg-4 align-self-center">
+	                    <div class="main-info header-text">
+	                      <span>${board} Detail</span>
+	                      <h4>${boardDTO.board_Title}</h4>
+
+						  <c:forEach items="${boardDTO.fileDTOs}" var="f">
+							<div class="col-lg-4">
+								<!-- <img src="../resources/upload/${board}/${f.file_Name}"> -->
+								<!--  <a href="/resources/upload/${board}/${f.file_Name}">${f.ori_Name}</a> -->
+								<img src ="/resources/upload/${kind}/${f.file_Name}" onerror="this.style.display='none'" style="display: flex; flex-direction: column;">
+							</div>
+							</c:forEach>
+
+	                      <p>${boardDTO.board_Contents}</p>
+	                      
 	          				<form id="contactForm" action="delete" method="post" enctype="multipart/form-data">
 	                          <div class="main-border-button">
-	                            <a href="./update?board_Num=${dto.board_Num}">Update</a>
-	                            <a id="delete" href="#">Delete</a>
+	                     		<c:if test="${boardDTO.member_ID eq member.member_ID}">
+		                            <a href="./update?board_Num=${boardDTO.board_Num}">Update</a>
+		                            <a id="delete" href="#">Delete</a>
+	                     		</c:if>
 	                          </div>
 	                          <input type="hidden" name="board_Num" value="${boardDTO.board_Num}">
 	          				</form>
-	                     </c:if>
-                      
-                    </div>
-                  </div>
+				                	                      
+	                    </div>
+	                  </div>
                   
                 </div>
               </div>
@@ -68,10 +78,93 @@
           </div>
           
           
-        </div>
+		  <c:if test="${b eq 'QnA'}">
+			<div class="row" style="margin-top:30px">
+			<div class="col-lg-12">
+				<div class="main-profile ">
+				<div class="row">
+				
+					<div class="col-lg-12">
+					<div class="main-info">
+						<span>댓글</span>
+
+						<c:forEach items="${replyDTO}" var="r">
+						
+						<form method="POST" action="/reply/list" enctype="multipart/form-data">
+							<input type="hidden" name="user_Name" value="${member.member_ID}">
+						
+							<div class="col-lg-12">
+							<ul>
+								<li>${r.reply_Contents}<span>${r.user_Name}</span></li>
+							</ul>
+							</div>
+							
+						</form>
+							
+						<form id="contactForm" action="" method="post" enctype="multipart/form-data">
+								
+							<div class="main-border-button">
+							<c:if test="${replyDTO.user_Name eq member.member_ID}">
+							<c:if test="${not empty member}">
+								<a id="delete" href="#">Delete</a>
+							</c:if>
+							</c:if>
+							</div>
+						</form>
+						
+						</c:forEach>
+							
+						
+							
+						<c:if test="${list.size()==0}">
+							<li><h3>검색결과가 없습니다.</h3></li>
+						</c:if>
+						
+
+					
+						
+							<br><br>
+
+						
+
+						<form id="contactForm" action="/reply/add" method="post" enctype="multipart/form-data">
+
+							<div class="d-none" id="submitErrorMessage">
+								<div class="text-center text-danger mb-3">Error sending message!</div>
+							</div>
+							
+							<div class="col-lg-12 input-group mb-3">
+								<input type="text" class="form-control" aria-label="Recipient's username" aria-describedby="button-addon2">
+								<button class="btn btn-outline-secondary" type="submit" id="submitButton button-addon2">Add</button>
+							</div>
+
+						</form>
+							
+
+						
+					</div>
+					</div>
+					
+				
+					
+				</div>
+				</div>
+				</div>
+				</div>
+			
+			</c:if>
+	           
+		         
+		         
+		<div>
+		</div>
+		           
+       </div>
       </div>
-    </div>
-  </div>
+   </div>
+   </div>
+    
+
 
 
 
@@ -83,10 +176,12 @@
   const del = document.getElementById("delete");
   const frm = document.querySelector("#contactForm");
 
+
   del.addEventListener("click", (e)=>{
       e.preventDefault();
-      contactForm.submit();
+      frm.submit();
   });
+  
   </script>
 
 </html>

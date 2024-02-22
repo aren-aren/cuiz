@@ -20,6 +20,7 @@
 		 <typeAlias type="com.groupb.cuiz.web.board.BoardDTO" alias="BoardDTO"/>
 		 <typeAlias type="com.groupb.cuiz.web.board.notice.NoticeDTO" alias="NoticeDTO"/>
 		 <typeAlias type="com.groupb.cuiz.web.board.qna.QnaDTO" alias="QnaDTO"/>
+		 <typeAlias type="com.groupb.cuiz.web.board.qna.ReplyDTO" alias="ReplyDTO"/>
 		 <typeAlias type="com.groupb.cuiz.web.board.BoardFileDTO" alias="BoardFileDTO"/>
 
 		 <typeAlias type="com.groupb.cuiz.web.item.ItemDTO" alias="ItemDTO"/>

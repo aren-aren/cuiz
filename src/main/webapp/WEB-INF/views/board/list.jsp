@@ -65,7 +65,9 @@
 										</c:if>
 								</c:catch>
 
-								<c:if test="${f eq 0 }">
+								<c:if test="${f eq 0}">
+								
+						
 									<div class="item">
 										<ul>
 											<li><h3>${dto.board_Num}</h3></li>

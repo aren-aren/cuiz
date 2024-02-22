@@ -9,7 +9,6 @@ import org.springframework.stereotype.Repository;
 import com.groupb.cuiz.support.util.pager.Pager;
 import com.groupb.cuiz.web.board.BoardDAO;
 import com.groupb.cuiz.web.board.BoardDTO;
-import com.groupb.cuiz.web.board.BoardFileDTO;
 
 @Repository
 public class QnaDAO  implements BoardDAO{
@@ -55,19 +54,20 @@ public class QnaDAO  implements BoardDAO{
 		return sqlSession.delete(namespace+"getDelete", boardDTO);
 	}
 
-	public int getFileAdd(BoardFileDTO boardFileDTO) throws Exception {
-		// TODO Auto-generated method stub
-		return sqlSession.insert(namespace+"getFileAdd", boardFileDTO);
-	}
-	
-	public List<BoardFileDTO> getFileList(BoardDTO boardDTO) throws Exception {
-		// TODO Auto-generated method stub
-		return sqlSession.selectList(namespace+"getFileList", boardDTO);
-	}
 
-	public int getFileDelete(BoardDTO boardDTO) {
+//	public int getFileAdd(BoardFileDTO boardFileDTO) throws Exception {
 		// TODO Auto-generated method stub
-		return sqlSession.delete(namespace+"getFileDelete", boardDTO);
-	}
+//		return sqlSession.insert(namespace+"getFileAdd", boardFileDTO);
+//	}
+	
+//	public List<BoardFileDTO> getFileList(BoardDTO boardDTO) throws Exception {
+		// TODO Auto-generated method stub
+//		return sqlSession.selectList(namespace+"getFileList", boardDTO);
+//	}
+
+//	public int getFileDelete(BoardDTO boardDTO) {
+		// TODO Auto-generated method stub
+//		return sqlSession.delete(namespace+"getFileDelete", boardDTO);
+//	}
 	
 }
