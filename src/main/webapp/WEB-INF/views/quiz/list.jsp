@@ -135,7 +135,7 @@
                                             </c:if>
                                             <c:forEach begin="${pager.startNum}" end="${pager.lastNum}" var="i">
                                                 <li class="page-item">
-                                                    <button class="page-link ${(pager.page == i)?"current-page":""}"
+                                                    <button class='page-link ${(pager.page == i)?"current-page":""}'
                                                             data-page="${i}">${i}</button>
                                                 </li>
                                             </c:forEach>

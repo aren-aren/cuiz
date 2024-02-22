@@ -64,6 +64,15 @@ public class QuizController {
         return SampleRunResult.createResult(exOutputs,qOutputs);
     }
 
+    @ResponseBody
+    @GetMapping("checkRun")
+    public List<TestcaseResult> sampleRun(MemberAnswerDTO checkDTO, HttpSession session) throws Exception {
+        MemberDTO memberDTO = (MemberDTO) session.getAttribute("member");
+        checkDTO.setMember_Id(memberDTO.getMember_ID());
+
+        return quizService.checkRun(checkDTO);
+    }
+
     @GetMapping("list")
     public String getList(Pager pager, Model model, HttpSession session){
         MemberDTO memberDTO = (MemberDTO) session.getAttribute("member");
@@ -79,7 +88,7 @@ public class QuizController {
 
     @GetMapping("solve")
     public String solveQuiz(QuizDTO quizDTO, Model model, HttpSession session){
-        quizDTO = quizService.getDetail(quizDTO);
+        quizDTO = quizService.getDetail(quizDTO, "EXAMPLE");
         model.addAttribute("dto", quizDTO);
 
         MemberDTO memberDTO = (MemberDTO) session.getAttribute("member");
@@ -118,6 +127,43 @@ public class QuizController {
         session.setAttribute("member", memberDTO);
 
         return answerDTO;
+    }
+
+    @ResponseBody
+    @GetMapping("getTestcases")
+    public List<TestcaseDTO> getTestcases(QuizDTO quizDTO){
+        return quizService.getTestcases(quizDTO);
+    }
+
+    @GetMapping("update")
+    public String updateQuiz(QuizDTO quizDTO, Model model) throws Exception {
+        quizDTO = quizService.getDetail(quizDTO, null);
+        model.addAttribute("dto", quizDTO);
+        return "quiz/update";
+    }
+
+    @PostMapping("update/content")
+    @ResponseBody
+    public Boolean updateSourcecode(@RequestBody QuizDTO quizDTO){
+        return quizService.updateQuiz(quizDTO);
+    }
+
+    @PostMapping("update/testcase")
+    @ResponseBody
+    public  Boolean updateTestcase(@RequestBody List<TestcaseDTO> testcaseDTOS) throws Exception {
+        System.out.println("testcaseDTOS = " + testcaseDTOS);
+        System.out.println("testcaseDTOS = " + testcaseDTOS);
+        System.out.println("testcaseDTOS = " + testcaseDTOS);
+        System.out.println("testcaseDTOS = " + testcaseDTOS);
+        System.out.println("testcaseDTOS = " + testcaseDTOS);
+        System.out.println("testcaseDTOS = " + testcaseDTOS);
+        return quizService.updateTestcases(testcaseDTOS);
+    }
+
+    @PostMapping("delete/testcase")
+    @ResponseBody
+    public Boolean deleteTestcase(@RequestBody TestcaseDTO testcaseDTO){
+        return quizService.deleteTestcase(testcaseDTO);
     }
 }
 

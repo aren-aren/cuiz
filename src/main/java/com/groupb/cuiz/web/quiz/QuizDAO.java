@@ -53,4 +53,12 @@ public class QuizDAO {
     public Integer getQuizLevel(MemberAnswerDTO answerDTO) {
         return sqlSession.selectOne(NAMESPACE + "getQuizLevel", answerDTO);
     }
+
+    public int updateQuiz(QuizDTO quizDTO) {
+        return sqlSession.update(NAMESPACE + "updateQuiz", quizDTO);
+    }
+
+    public int deleteTestcase(TestcaseDTO testcaseDTO) {
+        return sqlSession.delete(NAMESPACE + "deleteTestcase", testcaseDTO);
+    }
 }
