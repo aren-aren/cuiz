@@ -104,7 +104,7 @@ ${answer.sourcecode}
                      data-bs-title="정답을 맞춘 문제만 다른사람의 풀이를 볼 수 있습니다."
                      </c:if>
                 >
-                    <button class="btn btn-secondary <c:if test="${!answer.answer_Check}">disabled</c:if>">다른 사람 풀이</button>
+                    <a class="btn btn-secondary <c:if test="${!answer.answer_Check}">disabled</c:if>" href="otherSolve?quiz_No=${dto.quiz_No}">다른 사람 풀이</a>
                 </div>
                 <div class="float-end">
                     <button class="btn btn-cuiz" id="submit-btn">제출하기</button>
@@ -159,9 +159,9 @@ ${answer.sourcecode}
 <c:import url="../temps/footer.jsp"></c:import>
 <script type="module" src="https://cdn.jsdelivr.net/gh/vanillawc/wc-codemirror@1/index.js"></script>
 <script type="module" src="https://cdn.jsdelivr.net/gh/vanillawc/wc-codemirror@1/mode/clike/clike.js"></script>
-<script src="/resources/js/quiz/solve.js" type="text/javascript"></script>
 <link rel="stylesheet"
       href="https://cdn.jsdelivr.net/gh/vanillawc/wc-codemirror@1/theme/tomorrow-night-eighties.css">
+<script src="/resources/js/quiz/solve.js" type="text/javascript"></script>
 
 </body>
 

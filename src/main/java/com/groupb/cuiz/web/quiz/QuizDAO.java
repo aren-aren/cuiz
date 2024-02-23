@@ -22,7 +22,7 @@ public class QuizDAO {
         return sqlSession.insert(NAMESPACE + "addQuiz", quizDTO);
     }
 
-    public Long getTotalCount(Pager pager) {
+    public Long getQuizTotalCount(Pager pager) {
         return sqlSession.selectOne(NAMESPACE + "getQuizTotalCount",pager);
     }
 
@@ -60,5 +60,13 @@ public class QuizDAO {
 
     public int deleteTestcase(TestcaseDTO testcaseDTO) {
         return sqlSession.delete(NAMESPACE + "deleteTestcase", testcaseDTO);
+    }
+
+    public List<MemberAnswerDTO> getAnswers(Map<String, Object> map) {
+        return sqlSession.selectList(NAMESPACE + "getAnswers", map);
+    }
+
+    public Long getAnswerTotalCount(Map<String, Object> map) {
+        return sqlSession.selectOne(NAMESPACE + "getAnswerTotalCount", map);
     }
 }
