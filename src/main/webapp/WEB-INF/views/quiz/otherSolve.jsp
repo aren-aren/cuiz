@@ -51,26 +51,37 @@
 
                                 <div class="my-3">
                                     <ul>
-                                        <li>
-                                            <div class="card text-bg-dark mb-3">
-                                                <div class="card-body">
-                                                    <div class="mb-2">
-                                                        <img src="${avatar}">
-                                                        <h5 class="card-title d-inline-block">${list[0].memberDTO.member_Nick}</h5>
-                                                        <div class="float-end">${list[0].answer_Date}</div>
+                                        <c:forEach items="${list}" var="answer">
+                                            <li>
+                                                <div class="card text-bg-dark mb-3">
+                                                    <div class="card-body">
+                                                        <div class="row mb-2 p-2">
+                                                            <div class="col-6">
+                                                                <div class="row">
+                                                                    <img class="col-3"
+                                                                         src="data:image/png;base64,${answer.memberDTO.member_Profile_String}"
+                                                                         style="clip-path: circle(); width: 3.5rem">
+                                                                    <h5 class="card-title col-auto">${answer.memberDTO.member_Nick}</h5>
+                                                                </div>
+                                                            </div>
+                                                            <div class="col-6">
+                                                                <div class="row justify-content-end">
+                                                                    <div class="col-auto">${answer.answer_Date}</div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <wc-codemirror mode="text/x-java"
+                                                                       theme="tomorrow-night-eighties"
+                                                                       readonly="nocursor">
+                                                            <script type="wc-content">
+${answer.sourcecode}
+
+                                                            </script>
+                                                        </wc-codemirror>
                                                     </div>
-                                                    <wc-codemirror mode="text/x-java"
-                                                                   theme="tomorrow-night-eighties"
-                                                                   readonly="nocursor">
-<script type="wc-content">
-${list[0].sourcecode}
-</script>
-                                                    </wc-codemirror>
-                                                    <a href="#" class="card-link">Card link</a>
-                                                    <a href="#" class="card-link">Another link</a>
                                                 </div>
-                                            </div>
-                                        </li>
+                                            </li>
+                                        </c:forEach>
                                     </ul>
                                 </div>
 

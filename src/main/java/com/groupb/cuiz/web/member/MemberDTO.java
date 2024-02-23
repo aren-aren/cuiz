@@ -139,7 +139,7 @@ public class MemberDTO {
 		this.member_Profile_Blob = member_Profile_Blob;
 	}
 
-	public String getProfileBLOBToString(){
+	public String getMember_Profile_String(){
 		if(member_Profile_Blob == null){
 			return null;
 		}
