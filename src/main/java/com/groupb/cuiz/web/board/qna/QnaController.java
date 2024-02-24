@@ -4,6 +4,7 @@ import java.util.List;
 
 import javax.servlet.http.HttpSession;
 
+import com.groupb.cuiz.web.quiz.QuizDTO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -12,7 +13,6 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.multipart.MultipartFile;
-import org.springframework.web.servlet.ModelAndView;
 
 import com.groupb.cuiz.support.util.pager.Pager;
 import com.groupb.cuiz.web.board.BoardDTO;
@@ -61,11 +61,12 @@ public class QnaController {
 	}
 	
 	@PostMapping("add")
-	public String getAdd(BoardDTO boardDTO, MultipartFile[] attachs, HttpSession session)throws Exception {
+	public String getAdd(QnaDTO qnaDTO, QuizDTO quizDTO, MultipartFile[] attachs, HttpSession session)throws Exception {
 		MemberDTO memberDTO = (MemberDTO) session.getAttribute("member");
-		boardDTO.setMember_ID(memberDTO.getMember_ID());
+		qnaDTO.setMember_ID(memberDTO.getMember_ID());
+		qnaDTO.setQuizDTO(quizDTO);
 
-		int result = qnaService.getAdd(boardDTO, attachs);
+		int result = qnaService.getAdd(qnaDTO, attachs);
 		return "redirect:./list";
 
 	}
@@ -112,6 +113,5 @@ public class QnaController {
 		return "redirect:./list";
 		
 	}
-	
 
 }

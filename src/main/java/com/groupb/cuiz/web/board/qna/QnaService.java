@@ -4,6 +4,7 @@ import java.util.List;
 
 import javax.servlet.ServletContext;
 
+import com.groupb.cuiz.web.quiz.QuizDTO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
@@ -57,6 +58,11 @@ public class QnaService implements BoardService{
 //			result = qnaDAO.getFileAdd(boardFileDTO);
 //		}
 		int result = qnaDAO.getAdd(boardDTO);
+
+		QuizDTO quizDTO = ((QnaDTO)boardDTO).getQuizDTO();
+		if(quizDTO.getQuiz_No() != null){
+			qnaDAO.linkBoardAndQuiz((QnaDTO)boardDTO);
+		}
 		
 		return result;
 	}
