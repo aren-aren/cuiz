@@ -54,6 +54,10 @@ public class QnaDAO  implements BoardDAO{
 		return sqlSession.delete(namespace+"getDelete", boardDTO);
 	}
 
+	public int linkBoardAndQuiz(QnaDTO boardDTO) {
+		return sqlSession.insert(namespace + "linkBoardAndQuiz", boardDTO);
+	}
+
 
 //	public int getFileAdd(BoardFileDTO boardFileDTO) throws Exception {
 		// TODO Auto-generated method stub

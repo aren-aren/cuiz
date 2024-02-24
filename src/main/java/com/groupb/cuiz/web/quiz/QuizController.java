@@ -168,7 +168,7 @@ public class QuizController {
         quizDTO.setMember_Id(memberDTO.getMember_ID());
         model.addAttribute("dto", quizDTO);
 
-        List<MemberAnswerDTO> answers = quizService.getAnswers(quizDTO, pager);
+        List<AnswerShowDTO> answers = quizService.getAnswers(quizDTO, pager);
 
         model.addAttribute("list", answers);
         model.addAttribute("pager", pager);

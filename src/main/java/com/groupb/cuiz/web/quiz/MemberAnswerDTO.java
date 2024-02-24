@@ -1,7 +1,5 @@
 package com.groupb.cuiz.web.quiz;
 
-import com.groupb.cuiz.web.member.MemberDTO;
-
 import java.sql.Date;
 import java.util.List;
 
@@ -12,8 +10,6 @@ public class MemberAnswerDTO {
     private Date answer_Date;
     private Boolean answer_Check;
     private String result_Message;
-    private QuizDTO quizDTO;
-    private MemberDTO memberDTO;
     private List<TestcaseResult> testcase_Results;
 
     public String getMember_Id() {
@@ -64,22 +60,6 @@ public class MemberAnswerDTO {
         this.answer_Date = answer_Date;
     }
 
-    public QuizDTO getQuizDTO() {
-        return quizDTO;
-    }
-
-    public void setQuizDTO(QuizDTO quizDTO) {
-        this.quizDTO = quizDTO;
-    }
-
-    public MemberDTO getMemberDTO() {
-        return memberDTO;
-    }
-
-    public void setMemberDTO(MemberDTO memberDTO) {
-        this.memberDTO = memberDTO;
-    }
-
     public Boolean getAnswer_Check() {
         return answer_Check;
     }
@@ -97,8 +77,6 @@ public class MemberAnswerDTO {
                 ", sourcecode='" + sourcecode + '\'' +
                 ", answer_Date=" + answer_Date +
                 ", answer_Check=" + answer_Check +
-                ", quizDTO=" + quizDTO +
-                ", memberDTO=" + memberDTO +
                 '}';
     }
 }

@@ -64,9 +64,9 @@ nav > .pagination > .page-item > .page-link:hover{
     --bs-btn-disabled-border-color:#970e2d
 }
 
-.row > .col-2, .row > .col-7, .row > .col-1{
+.row > *{
     padding: 2px;
-    margin-bottom: 1.75rem;
+    margin-bottom: 1.55rem;
 }
 
 .CodeMirror{

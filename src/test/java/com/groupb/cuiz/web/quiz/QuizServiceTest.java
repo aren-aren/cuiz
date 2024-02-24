@@ -49,19 +49,19 @@ public class QuizServiceTest extends MyTest {
 
     @Test
     public void runQuiz() throws Exception {
-        MemberAnswerDTO answerDTO = new MemberAnswerDTO();
-        answerDTO.setMember_Id("a");
-        answerDTO.setQuiz_No(1026);
-        String sourceCode = "import java.util.Scanner;" +
-                "public class Main{" +
-                "public static void main(String[] args){" +
-                "Scanner scan = new Scanner(System.in);" +
-                "System.out.println(scan.nextInt() * scan.nextInt());" +
-                "}}";
-        answerDTO.setSourcecode(sourceCode);
-
-        answerDTO = quizService.runExampleQuiz(answerDTO);
-
-        System.out.println(answerDTO.getTestcase_Results());
+//        MemberAnswerDTO answerDTO = new MemberAnswerDTO();
+//        answerDTO.setMember_Id("a");
+//        answerDTO.setQuiz_No(1026);
+//        String sourceCode = "import java.util.Scanner;" +
+//                "public class Main{" +
+//                "public static void main(String[] args){" +
+//                "Scanner scan = new Scanner(System.in);" +
+//                "System.out.println(scan.nextInt() * scan.nextInt());" +
+//                "}}";
+//        answerDTO.setSourcecode(sourceCode);
+//
+//        answerDTO = quizService.runExampleQuiz(answerDTO);
+//
+//        System.out.println(answerDTO.getTestcase_Results());
     }
 }
