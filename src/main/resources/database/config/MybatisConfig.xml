@@ -32,5 +32,6 @@
 		 <typeAlias type="com.groupb.cuiz.web.quiz.QuizDTO" alias="QuizDTO"/>
 		 <typeAlias type="com.groupb.cuiz.web.quiz.MemberAnswerDTO" alias="MemberAnswerDTO"/>
 		 <typeAlias type="com.groupb.cuiz.web.quiz.QuizListDTO" alias="QuizListDTO"/>
+		 <typeAlias type="com.groupb.cuiz.web.quiz.AnswerShowDTO" alias="AnswerShowDTO"/>
 	 </typeAliases>
 </configuration>

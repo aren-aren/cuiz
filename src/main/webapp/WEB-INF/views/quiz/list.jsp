@@ -42,9 +42,7 @@
                             </div>
                             <form action="list" method="get">
                                 <div class="row">
-                                    <div class="col-7">
-                                        <div class="input-group">
-                                            <div class="col-3 me-1">
+                                            <div class="col-2">
                                                 <select id="level-select"
                                                         name="searchItem"
                                                         class="form-select form-select-sm"
@@ -57,7 +55,7 @@
                                                     <option value="5">5</option>
                                                 </select>
                                             </div>
-                                            <div class="col-3 me-1">
+                                            <div class="col-2">
                                                 <select id="kind-select"
                                                         name="kind"
                                                         class="form-select form-select-sm"
@@ -68,7 +66,19 @@
                                                     <option value="3">실패한 문제</option>
                                                 </select>
                                             </div>
-                                            <div class="col-3 me-1">
+                                            <div class="col-2">
+                                                <select id="sort-select"
+                                                        name="sort"
+                                                        class="form-select form-select-sm"
+                                                        data-sort="${pager.sort}">
+                                                    <option value="0" selected>기본순</option>
+                                                    <option value="1">정답률 높은순</option>
+                                                    <option value="2">정답률 낮은순</option>
+                                                    <option value="3">많이 도전 한순</option>
+                                                    <option value="4">적게 도전 한순</option>
+                                                </select>
+                                            </div>
+                                            <div class="col-4">
                                                 <input id="search-Input"
                                                        type="text"
                                                        class="form-control form-control-sm"
@@ -76,28 +86,13 @@
                                                        value="${pager.search}"
                                                        data-search="${pager.search}">
                                             </div>
-                                            <div class="col-2">
-                                                <button class="btn btn-cuiz btn-sm" id="searchBtn">검색</button>
+                                            <div class="col-1">
+                                                <button class="btn btn-cuiz btn-sm form-control" id="searchBtn">검색</button>
                                             </div>
-                                        </div>
+                                            <div class="col-1">
+                                                <button type="reset" class="btn btn-secondary btn-sm">초기화</button>
+                                            </div>
                                     </div>
-                                    <div class="col-2"></div>
-                                    <div class="col-2">
-                                        <select id="sort-select"
-                                                name="sort"
-                                                class="form-select form-select-sm"
-                                                data-sort="${pager.sort}">
-                                            <option value="0" selected>기본순</option>
-                                            <option value="1">정답률 높은순</option>
-                                            <option value="2">정답률 낮은순</option>
-                                            <option value="3">많이 도전 한순</option>
-                                            <option value="4">적게 도전 한순</option>
-                                        </select>
-                                    </div>
-                                    <div class="col-1">
-                                        <button type="reset" class="btn btn-cuiz btn-sm">초기화</button>
-                                    </div>
-                                </div>
                             </form>
                             <div class="col-12">
                                 <table class="table table-dark table-striped table-hover">

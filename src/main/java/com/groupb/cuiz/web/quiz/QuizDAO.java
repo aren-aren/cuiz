@@ -62,7 +62,7 @@ public class QuizDAO {
         return sqlSession.delete(NAMESPACE + "deleteTestcase", testcaseDTO);
     }
 
-    public List<MemberAnswerDTO> getAnswers(Map<String, Object> map) {
+    public List<AnswerShowDTO> getAnswers(Map<String, Object> map) {
         return sqlSession.selectList(NAMESPACE + "getAnswers", map);
     }
 
