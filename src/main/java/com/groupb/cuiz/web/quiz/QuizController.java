@@ -177,5 +177,13 @@ public class QuizController {
 
         return "quiz/otherSolve";
     }
+
+    @GetMapping("myAnswers")
+    @ResponseBody
+    public List<MemberAnswerDTO> getMyAnswers(HttpSession session){
+        MemberDTO memberDTO = (MemberDTO) session.getAttribute("member");
+
+        return quizService.getAnswers(memberDTO);
+    }
 }
 

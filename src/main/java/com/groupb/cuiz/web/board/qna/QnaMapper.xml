@@ -25,7 +25,7 @@
 				  BOARD_NUM
 				, QUIZ_NO
 		<if test="_parameter instanceof com.groupb.cuiz.web.board.BoardDTO">
-				, CASE WHEN WITH_CODE=1 THEN SOURCECODE ELSE NULL END "QUIZ_SAMPLECODE"
+				, CASE WHEN WITH_CODE=1 THEN SOURCECODE ELSE NULL END "SOURCECODE"
 		</if>
 			FROM BOARD_QUIZ_LINK
 		<if test="_parameter instanceof com.groupb.cuiz.web.board.BoardDTO">
@@ -65,9 +65,9 @@
 		<result column="BOARD_DATE" property="board_Date"/>
 		<result column="BOARD_HIT" property="board_Hit"/>
 		<result column="FLAG" property="flag"/>
-		<association property="quizDTO" >
+		<association property="answerDTO" javaType="MemberAnswerDTO">
 			<id column="QUIZ_NO" property="quiz_No"/>
-			<result column="QUIZ_SAMPLECODE" property="quiz_SampleCode"/>
+			<result column="SOURCECODE" property="sourcecode"/>
 		</association>
 	</resultMap>
   
@@ -95,7 +95,7 @@
 		INSERT INTO BOARD_QUIZ_LINK
 		(BOARD_NUM, QUIZ_NO, WITH_CODE)
 		VALUES
-		(#{board_Num}, #{quizDTO.quiz_No}, #{flag})
+		(#{board_Num}, #{answerDTO.quiz_No}, #{flag})
 	</insert>
   
   <!-- detail -->
@@ -109,7 +109,7 @@
 	  	, BOARD_HIT
 	  	, FLAG
 	  	, QUIZ_NO
-		, QUIZ_SAMPLECODE
+		, SOURCECODE
 	  FROM QNA
 	  <include refid="linkQuiz"/>
   		WHERE BOARD_NUM=#{board_Num}

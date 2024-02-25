@@ -190,6 +190,17 @@
         WHERE QUIZ_NO = #{dto.quiz_No} AND ANSWER_CHECK = 1
     </select>
 
+    <select id="getMemberAnswers" parameterType="MemberDTO" resultType="MemberAnswerDTO">
+        SELECT
+              QUIZ_NO
+            , QUIZ_TITLE
+            , ANSWER_CHECK
+            , ANSWER_DATE
+        FROM MEMBER_QUIZ_ANSWER mqa
+            INNER JOIN QUIZ USING(QUIZ_NO)
+        WHERE mqa."MEMBER_ID" = #{member_ID}
+    </select>
+
     <select id="getAnswerTotalCount" parameterType="Map" resultType="Long">
         SELECT COUNT(mqa.MEMBER_ID)
         FROM MEMBER_QUIZ_ANSWER mqa
