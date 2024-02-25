@@ -350,7 +350,13 @@ public class QuizService {
         return quizDAO.getAnswers(map);
     }
 
+    public List<MemberAnswerDTO> getAnswers(MemberDTO memberDTO) {
+        return quizDAO.getMemberAnswers(memberDTO);
+    }
+
     public QuizDTO getQuizInfo(QuizDTO quizDTO) {
         return quizDAO.getDetail(quizDTO);
     }
+
+
 }

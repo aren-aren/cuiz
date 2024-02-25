@@ -4,6 +4,7 @@ import java.util.List;
 
 import javax.servlet.ServletContext;
 
+import com.groupb.cuiz.web.quiz.MemberAnswerDTO;
 import com.groupb.cuiz.web.quiz.QuizDTO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -59,8 +60,8 @@ public class QnaService implements BoardService{
 //		}
 		int result = qnaDAO.getAdd(boardDTO);
 
-		QuizDTO quizDTO = ((QnaDTO)boardDTO).getQuizDTO();
-		if(quizDTO.getQuiz_No() != null){
+		MemberAnswerDTO answerDTO = ((QnaDTO)boardDTO).getAnswerDTO();
+		if(answerDTO.getQuiz_No() != null){
 			qnaDAO.linkBoardAndQuiz((QnaDTO)boardDTO);
 		}
 		
