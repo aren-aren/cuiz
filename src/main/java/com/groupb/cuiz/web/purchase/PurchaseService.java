@@ -7,7 +7,7 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.OutputStream;
 import java.net.HttpURLConnection;
-
+import java.net.MalformedURLException;
 import java.net.URL;
 
 import java.text.SimpleDateFormat;
@@ -45,6 +45,24 @@ public class PurchaseService {
 	private MemberDAO memberDAO;
 	@Autowired
 	private ItemDAO itemDAO;	
+	
+	
+	//카카오페이 환불
+	
+	public void kakaopayCancellation(MemberDTO memberDTO) throws MalformedURLException {
+		
+		//requst 보내기
+		
+		URL url = new URL("https://open-api.kakaopay.com/online/v1/payment/cancel");
+		String jsonData ="{\"cid\":\"TC0ONETIME\","
+				+"\"tid\":\"T1234567890123456789\","
+				+"\"cancel_amount\":\"2200\","
+				+"\"cancel_tax_free_amount\":\"0\","
+				+"\"cancel_vat_amount\":\"200\","
+				+"\"cancel_available_amount\":\"2200\"}";		
+	}
+	
+	
 	
 //카카오페이
 

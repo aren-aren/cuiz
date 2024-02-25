@@ -19,7 +19,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 
 import com.groupb.cuiz.web.item.ItemDTO;
-
+import com.groupb.cuiz.web.member.MemberDTO;
 import com.groupb.cuiz.web.purchase.kakao.ReceiptDTO;
 import com.groupb.cuiz.web.purchase.kakao.ResponseDTO;
 
@@ -33,6 +33,42 @@ public class PurchaseController {
 
 	private ResponseDTO responseDTO;
 	
+	
+	//카카오페이
+	
+	
+	
+	//카카오페이 결제 환불
+	
+	
+	@GetMapping("cancellation")
+	public String kakaopayCancellation(HttpSession session) {
+		
+		MemberDTO memberDTO = (MemberDTO)session.getAttribute("member");
+		
+		
+		
+		return "";
+		
+	}
+	
+	
+	//카카오페이 결제
+	
+	@PostMapping("kakaopay")
+	@ResponseBody	
+	public String kakaoPay(ItemDTO itemDTO, ResponseDTO responseDTO, Model model, HttpSession session) throws Exception {
+		
+	
+		System.out.println("카카오페이"+itemDTO.getItem_Num());
+		
+		responseDTO = purchaseService.kakaoPay(itemDTO, responseDTO);		
+		this.responseDTO = responseDTO;		
+				
+		return 	responseDTO.getNext_redirect_pc_url();
+		
+		
+	}
 	
 	
 	
@@ -110,20 +146,7 @@ public class PurchaseController {
 //		return result; 
 //		
 //	}
-	@PostMapping("kakaopay")
-	@ResponseBody	
-	public String kakaoPay(ItemDTO itemDTO, ResponseDTO responseDTO, Model model, HttpSession session) throws Exception {
-		
 	
-		System.out.println("카카오페이"+itemDTO.getItem_Num());
-		
-		responseDTO = purchaseService.kakaoPay(itemDTO, responseDTO);		
-		this.responseDTO = responseDTO;		
-				
-		return 	responseDTO.getNext_redirect_pc_url();
-		
-		
-	}
 	
 
 	

@@ -17,6 +17,10 @@ public class PurchaseDAO {
 	
 	private final String NAMESPACE = "com.groupb.cuiz.web.purchase.PurchaseDAO.";
 	
+	//kakaopay 환불
+	
+
+	
 	
 //	KAKAOPAY
 	public int kakopaySuccess(ReceiptDTO receiptDTO) {
