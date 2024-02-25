@@ -117,7 +117,7 @@
 	</div>
 	</form>
 
-	<input id="kakaoKey" type="hidden" data-kakaoKey="${kakaoKey}">
+	
 
 	<c:import url="../temps/footer.jsp"></c:import>
 	<script src="/resources/member/join.js"></script>

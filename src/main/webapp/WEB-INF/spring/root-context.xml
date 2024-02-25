@@ -42,14 +42,6 @@
 
 	
 
-	<task:scheduled-tasks scheduler="scheduler">
-		<task:scheduled ref="testSchedule" method="testPrint" cron="*/2 * * * * ?"/>
-		<task:scheduled ref="userDelete" method="setDelete" cron ="0 */30 * * * ?"/>
-	</task:scheduled-tasks>
 
-	<task:scheduler id="scheduler" pool-size="10"/>
-	<bean id="testSchedule" class="com.groupb.cuiz.web.schedule.TestSchedule"/>
-
-	<bean id="userDelete" class="com.groupb.cuiz.web.schedule.UserDelete"/>
 	
 </beans>
