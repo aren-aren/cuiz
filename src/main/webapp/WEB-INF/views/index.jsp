@@ -49,153 +49,60 @@
           <!-- ***** Banner End ***** -->
 
           <!-- ***** Most Popular Start ***** -->
-          <div class="most-popular">
+          <div class="gaming-library">
             <div class="row">
               <div class="col-lg-12">
                 <div class="heading-section">
-                  <h4><em>Most Popular</em> Right Now</h4>
+                  <h4>최신 게시글</h4>
                 </div>
-                <div class="row">
-                  <div class="col-lg-3 col-sm-6">
-                    <div class="item">
-                      <img src="/resources/assets/images/popular-01.jpg" alt="">
-                      <h4>Fortnite<br><span>Sandbox</span></h4>
-                      <ul>
-                        <li><i class="fa fa-star"></i> 4.8</li>
-                        <li><i class="fa fa-download"></i> 2.3M</li>
-                      </ul>
-                    </div>
-                  </div>
-                  <div class="col-lg-3 col-sm-6">
-                    <div class="item">
-                      <img src="/resources/assets/images/popular-02.jpg" alt="">
-                      <h4>PubG<br><span>Battle S</span></h4>
-                      <ul>
-                        <li><i class="fa fa-star"></i> 4.8</li>
-                        <li><i class="fa fa-download"></i> 2.3M</li>
-                      </ul>
-                    </div>
-                  </div>
-                  <div class="col-lg-3 col-sm-6">
-                    <div class="item">
-                      <img src="/resources/assets/images/popular-03.jpg" alt="">
-                      <h4>Dota2<br><span>Steam-X</span></h4>
-                      <ul>
-                        <li><i class="fa fa-star"></i> 4.8</li>
-                        <li><i class="fa fa-download"></i> 2.3M</li>
-                      </ul>
-                    </div>
-                  </div>
-                  <div class="col-lg-3 col-sm-6">
-                    <div class="item">
-                      <img src="/resources/assets/images/popular-04.jpg" alt="">
-                      <h4>CS-GO<br><span>Legendary</span></h4>
-                      <ul>
-                        <li><i class="fa fa-star"></i> 4.8</li>
-                        <li><i class="fa fa-download"></i> 2.3M</li>
-                      </ul>
-                    </div>
-                  </div>
-                  <div class="col-lg-6">
-                    <div class="item">
-                      <div class="row">
-                        <div class="col-lg-6 col-sm-6">
-                          <div class="item inner-item">
-                            <img src="/resources/assets/images/popular-05.jpg" alt="">
-                            <h4>Mini Craft<br><span>Legendary</span></h4>
-                            <ul>
-                              <li><i class="fa fa-star"></i> 4.8</li>
-                              <li><i class="fa fa-download"></i> 2.3M</li>
-                            </ul>
-                          </div>
-                        </div>
-                        <div class="col-lg-6 col-sm-6">
-                          <div class="item">
-                            <img src="/resources/assets/images/popular-06.jpg" alt="">
-                            <h4>Eagles Fly<br><span>Matrix Games</span></h4>
-                            <ul>
-                              <li><i class="fa fa-star"></i> 4.8</li>
-                              <li><i class="fa fa-download"></i> 2.3M</li>
-                            </ul>
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                  <div class="col-lg-3 col-sm-6">
-                    <div class="item">
-                      <img src="/resources/assets/images/popular-07.jpg" alt="">
-                      <h4>Warface<br><span>Max 3D</span></h4>
-                      <ul>
-                        <li><i class="fa fa-star"></i> 4.8</li>
-                        <li><i class="fa fa-download"></i> 2.3M</li>
-                      </ul>
-                    </div>
-                  </div>
-                  <div class="col-lg-3 col-sm-6">
-                    <div class="item">
-                      <img src="/resources/assets/images/popular-08.jpg" alt="">
-                      <h4>Warcraft<br><span>Legend</span></h4>
-                      <ul>
-                        <li><i class="fa fa-star"></i> 4.8</li>
-                        <li><i class="fa fa-download"></i> 2.3M</li>
-                      </ul>
-                    </div>
-                  </div>
-                  <div class="col-lg-12">
-                    <div class="main-button">
-                      <a href="browse.html">Discover Popular</a>
-                    </div>
-                  </div>
-                </div>
+                	<c:forEach items="${list2}" var="dto" varStatus="status">
+		              <div class="item">
+		                <ul>
+		                  <li><h4>제목</h4><span>${dto.board_Title}</span></li>
+		                  <li><h4>작성자</h4><span>${dto.member_ID}</span></li>
+		                  <li><h4>조회수</h4><span>${dto.board_Hit}</span></li>
+		                  <li><div class="main-border-button"><a href="/qna/detail?board_Num=${dto.board_Num}">내용보기</a></div></li>
+		                </ul>
+		              </div>
+		              
+	              </c:forEach>
               </div>
             </div>
           </div>
           <!-- ***** Most Popular End ***** -->
 
           <!-- ***** Gaming Library Start ***** -->
-          <div class="gaming-library">
-            <div class="col-lg-12">
-              <div class="heading-section">
-                <h4><em>Your Gaming</em> Library</h4>
-              </div>
-              <div class="item">
-                <ul>
-                  <li><img src="/resources/assets/images/game-01.jpg" alt="" class="templatemo-item"></li>
-                  <li><h4>Dota 2</h4><span>Sandbox</span></li>
-                  <li><h4>Date Added</h4><span>24/08/2036</span></li>
-                  <li><h4>Hours Played</h4><span>634 H 22 Mins</span></li>
-                  <li><h4>Currently</h4><span>Downloaded</span></li>
-                  <li><div class="main-border-button border-no-active"><a href="#">Donwloaded</a></div></li>
-                </ul>
-              </div>
-              <div class="item">
-                <ul>
-                  <li><img src="/resources/assets/images/game-02.jpg" alt="" class="templatemo-item"></li>
-                  <li><h4>Fortnite</h4><span>Sandbox</span></li>
-                  <li><h4>Date Added</h4><span>22/06/2036</span></li>
-                  <li><h4>Hours Played</h4><span>740 H 52 Mins</span></li>
-                  <li><h4>Currently</h4><span>Downloaded</span></li>
-                  <li><div class="main-border-button"><a href="#">Donwload</a></div></li>
-                </ul>
-              </div>
-              <div class="item last-item">
-                <ul>
-                  <li><img src="/resources/assets/images/game-03.jpg" alt="" class="templatemo-item"></li>
-                  <li><h4>CS-GO</h4><span>Sandbox</span></li>
-                  <li><h4>Date Added</h4><span>21/04/2036</span></li>
-                  <li><h4>Hours Played</h4><span>892 H 14 Mins</span></li>
-                  <li><h4>Currently</h4><span>Downloaded</span></li>
-                  <li><div class="main-border-button border-no-active"><a href="#">Donwloaded</a></div></li>
-                </ul>
-              </div>
-            </div>
-            <div class="col-lg-12">
-              <div class="main-button">
-                <a href="profile.html">View Your Library</a>
-              </div>
-            </div>
-          </div>
+          
+	          <div class="gaming-library">
+	            <div class="col-lg-12">
+	              <div class="heading-section">
+	                <h4>일일 랭킹</h4>
+	              </div>
+	              <c:forEach items="${list}" var="dto" varStatus="status">
+		              <div class="item">
+		                <ul>
+		                <c:if test="${status.index+1 eq 1}">
+		                  <li><img src="/resources/assets/images/1등.png" alt="" class="templatemo-item"></li>
+		                </c:if>
+		                 <c:if test="${status.index+1 eq 2}">
+		                  <li><img src="/resources/assets/images/2등.png" alt="" class="templatemo-item"></li>
+		                </c:if>
+		                 <c:if test="${status.index+1  eq  3 }">
+		                  <li><img src="/resources/assets/images/3등.png" alt="" class="templatemo-item"></li>
+		                </c:if>
+		                 <c:if test="${status.index+1 eq 4  || status.index+1 eq 5}">
+		                  <li><img src="" alt="" class="templatemo-item"></li>
+		                </c:if>        
+		                  <li><h4>닉네임</h4><span>${dto.member_Nick}</span></li>
+		                  <li><h4>오늘의 점수</h4><span>${dto.daily_Jumsu}</span></li>
+		                  <li><div class="main-border-button"><a href="#">정보보러가기</a></div></li>
+		                </ul>
+		              </div>
+		              
+	              </c:forEach>
+	            </div>
+	            
+	          </div>
           <!-- ***** Gaming Library End ***** -->
         </div>
       </div>
