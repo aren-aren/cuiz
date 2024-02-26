@@ -27,7 +27,7 @@ public class DailyRanking {
 				List<RankingDTO> result = new ArrayList<RankingDTO>();
 				for(RankingDTO dto : ar) {
 					int jumsu = 0;
-					System.out.println(dto.getMember_id());
+					System.out.println(dto.getMember_ID());
 					dao.setInsert(dto);
 					List<QuizDTO> quizNO = dao.getQuizNO(dto);
 						for(QuizDTO quizDTO : quizNO) {
