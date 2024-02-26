@@ -21,10 +21,10 @@ public class RankingDTO {
 	public void setRanking_num(Integer ranking_num) {
 		this.ranking_num = ranking_num;
 	}
-	public String getMember_id() {
+	public String getMember_ID() {
 		return member_ID;
 	}
-	public void setMember_id(String member_ID) {
+	public void setMember_ID(String member_ID) {
 		this.member_ID = member_ID;
 	}
 	public Integer getDaily_Jumsu() {

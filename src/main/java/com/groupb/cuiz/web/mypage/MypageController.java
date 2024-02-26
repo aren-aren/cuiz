@@ -40,6 +40,17 @@ public class MypageController {
 		
 	}
 	
+//	sangul
+	@GetMapping
+	public String yours(MemberDTO dto,Model model) {
+		dto = mypageService.temp(dto);
+		
+		model.addAttribute("yours", dto);
+		
+		return "/mypage/yours";
+	}
+	
+	
 	@GetMapping("list")
 	@ResponseBody
 	public List<ItemDTO> getList(MemberDTO memberDTO) throws UnsupportedEncodingException{

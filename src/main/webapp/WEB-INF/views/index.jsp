@@ -60,7 +60,7 @@
 		                <ul>
 		                  <li><h4>제목</h4><span>${dto.board_Title}</span></li>
 		                  <li><h4>작성자</h4><span>${dto.member_ID}</span></li>
-		                  <li><h4>조회수</h4><span>${dto.board_Hit}</span></li>
+		                  <li><h4>조회수</h4><span><i class="fa-regular fa-eye"></i> ${dto.board_Hit}</span></li>
 		                  <li><div class="main-border-button"><a href="/qna/detail?board_Num=${dto.board_Num}">내용보기</a></div></li>
 		                </ul>
 		              </div>
@@ -95,7 +95,7 @@
 		                </c:if>        
 		                  <li><h4>닉네임</h4><span>${dto.member_Nick}</span></li>
 		                  <li><h4>오늘의 점수</h4><span>${dto.daily_Jumsu}</span></li>
-		                  <li><div class="main-border-button"><a href="#">정보보러가기</a></div></li>
+		                  <li><div class="main-border-button"><a href="/mypage/yours?member_ID=${dto.member_ID}">정보보러가기</a></div></li>
 		                </ul>
 		              </div>
 		              
