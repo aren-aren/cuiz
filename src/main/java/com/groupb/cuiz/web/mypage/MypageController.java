@@ -41,7 +41,7 @@ public class MypageController {
 	}
 	
 //	sangul
-	@GetMapping
+	@GetMapping("yours")
 	public String yours(MemberDTO dto,Model model) {
 		dto = mypageService.temp(dto);
 		
