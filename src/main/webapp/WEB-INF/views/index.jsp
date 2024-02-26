@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 
 
 <!DOCTYPE html>
@@ -60,9 +61,12 @@
                               <ul>
                                   <c:forEach items="${list2}" var="dto">
                                   <li>
-                                      <a href="#">${dto.member_Nick}</a>
-                                      <h6>${dto.board_Title}</h6>
-                                      <span>${dto.board_Date}</span>
+                                      <div>
+                                      <a href="mypage/yours?member_ID=${dto.member_ID}">@${dto.member_Nick}</a>
+                                      <a href="#">${dto.board_Title}</a>
+                                      </div>
+                                      <span><fmt:formatDate value="${dto.board_Date}" pattern="yyyy-MM-dd HH:mm"/></span>
+                                      <span><i class="fa-regular fa-eye me-1"></i>${dto.board_Hit}</span>
                                   </li>
                                   </c:forEach>
                               </ul>
@@ -72,17 +76,23 @@
                       <div class="heading-section">
                           <h4>최신 게시글</h4>
                       </div>
+                      <div class="item">
+                      <ul>
+                          <li><h4>제목</h4></li>
+                          <li><h4>작성자</h4></li>
+                          <li><h4>조회수</h4></li>
+                          <li><h4></h4></li>
+                      </ul>
                       <c:forEach items="${list2}" var="dto" varStatus="status">
-                          <div class="item">
                               <ul>
-                                  <li><h4>제목</h4><span>${dto.board_Title}</span></li>
-                                  <li><h4>작성자</h4><span>${dto.member_ID}</span></li>
-                                  <li><h4>조회수</h4><span><i class="fa-regular fa-eye">${dto.board_Hit}</span></li>
+                                  <li><span>${dto.board_Title}</span></li>
+                                  <li><<span>${dto.member_ID}</span></li>
+                                  <li><span><i class="fa-regular fa-eye"></i>${dto.board_Hit}</span></li>
                                   <li><div class="main-border-button"><a href="/qna/detail?board_Num=${dto.board_Num}">내용보기</a></div></li>
                               </ul>
-                          </div>
 
                       </c:forEach>
+                          </div>
                   </div>
 	            <div class="col-lg-4">
 	              <div class="heading-section">
