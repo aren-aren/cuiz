@@ -105,7 +105,7 @@
 		                </c:if>
 		                  <li><h4>닉네임</h4><span>${dto.member_Nick}</span></li>
 		                  <li><h4>오늘의 점수</h4><span>${dto.daily_Jumsu}</span></li>
-		                  <li><div class="main-border-button"><a href="#">정보보러가기</a></div></li>
+		                  <li><div class="main-border-button"><a href="/mypage/yours?member_ID=${dto.member_ID}">정보보러가기</a></div></li>
 		                </ul>
 		              </div>
 
