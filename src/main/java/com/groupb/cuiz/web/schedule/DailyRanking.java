@@ -27,11 +27,11 @@ public class DailyRanking {
 				List<RankingDTO> result = new ArrayList<RankingDTO>();
 				for(RankingDTO dto : ar) {
 					int jumsu = 0;
-					System.out.println(dto.getMember_id());
 					dao.setInsert(dto);
 					List<QuizDTO> quizNO = dao.getQuizNO(dto);
 						for(QuizDTO quizDTO : quizNO) {
-							jumsu += dao.getJumsu(quizDTO);
+							int level = dao.getJumsu(quizDTO);
+							//이넘 활용해서 점수 가져와야함
 						}
 					dto.setDaily_Jumsu(jumsu);
 					dao.setJumsu(dto);

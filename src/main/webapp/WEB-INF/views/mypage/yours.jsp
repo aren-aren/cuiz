@@ -6,7 +6,7 @@
 <!DOCTYPE html>
 <html lang="en">
  <c:import url="../temps/header_css.jsp"></c:import>
-
+ 
 
 <body>
 
@@ -62,6 +62,9 @@
                         <div class="col-lg-12">
                           <div class="heading-section">
                             <h4><em>Your Most Popular</em> Clips</h4>
+                          </div>
+                          <div id="heatmap">
+	
                           </div>
                         </div>
                         <div class="col-lg-3 col-sm-6">
@@ -138,6 +141,10 @@
 	<input id="memberID"  type="hidden" value="${yours.member_ID}"/> 
 	<c:import url="../temps/footer.jsp"></c:import>
 	<script src="/resources/js/Mypage/Mypage.js"></script>
+	
+	<script>
+    
+</script>	
   </body>
 
 </html>

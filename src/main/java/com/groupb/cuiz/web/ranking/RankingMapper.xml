@@ -25,7 +25,7 @@
 	</select>
 
 	<select id="getJumsu" resultType="int" parameterType="QuizDTO">
-		SELECT QUIZ_POINT  FROM QUIZ WHERE QUIZ_NO = #{quiz_No}
+		SELECT QUIZ_LEVEL  FROM QUIZ WHERE QUIZ_NO = #{quiz_No}
 	</select>
 	
 	<update id="setJumsu" parameterType="RankingDTO">
