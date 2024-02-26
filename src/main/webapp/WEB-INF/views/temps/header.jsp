@@ -37,6 +37,8 @@
                         <li><a href="/member/list">Member List</a></li>
                         <li><a href="/quiz/list">Quiz</a></li>
                         <li><a href="/shop/list">Shop</a></li>
+                        <li><a href="/notice/list">Notice</a></li>
+                        <li><a href="/qna/list">QnA</a></li>
                     	 <c:if test="${not empty member}">
                     		<li><a href="/member/logout">Logout</a></li>
                         <li><a href="/mypage/profile">${member.member_Nick} <img src="/resources/assets/images/profile-header.jpg" alt=""></a></li>

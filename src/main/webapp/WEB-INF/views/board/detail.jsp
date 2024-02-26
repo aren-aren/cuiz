@@ -78,6 +78,8 @@
           </div>
           
           
+          <!-- reply -->
+          
 		  <c:if test="${b eq 'QnA'}">
 			<div class="row" style="margin-top:30px">
 			<div class="col-lg-12">
@@ -87,19 +89,24 @@
 					<div class="col-lg-12">
 					<div class="main-info">
 						<span>댓글</span>
+						
+						<!-- reply list -->
 
 						<c:forEach items="${replyDTO}" var="r">
 						
-						<form method="POST" action="/reply/list" enctype="multipart/form-data">
+						<form>
 							<input type="hidden" name="user_Name" value="${member.member_ID}">
 						
 							<div class="col-lg-12">
-							<ul>
+							<ul id="addForm">
 								<li>${r.reply_Contents}<span>${r.user_Name}</span></li>
 							</ul>
 							</div>
 							
 						</form>
+						
+						<!-- reply delete -->
+						
 							
 						<form id="contactForm" action="" method="post" enctype="multipart/form-data">
 								
@@ -125,20 +132,22 @@
 						
 							<br><br>
 
+						<!-- reply add -->
 						
 
-						<form id="contactForm" action="/reply/add" method="post" enctype="multipart/form-data">
-
+ 						<form id="replyAddFrom" method="post" action="/board/detail">
+ 
 							<div class="d-none" id="submitErrorMessage">
 								<div class="text-center text-danger mb-3">Error sending message!</div>
 							</div>
 							
 							<div class="col-lg-12 input-group mb-3">
-								<input type="text" class="form-control" aria-label="Recipient's username" aria-describedby="button-addon2">
-								<button class="btn btn-outline-secondary" type="submit" id="submitButton button-addon2">Add</button>
+								<input type="text" name="replyAddVal" class="form-control" aria-label="Recipient's username" aria-describedby="button-addon2">
+								<button class="btn btn-outline-secondary" type="submit" id="submitButton button-addon2 replyAddBtn">Add</button>
 							</div>
 
-						</form>
+ 						</form>
+
 							
 
 						
@@ -163,9 +172,7 @@
       </div>
    </div>
    </div>
-    
-
-
+   
 
 
   <c:import url="../temps/footer.jsp"></c:import>
@@ -183,5 +190,8 @@
   });
   
   </script>
+  
+  	<script src="/boardDetail.js" type="text/javascript"></script>
+  
 
 </html>

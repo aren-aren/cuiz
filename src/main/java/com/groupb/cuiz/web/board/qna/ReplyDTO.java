@@ -1,6 +1,7 @@
 package com.groupb.cuiz.web.board.qna;
 
 import java.sql.Date;
+import java.util.List;
 
 public class ReplyDTO {
 	
@@ -9,6 +10,7 @@ public class ReplyDTO {
 	private String user_Name;
 	private String reply_Contents;
 	private Date reply_Date;
+	
 	
 	
 	

@@ -54,6 +54,12 @@ public class QnaDAO  implements BoardDAO{
 		return sqlSession.delete(namespace+"getDelete", boardDTO);
 	}
 
+	@Override
+	public BoardDTO getDetail(BoardDTO boardDTO, Pager pager) throws Exception {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
 
 //	public int getFileAdd(BoardFileDTO boardFileDTO) throws Exception {
 		// TODO Auto-generated method stub
