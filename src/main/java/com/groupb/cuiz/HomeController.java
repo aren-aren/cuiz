@@ -3,6 +3,10 @@ package com.groupb.cuiz;
 
 import java.util.List;
 
+import com.groupb.cuiz.support.util.pager.Pager;
+import com.groupb.cuiz.web.quiz.QuizDTO;
+import com.groupb.cuiz.web.quiz.QuizListDTO;
+import com.groupb.cuiz.web.quiz.QuizService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -22,14 +26,28 @@ public class HomeController {
 	
 	@Autowired
 	private RankingService service;
+
+	@Autowired
+	private QuizService quizService;
 	
 	@RequestMapping(value = "/", method = RequestMethod.GET)
 	public String home(Model model) throws Exception {
-	
+
 		List<RankingDTO> ar = service.getList();
 		List<QnaDTO> ar2 = service.getQNAList();
+
+		Pager pager = new Pager();
+		pager.setPerPage(5L);
+		pager.setSort("3");
+
+		List<QuizListDTO> quizs = quizService.getList(pager);
+
+
+
 		model.addAttribute("list", ar);
 		model.addAttribute("list2", ar2);
+		model.addAttribute("quizs", quizs);
+
 		return "index";
 	}
 	

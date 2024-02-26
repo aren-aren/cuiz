@@ -1,5 +1,7 @@
 package com.groupb.cuiz.web.board;
 
+import java.sql.Timestamp;
+import java.time.LocalDateTime;
 import java.sql.Date;
 
 public class BoardDTO {
@@ -9,7 +11,7 @@ public class BoardDTO {
 	private String member_ID;
 	private String member_Nick;
 	private String board_Contents;
-	private Date board_Date;
+	private Timestamp board_Date;
 	private Long board_Hit;
 	
 	
@@ -46,12 +48,15 @@ public class BoardDTO {
 	public void setBoard_Contents(String board_Contents) {
 		this.board_Contents = board_Contents;
 	}
-	public Date getBoard_Date() {
+
+	public Timestamp getBoard_Date() {
 		return board_Date;
 	}
-	public void setBoard_Date(Date board_Date) {
+
+	public void setBoard_Date(Timestamp board_Date) {
 		this.board_Date = board_Date;
 	}
+
 	public Long getBoard_Hit() {
 		return board_Hit;
 	}
