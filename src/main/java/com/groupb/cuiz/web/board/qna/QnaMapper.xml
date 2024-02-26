@@ -39,6 +39,7 @@
   <select id="getList" resultMap="QnaResult" parameterType="Pager">
   	SELECT
 	  	MEMBER_ID
+	  , MEMBER_NICK
 	  , BOARD_NUM
 	  , BOARD_TITLE
 	  , BOARD_CONTENTS
@@ -50,6 +51,7 @@
   	(SELECT ROWNUM R, N.*FROM
   		(
   			SELECT * FROM QNA
+	  			INNER JOIN MEMBER USING(MEMBER_ID)
 	  		<include refid="linkQuiz"></include>
   			<include refid="search"></include>
   			ORDER BY BOARD_REF DESC, BOARD_STEP ASC
@@ -102,6 +104,7 @@
   <select id="getDetail" parameterType="BoardDTO" resultMap="QnaResult">
 	  SELECT
 	  	  MEMBER_ID
+	  	, MEMBER_NICK
 	  	, BOARD_NUM
 	    , BOARD_TITLE
 	  	, BOARD_CONTENTS
@@ -111,6 +114,7 @@
 	  	, QUIZ_NO
 		, SOURCECODE
 	  FROM QNA
+	  	INNER JOIN MEMBER USING(MEMBER_ID)
 	  <include refid="linkQuiz"/>
   		WHERE BOARD_NUM=#{board_Num}
   </select>
