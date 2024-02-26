@@ -48,7 +48,9 @@
  	</update>
 	
 	<select id="getList" resultType="RankingDTO" >
-		SELECT * FROM RANKING	
+		SELECT *
+		FROM RANKING
+			INNER JOIN MEMBER USING(MEMBER_ID)
 	</select>
 	<!-- ranking 끝 -->
 	<!-- 게시판 리스트도 그냥 여기에서 할게요 -->
