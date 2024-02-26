@@ -6,6 +6,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import com.groupb.cuiz.web.quiz.QuizDTO;
+import com.groupb.cuiz.web.quiz.QuizEnum;
 import com.groupb.cuiz.web.ranking.RankingDAO;
 import com.groupb.cuiz.web.ranking.RankingDTO;
 
@@ -31,6 +32,8 @@ public class DailyRanking {
 					List<QuizDTO> quizNO = dao.getQuizNO(dto);
 						for(QuizDTO quizDTO : quizNO) {
 							int level = dao.getJumsu(quizDTO);
+							QuizEnum e = QuizEnum.get(level);
+							jumsu+= e.getJumsu();
 							//이넘 활용해서 점수 가져와야함
 						}
 					dto.setDaily_Jumsu(jumsu);
