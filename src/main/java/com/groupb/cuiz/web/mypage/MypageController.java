@@ -6,6 +6,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import javax.servlet.http.HttpSession;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -42,9 +44,15 @@ public class MypageController {
 	
 //	sangul
 	@GetMapping("yours")
-	public String yours(MemberDTO dto,Model model) {
+	public String yours(MemberDTO dto,Model model,HttpSession session) {
 		dto = mypageService.temp(dto);
 		
+		MemberDTO memberDTO = (MemberDTO)session.getAttribute("member");
+		if(memberDTO != null) {
+			if(memberDTO.getMember_ID().equals(dto.getMember_ID())) {
+				return "/mypage/profile";
+			}
+		}
 		model.addAttribute("yours", dto);
 		
 		return "/mypage/yours";

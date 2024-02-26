@@ -25,7 +25,7 @@
 	</select>
 
 	<select id="getJumsu" resultType="int" parameterType="QuizDTO">
-		SELECT QUIZ_POINT  FROM QUIZ WHERE QUIZ_NO = #{quiz_No}
+		SELECT QUIZ_LEVEL  FROM QUIZ WHERE QUIZ_NO = #{quiz_No}
 	</select>
 	
 	<update id="setJumsu" parameterType="RankingDTO">
@@ -51,6 +51,7 @@
 		SELECT *
 		FROM RANKING
 			INNER JOIN MEMBER USING(MEMBER_ID)
+			ORDER BY DAILY_JUMSU DESC
 	</select>
 	<!-- ranking 끝 -->
 	<!-- 게시판 리스트도 그냥 여기에서 할게요 -->
