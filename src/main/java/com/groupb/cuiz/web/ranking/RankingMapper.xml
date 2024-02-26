@@ -35,7 +35,8 @@
 	<select id="getRanking" resultType="RankingDTO">
 		SELECT * FROM (
    			 SELECT ROWNUM AS R, RK.* FROM (
-     		   SELECT * FROM RANKING ORDER BY DAILY_JUMSU DESC) RK
+     		   SELECT * FROM RANKING
+				ORDER BY DAILY_JUMSU DESC) RK
       	  	 WHERE ROWNUM &lt;= 5)
 	</select>
 	
@@ -53,12 +54,47 @@
 	<!-- 게시판 리스트도 그냥 여기에서 할게요 -->
 	
 	<select id="getQNAList" resultType="QnaDTO">
-		SELECT * FROM 
-			(SELECT ROWNUM AS R, QL.*
-				FROM QNA QL
-					WHERE flag =0
-					ORDER BY BOARD_NUM DESC)
-					WHERE R &lt;= 5
+		SELECT
+		  MEMBER_ID
+		, MEMBER_NICK
+		, BOARD_NUM
+		, BOARD_TITLE
+		, BOARD_CONTENTS
+		, BOARD_DATE
+		, BOARD_HIT
+		, FLAG
+		, QUIZ_NO
+		FROM(
+			SELECT
+			  ROWNUM AS R
+			, MEMBER_ID
+			, MEMBER_NICK
+			, BOARD_NUM
+			, BOARD_TITLE
+			, BOARD_CONTENTS
+			, BOARD_DATE
+			, BOARD_HIT
+			, FLAG
+			, QUIZ_NO
+			FROM (
+				SELECT
+				  m.MEMBER_ID
+				, m.MEMBER_NICK
+				, qa.BOARD_NUM
+				, qa.BOARD_TITLE
+				, qa.BOARD_CONTENTS
+				, qa.BOARD_DATE
+				, qa.BOARD_HIT
+				, qa.FLAG
+				, bql.QUIZ_NO
+				FROM QNA qa
+					INNER JOIN MEMBER m ON m.MEMBER_ID = qa.MEMBER_ID
+					LEFT JOIN BOARD_QUIZ_LINK bql ON bql.BOARD_NUM = qa.BOARD_NUM
+				WHERE flag =0
+				ORDER BY BOARD_DATE DESC
+			)
+		) temp
+		WHERE R &lt;= 5
 	</select>
 	
 </mapper>
