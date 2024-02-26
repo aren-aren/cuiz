@@ -7,6 +7,7 @@ public class BoardDTO {
 	private Long board_Num;
 	private String board_Title;
 	private String member_ID;
+	private String member_Nick;
 	private String board_Contents;
 	private Date board_Date;
 	private Long board_Hit;
@@ -30,6 +31,15 @@ public class BoardDTO {
 	public void setMember_ID(String member_ID) {
 		this.member_ID = member_ID;
 	}
+
+	public String getMember_Nick() {
+		return member_Nick;
+	}
+
+	public void setMember_Nick(String member_Nick) {
+		this.member_Nick = member_Nick;
+	}
+
 	public String getBoard_Contents() {
 		return board_Contents;
 	}

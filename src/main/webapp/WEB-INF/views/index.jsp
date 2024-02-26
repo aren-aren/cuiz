@@ -46,35 +46,45 @@
               </div>
             </div>
           </div>
-          <!-- ***** Banner End ***** -->
-
-          <!-- ***** Most Popular Start ***** -->
-          <div class="gaming-library">
-            <div class="row">
-              <div class="col-lg-12">
-                <div class="heading-section">
-                  <h4>최신 게시글</h4>
-                </div>
-                	<c:forEach items="${list2}" var="dto" varStatus="status">
-		              <div class="item">
-		                <ul>
-		                  <li><h4>제목</h4><span>${dto.board_Title}</span></li>
-		                  <li><h4>작성자</h4><span>${dto.member_ID}</span></li>
-		                  <li><h4>조회수</h4><span><i class="fa-regular fa-eye"></i> ${dto.board_Hit}</span></li>
-		                  <li><div class="main-border-button"><a href="/qna/detail?board_Num=${dto.board_Num}">내용보기</a></div></li>
-		                </ul>
-		              </div>
-		              
-	              </c:forEach>
-              </div>
-            </div>
-          </div>
           <!-- ***** Most Popular End ***** -->
 
           <!-- ***** Gaming Library Start ***** -->
-          
+
 	          <div class="gaming-library">
-	            <div class="col-lg-12">
+                  <div class="row">
+                      <div class="col-lg-4">
+                          <div class="top-streamers">
+                              <div class="heading-section">
+                                  <h4><em>최신</em> 게시글</h4>
+                              </div>
+                              <ul>
+                                  <c:forEach items="${list2}" var="dto">
+                                  <li>
+                                      <a href="#">${dto.member_Nick}</a>
+                                      <h6>${dto.board_Title}</h6>
+                                      <span>${dto.board_Date}</span>
+                                  </li>
+                                  </c:forEach>
+                              </ul>
+                          </div>
+                      </div>
+                  <div class="col-lg-4">
+                      <div class="heading-section">
+                          <h4>최신 게시글</h4>
+                      </div>
+                      <c:forEach items="${list2}" var="dto" varStatus="status">
+                          <div class="item">
+                              <ul>
+                                  <li><h4>제목</h4><span>${dto.board_Title}</span></li>
+                                  <li><h4>작성자</h4><span>${dto.member_ID}</span></li>
+                                  <li><h4>조회수</h4><span><i class="fa-regular fa-eye">${dto.board_Hit}</span></li>
+                                  <li><div class="main-border-button"><a href="/qna/detail?board_Num=${dto.board_Num}">내용보기</a></div></li>
+                              </ul>
+                          </div>
+
+                      </c:forEach>
+                  </div>
+	            <div class="col-lg-4">
 	              <div class="heading-section">
 	                <h4>일일 랭킹</h4>
 	              </div>
@@ -92,16 +102,16 @@
 		                </c:if>
 		                 <c:if test="${status.index+1 eq 4  || status.index+1 eq 5}">
 		                  <li><img src="" alt="" class="templatemo-item"></li>
-		                </c:if>        
+		                </c:if>
 		                  <li><h4>닉네임</h4><span>${dto.member_Nick}</span></li>
 		                  <li><h4>오늘의 점수</h4><span>${dto.daily_Jumsu}</span></li>
 		                  <li><div class="main-border-button"><a href="/mypage/yours?member_ID=${dto.member_ID}">정보보러가기</a></div></li>
 		                </ul>
 		              </div>
-		              
+
 	              </c:forEach>
 	            </div>
-	            
+                  </div>
 	          </div>
           <!-- ***** Gaming Library End ***** -->
         </div>

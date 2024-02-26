@@ -72,7 +72,7 @@
 										<ul>
 											<li><h3>${dto.board_Num}</h3></li>
 											<li><h3>${dto.board_Title}</h3></li>
-											<li><h3>${dto.member_ID}</h3></li>
+											<li><h3>${dto.member_Nick}</h3></li>
 											<li><h3>${dto.board_Date}</h3></li>
 											<li>
 												<c:if test="${not empty member}">
