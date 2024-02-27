@@ -116,7 +116,7 @@
 							<div class="main-border-button" style=" float: right; margin-bottom: 40px;">
  							<c:if test="${r.user_Name eq member.member_ID}">
  							<c:if test="${not empty member}">
-								<a id="delete2" href="#">Delete</a>
+								<a class="delete2" href="#">Delete</a>
 							</c:if>
  							</c:if>
  							<input type="hidden" name="reply_Num" value="${r.reply_Num}">
@@ -150,7 +150,7 @@
 							</div>
 							
 							<div class="col-lg-12 input-group mb-3">
-								<input type="text" name="replyAddVal" class="form-control" aria-label="Recipient's username" aria-describedby="button-addon2">
+								<textarea name="replyAddVal" class="form-control" aria-label="Recipient's username" aria-describedby="button-addon2"></textarea>
 								<input type="hidden" id="user_name" value="${member.member_ID}" />
 								<button class="btn btn-outline-secondary" type="button" id="replyAddBtn">Add</button>
 							</div>
@@ -191,18 +191,23 @@
   <script>
   const del = document.getElementById("delete");
   const frm = document.querySelector("#contactForm");
-  const del2 = document.getElementById("delete2");
+  const del2 = document.getElementsByClassName("delete2");
   const frm2 = document.querySelector("#contactForm2");
 
-  del.addEventListener("click", (e)=>{
-      e.preventDefault();
-      frm.submit();
-  }); 
+  if(del==!null){
+	  
+	  del.addEventListener("click", (e)=>{
+	      e.preventDefault();
+	      frm.submit();
+	  }); 
+  }
  
- del2.addEventListener("click", (e)=>{
-     e.preventDefault();
-     frm2.submit();
- });  
+  if(del2==!null){
+	 del2.addEventListener("click", (e)=>{
+	     e.preventDefault();
+	     frm2.submit();
+	 }); 
+  }
 
   </script>
   
