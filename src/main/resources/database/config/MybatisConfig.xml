@@ -29,6 +29,7 @@
 		 <typeAlias type="com.groupb.cuiz.web.quiz.MemberAnswerDTO" alias="MemberAnswerDTO"/>
 		 <typeAlias type="com.groupb.cuiz.web.quiz.QuizListDTO" alias="QuizListDTO"/>
 		 <typeAlias type="com.groupb.cuiz.web.quiz.AnswerShowDTO" alias="AnswerShowDTO"/>
+		 <typeAlias type="com.groupb.cuiz.web.quiz.JumsuUpdateDTO" alias="JumsuUpdateDTO"/>
 
 		 <typeAlias type="com.groupb.cuiz.web.item.ItemDTO" alias="ItemDTO"/>
 		 <typeAlias type="com.groupb.cuiz.web.purchase.PurchaseDTO" alias="PurchaseDTO"/>

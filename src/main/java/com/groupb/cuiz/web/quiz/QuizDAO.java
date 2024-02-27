@@ -74,4 +74,8 @@ public class QuizDAO {
     public Long getAnswerTotalCount(Map<String, Object> map) {
         return sqlSession.selectOne(NAMESPACE + "getAnswerTotalCount", map);
     }
+
+    public JumsuUpdateDTO getJumsuData(QuizDTO quizDTO) {
+        return sqlSession.selectOne(NAMESPACE + "getJumsuData", quizDTO);
+    }
 }

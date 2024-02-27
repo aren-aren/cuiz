@@ -102,7 +102,7 @@ public class QuizService {
 
         Integer quizLevel = quizDAO.getQuizLevel(answerDTO);
 
-        if(answerDTO.getAnswer_Check()){
+        if(answerDTO.getAnswer_Check() && (oldAnswer == null || !oldAnswer.getAnswer_Check())){
             memberDTO.setMember_Coin(memberDTO.getMember_Coin() + QuizEnum.get(quizLevel).getPrice());
             memberDAO.setCoin(memberDTO);
             memberDTO.setMember_Jumsu(memberDTO.getMember_Jumsu() + QuizEnum.get(quizLevel).getJumsu());
@@ -356,4 +356,14 @@ public class QuizService {
     }
 
 
+    public JumsuUpdateDTO getJumsuData(QuizDTO quizDTO) {
+        JumsuUpdateDTO jumsuUpdateDTO = quizDAO.getJumsuData(quizDTO);
+
+        Integer level = jumsuUpdateDTO.getUpJumsu();
+        jumsuUpdateDTO.setUpJumsu(QuizEnum.get(level).getJumsu());
+
+        jumsuUpdateDTO.setOldJumsu(jumsuUpdateDTO.getOldJumsu() - jumsuUpdateDTO.getUpJumsu());
+
+        return jumsuUpdateDTO;
+    }
 }
