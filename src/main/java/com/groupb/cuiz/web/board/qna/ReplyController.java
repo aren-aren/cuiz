@@ -22,6 +22,17 @@ public class ReplyController {
 	@Autowired
 	private ReplyService replyService;
 	
+	@PostMapping("delete")
+	public String getDelete(ReplyDTO replyDTO,Model model) throws Exception {
+		int result = replyService.getDelete(replyDTO);
+		System.out.println(replyDTO.getReply_Num());
+		System.out.println("delete controller 진입");
+		model.addAttribute("num",replyDTO.getBoard_Num());
+		
+		return "reply/delete";
+	
+	}
+	
 	
 	@GetMapping("add")
 	public String getAdd()throws Exception{
@@ -29,17 +40,25 @@ public class ReplyController {
 	}
 	
 	@PostMapping("add")
-	public String getAdd(ReplyDTO replyDTO, HttpSession session, MultipartFile [] attachs)throws Exception{
-		MemberDTO memberDTO = (MemberDTO) session.getAttribute("member");
-		replyDTO.setUser_Name(memberDTO.getMember_ID());
+	public String getAdd(ReplyDTO replyDTO, HttpSession session, Model model, Pager pager)throws Exception{
 		
-		int result = replyService.getAdd(replyDTO, attachs);		
-		return "board/detail";
+		System.out.println("reply_Contents = "+ replyDTO.getReply_Contents( ));
+		System.out.println("board_num = " + replyDTO.getBoard_Num());
+		System.out.println("user_Name = " + replyDTO.getUser_Name());
+		
+		int result = replyService.getAdd(replyDTO);	
+		
+		model.addAttribute("result", result);
+		
+		List<ReplyDTO> ar = replyService.getList(pager, replyDTO);
+		model.addAttribute("list", ar);
+		
+		return "/commons/ajaxResult";
 	}
 	
 	@PostMapping("list")
-	public String getList(Pager pager ,Model model)throws Exception{
-		List<ReplyDTO> ar = replyService.getList(pager);
+	public String getList(Pager pager , ReplyDTO replyDTO, Model model)throws Exception{
+		List<ReplyDTO> ar = replyService.getList(pager, replyDTO);
 		model.addAttribute("list", ar);
 		model.addAttribute("pager", pager);
 		
