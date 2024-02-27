@@ -19,19 +19,28 @@ public class ReplyService {
 	@Autowired
 	private ServletContext servletContext;
 
-	public List<ReplyDTO> getList(Pager pager) throws Exception {
+	public List<ReplyDTO> getList(Pager pager, ReplyDTO replyDTO) throws Exception {
 		// TODO Auto-generated method stub
 		pager.makeRow();
 		
-		pager.makeNum(replyDAO.getTotalCount(pager));
+		pager.makeNum(replyDAO.getTotalCount(replyDTO));
 		
 		return replyDAO.getList(pager);
 	}
 
-	public int getAdd(ReplyDTO replyDTO, MultipartFile[] attachs) throws Exception{
+	public int getAdd(ReplyDTO replyDTO) throws Exception{
 		// TODO Auto-generated method stub
 		
 		int result = replyDAO.getAdd(replyDTO);
+		
+		return result;
+		
+	}
+		
+	public int getDelete(ReplyDTO replyDTO) throws Exception{
+		// TODO Auto-generated method stub
+		
+		int result = replyDAO.getDelete(replyDTO);
 		
 		return result;
 

@@ -6,13 +6,10 @@
  <mapper namespace="com.groupb.cuiz.web.board.qna.ReplyDAO">
 
  <insert id="getAdd" parameterType="ReplyDTO">
- 	<selectKey keyProperty="reply_Num" resultType="Long" order="BEFORE">
-    		SELECT QNA_SEQ.NEXTVAL FROM DUAL
-    </selectKey>
  	INSERT INTO REPLY
  	(REPLY_NUM, BOARD_NUM, USER_NAME, REPLY_CONTENTS, REPLY_DATE)
  	VALUES
- 	(#{reply_Num}, #{board_Num}, #{user_Name}, #{reply_Contents}, SYSDATE)
+ 	(QNA_SEQ.NEXTVAL, #{board_Num}, #{user_Name}, #{reply_Contents}, SYSDATE)
  </insert>
  
  <select id="getTotalCount" parameterType="ReplyDTO" resultType="Long">
@@ -24,9 +21,13 @@
  	SELECT * FROM
  	(SELECT ROWNUM RN, R. * FROM
  	(SELECT * FROM REPLY
- 	WHERE BOARD_NUM=#{replyDTO.board_Num}
  	ORDER BY REPLY_NUM DESC)
  	R)
  	WHERE RN BETWEEN #{startRow} AND #{lastRow}
  </select>
+ 
+  <delete id="getDelete" parameterType="ReplyDTO">
+  	DELETE REPLY WHERE REPLY_NUM=#{reply_Num}
+  </delete>
+  
 </mapper>

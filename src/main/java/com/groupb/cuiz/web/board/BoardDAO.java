@@ -16,12 +16,15 @@ public interface BoardDAO {
 	public int getAdd(BoardDTO boardDTO) throws Exception;
 	
 	//detail
-	public BoardDTO getDetail(BoardDTO boardDTO) throws Exception;
+	public BoardDTO getDetail(BoardDTO boardDTO, Pager pager) throws Exception;
 	
 	//update
 	public int getUpdate(BoardDTO boardDTO) throws Exception;
 	
 	//delete
 	public int getDelete(BoardDTO boardDTO) throws Exception;
+
+	BoardDTO getDetail(BoardDTO boardDTO) throws Exception;
+
 
 }

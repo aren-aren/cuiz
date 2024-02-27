@@ -76,4 +76,10 @@ public class NoticeDAO implements BoardDAO{
 		return sqlSession.delete(namespace+"getFileDelete", boardDTO);
 	}
 
+	@Override
+	public BoardDTO getDetail(BoardDTO boardDTO, Pager pager) throws Exception {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
 }
