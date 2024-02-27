@@ -39,10 +39,12 @@
 							<div class="row">
 								<c:set var="b" value="${board}"></c:set>
 				                  <c:if test="${b eq 'QnA'}" >
-				                  	<div class="main-border-button" align="right">
-										<a href="#">
-										Cuiz Attach</a>
-									</div>
+									  <div class="col-3"></div>
+									  <div class="col-3"></div>
+									  <div class="col-3"></div>
+									  <div class="col-3">
+				                  		<button id="quiz-attach-btn" class="btn btn-cuiz float-end">QuizAttach</button>
+									  </div>
 				                  </c:if>
 									<div class="item heading-section" style= "margin-top: 5px">
 										<form id="contactForm" action="add" method="post" enctype="multipart/form-data">
@@ -75,7 +77,7 @@
 											</div>
 											<div class="col-lg-12">
 												<div class="d-grid">
-													<button class="btn btn-primary btn-lg" id="submitButton" type="submit">Save</button>
+													<button class="btn btn-cuiz btn-lg" id="submitButton" type="submit">Save</button>
 												</div>
 											</div>
 									</form>
@@ -89,12 +91,36 @@
    		</div>
 	</div>
 
+  <!-- Modal -->
+  <div class="modal fade" id="quiz-attach-modal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
+	   aria-labelledby="staticBackdropLabel" aria-hidden="true">
+	  <div class="modal-dialog">
+		  <div class="modal-content">
+			  <div class="modal-header">
+				  <h1 class="modal-title fs-5 text-dark" id="staticBackdropLabel">등록할 코드를 고르세요</h1>
+				  <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+			  </div>
+			  <div id="sampleRunModalBody" class="modal-body">
+				  <div class="mb-3">
+					  <input id="code-find-input" type="text" class="form-control">
+				  </div>
+				  <div id="code-content-div">
 
+				  </div>
+			  </div>
+			  <div class="modal-footer">
+				  <button id="addSubmit" type="button" class="btn btn-primary">선택하기</button>
+				  <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">닫기</button>
+			  </div>
+		  </div>
+	  </div>
+  </div>
 
 
 
 
   <c:import url="../temps/footer.jsp"></c:import>
+<script src="/resources/js/board/add.js"></script>
 
   </body>
 
