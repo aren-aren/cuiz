@@ -24,6 +24,7 @@ const onInitEditor = () => {
         System.out.println("hello, world");
     }
 }`
+
     document.getElementById("quiz-member-code").value = defaultSourcecode;
     document.getElementById("solve-result").innerHTML = "실행결과가 여기에 표시됩니다.";
     document.getElementById("hint-tip").classList.add("d-none");
@@ -49,6 +50,38 @@ const onRunCode = ()=> {
         .then(r=> showSolveResult(r.testcase_Results, false))
 }
 
+function countNumber(target, start, up, step){
+    for(let i = 1 ; i <= step ; ++i){
+        let nowStep = (i*up)/step;
+        setTimeout(()=>{
+            target.innerText = (parseInt(start) + parseInt(nowStep));
+        },(1000*i)/step);
+    }
+}
+
+function answerCorrectProcess() {
+    fetch("getJumsuData?quiz_No=" + quizNo.value,{
+        method : "get",
+        headers : {
+            "Content-Type":"application/json"
+        }
+    }).then(r=> r.json())
+        .then(r=>{
+            document.querySelectorAll(".correct-notice").forEach(e=>e.classList.remove("d-none"));
+            document.querySelectorAll(".hint-notice").forEach(e=>e.classList.add("d-none"));
+
+            const jumsuResultArea = document.getElementById("jumsu-result-area");
+            const jumsuUpArea = document.getElementById("jumsu-up-area");
+
+            jumsuResultArea.innerText = r.oldJumsu;
+            jumsuUpArea.innerText = r.upJumsu;
+
+            countNumber(jumsuResultArea, r.oldJumsu, r.upJumsu, 13);
+
+            answerCorrectModal.show();
+        })
+}
+
 /**
  * 최종 완료된 코드를 서버로 전송/제출 `채점`한다.
  * @returns {null}
@@ -67,11 +100,7 @@ const onSubmit = () => {
     }).then(r => r.json())
         .then(r => {
             showSolveResult(r.testcase_Results, true);
-            if (r.answer_Check) {
-                document.querySelectorAll(".correct-notice").forEach(e=>e.classList.remove("d-none"));
-                document.querySelectorAll(".hint-notice").forEach(e=>e.classList.add("d-none"));
-                answerCorrectModal.show();
-            }
+            if (r.answer_Check) answerCorrectProcess();
         })
 }
 
@@ -94,7 +123,6 @@ const onHintBtnClick = event => {
  * @param results
  */
 function showSolveResult(results, isSubmit){
-    console.log(results);
     let resultTemplate = "";
     let index = 1;
     for (let result of results) {

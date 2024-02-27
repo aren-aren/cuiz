@@ -16,6 +16,7 @@
 
 		 <typeAlias type="com.groupb.cuiz.web.member.MemberDTO" alias="MemberDTO"/>
 		 <typeAlias type="com.groupb.cuiz.web.member.role.RoleDTO" alias="RoleDTO"/>
+		 <typeAlias type="com.groupb.cuiz.web.member.role.RoleDTO" alias="RoleDTO"/>
 
 		 <typeAlias type="com.groupb.cuiz.web.board.BoardDTO" alias="BoardDTO"/>
 		 <typeAlias type="com.groupb.cuiz.web.board.notice.NoticeDTO" alias="NoticeDTO"/>
@@ -23,16 +24,17 @@
 		 <typeAlias type="com.groupb.cuiz.web.board.qna.ReplyDTO" alias="ReplyDTO"/>
 		 <typeAlias type="com.groupb.cuiz.web.board.BoardFileDTO" alias="BoardFileDTO"/>
 
-		 <typeAlias type="com.groupb.cuiz.web.item.ItemDTO" alias="ItemDTO"/>
-		 <typeAlias type="com.groupb.cuiz.web.purchase.PurchaseDTO" alias="PurchaseDTO"/>
-		 <typeAlias type="com.groupb.cuiz.web.member.role.RoleDTO" alias="RoleDTO"/>
-		 <typeAlias type="com.groupb.cuiz.web.mypage.MypageSetDTO" alias="MypageSetDTO"/>
-
 		 <typeAlias type="com.groupb.cuiz.web.quiz.TestcaseDTO" alias="TestcaseDTO"/>
 		 <typeAlias type="com.groupb.cuiz.web.quiz.QuizDTO" alias="QuizDTO"/>
 		 <typeAlias type="com.groupb.cuiz.web.quiz.MemberAnswerDTO" alias="MemberAnswerDTO"/>
 		 <typeAlias type="com.groupb.cuiz.web.quiz.QuizListDTO" alias="QuizListDTO"/>
 		 <typeAlias type="com.groupb.cuiz.web.quiz.AnswerShowDTO" alias="AnswerShowDTO"/>
+		 <typeAlias type="com.groupb.cuiz.web.quiz.JumsuUpdateDTO" alias="JumsuUpdateDTO"/>
+
+		 <typeAlias type="com.groupb.cuiz.web.item.ItemDTO" alias="ItemDTO"/>
+		 <typeAlias type="com.groupb.cuiz.web.purchase.PurchaseDTO" alias="PurchaseDTO"/>
+		 <typeAlias type="com.groupb.cuiz.web.mypage.MypageSetDTO" alias="MypageSetDTO"/>
 		 <typeAlias type="com.groupb.cuiz.web.ranking.RankingDTO" alias="RankingDTO"/>
+		 <typeAlias type="com.groupb.cuiz.web.statistic.StatisticDTO" alias="StatisticDTO"/>
 	 </typeAliases>
 </configuration>

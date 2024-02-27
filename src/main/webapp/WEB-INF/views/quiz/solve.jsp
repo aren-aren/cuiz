@@ -60,7 +60,7 @@
                                 <c:forEach items="${dto.testcase}" var="tc">
                                     <tr>
                                         <td>${tc.testcase_Input}</td>
-                                        <td>${tc.testcase_Output}</td>
+                                        <td><pre>${tc.testcase_Output}</pre></td>
                                     </tr>
                                 </c:forEach>
                                 </tbody>
@@ -136,7 +136,7 @@ ${answer.sourcecode}
                 <div class="d-none correct-notice">
                     <div class="modal-body">
                         <h2 class="text-black">정답입니다.</h2>
-                        <h5 class="text-black">대충 점수 올랐단는 알림</h5>
+                        <h5 class="text-black"><span id="jumsu-result-area">0</span>(+<span id="jumsu-up-area">0</span>)</h5>
                     </div>
                 </div>
                 <div class="d-none hint-notice">
