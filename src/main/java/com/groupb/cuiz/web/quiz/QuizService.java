@@ -331,7 +331,7 @@ public class QuizService {
         return quizDAO.getTestCases(map);
     }
 
-    public List<MemberAnswerDTO> getAnswers(QuizDTO quizDTO, Pager pager) {
+    public List<AnswerShowDTO> getAnswers(QuizDTO quizDTO, Pager pager) {
         Map<String, Object> map = new HashMap<>();
         map.put("dto", quizDTO);
         map.put("pager", pager);
@@ -350,7 +350,13 @@ public class QuizService {
         return quizDAO.getAnswers(map);
     }
 
+    public List<MemberAnswerDTO> getAnswers(MemberDTO memberDTO) {
+        return quizDAO.getMemberAnswers(memberDTO);
+    }
+
     public QuizDTO getQuizInfo(QuizDTO quizDTO) {
         return quizDAO.getDetail(quizDTO);
     }
+
+
 }

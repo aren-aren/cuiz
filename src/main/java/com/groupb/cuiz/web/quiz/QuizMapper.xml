@@ -178,7 +178,7 @@
         DELETE FROM TESTCASE WHERE TESTCASE_NO=#{testcase_No}
     </delete>
 
-    <select id="getAnswers" parameterType="Map" resultMap="getAnswersResult">
+    <select id="getAnswers" parameterType="Map" resultType="AnswerShowDTO">
         SELECT
               mqa.MEMBER_ID
             , MEMBER_NICK
@@ -190,15 +190,16 @@
         WHERE QUIZ_NO = #{dto.quiz_No} AND ANSWER_CHECK = 1
     </select>
 
-    <resultMap id="getAnswersResult" type="MemberAnswerDTO">
-        <result column="MEMBER_ID" property="member_Id"/>
-        <result column="SOURCECODE" property="sourcecode"/>
-        <result column="ANSWER_DATE" property="answer_Date"/>
-        <association property="memberDTO" javaType="MemberDTO">
-            <result column="MEMBER_NICK" property="member_Nick"/>
-            <result column="MEMBER_PROFILE_BLOB" property="member_Profile_Blob"/>
-        </association>
-    </resultMap>
+    <select id="getMemberAnswers" parameterType="MemberDTO" resultType="MemberAnswerDTO">
+        SELECT
+              QUIZ_NO
+            , QUIZ_TITLE
+            , ANSWER_CHECK
+            , ANSWER_DATE
+        FROM MEMBER_QUIZ_ANSWER mqa
+            INNER JOIN QUIZ USING(QUIZ_NO)
+        WHERE mqa."MEMBER_ID" = #{member_ID}
+    </select>
 
     <select id="getAnswerTotalCount" parameterType="Map" resultType="Long">
         SELECT COUNT(mqa.MEMBER_ID)

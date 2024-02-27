@@ -64,9 +64,9 @@ nav > .pagination > .page-item > .page-link:hover{
     --bs-btn-disabled-border-color:#970e2d
 }
 
-.row > .col-2, .row > .col-7, .row > .col-1{
+.row > *{
     padding: 2px;
-    margin-bottom: 1.75rem;
+    margin-bottom: 1.55rem;
 }
 
 .CodeMirror{
@@ -112,4 +112,32 @@ nav > .pagination > .page-item > .page-link:hover{
 
 .button.disabled{
     pointer-events: none;
+}
+
+a.main-list-other{
+    color : #f76e9d;
+}
+
+a.main-list-other:hover{
+    text-decoration: underline !important;
+}
+
+li.main-list{
+    border-bottom: 1px solid #656667 !important;
+}
+
+li.main-list:last-child{
+    border-bottom: 0 !important;
+}
+
+a.main-list-title{
+    color : white;
+}
+
+a.main-list-title:hover{
+    color : #F99
+}
+
+div.text-cuiz{
+    color : #f76e9d !important;
 }

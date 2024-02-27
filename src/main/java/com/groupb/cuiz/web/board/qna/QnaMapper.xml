@@ -18,21 +18,60 @@
   		</if>
   	</where>
   </sql>
-  
+
+	<sql id="linkQuiz">
+		LEFT JOIN (
+			SELECT
+				  BOARD_NUM
+				, QUIZ_NO
+		<if test="_parameter instanceof com.groupb.cuiz.web.board.BoardDTO">
+				, CASE WHEN WITH_CODE=1 THEN SOURCECODE ELSE NULL END "SOURCECODE"
+		</if>
+			FROM BOARD_QUIZ_LINK
+		<if test="_parameter instanceof com.groupb.cuiz.web.board.BoardDTO">
+				INNER JOIN MEMBER_QUIZ_ANSWER USING(QUIZ_NO)
+		</if>
+		)
+		USING(BOARD_NUM)
+	</sql>
   
   <!-- list -->
-  <select id="getList" resultType="QnaDTO" parameterType="Pager">
-  	SELECT * FROM
+  <select id="getList" resultMap="QnaResult" parameterType="Pager">
+  	SELECT
+	  	MEMBER_ID
+	  , MEMBER_NICK
+	  , BOARD_NUM
+	  , BOARD_TITLE
+	  , BOARD_CONTENTS
+	  , BOARD_DATE
+	  , BOARD_HIT
+	  , FLAG
+	  , QUIZ_NO
+	FROM
   	(SELECT ROWNUM R, N.*FROM
   		(
   			SELECT * FROM QNA
+	  			INNER JOIN MEMBER USING(MEMBER_ID)
+	  		<include refid="linkQuiz"></include>
   			<include refid="search"></include>
   			ORDER BY BOARD_REF DESC, BOARD_STEP ASC
   		)
   	N)
   	WHERE R BETWEEN #{startRow} AND #{lastRow}
   </select>
-  
+	<resultMap id="QnaResult" type="QnaDTO">
+		<id column="BOARD_NUM" property="board_Num"/>
+		<result column="MEMBER_ID" property="member_ID"/>
+		<result column="BOARD_TITLE" property="board_Title"/>
+		<result column="BOARD_CONTENTS" property="board_Contents"/>
+		<result column="BOARD_DATE" property="board_Date"/>
+		<result column="BOARD_HIT" property="board_Hit"/>
+		<result column="FLAG" property="flag"/>
+		<association property="answerDTO" javaType="MemberAnswerDTO">
+			<id column="QUIZ_NO" property="quiz_No"/>
+			<result column="SOURCECODE" property="sourcecode"/>
+		</association>
+	</resultMap>
   
   <!-- getTotalCount -->
   <select id="getTotalCount" resultType="Long" parameterType="Pager">
@@ -52,11 +91,31 @@
   	VALUES
   	(#{board_Num}, #{board_Title}, #{member_ID}, #{board_Contents}, SYSDATE, 0,#{board_Num},0,0)
   </insert>
-  
+
+
+	<insert id="linkBoardAndQuiz" parameterType="QnaDTO">
+		INSERT INTO BOARD_QUIZ_LINK
+		(BOARD_NUM, QUIZ_NO, WITH_CODE)
+		VALUES
+		(#{board_Num}, #{answerDTO.quiz_No}, #{flag})
+	</insert>
   
   <!-- detail -->
-  <select id="getDetail" parameterType="BoardDTO" resultMap="getDetailResult">
-	SELECT * FROM QNA
+  <select id="getDetail" parameterType="BoardDTO" resultMap="QnaResult">
+	  SELECT
+	  	  MEMBER_ID
+	  	, MEMBER_NICK
+	  	, BOARD_NUM
+	    , BOARD_TITLE
+	  	, BOARD_CONTENTS
+	  	, BOARD_DATE
+	  	, BOARD_HIT
+	  	, FLAG
+	  	, QUIZ_NO
+		, SOURCECODE
+	  FROM QNA
+	  	INNER JOIN MEMBER USING(MEMBER_ID)
+	  <include refid="linkQuiz"/>
   		WHERE BOARD_NUM=#{board_Num}
   </select>
   

@@ -4,6 +4,8 @@ import java.util.List;
 
 import com.groupb.cuiz.support.util.file.FileDTO;
 import com.groupb.cuiz.web.board.BoardDTO;
+import com.groupb.cuiz.web.quiz.MemberAnswerDTO;
+import com.groupb.cuiz.web.quiz.QuizDTO;
 
 public class QnaDTO extends BoardDTO{
 	
@@ -13,6 +15,7 @@ public class QnaDTO extends BoardDTO{
 		private Integer flag;
 		private List<FileDTO> fileDTOs;
 		private List<ReplyDTO> replyDTOs;
+		private MemberAnswerDTO answerDTO;
 		
 
 		
@@ -53,7 +56,12 @@ public class QnaDTO extends BoardDTO{
 		public void setBoard_Depth(Long board_Depth) {
 			this.board_Depth = board_Depth;
 		}
-		
 
+	public MemberAnswerDTO getAnswerDTO() {
+		return answerDTO;
+	}
 
+	public void setAnswerDTO(MemberAnswerDTO answerDTO) {
+		this.answerDTO = answerDTO;
+	}
 }

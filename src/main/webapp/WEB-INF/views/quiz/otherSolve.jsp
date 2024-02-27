@@ -41,9 +41,12 @@
                                 <div class="text-white text-center">
                                     LV.${dto.quiz_Level}
                                 </div>
-                                <h4 class="middle-title mb-0"><a href="solve?quiz_No=${dto.quiz_No}">#${dto.quiz_No}</a>
+                                <div class="fs-3 mb-0 text-center">
+                                    <a href="solve?quiz_No=${dto.quiz_No}">#${dto.quiz_No}</a>
+                                </div>
+                                <h4 class="middle-title fs-1 mb-0">
+                                    ${dto.quiz_Title}
                                 </h4>
-                                <h4 class="middle-title mb-0">${dto.quiz_Title}</h4>
                             </div>
                         </div>
                         <div>
@@ -56,15 +59,17 @@
                                                 <div class="card text-bg-dark mb-3">
                                                     <div class="card-body">
                                                         <div class="row mb-2 p-2">
-                                                            <div class="col-6">
+                                                            <div class="col-6 mb-0">
                                                                 <div class="row">
-                                                                    <img class="col-3"
-                                                                         src="data:image/png;base64,${answer.memberDTO.member_Profile_String}"
-                                                                         style="clip-path: circle(); width: 3.5rem">
-                                                                    <h5 class="card-title col-auto">${answer.memberDTO.member_Nick}</h5>
+                                                                    <img class="col-3 me-3"
+                                                                         src="data:image/png;base64,${answer.member_Profile_String}"
+                                                                         style="clip-path: circle(); width: 3.5rem; height: 3.5rem">
+                                                                    <h5 class="card-title col-auto">
+                                                                        <a href="#"> ${answer.member_Nick}</a>
+                                                                    </h5>
                                                                 </div>
                                                             </div>
-                                                            <div class="col-6">
+                                                            <div class="col-6 mb-0">
                                                                 <div class="row justify-content-end">
                                                                     <div class="col-auto">${answer.answer_Date}</div>
                                                                 </div>

@@ -8,6 +8,7 @@ import java.util.List;
 public class MemberAnswerDTO {
     private String member_Id;
     private Integer quiz_No;
+    private String quiz_Title;
     private String sourcecode;
     private Date answer_Date;
     private Boolean answer_Check;
@@ -30,6 +31,14 @@ public class MemberAnswerDTO {
 
     public void setQuiz_No(Integer quiz_No) {
         this.quiz_No = quiz_No;
+    }
+
+    public String getQuiz_Title() {
+        return quiz_Title;
+    }
+
+    public void setQuiz_Title(String quiz_Title) {
+        this.quiz_Title = quiz_Title;
     }
 
     public String getSourcecode() {
@@ -97,8 +106,6 @@ public class MemberAnswerDTO {
                 ", sourcecode='" + sourcecode + '\'' +
                 ", answer_Date=" + answer_Date +
                 ", answer_Check=" + answer_Check +
-                ", quizDTO=" + quizDTO +
-                ", memberDTO=" + memberDTO +
                 '}';
     }
 }
