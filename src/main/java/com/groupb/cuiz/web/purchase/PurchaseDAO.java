@@ -37,7 +37,11 @@ public class PurchaseDAO {
 	
 	//kakaopay 환불
 	
-
+	public int kakaopayCancel(ReceiptDTO receiptDTO) {
+		
+		return sqlSession.update(NAMESPACE+"kakaopayCancel", receiptDTO);
+		
+	}
 	
 	
 //	KAKAOPAY

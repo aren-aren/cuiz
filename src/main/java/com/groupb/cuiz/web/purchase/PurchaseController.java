@@ -9,7 +9,7 @@ import java.util.Map;
 
 import javax.servlet.http.HttpSession;
 
-
+import org.apache.ibatis.annotations.Mapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -18,7 +18,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.groupb.cuiz.web.item.ItemDTO;
 import com.groupb.cuiz.web.member.MemberDTO;
 import com.groupb.cuiz.web.purchase.kakao.ReceiptDTO;
@@ -44,10 +44,9 @@ public class PurchaseController {
 
 		model.addAttribute("dto", map);
 		
-		return "/purchase/receipt";
-				
-				
+		return "/purchase/receipt";				
 	}
+	
 	
 	
 	//결제내역 확인
@@ -56,13 +55,7 @@ public class PurchaseController {
 		
 		memberDTO = (MemberDTO)session.getAttribute("member");
 		
-		List<ReceiptDTO> ar = purchaseService.purchaseList(memberDTO);
-		
-		for(ReceiptDTO list : ar) {
-			
-			System.out.println(list.getTotal());
-			
-		}
+		List<ReceiptDTO> ar = purchaseService.purchaseList(memberDTO);			
 		
 		model.addAttribute("list", ar);
 		
@@ -79,13 +72,35 @@ public class PurchaseController {
 	
 	
 	
+
 	@GetMapping("cancellation")
-	public String kakaopayCancellation(HttpSession session) {
+	public String kakaopayCancel(HttpSession session, Model model,ResponseDTO responseDTO) throws Exception {
 		
 		MemberDTO memberDTO = (MemberDTO)session.getAttribute("member");		
+		System.out.println("kakaopayCancel purchaseController 85 :   "+responseDTO.getTid());
+		Map<String, Object> resultMap =purchaseService.kakaopayCancel(memberDTO, responseDTO); 
+		//반환값
+		// 0 : 실패
+		// 1 : 성공
+		// 에러코드 실패;
 		
+		if(resultMap.get("result")=="1") {
+			model.addAttribute("msg", "환불이 완료되었습니다");
+			model.addAttribute("result", resultMap.get("result"));
+			model.addAttribute("response", resultMap.get("response"));
+			
+		}else if(resultMap.get("result")=="0") {
+			
+			model.addAttribute("result", resultMap.get("result"));
+			model.addAttribute("msg", "환불할 코인이 부족합니다.");				
+		}else {				
+			model.addAttribute("result", resultMap.get("result"));
+			model.addAttribute("msg", "에러발생 관리자에게 문의하시오");			
+			model.addAttribute("response", resultMap.get("response"));
+			
+		}	
 		
-		return "";
+		return "/commons/resultkakao";
 		
 	}
 	

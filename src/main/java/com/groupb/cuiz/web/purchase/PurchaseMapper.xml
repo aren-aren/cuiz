@@ -7,15 +7,25 @@
 
 <!--영수증 조회  -->
 
+<update id="kakaopayCancel" parameterType="ReceiptDTO">
+
+	UPDATE RECIPT SET 
+		CANCELED_AT = #{canceled_at}, 
+		CANCEL_AMOUNT=#{approved_cancel_amount.total},
+		CANCEL_TOTAL =#{approved_cancel_amount.total}
+	WHERE TID = #{tid}
+</update>
+
+
 <select id="receiptDetail" parameterType="ReceiptDTO" resultType="Map">
 
 	SELECT * FROM RECIPT 
 	JOIN CARD_PAYMENT
 	USING (AID) 
-	WHERE TID = #{tid} ORDER BY APPROVED_AT DESC
+	WHERE TID = #{tid} 
 	
 </select>
-
+<!-- 
 <resultMap type="ReceiptDTO" id="ReceiptResult">
 	
 	<result column="MEMBER_ID" property="member_ID"></result>
@@ -35,9 +45,9 @@
 	<result column="VAT" property="vat"></result>	
 	<result column="CANCEL_TOTAL" property="cancel_total"></result>
 	<result column="CANCEL_TAX_FREE" property="cancel_tax_free"></result>	
-	
-	<association property="card_info" resultMap="getCardInfo">
-		<!-- <result column="AID" property="aid" javaType="String" />
+	 -->
+	<!-- <association property="card_info" resultMap="getCardInfo">
+		<result column="AID" property="aid" javaType="String" />
 		<result column="INTEREST_FREE_INSTALL" property="interest_free_install"></result>
 		<result column="BIN" property="bin"></result>
 		<result column="CARD_TYPE" property="card_type"></result>
@@ -48,7 +58,7 @@
 		<result column="KAKAOPAY_ISSUER_CORP_CODE" property="kakaopay_purchase_corp"></result>
 		<result column="KAKAOPAY_PURCHASE_CORP_CODE" property="kakaopay_purchase_corp_code"></result>
 		<result column="KAKAOPAY_PURCHASE_CORP" property="kakaopay_issuer_corp"></result>
-		<result column="KAKAOPAY_ISSUER_CORP" property="kakaopay_issuer_corp_code"></result> -->
+		<result column="KAKAOPAY_ISSUER_CORP" property="kakaopay_issuer_corp_code"></result>
 	</association>
 </resultMap>
 
@@ -65,7 +75,7 @@
 		<result column="KAKAOPAY_PURCHASE_CORP_CODE" property="kakaopay_purchase_corp_code"></result>
 		<result column="KAKAOPAY_PURCHASE_CORP" property="kakaopay_issuer_corp"></result>
 		<result column="KAKAOPAY_ISSUER_CORP" property="kakaopay_issuer_corp_code"></result>
-</resultMap>
+</resultMap> -->
 
 <select id="getList" parameterType="PurchaseDTO" resultType="ItemDTO">	
 <!-- 	SELECT ROWNUM R, IC.* FROM
@@ -87,7 +97,7 @@
 
 <select id="purchaseList" parameterType="MemberDTO" resultType="ReceiptDTO">
 
-SELECT * FROM RECIPT WHERE MEMBER_ID = #{member_ID}
+SELECT * FROM RECIPT WHERE MEMBER_ID = #{member_ID} ORDER BY APPROVED_AT DESC 
 
 </select>
 

@@ -43,7 +43,7 @@
 </head>
 	
 <body>
-	<c:import url="../temps/header.jsp"></c:import>
+
  	
 	<div>
 		
@@ -57,6 +57,7 @@
 			<th class="color-white">가격</th>
 			<th class="color-white">결제종류</th>
 			<th class="color-white">영수증</th>
+			<th class="color-white">환불</th>
 		</tr>
 		<c:forEach items="${list}" var="dto" >
 			
@@ -66,38 +67,20 @@
 			<td class="color-white member_role" style="text-align: justify">&#8361<span>${dto.total}</span></td>
 			<td class="color-white">${dto.payment_method_type}</td>
 			<td class="color-white"><a href="receipt?tid=${dto.tid}" target="_blank">영수증</a></td>
+			
+			<c:if test="${not empty dto.canceled_at}">			
+			<td><p style="text-color: #e75e8d;">환불완료</p></td>
+			</c:if>
+			<c:if test="${empty dto.canceled_at}">
+				<td><button style="text-color: #e75e8d;" onclick="window.open('/purchase/cancellation?tid=${dto.tid}','결제취소','width:500px,height:300px,location=no,status=no,scrollbars=no');" >환불요청</button></td>
+				<%-- <td><button style="text-color: #e75e8d;" onclick="window.open('/purchase/cancellation?tid=${dto.tid}','결제취소','width:500px,height:300px,location=no,status=no,scrollbars=no');" >환불요청</button></td> --%>
+				
+			</c:if>
 		</c:forEach>
 	
 	</table>
 	</div>
-						<%-- <div class="mb-3 pagerlabel">
-							<nav aria-label="Page navigation example">
-								<ul class="pagination">
-									<c:if test="${!pager.start}">
-										<li class="page-item">
-											<a class="page-link"
-											href="./list?page=${pager.startNum-1}&search=${pager.search}&kind=${pager.kind}"
-											aria-label="Previous"> <span aria-hidden="true">&laquo;</span>
-											</a>
-										</li>
-									</c:if>
-									<c:forEach begin="${pager.startNum}" end="${pager.lastNum}"
-										var="i">
-										<li class="page-item"><a class="page-link pager_btn ${pager.page==i?"select":""}"
-											href="./list?page=${i}&search=${pager.search}&kind=${pager.kind}">${i}</a></li>
-									</c:forEach>
-
-									<c:if test="${!pager.last}">
-										<li class="page-item">
-											<a class="page-link"
-											href="./list?page=${pager.lastNum+1}&search=${pager.search}&kind=${pager.kind}"
-											aria-label="Next"> <span aria-hidden="true">&raquo;</span>
-											</a>
-										</li>
-									</c:if>
-								</ul>
-							</nav>
-						</div> --%>
+					
 	
 	<c:import url="../temps/footer.jsp"></c:import>
 </body>

@@ -28,15 +28,22 @@ public class ReceiptDTO {
 	    private String payload;
 	    private Integer cancel_total;
 	    private Integer cancel_tax_free;	    
-	   
+	    private Date canceled_at;
 	    
+	    	    
 	    
-	    private Amount cancel_amount;	    
+	 
+		private Amount cancel_amount;	    
 	    private Approved_cancel_amount approved_cancel_amount;
 	    private card_info card_info;
 	    
 	
-	    
+	    public Date getCanceled_at() {
+	 			return canceled_at;
+	 		}
+	 		public void setCanceled_at(Date canceled_at) {
+	 			this.canceled_at = canceled_at;
+	 		}
 	  
 		public Integer getVat() {
 			return vat;
