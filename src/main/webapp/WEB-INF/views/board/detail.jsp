@@ -194,7 +194,7 @@
   const del2 = document.getElementById("delete2");
   const frm2 = document.querySelector("#contactForm2");
 
- del.addEventListener("click", (e)=>{
+  del.addEventListener("click", (e)=>{
       e.preventDefault();
       frm.submit();
   }); 

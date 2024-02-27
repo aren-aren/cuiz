@@ -56,6 +56,9 @@ public class QnaDAO  implements BoardDAO{
 
 	public int linkBoardAndQuiz(QnaDTO boardDTO) {
 		return sqlSession.insert(namespace + "linkBoardAndQuiz", boardDTO);
+		
+	}
+	
 	@Override
 	public BoardDTO getDetail(BoardDTO boardDTO, Pager pager) throws Exception {
 		// TODO Auto-generated method stub

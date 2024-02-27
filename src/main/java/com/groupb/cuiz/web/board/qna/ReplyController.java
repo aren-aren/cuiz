@@ -25,7 +25,7 @@ public class ReplyController {
 	@PostMapping("delete")
 	public String getDelete(ReplyDTO replyDTO,Model model) throws Exception {
 		int result = replyService.getDelete(replyDTO);
-		
+		System.out.println(replyDTO.getReply_Num());
 		System.out.println("delete controller 진입");
 		model.addAttribute("num",replyDTO.getBoard_Num());
 		
@@ -42,9 +42,9 @@ public class ReplyController {
 	@PostMapping("add")
 	public String getAdd(ReplyDTO replyDTO, HttpSession session, Model model, Pager pager)throws Exception{
 		
-		System.out.println("reply num = "+ replyDTO.getReply_Contents( ));
+		System.out.println("reply_Contents = "+ replyDTO.getReply_Contents( ));
 		System.out.println("board_num = " + replyDTO.getBoard_Num());
-		System.out.println("user - " + replyDTO.getUser_Name());
+		System.out.println("user_Name = " + replyDTO.getUser_Name());
 		
 		int result = replyService.getAdd(replyDTO);	
 		
