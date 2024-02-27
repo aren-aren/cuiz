@@ -211,4 +211,12 @@
             WHERE QUIZ_NO=#{dto.quiz_No} AND MEMBER_ID=#{dto.member_Id} AND ANSWER_CHECK=1
         ) > 0
     </select>
+
+    <select id="getJumsuData" resultType="JumsuUpdateDTO">
+        SELECT MEMBER_JUMSU oldJumsu, QUIZ_LEVEL upJumsu
+        FROM MEMBER_QUIZ_ANSWER mqa
+            INNER JOIN QUIZ q ON q.QUIZ_NO = mqa.QUIZ_NO
+            INNER JOIN MEMBER m  ON m.MEMBER_ID = mqa.MEMBER_ID
+        WHERE q.QUIZ_NO = #{quiz_No} AND m.MEMBER_ID = #{member_Id}
+    </select>
 </mapper>
