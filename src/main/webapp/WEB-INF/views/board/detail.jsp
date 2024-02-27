@@ -92,11 +92,15 @@
 						
 						<!-- reply list -->
 
-						<c:forEach items="${replyDTO}" var="r">
+						<c:forEach items="${replyList}" var="r">
+						<c:if test="${boardDTO.board_Num eq r.board_Num}">
 						
-						<form>
+						
+						
+						<form method="POST" action="/board/detail" enctype="multipart/form-data">
+							<input type="hidden" name="reply_Num" value="${r.reply_Num}">
+							<input type="hidden" name="board_Num" value="${r.board_Num}">
 							<input type="hidden" name="user_Name" value="${member.member_ID}">
-						
 							<div class="col-lg-12">
 							<ul id="addForm">
 								<li>${r.reply_Contents}<span>${r.user_Name}</span></li>
@@ -108,17 +112,21 @@
 						<!-- reply delete -->
 						
 							
-						<form id="contactForm" action="" method="post" enctype="multipart/form-data">
-								
-							<div class="main-border-button">
-							<c:if test="${replyDTO.user_Name eq member.member_ID}">
-							<c:if test="${not empty member}">
-								<a id="delete" href="#">Delete</a>
+						<form id="contactForm2" action="/reply/delete" method="POST" enctype="multipart/form-data">
+							<div class="main-border-button" style=" float: right; margin-bottom: 40px;">
+ 							<c:if test="${r.user_Name eq member.member_ID}">
+ 							<c:if test="${not empty member}">
+								<a id="delete2" href="#">Delete</a>
 							</c:if>
-							</c:if>
-							</div>
+ 							</c:if>
+ 							<input type="hidden" name="reply_Num" value="${r.reply_Num}">
+ 							<input type="hidden" name="board_Num" value="${boardDTO.board_Num}">
+ 							
+ 							</div>
+ 							<div><br><br><br><br></div>
 						</form>
 						
+						</c:if>
 						</c:forEach>
 							
 						
@@ -135,7 +143,7 @@
 						<!-- reply add -->
 						
 
- 						<form id="replyAddFrom" method="post" action="/board/detail">
+ 						<form id="replyAddFrom">
  
 							<div class="d-none" id="submitErrorMessage">
 								<div class="text-center text-danger mb-3">Error sending message!</div>
@@ -143,7 +151,8 @@
 							
 							<div class="col-lg-12 input-group mb-3">
 								<input type="text" name="replyAddVal" class="form-control" aria-label="Recipient's username" aria-describedby="button-addon2">
-								<button class="btn btn-outline-secondary" type="submit" id="submitButton button-addon2 replyAddBtn">Add</button>
+								<input type="hidden" id="user_name" value="${member.member_ID}" />
+								<button class="btn btn-outline-secondary" type="button" id="replyAddBtn">Add</button>
 							</div>
 
  						</form>
@@ -172,9 +181,9 @@
       </div>
    </div>
    </div>
-   
+  					
 
-
+	
   <c:import url="../temps/footer.jsp"></c:import>
 
   </body>
@@ -182,16 +191,22 @@
   <script>
   const del = document.getElementById("delete");
   const frm = document.querySelector("#contactForm");
+  const del2 = document.getElementById("delete2");
+  const frm2 = document.querySelector("#contactForm2");
 
-
-  del.addEventListener("click", (e)=>{
+ del.addEventListener("click", (e)=>{
       e.preventDefault();
       frm.submit();
-  });
-  
+  }); 
+ 
+ del2.addEventListener("click", (e)=>{
+     e.preventDefault();
+     frm2.submit();
+ });  
+
   </script>
   
-  	<script src="/boardDetail.js" type="text/javascript"></script>
+  	<script src="/resources/js/board/boardDetail.js" type="text/javascript"></script>
   
 
 </html>

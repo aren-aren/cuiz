@@ -15,12 +15,16 @@ public class ReplyDAO {
 	
 	private final String namespace="com.groupb.cuiz.web.board.qna.ReplyDAO.";
 	
+	public int getDelete(ReplyDTO replyDTO)throws Exception{
+		return sqlSession.delete(namespace+"getDelete", replyDTO);
+	}
+	
 	public int getAdd(ReplyDTO replyDTO)throws Exception{
 		return sqlSession.insert(namespace+"getAdd", replyDTO);
 	}
 	
-	public Long getTotalCount(Pager pager)throws Exception{
-		return sqlSession.selectOne(namespace+"getTotalCount", pager);
+	public Long getTotalCount(ReplyDTO replyDTO)throws Exception{
+		return sqlSession.selectOne(namespace+"getTotalCount", replyDTO);
 	}
 	
 	public List<ReplyDTO> getList(Pager pager)throws Exception{
