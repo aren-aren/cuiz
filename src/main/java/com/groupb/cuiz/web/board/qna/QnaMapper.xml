@@ -19,8 +19,7 @@
   	</where>
   </sql>
 
-	<sql id="linkQuiz">
-		LEFT JOIN (
+	<sql id="linkQuiz">LEFT JOIN (
 			SELECT
 				  BOARD_NUM
 				, QUIZ_NO
@@ -32,8 +31,7 @@
 				INNER JOIN MEMBER_QUIZ_ANSWER USING(QUIZ_NO)
 		</if>
 		)
-		USING(BOARD_NUM)
-	</sql>
+		USING(BOARD_NUM)</sql>
   
   <!-- list -->
   <select id="getList" resultMap="QnaResult" parameterType="Pager">
@@ -54,14 +52,15 @@
 	  			INNER JOIN MEMBER USING(MEMBER_ID)
 	  		<include refid="linkQuiz"></include>
   			<include refid="search"></include>
-  			ORDER BY BOARD_REF DESC, BOARD_STEP ASC
-  		)
-  	N)
+	  		ORDER BY BOARD_REF DESC, BOARD_STEP ASC
+  		) N
+	)
   	WHERE R BETWEEN #{startRow} AND #{lastRow}
   </select>
 	<resultMap id="QnaResult" type="QnaDTO">
 		<id column="BOARD_NUM" property="board_Num"/>
 		<result column="MEMBER_ID" property="member_ID"/>
+		<result column="MEMBER_NICK" property="member_Nick"/>
 		<result column="BOARD_TITLE" property="board_Title"/>
 		<result column="BOARD_CONTENTS" property="board_Contents"/>
 		<result column="BOARD_DATE" property="board_Date"/>

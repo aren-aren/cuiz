@@ -8,6 +8,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpSession;
+import java.lang.reflect.Member;
 import java.util.*;
 
 @Controller
@@ -184,6 +185,14 @@ public class QuizController {
         MemberDTO memberDTO = (MemberDTO) session.getAttribute("member");
 
         return quizService.getAnswers(memberDTO);
+    }
+
+    @GetMapping("getJumsuData")
+    @ResponseBody
+    public JumsuUpdateDTO getJumsuData(QuizDTO quizDTO, HttpSession session){
+        MemberDTO memberDTO = (MemberDTO) session.getAttribute("member");
+        quizDTO.setMember_Id(memberDTO.getMember_ID());
+        return quizService.getJumsuData(quizDTO);
     }
 }
 
