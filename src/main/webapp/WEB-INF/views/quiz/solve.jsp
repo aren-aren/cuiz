@@ -60,7 +60,7 @@
                                 <c:forEach items="${dto.testcase}" var="tc">
                                     <tr>
                                         <td>${tc.testcase_Input}</td>
-                                        <td>${tc.testcase_Output}</td>
+                                        <td><pre>${tc.testcase_Output}</pre></td>
                                     </tr>
                                 </c:forEach>
                                 </tbody>

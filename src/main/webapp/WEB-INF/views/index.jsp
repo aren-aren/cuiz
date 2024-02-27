@@ -54,25 +54,25 @@
                     <div class="row">
                         <div class="col-3 border-end mb-0 text-center">
                             <div class="fs-6 text-white opacity-50"> 전체 문제 </div>
-                            <div class="h2 text-white text-cuiz">12345</div>
+                            <div class="h2 text-white text-cuiz">${statistic.numOfProblem}</div>
                             <div>
                                 <a class="fs-6" href="quiz/list">문제 풀러 가기</a>
                             </div>
                         </div>
                         <div class="col-3 border-end mb-0 text-center">
                             <div class="fs-6 text-white opacity-50"> 전체 게시글 </div>
-                            <div class="h2 text-white text-cuiz">123450</div>
+                            <div class="h2 text-white text-cuiz">${statistic.numOfBoard}</div>
                             <div>
                                 <a class="fs-6" href="qna/list">게시판 보러 가기</a>
                             </div>
                         </div>
                         <div class="col-3 border-end mb-0 text-center">
                             <div class="fs-6 text-white opacity-50"> 전체 회원 </div>
-                            <div class="h2 text-white text-cuiz">1234</div>
+                            <div class="h2 text-white text-cuiz">${statistic.numOfMember}</div>
                         </div>
                         <div class="col-3 mb-0 text-center">
                             <div class="fs-6 text-white opacity-50"> 최고점 </div>
-                            <div class="h2 text-white text-cuiz">789</div>
+                            <div class="h2 text-white text-cuiz">${statistic.maxJumsu}</div>
                             <div>
                                 <a class="fs-6" href="quiz/list">문제를 풀고<br>점수를 올리세요</a>
                             </div>
@@ -140,13 +140,20 @@
                                         <li class="main-list pb-0">
                                             <div class="row">
                                                 <div class="col-4 mb-0">
+                                                    <c:if test="${status.index < 3}">
                                                     <img src="/resources/assets/images/${status.index+1}등.png"
                                                          class="templatemo-item">
+                                                    </c:if>
                                                 </div>
                                                 <div class="col-8 mb-0">
                                                     <div class="row">
                                                         <img class="col-3 me-3 mb-0"
+                                                             <c:if test="${not empty dto.member_Profile_String}">
                                                              src="data:image/png;base64,${dto.member_Profile_String}"
+                                                            </c:if>
+                                                            <c:if test="${empty dto.member_Profile_String}">
+                                                             src="/resources/assets/images/basic.jpeg"
+                                                            </c:if>
                                                              style="clip-path: circle(); width: 2.5rem; height: 2.5rem">
                                                         <h4 class="col-8 mb-0">
                                                             <a class="main-list-title"

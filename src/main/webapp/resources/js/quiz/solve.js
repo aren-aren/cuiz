@@ -24,6 +24,7 @@ const onInitEditor = () => {
         System.out.println("hello, world");
     }
 }`
+
     document.getElementById("quiz-member-code").value = defaultSourcecode;
     document.getElementById("solve-result").innerHTML = "실행결과가 여기에 표시됩니다.";
     document.getElementById("hint-tip").classList.add("d-none");
