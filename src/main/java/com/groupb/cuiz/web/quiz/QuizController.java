@@ -8,6 +8,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpSession;
+import java.lang.reflect.Member;
 import java.util.*;
 
 @Controller
@@ -151,12 +152,6 @@ public class QuizController {
     @PostMapping("update/testcase")
     @ResponseBody
     public  Boolean updateTestcase(@RequestBody List<TestcaseDTO> testcaseDTOS) throws Exception {
-        System.out.println("testcaseDTOS = " + testcaseDTOS);
-        System.out.println("testcaseDTOS = " + testcaseDTOS);
-        System.out.println("testcaseDTOS = " + testcaseDTOS);
-        System.out.println("testcaseDTOS = " + testcaseDTOS);
-        System.out.println("testcaseDTOS = " + testcaseDTOS);
-        System.out.println("testcaseDTOS = " + testcaseDTOS);
         return quizService.updateTestcases(testcaseDTOS);
     }
 
@@ -164,6 +159,40 @@ public class QuizController {
     @ResponseBody
     public Boolean deleteTestcase(@RequestBody TestcaseDTO testcaseDTO){
         return quizService.deleteTestcase(testcaseDTO);
+    }
+
+    @GetMapping("otherSolve")
+    public String getOtherSolved(QuizDTO quizDTO, Pager pager ,Model model, HttpSession session){
+        MemberDTO memberDTO = (MemberDTO) session.getAttribute("member");
+        quizDTO = quizService.getQuizInfo(quizDTO);
+
+        quizDTO.setMember_Id(memberDTO.getMember_ID());
+        model.addAttribute("dto", quizDTO);
+
+        List<AnswerShowDTO> answers = quizService.getAnswers(quizDTO, pager);
+
+        model.addAttribute("list", answers);
+        model.addAttribute("pager", pager);
+
+        System.out.println("answers = " + answers);
+
+        return "quiz/otherSolve";
+    }
+
+    @GetMapping("myAnswers")
+    @ResponseBody
+    public List<MemberAnswerDTO> getMyAnswers(HttpSession session){
+        MemberDTO memberDTO = (MemberDTO) session.getAttribute("member");
+
+        return quizService.getAnswers(memberDTO);
+    }
+
+    @GetMapping("getJumsuData")
+    @ResponseBody
+    public JumsuUpdateDTO getJumsuData(QuizDTO quizDTO, HttpSession session){
+        MemberDTO memberDTO = (MemberDTO) session.getAttribute("member");
+        quizDTO.setMember_Id(memberDTO.getMember_ID());
+        return quizService.getJumsuData(quizDTO);
     }
 }
 

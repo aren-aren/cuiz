@@ -60,7 +60,7 @@
                                 <c:forEach items="${dto.testcase}" var="tc">
                                     <tr>
                                         <td>${tc.testcase_Input}</td>
-                                        <td>${tc.testcase_Output}</td>
+                                        <td><pre>${tc.testcase_Output}</pre></td>
                                     </tr>
                                 </c:forEach>
                                 </tbody>
@@ -104,7 +104,7 @@ ${answer.sourcecode}
                      data-bs-title="정답을 맞춘 문제만 다른사람의 풀이를 볼 수 있습니다."
                      </c:if>
                 >
-                    <button class="btn btn-secondary <c:if test="${!answer.answer_Check}">disabled</c:if>">다른 사람 풀이</button>
+                    <a class="btn btn-secondary <c:if test="${!answer.answer_Check}">disabled</c:if>" href="otherSolve?quiz_No=${dto.quiz_No}">다른 사람 풀이</a>
                 </div>
                 <div class="float-end">
                     <button class="btn btn-cuiz" id="submit-btn">제출하기</button>
@@ -136,7 +136,7 @@ ${answer.sourcecode}
                 <div class="d-none correct-notice">
                     <div class="modal-body">
                         <h2 class="text-black">정답입니다.</h2>
-                        <h5 class="text-black">대충 점수 올랐단는 알림</h5>
+                        <h5 class="text-black"><span id="jumsu-result-area">0</span>(+<span id="jumsu-up-area">0</span>)</h5>
                     </div>
                 </div>
                 <div class="d-none hint-notice">
@@ -159,9 +159,9 @@ ${answer.sourcecode}
 <c:import url="../temps/footer.jsp"></c:import>
 <script type="module" src="https://cdn.jsdelivr.net/gh/vanillawc/wc-codemirror@1/index.js"></script>
 <script type="module" src="https://cdn.jsdelivr.net/gh/vanillawc/wc-codemirror@1/mode/clike/clike.js"></script>
-<script src="/resources/js/quiz/solve.js" type="text/javascript"></script>
 <link rel="stylesheet"
       href="https://cdn.jsdelivr.net/gh/vanillawc/wc-codemirror@1/theme/tomorrow-night-eighties.css">
+<script src="/resources/js/quiz/solve.js" type="text/javascript"></script>
 
 </body>
 

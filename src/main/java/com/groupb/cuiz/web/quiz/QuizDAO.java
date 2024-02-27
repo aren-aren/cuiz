@@ -1,6 +1,7 @@
 package com.groupb.cuiz.web.quiz;
 
 import com.groupb.cuiz.support.util.pager.Pager;
+import com.groupb.cuiz.web.member.MemberDTO;
 import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
@@ -22,7 +23,7 @@ public class QuizDAO {
         return sqlSession.insert(NAMESPACE + "addQuiz", quizDTO);
     }
 
-    public Long getTotalCount(Pager pager) {
+    public Long getQuizTotalCount(Pager pager) {
         return sqlSession.selectOne(NAMESPACE + "getQuizTotalCount",pager);
     }
 
@@ -60,5 +61,21 @@ public class QuizDAO {
 
     public int deleteTestcase(TestcaseDTO testcaseDTO) {
         return sqlSession.delete(NAMESPACE + "deleteTestcase", testcaseDTO);
+    }
+
+    public List<AnswerShowDTO> getAnswers(Map<String, Object> map) {
+        return sqlSession.selectList(NAMESPACE + "getAnswers", map);
+    }
+
+    public List<MemberAnswerDTO> getMemberAnswers(MemberDTO memberDTO) {
+        return sqlSession.selectList(NAMESPACE + "getMemberAnswers", memberDTO);
+    }
+
+    public Long getAnswerTotalCount(Map<String, Object> map) {
+        return sqlSession.selectOne(NAMESPACE + "getAnswerTotalCount", map);
+    }
+
+    public JumsuUpdateDTO getJumsuData(QuizDTO quizDTO) {
+        return sqlSession.selectOne(NAMESPACE + "getJumsuData", quizDTO);
     }
 }

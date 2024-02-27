@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+ "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+ 
+ <mapper namespace="com.groupb.cuiz.web.ranking.RankingDAO">
+
+	<!-- 하다보니 setInsert랑 setjumsu 없어도 되는데 일단 냅둠 -->
+
+	<delete id="setDelete">
+		DELETE RANKING
+	</delete>
+	
+	<insert id="setInsert" parameterType="RankingDTO">
+		INSERT INTO RANKING VALUES(RANKING_SEQ.NEXTVAL,#{member_ID},0,null)
+	</insert>
+	
+	<select id="getAnswerID" resultType="RankingDTO">
+		SELECT DISTINCT MEMBER_ID FROM MEMBER_QUIZ_ANSWER
+		WHERE ANSWER_CHECK=1
+	</select>
+
+	<select id="getQuizNO" resultType="QuizDTO" parameterType="RankingDTO">
+		SELECT QUIZ_NO  FROM MEMBER_QUIZ_ANSWER WHERE MEMBER_ID = #{member_ID}	
+	</select>
+
+	<select id="getJumsu" resultType="int" parameterType="QuizDTO">
+		SELECT QUIZ_LEVEL  FROM QUIZ WHERE QUIZ_NO = #{quiz_No}
+	</select>
+	
+	<update id="setJumsu" parameterType="RankingDTO">
+		UPDATE RANKING SET DAILY_JUMSU = #{daily_Jumsu} WHERE MEMBER_ID = #{member_ID}
+	</update>
+	
+	<select id="getRanking" resultType="RankingDTO">
+		SELECT * FROM (
+   			 SELECT ROWNUM AS R, RK.* FROM (
+     		   SELECT * FROM RANKING
+				ORDER BY DAILY_JUMSU DESC) RK
+      	  	 WHERE ROWNUM &lt;= 5)
+	</select>
+	
+	<select id="getNick" resultType="RankingDTO" parameterType="RankingDTO" >
+		SELECT MEMBER_NICK FROM MEMBER WHERE MEMBER_ID = #{member_ID}
+	</select>
+	<update id="setNick" parameterType="RankingDTO">
+		UPDATE RANKING SET MEMBER_NICK = #{member_Nick} WHERE MEMBER_ID = #{member_ID}
+ 	</update>
+	
+	<select id="getList" resultType="RankingDTO" >
+		SELECT *
+		FROM RANKING
+			INNER JOIN MEMBER USING(MEMBER_ID)
+			ORDER BY DAILY_JUMSU DESC
+	</select>
+	<!-- ranking 끝 -->
+	<!-- 게시판 리스트도 그냥 여기에서 할게요 -->
+	
+	<select id="getQNAList" resultType="QnaDTO">
+		SELECT
+		  MEMBER_ID
+		, MEMBER_NICK
+		, BOARD_NUM
+		, BOARD_TITLE
+		, BOARD_CONTENTS
+		, BOARD_DATE
+		, BOARD_HIT
+		, FLAG
+		, QUIZ_NO
+		FROM(
+			SELECT
+			  ROWNUM AS R
+			, MEMBER_ID
+			, MEMBER_NICK
+			, BOARD_NUM
+			, BOARD_TITLE
+			, BOARD_CONTENTS
+			, BOARD_DATE
+			, BOARD_HIT
+			, FLAG
+			, QUIZ_NO
+			FROM (
+				SELECT
+				  m.MEMBER_ID
+				, m.MEMBER_NICK
+				, qa.BOARD_NUM
+				, qa.BOARD_TITLE
+				, qa.BOARD_CONTENTS
+				, qa.BOARD_DATE
+				, qa.BOARD_HIT
+				, qa.FLAG
+				, bql.QUIZ_NO
+				FROM QNA qa
+					INNER JOIN MEMBER m ON m.MEMBER_ID = qa.MEMBER_ID
+					LEFT JOIN BOARD_QUIZ_LINK bql ON bql.BOARD_NUM = qa.BOARD_NUM
+				WHERE flag =0
+				ORDER BY BOARD_DATE DESC
+			)
+		) temp
+		WHERE R &lt;= 5
+	</select>
+	
+</mapper>

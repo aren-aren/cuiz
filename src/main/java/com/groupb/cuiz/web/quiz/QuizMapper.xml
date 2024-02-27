@@ -177,4 +177,46 @@
     <delete id="deleteTestcase" parameterType="QuizDTO">
         DELETE FROM TESTCASE WHERE TESTCASE_NO=#{testcase_No}
     </delete>
+
+    <select id="getAnswers" parameterType="Map" resultType="AnswerShowDTO">
+        SELECT
+              mqa.MEMBER_ID
+            , MEMBER_NICK
+            , MEMBER_PROFILE_BLOB
+            , SOURCECODE
+            , ANSWER_DATE
+        FROM MEMBER_QUIZ_ANSWER mqa
+            INNER JOIN MEMBER m ON m.MEMBER_ID = mqa.MEMBER_ID
+        WHERE QUIZ_NO = #{dto.quiz_No} AND ANSWER_CHECK = 1
+    </select>
+
+    <select id="getMemberAnswers" parameterType="MemberDTO" resultType="MemberAnswerDTO">
+        SELECT
+              QUIZ_NO
+            , QUIZ_TITLE
+            , ANSWER_CHECK
+            , ANSWER_DATE
+        FROM MEMBER_QUIZ_ANSWER mqa
+            INNER JOIN QUIZ USING(QUIZ_NO)
+        WHERE mqa."MEMBER_ID" = #{member_ID}
+    </select>
+
+    <select id="getAnswerTotalCount" parameterType="Map" resultType="Long">
+        SELECT COUNT(mqa.MEMBER_ID)
+        FROM MEMBER_QUIZ_ANSWER mqa
+            INNER JOIN MEMBER m ON m.MEMBER_ID = mqa.MEMBER_ID
+        WHERE QUIZ_NO = #{dto.quiz_No} AND ANSWER_CHECK = 1 AND (
+            SELECT COUNT(*)
+            FROM MEMBER_QUIZ_ANSWER
+            WHERE QUIZ_NO=#{dto.quiz_No} AND MEMBER_ID=#{dto.member_Id} AND ANSWER_CHECK=1
+        ) > 0
+    </select>
+
+    <select id="getJumsuData" resultType="JumsuUpdateDTO">
+        SELECT MEMBER_JUMSU oldJumsu, QUIZ_LEVEL upJumsu
+        FROM MEMBER_QUIZ_ANSWER mqa
+            INNER JOIN QUIZ q ON q.QUIZ_NO = mqa.QUIZ_NO
+            INNER JOIN MEMBER m  ON m.MEMBER_ID = mqa.MEMBER_ID
+        WHERE q.QUIZ_NO = #{quiz_No} AND m.MEMBER_ID = #{member_Id}
+    </select>
 </mapper>

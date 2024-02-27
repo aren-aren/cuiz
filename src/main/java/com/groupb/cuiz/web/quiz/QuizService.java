@@ -22,9 +22,6 @@ public class QuizService {
     @Autowired
     private MemberDAO memberDAO;
 
-    private final Integer[] COINTABLE = {1,3,5,7,9};
-    private final Integer[] JUMSUTABLE = {2,5,10,15,20};
-
     /**
      * DB의 QUIZ 테이블에 Quiz 정보를 넣고, 예제 input과 output, 실제 input과 output TESTCASE 테이블에 넣는다
      *
@@ -105,10 +102,10 @@ public class QuizService {
 
         Integer quizLevel = quizDAO.getQuizLevel(answerDTO);
 
-        if(answerDTO.getAnswer_Check()){
-            memberDTO.setMember_Coin(memberDTO.getMember_Coin() + COINTABLE[quizLevel-1]);
+        if(answerDTO.getAnswer_Check() && (oldAnswer == null || !oldAnswer.getAnswer_Check())){
+            memberDTO.setMember_Coin(memberDTO.getMember_Coin() + QuizEnum.get(quizLevel).getPrice());
             memberDAO.setCoin(memberDTO);
-            memberDTO.setMember_Jumsu(memberDTO.getMember_Jumsu() + JUMSUTABLE[quizLevel-1]);
+            memberDTO.setMember_Jumsu(memberDTO.getMember_Jumsu() + QuizEnum.get(quizLevel).getJumsu());
             memberDAO.setJumsu(memberDTO);
         }
 
@@ -261,7 +258,7 @@ public class QuizService {
      * @return
      */
     public List<QuizListDTO> getList(Pager pager) {
-        Long totalCount = quizDAO.getTotalCount(pager);
+        Long totalCount = quizDAO.getQuizTotalCount(pager);
         System.out.println("totalCount = " + totalCount);
 
         pager.makeRow();
@@ -329,5 +326,44 @@ public class QuizService {
         map.put("dto", quizDTO);
 
         return quizDAO.getTestCases(map);
+    }
+
+    public List<AnswerShowDTO> getAnswers(QuizDTO quizDTO, Pager pager) {
+        Map<String, Object> map = new HashMap<>();
+        map.put("dto", quizDTO);
+        map.put("pager", pager);
+        Long totalCount = quizDAO.getAnswerTotalCount(map);
+
+        pager.makeRow();
+        pager.makeNum(totalCount);
+
+        map.put("pager", pager);
+
+
+        if(totalCount == 0){
+            return null;
+        }
+
+        return quizDAO.getAnswers(map);
+    }
+
+    public List<MemberAnswerDTO> getAnswers(MemberDTO memberDTO) {
+        return quizDAO.getMemberAnswers(memberDTO);
+    }
+
+    public QuizDTO getQuizInfo(QuizDTO quizDTO) {
+        return quizDAO.getDetail(quizDTO);
+    }
+
+
+    public JumsuUpdateDTO getJumsuData(QuizDTO quizDTO) {
+        JumsuUpdateDTO jumsuUpdateDTO = quizDAO.getJumsuData(quizDTO);
+
+        Integer level = jumsuUpdateDTO.getUpJumsu();
+        jumsuUpdateDTO.setUpJumsu(QuizEnum.get(level).getJumsu());
+
+        jumsuUpdateDTO.setOldJumsu(jumsuUpdateDTO.getOldJumsu() - jumsuUpdateDTO.getUpJumsu());
+
+        return jumsuUpdateDTO;
     }
 }

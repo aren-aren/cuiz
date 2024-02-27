@@ -96,7 +96,9 @@ function showSampleRunModalOutput(data){
         let td =  document.createElement("td");
         td.innerText = sampleRunInput[i];
         let td2 = document.createElement("td");
-        td2.innerText = data[i];
+        let pre = document.createElement("pre");
+        pre.innerText = data[i];
+        td2.append(pre);
         tr.append(td);
         tr.append(td2);
         sampleRunResult.append(tr);
