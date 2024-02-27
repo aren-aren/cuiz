@@ -5,6 +5,68 @@
  
  <mapper namespace="com.groupb.cuiz.web.purchase.PurchaseDAO">
 
+<!--영수증 조회  -->
+
+<select id="receiptDetail" parameterType="ReceiptDTO" resultType="Map">
+
+	SELECT * FROM RECIPT 
+	JOIN CARD_PAYMENT
+	USING (AID) 
+	WHERE TID = #{tid} ORDER BY APPROVED_AT DESC
+	
+</select>
+
+<resultMap type="ReceiptDTO" id="ReceiptResult">
+	
+	<result column="MEMBER_ID" property="member_ID"></result>
+	<result column="ITEM_NUM" property="item_Num"></result>
+	<result column="CID" property="cid"></result>
+	<result column="TID" property="tid"></result>
+	<result column="SID" property="sid"></result>
+	<result column="PARTNER_ORDER_ID" property="partner_order_id"></result>
+	<result column="PARTNER_USER_ID" property="partner_user_id"></result>
+	<result column="PAYMENT_METHOD_TYPE" property="payment_method_type"></result>
+	<result column="ITME_NAME" property="item_name"></result>
+	<result column="ITEM_CODE" property="item_code"></result>
+	<result column="QUANTITY" property="quantity"></result>
+	<result column="CREATED_AT" property="created_at"></result>
+	<result column="APPROVED_AT" property="approved_at"></result>
+	<result column="TOTAL" property="total"></result>
+	<result column="VAT" property="vat"></result>	
+	<result column="CANCEL_TOTAL" property="cancel_total"></result>
+	<result column="CANCEL_TAX_FREE" property="cancel_tax_free"></result>	
+	
+	<association property="card_info" resultMap="getCardInfo">
+		<!-- <result column="AID" property="aid" javaType="String" />
+		<result column="INTEREST_FREE_INSTALL" property="interest_free_install"></result>
+		<result column="BIN" property="bin"></result>
+		<result column="CARD_TYPE" property="card_type"></result>
+		<result column="CARD_MID" property="card_mid"></result>
+		<result column="APPROVED_ID" property="approved_id"></result>
+		<result column="INSTALL_MONTH" property="install_month"></result>
+		<result column="INSTALLMENT_TYPE" property="installment_type"></result>
+		<result column="KAKAOPAY_ISSUER_CORP_CODE" property="kakaopay_purchase_corp"></result>
+		<result column="KAKAOPAY_PURCHASE_CORP_CODE" property="kakaopay_purchase_corp_code"></result>
+		<result column="KAKAOPAY_PURCHASE_CORP" property="kakaopay_issuer_corp"></result>
+		<result column="KAKAOPAY_ISSUER_CORP" property="kakaopay_issuer_corp_code"></result> -->
+	</association>
+</resultMap>
+
+<resultMap type="com.groupb.cuiz.web.purchase.kakao.ReceiptDTO$card_info" id="getCardInfo">
+
+		<result column="INTEREST_FREE_INSTALL" property="interest_free_install"></result>
+		<result column="BIN" property="bin"></result>
+		<result column="CARD_TYPE" property="card_type"></result>
+		<result column="CARD_MID" property="card_mid"></result>
+		<result column="APPROVED_ID" property="approved_id"></result>
+		<result column="INSTALL_MONTH" property="install_month"></result>
+		<result column="INSTALLMENT_TYPE" property="installment_type"></result>
+		<result column="KAKAOPAY_ISSUER_CORP_CODE" property="kakaopay_purchase_corp"></result>
+		<result column="KAKAOPAY_PURCHASE_CORP_CODE" property="kakaopay_purchase_corp_code"></result>
+		<result column="KAKAOPAY_PURCHASE_CORP" property="kakaopay_issuer_corp"></result>
+		<result column="KAKAOPAY_ISSUER_CORP" property="kakaopay_issuer_corp_code"></result>
+</resultMap>
+
 <select id="getList" parameterType="PurchaseDTO" resultType="ItemDTO">	
 <!-- 	SELECT ROWNUM R, IC.* FROM
 	(SELECT * FROM ITEM
@@ -20,6 +82,16 @@
 	WHERE MEMBER_ID = #{member_ID}  ORDER BY R DESC	
 
 </select>
+
+<!-- 결제내역 -->
+
+<select id="purchaseList" parameterType="MemberDTO" resultType="ReceiptDTO">
+
+SELECT * FROM RECIPT WHERE MEMBER_ID = #{member_ID}
+
+</select>
+
+
 
 <!-- kakaoPay -->
 
@@ -41,7 +113,8 @@
 		VAT,
 		POINT,
 		DISCOUNT,
-		GREEN_DEPOSIT)
+		GREEN_DEPOSIT,
+		ITEM_NAME)
 	VALUES(	#{member_ID},
 			#{item_Num},
 			#{aid},
@@ -57,7 +130,8 @@
 			#{amount.vat},
 			#{amount.point},
 			#{amount.discount},
-			#{amount.green_deposit}
+			#{amount.green_deposit},
+			#{item_name}
 		)	
 </insert>
 

@@ -9,9 +9,9 @@ public class ReceiptDTO {
 	
 		private String member_ID;
 		private Integer item_Num;
-		private String cid;
+		private String cid; //가맹점코드
 	    private String aid;
-	    private String tid;
+	    private String tid; //결제 고유번호
 	    private String sid;
 	    private String partner_order_id;
 	    private String partner_user_id;
@@ -21,13 +21,65 @@ public class ReceiptDTO {
 	    private Integer quantity;
 	    private Date created_at;
 	    private Date approved_at;
-	    private String payload;
+	    private Integer total;
+	    private Integer tax_free;
+	    private Integer vat;	
 	    private Amount amount;
+	    private String payload;
+	    private Integer cancel_total;
+	    private Integer cancel_tax_free;	    
+	   
+	    
+	    
+	    private Amount cancel_amount;	    
+	    private Approved_cancel_amount approved_cancel_amount;
 	    private card_info card_info;
+	    
 	
 	    
-	    
-	    
+	  
+		public Integer getVat() {
+			return vat;
+		}
+		public void setVat(Integer vat) {
+			this.vat = vat;
+		}
+		public Integer getCancel_total() {
+		return cancel_total;
+		}
+		public void setCancel_total(Integer cancel_total) {
+			this.cancel_total = cancel_total;
+		}
+		public Integer getCancel_tax_free() {
+			return cancel_tax_free;
+		}
+		public void setCancel_tax_free(Integer cancel_tax_free) {
+			this.cancel_tax_free = cancel_tax_free;
+		}
+		public Amount getCancel_amount() {
+			return cancel_amount;
+		}
+		public void setCancel_amount(Amount cancel_amount) {
+			this.cancel_amount = cancel_amount;
+		}
+		public Approved_cancel_amount getApproved_cancel_amount() {
+			return approved_cancel_amount;
+		}
+		public void setApproved_cancel_amount(Approved_cancel_amount approved_cancel_amount) {
+			this.approved_cancel_amount = approved_cancel_amount;
+		}
+		public Integer getTax_free() {
+			return tax_free;
+		}
+		public void setTax_free(Integer tax_free) {
+			this.tax_free = tax_free;
+		}
+		public Integer getTotal() {
+			return total;
+		}
+		public void setTotal(Integer total) {
+			this.total = total;
+		}
 		public Integer getItem_Num() {
 			return item_Num;
 		}
@@ -169,7 +221,10 @@ public class ReceiptDTO {
 	    private Integer vat;
 	    private Integer discount;
 	    private Integer point;
-	    private Integer green_deposit;
+	    private Integer green_deposit;	  
+	    
+	    
+	    
 		public Integer getTotal() {
 			return total;
 		}
@@ -212,10 +267,61 @@ public class ReceiptDTO {
 	    
 	    
 	}
+	
+	@JsonIgnoreProperties(ignoreUnknown = true)
+	 public class Approved_cancel_amount {
+		  
+		  	private Integer total;
+		    private Integer tax_free;
+		    private Integer vat;
+		    private Integer discount;
+		    private Integer point;
+		    private Integer green_deposit;
+			
+		    
+		    
+		    public Integer getTotal() {
+				return total;
+			}
+			public void setTotal(Integer total) {
+				this.total = total;
+			}
+			public Integer getTax_free() {
+				return tax_free;
+			}
+			public void setTax_free(Integer tax_free) {
+				this.tax_free = tax_free;
+			}
+			public Integer getVat() {
+				return vat;
+			}
+			public void setVat(Integer vat) {
+				this.vat = vat;
+			}
+			public Integer getDiscount() {
+				return discount;
+			}
+			public void setDiscount(Integer discount) {
+				this.discount = discount;
+			}
+			public Integer getPoint() {
+				return point;
+			}
+			public void setPoint(Integer point) {
+				this.point = point;
+			}
+			public Integer getGreen_deposit() {
+				return green_deposit;
+			}
+			public void setGreen_deposit(Integer green_deposit) {
+				this.green_deposit = green_deposit;
+			}	  	    
+		    
+	  }
 	@JsonIgnoreProperties(ignoreUnknown = true)
 	public class card_info{
 		
-		
+		private String aid;
 	    private String interest_free_install;
 	    private String bin;
 	    private String card_type;
@@ -234,6 +340,12 @@ public class ReceiptDTO {
 	    
 	    
 		
+		public String getAid() {
+			return aid;
+		}
+		public void setAid(String aid) {
+			this.aid = aid;
+		}
 		public String getCard_item_code() {
 			return card_item_code;
 		}

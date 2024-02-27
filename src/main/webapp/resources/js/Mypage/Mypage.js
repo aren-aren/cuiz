@@ -1,7 +1,13 @@
 const perList = document.getElementById("perList");
 const memberID= document.getElementById("memberID");
+const itemBtn = document.getElementById("itemBtn");
+const purcBtn = document.getElementById("purcBtn");
 // const searchfrm = document.getElementById("searchfrm");
 // const searchBtn = document.getElementById("searchBtn");
+
+let itemlist = document.getElementById("itemlist");
+itemlist.style.display = 'none';
+
 
 let listAll = document.getElementById("list-all");
 let listGroup1 = document.getElementById("list-group1");
@@ -11,12 +17,45 @@ let listGroup4 = document.getElementById("list-group4");
 
 
 
+// 결제목록 들어가기
+
+
+purcBtn.addEventListener("click", function(){
+console.log("123123");
+  window.open("/purchase/list");
+
+})
+
+
+//아이템 메뉴 숨기기
+itemBtn.addEventListener("click",function(){
+  toggleList(itemlist);
+});
+
+
+//토글기능
+function toggleList(selectlist){
+  console.log("123213")
+  //토글할 리스트
+  //selectlist 
+
+  //숨기기 
+  if(selectlist.style.display !== 'none'){
+    selectlist.style.display = 'none';
+  }
+  //보이기
+  else{ 
+    selectlist.style.display = 'block'
+  }
+
+}
+
 
 document.addEventListener("DOMContentLoaded ",frm(memberID.value));
 
 
 function frm(id){
-    fetch("list?member_ID="+id)
+    fetch("./list?member_ID="+id)
     .then(result=>result.json())
     .then(result=>{
 

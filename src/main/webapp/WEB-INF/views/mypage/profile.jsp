@@ -5,7 +5,8 @@
 
 <!DOCTYPE html>
 <html lang="en">
- <c:import url="../temps/header_css.jsp"></c:import>
+
+<c:import url="../temps/header_css.jsp"></c:import>
 
 
 <body>
@@ -60,7 +61,8 @@
                     </ul>
                   </div>
                 </div>
-                <div class="row">
+              
+                <!-- <div class="row">
                   <div class="col-lg-12">
                     <div class="clips">
                       <div class="row">
@@ -125,14 +127,19 @@
                       </div>
                     </div>
                   </div>
-                </div>
+                </div> -->
               </div>
             </div>
           </div>
           <!-- ***** Banner End ***** -->
-
+  		<span class="main-border-button">
+         <button id="itemBtn" type="button" >아이템 목록</button>        
+       </span>
+       <span class="main-border-button">
+         <button id="purcBtn" type="button">결제목록</button>
+       </span>
           <!-- ***** 구매 앝이템 리스트***** -->
-          <div class="most-popular">
+          <div class="most-popular" id="itemlist" >
             <div class="row">
               <div class="col-lg-12">
                 <div class="heading-section">

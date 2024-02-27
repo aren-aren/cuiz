@@ -2,7 +2,7 @@ package com.groupb.cuiz.web.purchase;
 
 import java.io.BufferedReader;
 import java.io.DataOutputStream;
-import java.io.IOException;
+
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.OutputStream;
@@ -22,7 +22,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.fasterxml.jackson.databind.DeserializationFeature;
+
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 import com.groupb.cuiz.support.util.parser.ParameterToJson;
@@ -45,6 +45,23 @@ public class PurchaseService {
 	private MemberDAO memberDAO;
 	@Autowired
 	private ItemDAO itemDAO;	
+	
+	//영수증 조회
+	
+	public Map<String, Object> receiptDetail(ReceiptDTO receiptDTO) {
+		Map<String, Object> map =purchaseDAO.receiptDetail(receiptDTO);
+		System.out.println(map);
+		return map; 
+	}
+	
+	
+	//구매내역
+	
+	public List<ReceiptDTO> purchaseList(MemberDTO memberDTO){
+		
+		return purchaseDAO.purchaseList(memberDTO);
+		
+	}
 	
 	
 	//카카오페이 환불
@@ -83,18 +100,32 @@ public class PurchaseService {
 			+ "\"partner_user_id\":"+"\""+responseDTO.getPartner_user_id()+"\""+","
 			+ "\"pg_token\":"+""+ "\""+responseDTO.getPg_token()+"\""+"}";		
 		
-		Map<String, Object> map =connectURL( approveJson, responseDTO, appAdd);	
+		Map<String, Object> jsonMap = new HashMap<String, Object>();
+		
+		jsonMap.put("cid", "TC0ONETIME");
+		jsonMap.put("tid",responseDTO.getTid());
+		jsonMap.put("partner_order_id",responseDTO.getPartner_order_id());
+		jsonMap.put("partner_user_id",responseDTO.getPartner_user_id());		
+		jsonMap.put("pg_token",responseDTO.getPg_token());
+		
+		Map<String, Object> map =connectURL( jsonMap, responseDTO, appAdd, approveJson);	
 		
 		
 		String response = (String) map.get("response");		
+		
 		int result = (int) map.get("result"); //200이 성공				
 		ObjectMapper mapper = new ObjectMapper();			
 		
-				
+		System.out.println("결제확인 service 118 :  "+result);		
 		if(result == 200) {//결제성공
+			
 			receiptDTO = mapper.readValue(response, ReceiptDTO.class);	
 			receiptDTO.setMember_ID(memberDTO.getMember_ID());
 			receiptDTO.setItem_Num(responseDTO.getItem_Num());
+			
+			
+			String arr = mapper.writeValueAsString(response);
+			System.out.println("service 127  :   "+ arr);
 			
 			//영수증 저장
 			int dbput = purchaseDAO.kakopaySuccess(receiptDTO);			
@@ -131,26 +162,45 @@ public class PurchaseService {
 		responseDTO.setPartner_order_id(orderID);
 		int tax_free_amount = itemDTO.getItem_Price()*(10/11);
 		URL address = new URL("https://open-api.kakaopay.com/online/v1/payment/ready");
-						
-		String parameter = "cid=TC0ONETIME" // 가맹점 코드
-				+ "&partner_order_id="+responseDTO.getPartner_order_id() // 가맹점 주문번호 시간으로 생성
-				+ "&partner_user_id="+responseDTO.getPartner_user_id() // 가맹점 회원 id				
-				+ "&quantity=1" // 상품 수량 1 고정							
-				+ "&total_amount="+itemDTO.getItem_Price() //상품가격 추가;
-				+ "&tax_free_amount="+tax_free_amount // 상품 비과세 금액
-				+ "&item_name="+itemDTO.getItem_Name() // 상품명 추가
-				+ "&approval_url=http://localhost/purchase/success" // 결제성공	
-				+ "&fail_url=http://localhost/purchase/fail" // 결제 실패 시
-				+ "&cancel_url=http://localhost/purchase/cancel" //localhost/shop/detail?
-				;
-		System.out.println(parameter);
 		
-		parameter = ParameterToJson.parameterToJson(parameter);
-		Map<String, Object> map = connectURL(parameter, responseDTO, address);
+		
+		
+//		String parameter = "cid=TC0ONETIME" // 가맹점 코드
+//				+ "&partner_order_id="+responseDTO.getPartner_order_id() // 가맹점 주문번호 시간으로 생성
+//				+ "&partner_user_id="+responseDTO.getPartner_user_id() // 가맹점 회원 id				
+//				+ "&quantity=1" // 상품 수량 1 고정							
+//				+ "&total_amount="+itemDTO.getItem_Price() //상품가격 추가;
+//				+ "&tax_free_amount="+tax_free_amount // 상품 비과세 금액
+//				+ "&item_name="+itemDTO.getItem_Name() // 상품명 추가
+//				+ "&approval_url=http://localhost/purchase/success" // 결제성공	
+//				+ "&fail_url=http://localhost/purchase/fail" // 결제 실패 시
+//				+ "&cancel_url=http://localhost/purchase/cancel" //localhost/shop/detail?
+//				;
+//		
+//		parameter = ParameterToJson.parameterToJson(parameter);
+		
+		Map<String, Object> jsonMap = new HashMap<String, Object>();
+		
+		jsonMap.put("cid", "TC0ONETIME");
+		jsonMap.put("partner_order_id",responseDTO.getPartner_order_id());
+		jsonMap.put("partner_user_id",responseDTO.getPartner_user_id());
+		jsonMap.put("quantity",1);		
+		jsonMap.put("total_amount",itemDTO.getItem_Price());
+		jsonMap.put("tax_free_amount",tax_free_amount);
+		jsonMap.put("item_name",itemDTO.getItem_Name());
+		jsonMap.put("approval_url","http://localhost/purchase/success");
+		jsonMap.put("fail_url","http://localhost/purchase/fail");
+		jsonMap.put("cancel_url","http://localhost/purchase/cancel");
+		
+		
+		Map<String, Object> map = connectURL(jsonMap, responseDTO, address, null);
 		String response = (String) map.get("response");
 		int result =  (int)map.get("result");
+		
 		System.out.println("PurchaseService:192   "+result);
 		System.out.println("리스폰스 위에꺼 담음"+ response);
+		
+		
 		ObjectMapper mapper = new ObjectMapper();		
 		responseDTO = mapper.readValue(response, ResponseDTO.class);
 		responseDTO.setPartner_order_id(orderID);	
@@ -169,20 +219,39 @@ public class PurchaseService {
 	
 	
 //	카카오페이용 URL
-	public Map<String, Object> connectURL(String parameter, ResponseDTO responseDTO, URL url) throws Exception {
+	public Map<String, Object> connectURL(Map<String, Object> jsonMap,ResponseDTO responseDTO, URL url , String param) throws Exception {
 		
 		HttpURLConnection connection = (HttpURLConnection) url.openConnection();
 		connection.setRequestMethod("POST");
 		connection.setRequestProperty("Authorization", "SECRET_KEY DEVC6856C2EEE2F34D162ED6157E9BAB2B2980A8");
 		connection.setRequestProperty("Content-Type", "application/json;charset=UTF-8");
 		connection.setDoOutput(true);		
-				
+		
+		//Map을 Json 타입  String(parameter)으로 변환
+		ObjectMapper mapper = new ObjectMapper();
+		
+		String parameter = mapper.writeValueAsString(jsonMap); 
+		System.out.println("service 223    :    "+parameter);
+		
+		
 		OutputStream send = connection.getOutputStream(); // 이제 뭔가를 를 줄 수 있다.
 		DataOutputStream dataSend = new DataOutputStream(send); // 이제 데이터를 줄 수 있다.
+		
+		if(param!=null) {
+			
+			parameter = param;
+			
+		}
+		
 		dataSend.writeBytes(parameter); // OutputStream은 데이터를 바이트 형식으로 주고 받기로 약속되어 있다. (형변환)
+		
+		
+		
 		dataSend.close(); // flush가 자동으로 호출이 되고 닫는다. (보내고 비우고 닫다)
 	
 		int result = connection.getResponseCode(); // 전송 잘 됐나 안됐나 html 번호 받음 받는다.			
+		System.out.println("service 238"+ result);
+		
 		InputStream receive; // 받다		
 		if(result == 200) {
 			receive = connection.getInputStream();			
@@ -195,6 +264,8 @@ public class PurchaseService {
 		
 		String response = change.readLine();
 		Map<String, Object> map = new HashMap<String, Object>();
+		System.out.println("service 265 : "+response);
+		
 		map.put("response", response);
 		map.put("result", result);		
 		

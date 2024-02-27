@@ -5,6 +5,7 @@ package com.groupb.cuiz.web.purchase;
 
 
 import java.util.List;
+import java.util.Map;
 
 import javax.servlet.http.HttpSession;
 
@@ -33,6 +34,42 @@ public class PurchaseController {
 
 	private ResponseDTO responseDTO;
 	
+	//영수증 확인
+	
+	@GetMapping("receipt")
+	public String receiptDetail(ReceiptDTO receiptDTO, Model model) {
+				
+		Map<String, Object> map = purchaseService.receiptDetail(receiptDTO);
+		
+
+		model.addAttribute("dto", map);
+		
+		return "/purchase/receipt";
+				
+				
+	}
+	
+	
+	//결제내역 확인
+	@GetMapping("list")
+	public String perchaseList(HttpSession session, Model model, MemberDTO memberDTO) {
+		
+		memberDTO = (MemberDTO)session.getAttribute("member");
+		
+		List<ReceiptDTO> ar = purchaseService.purchaseList(memberDTO);
+		
+		for(ReceiptDTO list : ar) {
+			
+			System.out.println(list.getTotal());
+			
+		}
+		
+		model.addAttribute("list", ar);
+		
+		return "/purchase/purchaselist";
+		
+	}
+	
 	
 	//카카오페이
 	
@@ -41,11 +78,11 @@ public class PurchaseController {
 	//카카오페이 결제 환불
 	
 	
+	
 	@GetMapping("cancellation")
 	public String kakaopayCancellation(HttpSession session) {
 		
-		MemberDTO memberDTO = (MemberDTO)session.getAttribute("member");
-		
+		MemberDTO memberDTO = (MemberDTO)session.getAttribute("member");		
 		
 		
 		return "";
@@ -78,7 +115,8 @@ public class PurchaseController {
 	
 
 		this.responseDTO.setPg_token(pg_token);				
-		receiptDTO = purchaseService.kakaoPaySuccess(itemDTO,responseDTO, receiptDTO, session);			
+		receiptDTO = purchaseService.kakaoPaySuccess(itemDTO,responseDTO, receiptDTO, session);		
+		
 		model.addAttribute("total", receiptDTO.getAmount().getTotal());	
 		model.addAttribute("msg", "결제가 완료되었습니다.");
 		System.out.println("결제완료");
@@ -108,15 +146,15 @@ public class PurchaseController {
 	
 	
 	
-	@GetMapping("list")
-	public String list(PurchaseDTO purchaseDTO, Model model) {	
-		purchaseDTO.setMember_ID("hello");
-		List<ItemDTO> ar = purchaseService.getList(purchaseDTO);
-		model.addAttribute("dto", ar);
-		
-		return "/purchase/list";
-		
-	}
+//	@GetMapping("list")
+//	public String list(PurchaseDTO purchaseDTO, Model model) {	
+//		purchaseDTO.setMember_ID("hello");
+//		List<ItemDTO> ar = purchaseService.getList(purchaseDTO);
+//		model.addAttribute("dto", ar);
+//		
+//		return "/purchase/list";
+//		
+//	}
 	@PostMapping("buy")
 	@ResponseBody
 	public int buyItem(ItemDTO itemDTO,HttpSession httpSession) throws Exception {

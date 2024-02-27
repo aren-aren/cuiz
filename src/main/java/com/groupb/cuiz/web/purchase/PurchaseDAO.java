@@ -1,12 +1,14 @@
 package com.groupb.cuiz.web.purchase;
 
 import java.util.List;
+import java.util.Map;
 
 import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import com.groupb.cuiz.web.item.ItemDTO;
+import com.groupb.cuiz.web.member.MemberDTO;
 import com.groupb.cuiz.web.purchase.kakao.ReceiptDTO;
 
 @Repository
@@ -16,6 +18,22 @@ public class PurchaseDAO {
 	private SqlSession sqlSession;
 	
 	private final String NAMESPACE = "com.groupb.cuiz.web.purchase.PurchaseDAO.";
+	
+	//영수증 확인
+	
+	public Map<String, Object> receiptDetail(ReceiptDTO receiptDTO) {
+		
+		return sqlSession.selectOne(NAMESPACE+"receiptDetail", receiptDTO);
+		
+	}
+	
+	//결제내역 보기
+	public List<ReceiptDTO> purchaseList(MemberDTO memberDTO) {
+		
+		return sqlSession.selectList(NAMESPACE+"purchaseList", memberDTO);
+		
+	}
+	
 	
 	//kakaopay 환불
 	
