@@ -5,8 +5,6 @@ import java.util.List;
 import com.groupb.cuiz.support.util.file.FileDTO;
 import com.groupb.cuiz.web.board.BoardDTO;
 import com.groupb.cuiz.web.quiz.MemberAnswerDTO;
-import com.groupb.cuiz.web.quiz.QuizDTO;
-
 public class QnaDTO extends BoardDTO{
 	
 		private Long board_Ref;

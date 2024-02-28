@@ -1,8 +1,6 @@
 package com.groupb.cuiz.web.board;
 
 import java.sql.Timestamp;
-import java.time.LocalDateTime;
-import java.sql.Date;
 
 public class BoardDTO {
 
