@@ -36,24 +36,35 @@ public class MypageController {
 	@Autowired
 	private PhotoEncoder photoEncoder;
 	@GetMapping("profile")
-	public String mypage()  {			
-		
+	public String mypage(MemberDTO dto,Model model,HttpSession session) throws Exception {			
+		MemberDTO memberDTO = (MemberDTO)session.getAttribute("member");
+		Map<String, Object> map =	mypageService.getCount(memberDTO);
+		model.addAttribute("map", map);
 		return "/mypage/profile";
 		
 	}
 	
 //	sangul
 	@GetMapping("yours")
-	public String yours(MemberDTO dto,Model model,HttpSession session) {
+	public String yours(MemberDTO dto,Model model,HttpSession session) throws Exception {
 		dto = mypageService.temp(dto);
 		
 		MemberDTO memberDTO = (MemberDTO)session.getAttribute("member");
 		if(memberDTO != null) {
 			if(memberDTO.getMember_ID().equals(dto.getMember_ID())) {
-				return "/mypage/profile";
+				return "redirect:/mypage/profile";
 			}
 		}
+		
+		Map<String, Object> map =	mypageService.getCount(dto);
+		
+		
+			System.out.println("map value = " + map.values());
+			
+		
 		model.addAttribute("yours", dto);
+		model.addAttribute("map", map);
+		
 		
 		return "/mypage/yours";
 	}
