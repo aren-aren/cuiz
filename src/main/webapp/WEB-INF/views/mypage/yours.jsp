@@ -9,18 +9,27 @@
  <link rel="style" href="/resources/jandi/glanceyear.css">
 
 <style>
- rect.day { fill: #eee; shape-rendering: crispedges; }
+ rect.day { fill: #27292a; shape-rendering: crispedges; }
  rect.day:hover { stroke: #aaa; stroke-width: 1px; }
- rect.day[data-count] { fill: #3d9692; }
+/*  rect.day[data-count] { fill: #3d9692; }
  rect.day[data-count='1'] { fill: #c3dbda; }
  rect.day[data-count='2'] { fill: #5caeaa; }
- rect.day[data-count='3'] { fill: #277672; }
+ rect.day[data-count='3'] { fill: #277672; } */
+ 
+ rect.day[data-count='1'] { fill: #47194a; }
+ rect.day[data-count='2'] { fill: #97099a; }
+ rect.day[data-count='3'] { fill: #B900B9; }
+ rect.day[data-count='4'] { fill: #F0F; }
+ 
 svg text { fill: #CCC; font-size: 9px; }
 svg text.month { fill: #AAA; }
  #debug{
  color : white;
  }
- 
+ .glanceyear-content{
+ 	overflow-x: auto;
+ 	width:100%;
+ }
  .glanceyear-legend {
 	color: #aaa;
 	float: right;
@@ -28,8 +37,11 @@ svg text.month { fill: #AAA; }
 	text-align: middle;
 	text-wrap: none;
 }
-.sang{
-	width:710px;
+.glanceyear-summary{
+	margin-top : 2%; 
+}
+.glanceyear-summary{
+	width:660px;
 }
 .glanceyear-legend span { display: inline-block; height: 10px; width: 10px; }
 
@@ -88,10 +100,17 @@ svg text.month { fill: #AAA; }
 				<div class="glanceyear-summary sang">
 				<div class="glanceyear-legend">
 				Less&nbsp;
-				<span style="background-color: #eee"></span>
-				<span style="background-color: #c3dbda"></span>
-				<span style="background-color: #5caeaa"></span>
-				<span style="background-color: #277672"></span>
+				<span style="background-color: #27292a"></span>
+				<span style="background-color: #47194a"></span>
+				<span style="background-color: #97099a"></span>
+				<span style="background-color: #B900B9"></span>
+				<span style="background-color: #F0F"></span>
+				
+				<!--  rect.day[data-count='1'] { fill: #47194a; }
+ rect.day[data-count='2'] { fill: #97099a; }
+ rect.day[data-count='3'] { fill: #B900B9; }
+ rect.day[data-count='4'] { fill: #F0F; } -->
+				
 				&nbsp;More
 			</div>
 			
@@ -118,20 +137,22 @@ svg text.month { fill: #AAA; }
 	
 
 	  <script>
-    let massive = [
-    {date:'2024-2-1', value:'2'},	
-    {date:'2023-8-4', value:'2'},
-    {date:'2023-9-3', value:'3'},
-    {date:'2023-10-14', value:'2'},
-    {date:'2023-10-13', value:'8'},
-     {date:'2023-7-3', value:'1'},
-    {date:'2023-7-4', value:'2'},
-    {date:'2023-7-7', value:'3'},
-    {date:'2023-6-3', value:'1'},
-    {date:'2023-6-4', value:'2'},
-    {date:'2023-6-5', value:'3'},
-    {date:'2023-6-14', value:'2'}
-];
+
+      let map = "${map}";
+      let map2 = map.replace(/[{}]/g,"");
+      let ar = map2.split(",");
+      let massive = [];
+      for(let ar2 of ar){
+        let [key,value] = ar2.split("=");
+        key =key.trim();
+        if(key.charAt(5) == '0'){
+          key = key.substring(0,5)+key.substring(6);
+        }
+        let obj = {date:key.trim(),value:value.trim()};
+        massive.push(obj);
+      }
+      
+     
 
 $('#demo').glanceyear(massive,{
 eventClick: function(e) { $('#debug').html('Date: '+ e.date + ', Count: ' + e.count); },

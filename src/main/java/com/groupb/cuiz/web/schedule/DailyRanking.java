@@ -38,6 +38,7 @@ public class DailyRanking {
 						}
 					dto.setDaily_Jumsu(jumsu);
 					dao.setJumsu(dto);
+					jumsu = 0;
 				}
 				
 				result = dao.getRanking();

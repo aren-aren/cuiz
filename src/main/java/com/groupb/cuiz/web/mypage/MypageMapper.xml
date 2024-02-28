@@ -11,6 +11,20 @@
  
  </select>
  
+ <!-- sang -->
+ <!-- 각 아이디 문제 푼 날짜들 가져오기 -->
+ <select id="getAnswerDate" parameterType="MemberDTO" resultType="String">
+ 	SELECT DISTINCT TO_CHAR(ANSWER_DATE,'YYYY-MM-DD')  FROM MEMBER_QUIZ_ANSWER WHERE MEMBER_ID =#{member_ID} AND ANSWER_CHECK =1
+ </select>
+ <!-- 문제 푼 날짜에 몇 문제 풀었는지 검색 -->
+ <select id="getCountAnswer" parameterType="MemberDTO" resultType="YoursDTO">
+	SELECT COUNT(QUIZ_NO) Q_COUNT,TO_CHAR(ANSWER_DATE,'YYYY-MM-DD') A_DATE 
+	FROM MEMBER_QUIZ_ANSWER
+	WHERE MEMBER_ID =#{member_ID}
+	GROUP BY TO_CHAR(ANSWER_DATE,'YYYY-MM-DD')
+	ORDER BY COUNT(QUIZ_NO) DESC
+</select>
+ 
  <select id="getList" parameterType="MemberDTO" resultType="ItemDTO">
  
  

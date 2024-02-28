@@ -36,5 +36,6 @@
 		 <typeAlias type="com.groupb.cuiz.web.mypage.MypageSetDTO" alias="MypageSetDTO"/>
 		 <typeAlias type="com.groupb.cuiz.web.ranking.RankingDTO" alias="RankingDTO"/>
 		 <typeAlias type="com.groupb.cuiz.web.statistic.StatisticDTO" alias="StatisticDTO"/>
+		 <typeAlias type="com.groupb.cuiz.web.mypage.YoursDTO" alias="YoursDTO"/>
 	 </typeAliases>
 </configuration>
