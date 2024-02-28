@@ -31,8 +31,12 @@ public class QuizDAO {
         return sqlSession.selectList(NAMESPACE + "getQuizList", pager);
     }
 
-    public QuizDTO getDetail(QuizDTO quizDTO) {
-        return sqlSession.selectOne(NAMESPACE + "getQuizDetail", quizDTO);
+    public QuizDTO getQuizDetail(QuizDTO quizDTO) {
+        return getQuizDetail(quizDTO.getQuiz_No());
+    }
+
+    public QuizDTO getQuizDetail(Integer quiz_No){
+        return sqlSession.selectOne(NAMESPACE + "getQuizDetail", quiz_No);
     }
 
     public List<TestcaseDTO> getTestCases(Map<String, Object> map) {
@@ -81,5 +85,13 @@ public class QuizDAO {
 
     public List<QuizDTO> getAllQuizs() {
         return sqlSession.selectList(NAMESPACE + "getAllQuizs");
+    }
+
+    public void buyTestcase(Map<String, Object> map) {
+        sqlSession.insert(NAMESPACE + "buyTestcase" , map);
+    }
+
+    public List<TestcaseDTO> getBuyedTestcase(QuizDTO quiz) {
+        return sqlSession.selectList(NAMESPACE + "getBuyedTestcase", quiz);
     }
 }

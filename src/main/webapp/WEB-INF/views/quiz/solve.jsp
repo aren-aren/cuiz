@@ -56,7 +56,7 @@
                                     <th>출력</th>
                                 </tr>
                                 </thead>
-                                <tbody>
+                                <tbody id="example-io-tbody">
                                 <c:forEach items="${dto.testcase}" var="tc">
                                     <tr>
                                         <td>${tc.testcase_Input}</td>
@@ -141,13 +141,13 @@ ${answer.sourcecode}
                 </div>
                 <div class="d-none hint-notice">
                     <div class="modal-body">
-                        <h2 class="text-black">힌트를 보려면 아이템이 필요합니다.</h2>
-                        <h5 class="text-black">필요 아이템 개수 : 100개</h5>
+                        <h2 class="text-black">힌트를 보려면 코인이 필요합니다.</h2>
+                        <h5 class="text-black">필요 코인 개수 : ${dto.quiz_Price}</h5>
                     </div>
                 </div>
                 <div class="modal-footer">
                     <div class="d-none hint-notice">
-                        <button type="button" class="btn btn-primary">테스트 케이스 보기</button>
+                        <button id="testcase-show-btn" type="button" class="btn btn-primary">테스트 케이스 보기</button>
                     </div>
                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">닫기</button>
                 </div>

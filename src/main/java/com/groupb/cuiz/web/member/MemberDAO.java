@@ -1,6 +1,7 @@
 package com.groupb.cuiz.web.member;
 
 import java.util.List;
+import java.util.Map;
 
 import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -129,4 +130,8 @@ public class MemberDAO {
 	public int setTotalAtt(MemberDTO dto) throws Exception{
 		return sqlSession.update(namespace+"setTotalAtt",dto);
 	}
+
+    public int buyTestcase(Map<String, Object> map) {
+		return sqlSession.update(namespace + "buyTestcase", map);
+    }
 }

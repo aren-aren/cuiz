@@ -6,12 +6,15 @@ const initBtn = document.getElementById("init-btn");
 const submitBtn = document.getElementById("submit-btn");
 const footer = document.getElementsByTagName("footer")
 const answerCorrectModal = new bootstrap.Modal(document.getElementById("answer_correct_modal"))
+const testcaseShowBtn = document.getElementById("testcase-show-btn");
 
 const spinner = `<div id="loadingSpinner" class="spinner-border text-white" role="status">
                         <span class="visually-hidden">Loading...</span>
                     </div>`;
 
 [...document.querySelectorAll("[data-bs-toggle='tooltip']")].map(tool => new bootstrap.Tooltip(tool));
+
+let selectedTestcaseNum;
 
 footer[0].querySelectorAll("*").forEach(e=>e.remove());
 /**
@@ -48,6 +51,26 @@ const onRunCode = ()=> {
         body: JSON.stringify(data)
     }).then(r=>r.json())
         .then(r=> showSolveResult(r.testcase_Results, false))
+}
+
+const onShowTestcase = () => {
+    if(selectedTestcaseNum == null) return;
+
+    fetch(`showTestcase?quiz_No=${quizNo.value}&testcase_No=${selectedTestcaseNum}`)
+        .then(r=>r.json())
+        .then(r=> {
+            const notice = `Input : ${r.testcase_Input}\n Output : ${r.testcase_Output}`;
+            alert(notice);
+
+            const template = `
+            <tr>
+                <td>${r.testcase_Input}</td>
+                <td><pre>${r.testcase_Output}</pre></td>
+            </tr>
+            `;
+            document.getElementById("example-io-tbody").innerHTML += template;
+            answerCorrectModal.hide();
+        });
 }
 
 function countNumber(target, start, up, step){
@@ -107,13 +130,10 @@ const onSubmit = () => {
 const onHintBtnClick = event => {
     if(!event.target.classList.contains("tc-show")) return;
 
-    console.log(event.target);
-
     document.querySelectorAll(".correct-notice").forEach(e=>e.classList.add("d-none"));
     document.querySelectorAll(".hint-notice").forEach(e=>e.classList.remove("d-none"));
 
-    let testcaseNum = event.target.getAttribute("data-testcase");
-
+    selectedTestcaseNum = event.target.getAttribute("data-testcase-no");
 
     answerCorrectModal.show();
 }
@@ -131,7 +151,7 @@ function showSolveResult(results, isSubmit){
         if(!result.result){
             textColor = 'text-danger';
             if(isSubmit) {
-                testcaseShowBtn = `<button class="btn btn-cuiz btn-sm tc-show float-end" data-testcase="${quizNo.value}:${index}">Hint</button>`;
+                testcaseShowBtn = `<button class="btn btn-cuiz btn-sm tc-show" data-testcase-no="${result.testcase_No}">Hint</button>`;
                 document.getElementById("hint-tip").classList.remove("d-none");
                 document.getElementById("hint-tip").classList.add("d-inline-block");
             }
@@ -145,6 +165,7 @@ function showSolveResult(results, isSubmit){
 
 }
 
+testcaseShowBtn.addEventListener("click", onShowTestcase);
 initBtn.addEventListener("click", onInitEditor);
 runBtn.addEventListener("click", onRunCode);
 submitBtn.addEventListener("click", onSubmit);
