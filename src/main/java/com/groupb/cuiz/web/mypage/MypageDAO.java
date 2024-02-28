@@ -1,5 +1,6 @@
 package com.groupb.cuiz.web.mypage;
 
+import java.sql.Date;
 import java.util.List;
 
 import org.apache.ibatis.session.SqlSession;
@@ -8,6 +9,7 @@ import org.springframework.stereotype.Repository;
 
 import com.groupb.cuiz.web.item.ItemDTO;
 import com.groupb.cuiz.web.member.MemberDTO;
+import com.groupb.cuiz.web.quiz.MemberAnswerDTO;
 
 @Repository
 public class MypageDAO {
@@ -28,5 +30,17 @@ public class MypageDAO {
 		return sqlSession.selectList(NAMESPACE+"getList", memberDTO);
 		
 	}
+	
+//	SANGUL
+	
+	public List<String> getAnswerDate(MemberDTO dto) throws Exception{
+		return sqlSession.selectList(NAMESPACE+"getAnswerDate",dto);
+	}
+	public List<YoursDTO> getCountAnswer(MemberDTO dto) throws Exception{
+		return sqlSession.selectList(NAMESPACE+"getCountAnswer",dto);
+	}
+	
+	
+	
 	
 }

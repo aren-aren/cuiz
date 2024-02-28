@@ -6,7 +6,47 @@
 <!DOCTYPE html>
 <html lang="en">
  <c:import url="../temps/header_css.jsp"></c:import>
+ 
+ <link rel="style" href="/resources/jandi/glanceyear.css">
+<style>
+ rect.day { fill: #27292a; shape-rendering: crispedges; }
+ rect.day:hover { stroke: #aaa; stroke-width: 1px; }
+/*  rect.day[data-count] { fill: #3d9692; }
+ rect.day[data-count='1'] { fill: #c3dbda; }
+ rect.day[data-count='2'] { fill: #5caeaa; }
+ rect.day[data-count='3'] { fill: #277672; } */
+ 
+ rect.day[data-count='1'] { fill: #47194a; }
+ rect.day[data-count='2'] { fill: #97099a; }
+ rect.day[data-count='3'] { fill: #B900B9; }
+ rect.day[data-count='4'] { fill: #F0F; }
+ 
+svg text { fill: #CCC; font-size: 9px; }
+svg text.month { fill: #AAA; }
 
+ #debug{
+ color : white;
+ }
+ .glanceyear-content{
+ 	overflow-x: auto;
+ 	width:100%;
+ }
+ .glanceyear-legend {
+	color: #aaa;
+	float: right;
+	font-size: 12px;
+	text-align: middle;
+	text-wrap: none;
+}
+.glanceyear-summary{
+	margin-top : 2%; 
+}
+.glanceyear-summary{
+	width:660px;
+}
+.glanceyear-legend span { display: inline-block; height: 10px; width: 10px; }
+
+</style>
 
 <body>
 
@@ -60,72 +100,28 @@
                     </ul>
                   </div>
                 </div>
-                <div class="row">
-                  <div class="col-lg-12">
-                    <div class="clips">
-                      <div class="row">
-                        <div class="col-lg-12">
-                          <div class="heading-section">
-                            <h4><em>Your Most Popular</em> Clips</h4>
-                          </div>
-                        </div>
-                        <div class="col-lg-3 col-sm-6">
-                          <div class="item">
-                            <div class="thumb">
-                              <img src="assets/images/clip-01.jpg" alt="" style="border-radius: 23px;">
-                              <a href="https://www.youtube.com/watch?v=r1b03uKWk_M" target="_blank"><i class="fa fa-play"></i></a>
-                            </div>
-                            <div class="down-content">
-                              <h4>First Clip</h4>
-                              <span><i class="fa fa-eye"></i> 250</span>
-                            </div>
-                          </div>
-                        </div>
-                        <div class="col-lg-3 col-sm-6">
-                          <div class="item">
-                            <div class="thumb">
-                              <img src="assets/images/clip-02.jpg" alt="" style="border-radius: 23px;">
-                              <a href="https://www.youtube.com/watch?v=r1b03uKWk_M" target="_blank"><i class="fa fa-play"></i></a>
-                            </div>
-                            <div class="down-content">
-                              <h4>Second Clip</h4>
-                              <span><i class="fa fa-eye"></i> 183</span>
-                            </div>
-                          </div>
-                        </div>
-                        <div class="col-lg-3 col-sm-6">
-                          <div class="item">
-                            <div class="thumb">
-                              <img src="assets/images/clip-03.jpg" alt="" style="border-radius: 23px;">
-                              <a href="https://www.youtube.com/watch?v=r1b03uKWk_M" target="_blank"><i class="fa fa-play"></i></a>
-                            </div>
-                            <div class="down-content">
-                              <h4>Third Clip</h4>
-                              <span><i class="fa fa-eye"></i> 141</span>
-                            </div>
-                          </div>
-                        </div>
-                        <div class="col-lg-3 col-sm-6">
-                          <div class="item">
-                            <div class="thumb">
-                              <img src="assets/images/clip-04.jpg" alt="" style="border-radius: 23px;">
-                              <a href="https://www.youtube.com/watch?v=r1b03uKWk_M" target="_blank"><i class="fa fa-play"></i></a>
-                            </div>
-                            <div class="down-content">
-                              <h4>Fourth Clip</h4>
-                              <span><i class="fa fa-eye"></i> 91</span>
-                            </div>
-                          </div>
-                        </div>
-                        <div class="col-lg-12">
-                          <div class="main-button">
-                            <a href="#">Load More Clips</a>
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                </div>
+                
+                            <div class="glanceyear-content sang" id="demo">
+
+				</div>
+				<div class="glanceyear-summary sang">
+				<div class="glanceyear-legend">
+				Less&nbsp;
+				<span style="background-color: #27292a"></span>
+				<span style="background-color: #47194a"></span>
+				<span style="background-color: #97099a"></span>
+				<span style="background-color: #B900B9"></span>
+				<span style="background-color: #F0F"></span>
+				
+				
+				
+				&nbsp;More
+			</div>
+			
+			<span id="debug"></span>
+		</div>
+                
+              
               </div>
             </div>
           </div>
@@ -182,6 +178,40 @@
 	<input id="memberID"  type="hidden" value="${member.member_ID}"/> 
 	<c:import url="../temps/footer.jsp"></c:import>
 	<script src="/resources/js/Mypage/Mypage.js"></script>
+	<script src="/resources/jandi/jquery.glanceyear.js"></script>
+	
+
+	  <script>
+
+      let map = "${map}";
+      let map2 = map.replace(/[{}]/g,"");
+      let ar = map2.split(",");
+      let massive = [];
+      for(let ar2 of ar){
+        let [key,value] = ar2.split("=");
+        key =key.trim();
+        if(key.charAt(5) == '0'){
+          key = key.substring(0,5)+key.substring(6);
+        }
+        let obj = {date:key.trim(),value:value.trim()};
+        massive.push(obj);
+      }
+      
+     
+
+$('#demo').glanceyear(massive,{
+eventClick: function(e) { $('#debug').html('Date: '+ e.date + ', Count: ' + e.count); },
+months: ["Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec"],
+weeks: ['M','T','W','T','F','S','S'],
+targetQuantity:'.glanceyear-quantity',
+tagId:'glanceyear-svgTag',
+showToday:false,
+today:new Date()
+});
+
+
+
+    </script>	
   </body>
 
 </html>
