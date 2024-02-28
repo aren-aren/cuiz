@@ -228,7 +228,6 @@
 					        </li>				        
 					     
 					      </ul>
-				      </div>
 					     	  	 <button class="main-border-button button" id="search2"  type="button">Search</button>
 				      
 				      <div class="main-button" >
@@ -239,6 +238,7 @@
 				       </div>
 				       	
 				      </form>
+				      </div>
 				    </div>
 				  </div>
 				</nav>            
