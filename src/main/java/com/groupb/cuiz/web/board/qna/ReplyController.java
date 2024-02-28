@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.multipart.MultipartFile;
@@ -22,6 +23,11 @@ public class ReplyController {
 	@Autowired
 	private ReplyService replyService;
 	
+	@ModelAttribute("bbs")
+	public Integer getKind() {
+		return 1;
+	}
+	
 	@PostMapping("delete")
 	public String getDelete(ReplyDTO replyDTO,Model model) throws Exception {
 		int result = replyService.getDelete(replyDTO);
@@ -33,11 +39,7 @@ public class ReplyController {
 	
 	}
 	
-	
-	@GetMapping("add")
-	public String getAdd()throws Exception{
-		return "board/detail";
-	}
+
 	
 	@PostMapping("add")
 	public String getAdd(ReplyDTO replyDTO, HttpSession session, Model model, Pager pager)throws Exception{
@@ -53,7 +55,7 @@ public class ReplyController {
 		List<ReplyDTO> ar = replyService.getList(pager, replyDTO);
 		model.addAttribute("list", ar);
 		
-		return "/commons/ajaxResult";
+		return "board/ajaxList";
 	}
 	
 	@PostMapping("list")
@@ -62,7 +64,7 @@ public class ReplyController {
 		model.addAttribute("list", ar);
 		model.addAttribute("pager", pager);
 		
-		return "ar";
+		return "board/ajaxList";
 		
 	}
 

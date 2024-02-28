@@ -21,6 +21,7 @@ public class ReplyService {
 
 	public List<ReplyDTO> getList(Pager pager, ReplyDTO replyDTO) throws Exception {
 		// TODO Auto-generated method stub
+		pager.setPerPage(5L);
 		pager.makeRow();
 		
 		pager.makeNum(replyDAO.getTotalCount(replyDTO));
