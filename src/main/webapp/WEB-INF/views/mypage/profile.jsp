@@ -5,6 +5,9 @@
 
 <!DOCTYPE html>
 <html lang="en">
+
+<c:import url="../temps/header_css.jsp"></c:import>
+<script src="https://kit.fontawesome.com/17a98cc585.js" crossorigin="anonymous"></script>
  <c:import url="../temps/header_css.jsp"></c:import>
  
  <link rel="style" href="/resources/jandi/glanceyear.css">
@@ -48,7 +51,7 @@ svg text.month { fill: #AAA; }
 
 </style>
 
-<body>
+<body style="">
 
   <!-- ***** Preloader Start ***** -->
   <div id="js-preloader" class="js-preloader">
@@ -66,9 +69,9 @@ svg text.month { fill: #AAA; }
    <!-- ***** Header Area Start ***** -->
   <c:import url="../temps/header.jsp"></c:import>
   <!-- ***** Header Area End ***** -->
-<div style="background-color: white; margin-top: 120px; padding-top: 0px">
+<div  id="videoB" style="position: relative; z-index:0; margin-top: 120px; padding-top: 0px " >
 
-  <div class="container">
+  <div  class="container">
     <div class="row">
       <div class="col-lg-12">
         <div class="page-content" style="margin-top:10px">
@@ -96,7 +99,7 @@ svg text.month { fill: #AAA; }
                       <li>점수<span>${member.member_Jumsu}</span></li>
                       <li>출석일 수 <span>${member.member_TotalAtt}</span></li>
                       <li>가입일 <span>${member.member_RegDate}</span></li>
-                      <li>Coin<span>${member.member_Coin}</span></li>
+                      <li>Coin<span id=coinSpn></span></li>
                     </ul>
                   </div>
                 </div>
@@ -126,9 +129,14 @@ svg text.month { fill: #AAA; }
             </div>
           </div>
           <!-- ***** Banner End ***** -->
-
+  		<span class="main-border-button">
+         <button id="itemBtn" type="button" >아이템 목록</button>        
+       </span>
+       <span class="main-border-button">
+         <button id="purcBtn" type="button">결제목록</button>
+       </span>
           <!-- ***** 구매 앝이템 리스트***** -->
-          <div class="most-popular">
+          <div class="most-popular" id="itemlist" >
             <div class="row">
               <div class="col-lg-12">
                 <div class="heading-section">
@@ -136,35 +144,41 @@ svg text.month { fill: #AAA; }
                 	</div>
                 	<ul class="nav nav-pills mb-3" id="pills-tab" role="tablist">
 				  <li class="nav-item" role="presentation">
-				    <button class="nav-link active" id="pills-list-tab" data-bs-toggle="pill" data-bs-target="#list-all" type="button" role="tab" aria-controls="pills-home" aria-selected="true">전체</button>
+				    <button class="nav-link active" id="pills-list-tab" data-bs-toggle="pill" data-bs-target="#listall" type="button" role="tab" aria-controls="pills-home" aria-selected="true">전체</button>
 				  </li>
 				  <li class="nav-item" role="presentation">
-				    <button class="nav-link" id="pills-list1-tab" data-bs-toggle="pill" data-bs-target="#list-group1" type="button" role="tab" aria-controls="pills-list1" aria-selected="false">배경</button>
+				    <button class="nav-link" id="pills-list1-tab" data-bs-toggle="pill" data-bs-target="#listgroup1" type="button" role="tab" aria-controls="pills-list1" aria-selected="false">배경</button>
 				  </li>
 				  <li class="nav-item" role="presentation">
-				    <button class="nav-link" id="pills-list2-tab" data-bs-toggle="pill" data-bs-target="#list-group2" type="button" role="tab" aria-controls="pills-contact" aria-selected="false">테두리</button>
+				    <button class="nav-link" id="pills-list2-tab" data-bs-toggle="pill" data-bs-target="#listgroup2" type="button" role="tab" aria-controls="pills-contact" aria-selected="false">테두리</button>
 				  </li>
 				  <li class="nav-item" role="presentation">
-				    <button class="nav-link" id="pills-list3-tab" data-bs-toggle="pill" data-bs-target="#list-group3" type="button" role="tab" aria-controls="pills-disabled" aria-selected="false" >기타</button>
+				    <button class="nav-link" id="pills-list3-tab" data-bs-toggle="pill" data-bs-target="#listgroup3" type="button" role="tab" aria-controls="pills-disabled" aria-selected="false" >기타</button>
 				  </li>
 				   <li class="nav-item" role="presentation">
-				    <button class="nav-link" id="pills-list4-tab" data-bs-toggle="pill" data-bs-target="#list-group4" type="button" role="tab" aria-controls="pills-disabled" aria-selected="false" >기타</button>
+				    <button class="nav-link" id="pills-list4-tab" data-bs-toggle="pill" data-bs-target="#listgroup4" type="button" role="tab" aria-controls="pills-disabled" aria-selected="false" >기타</button>
 				  </li>
 				   
 				</ul>
-                <div class="tab-content row" id="pills-tabContent" >
-				  <div class="tab-pane fade show active col-lg-12 row" id="list-all" role="tabpanel" aria-labelledby="pills-list-tab" tabindex="0"></div>
-				  <div class="tab-pane fade row" id="list-group1" role="tabpanel" aria-labelledby="pills-list1-tab" tabindex="0"></div>
-				  <div class="tab-pane fade row" id="list-group2" role="tabpanel" aria-labelledby="pills-list2-tab" tabindex="0"></div>
-				  <div class="tab-pane fade row" id="list-group3" role="tabpanel" aria-labelledby="pills-disabled-tab" tabindex="0"></div>
-				  <div class="tab-pane fade row" id="list-group4" role="tabpanel" aria-labelledby="pills-list2-tab" tabindex="0"></div>
+                <div class="tab-content" id="pills-tabContent" >
+				  <div class="tab-pane fade show active"  role="tabpanel" id="listall" aria-labelledby="pills-list-tab" tabindex="0">
+				  	<div class="row" id="list-all"></div>
+				  </div>
+				  
+				  <div class="tab-pane fade row" id="listgroup1" role="tabpanel" aria-labelledby="pills-list1-tab" tabindex="0">
+				  		<div class="row" id="list-group1"></div>
+				  </div>
+				  <div class="tab-pane fade row" id="listgroup2" role="tabpanel" aria-labelledby="pills-list2-tab" tabindex="0">
+				  		<div class="row" id="list-group2"></div>
+				  </div>
+				  <div class="tab-pane fade row" id="listgroup3" role="tabpanel" aria-labelledby="pills-disabled-tab" tabindex="0">
+				  		<div class="row" id="list-group3"></div>
+				  </div>
+				  <div class="tab-pane fade row" id="listgroup4" role="tabpanel" aria-labelledby="pills-list2-tab" tabindex="0">
+				  		<div class="row" id="list-group4"></div>
+				  </div>
 				  
 				</div>
-<!--                   <div class="col-lg-12">
-                    <div class="main-button">
-                      <a href="browse.html">Discover Popular</a>
-                    </div>
-                  </div> -->
               </div>
             </div>
           </div>
@@ -175,8 +189,11 @@ svg text.month { fill: #AAA; }
     </div>
   </div>
 </div>
+<div style="position: relative; z-index:0; margin-top: 120px; padding-top: 0px">
+<c:import url="../temps/footer.jsp"></c:import>
+</div>
+	<input id="memCoin"  type="hidden" value="${member.member_Coin}"/> 
 	<input id="memberID"  type="hidden" value="${member.member_ID}"/> 
-	<c:import url="../temps/footer.jsp"></c:import>
 	<script src="/resources/js/Mypage/Mypage.js"></script>
 	<script src="/resources/jandi/jquery.glanceyear.js"></script>
 	

@@ -36,7 +36,7 @@
 	
 	<bean id="keyGet" class="com.groupb.cuiz.web.member.SecretKeyController" primary="true">
 		<property name="key123" value="${kakaoKey.password}"></property>
-	
+		<property name="kakaoPaySecretKey" value="${kkakaoPaySecretKey}"></property>
 	</bean>
 	
 
