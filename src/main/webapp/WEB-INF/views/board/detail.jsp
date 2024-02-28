@@ -40,9 +40,6 @@
               <div class="main-profile">
                 <div class="row">
 	                <c:set var="b" value="${board}"></c:set>
-					 <c:if test="${b eq 'Notice'}" >
-		                 
-	                  </c:if>
 	                  
 	                  <div class="col-lg-4 align-self-center">
 	                    <div class="main-info header-text">
@@ -95,15 +92,13 @@
 						<c:forEach items="${replyList}" var="r">
 						<c:if test="${boardDTO.board_Num eq r.board_Num}">
 						
-						
-						
 						<form method="POST" action="/board/detail" enctype="multipart/form-data">
 							<input type="hidden" name="reply_Num" value="${r.reply_Num}">
 							<input type="hidden" name="board_Num" value="${r.board_Num}">
 							<input type="hidden" name="user_Name" value="${member.member_ID}">
 							<div class="col-lg-12">
 							<ul id="addForm">
-								<li>${r.reply_Contents}<span>${r.user_Name}</span></li>
+								<li>${r.reply_Contents}<span>${member.member_Nick}</span></li>
 							</ul>
 							</div>
 							
@@ -220,23 +215,26 @@
   <script>
   const del = document.getElementById("delete");
   const frm = document.querySelector("#contactForm");
-  const del2 = document.getElementsByClassName("delete2");
+/*   const del2 = document.getElementsByClassName("delete2");
   const frm2 = document.querySelector("#contactForm2");
+ */
 
-  if(del==!null){
-	  
 	  del.addEventListener("click", (e)=>{
 	      e.preventDefault();
 	      frm.submit();
-	  }); 
-  }
- 
-  if(del2==!null){
-	 del2.addEventListener("click", (e)=>{
+	      
+	  });
+
+
+/* 	 del2.addEventListener("click", (e)=>{
 	     e.preventDefault();
 	     frm2.submit();
-	 }); 
-  }
+	 }); */
+	 
+/* 	 $(document).on('click', '.delete2', function(e){
+		e.preventDefault();
+		let reply_Num = $(this).arr("href");
+	 }); */
 
   </script>
   

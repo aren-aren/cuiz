@@ -52,7 +52,7 @@ public class ReplyController {
 		List<ReplyDTO> ar = replyService.getList(pager, replyDTO);
 		model.addAttribute("list", ar);
 		
-		return "board/ajaxList";
+		return "/commons/ajaxResult";
 	}
 	
 	@PostMapping("list")
