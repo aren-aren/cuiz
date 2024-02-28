@@ -19,10 +19,10 @@ import java.util.Map;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.fasterxml.jackson.annotation.JacksonInject.Value;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 import com.groupb.cuiz.support.util.parser.ParameterToJson;
@@ -45,6 +45,10 @@ public class PurchaseService {
 	private MemberDAO memberDAO;
 	@Autowired
 	private ItemDAO itemDAO;	
+	
+	@Value("${kakaoPaySecretKey}")
+	private String kakaoPaySecretKey;
+	
 	
 	//영수증 조회
 	
@@ -319,7 +323,7 @@ public class PurchaseService {
 		
 		HttpURLConnection connection = (HttpURLConnection) url.openConnection();
 		connection.setRequestMethod("POST");
-		connection.setRequestProperty("Authorization", "SECRET_KEY DEVC6856C2EEE2F34D162ED6157E9BAB2B2980A8");
+		connection.setRequestProperty("Authorization", "SECRET_KEY "+kakaoPaySecretKey);
 		connection.setRequestProperty("Content-Type", "application/json;charset=UTF-8");
 		connection.setDoOutput(true);		
 		
