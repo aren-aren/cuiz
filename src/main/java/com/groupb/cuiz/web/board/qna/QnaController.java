@@ -69,13 +69,12 @@ public class QnaController {
 	}
 
 	@GetMapping("detail")
-	public String getDetail(BoardDTO boardDTO, Model model) throws Exception {
+	public String getDetail(BoardDTO boardDTO, Model model, Pager pager) throws Exception {
 		boardDTO = qnaService.getDetail(boardDTO);
 		model.addAttribute("boardDTO", boardDTO);
 		model.addAttribute("kind", "qna");
 
 		ReplyDTO replyDTO = new ReplyDTO();
-		Pager pager = new Pager();
 		replyDTO.setBoard_Num(boardDTO.getBoard_Num());
 		List<ReplyDTO> replyList = replyService.getList(pager, replyDTO);
 		System.out.println("start = " +  pager.getStartNum());
