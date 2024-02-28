@@ -22,6 +22,7 @@ public class ReplyService {
 		
 		return replyDAO.getList(pager);
 	}
+	
 
 	public int getAdd(ReplyDTO replyDTO) throws Exception{
 		// TODO Auto-generated method stub
