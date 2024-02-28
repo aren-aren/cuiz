@@ -219,4 +219,9 @@
             INNER JOIN MEMBER m  ON m.MEMBER_ID = mqa.MEMBER_ID
         WHERE q.QUIZ_NO = #{quiz_No} AND m.MEMBER_ID = #{member_Id}
     </select>
+
+    <select id="getAllQuizs" resultType="QuizDTO">
+        SELECT QUIZ_NO, QUIZ_TITLE
+        FROM QUIZ
+    </select>
 </mapper>
