@@ -366,4 +366,8 @@ public class QuizService {
 
         return jumsuUpdateDTO;
     }
+
+    public List<QuizDTO> getAllQuizs() {
+        return quizDAO.getAllQuizs();
+    }
 }

@@ -194,5 +194,11 @@ public class QuizController {
         quizDTO.setMember_Id(memberDTO.getMember_ID());
         return quizService.getJumsuData(quizDTO);
     }
+
+    @GetMapping("getAllQuizs")
+    @ResponseBody
+    public List<QuizDTO> getAllQuizs(){
+        return quizService.getAllQuizs();
+    }
 }
 

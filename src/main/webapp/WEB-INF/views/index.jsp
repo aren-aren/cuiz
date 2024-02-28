@@ -154,7 +154,7 @@
                                                             <c:if test="${empty dto.member_Profile_String}">
                                                              src="/resources/assets/images/basic.jpeg"
                                                             </c:if>
-                                                             style="clip-path: circle(); width: 2.5rem; height: 2.5rem">
+                                                             style="border-radius: 50%; width: 2.5rem; height: 2.5rem">
                                                         <h4 class="col-8 mb-0">
                                                             <a class="main-list-title"
                                                                href="mypage/yours?member_ID=${dto.member_ID}">
@@ -171,64 +171,6 @@
                                 </ul>
                             </div>
                         </div>
-                        <%--<div class="col-lg-4">
-                            <div class="heading-section">
-                                <h4>최신 게시글</h4>
-                            </div>
-                            <div class="item">
-                                <ul>
-                                    <li><h4>제목</h4></li>
-                                    <li><h4>작성자</h4></li>
-                                    <li><h4>조회수</h4></li>
-                                    <li><h4></h4></li>
-                                </ul>
-                                <c:forEach items="${list2}" var="dto" varStatus="status">
-                                    <ul>
-                                        <li><span>${dto.board_Title}</span></li>
-                                        <li><<span>${dto.member_ID}</span></li>
-                                        <li><span><i class="fa-regular fa-eye"></i>${dto.board_Hit}</span></li>
-                                        <li>
-                                            <div class="main-border-button"><a
-                                                    href="/qna/detail?board_Num=${dto.board_Num}">내용보기</a></div>
-                                        </li>
-                                    </ul>
-
-                                </c:forEach>
-                            </div>
-                        </div>--%>
-                        <%--<div class="col-lg-4">
-                            <div class="heading-section">
-                                <h4>일일 랭킹</h4>
-                            </div>
-                            <c:forEach items="${list}" var="dto" varStatus="status">
-                                <div class="item">
-                                    <ul>
-                                        <c:if test="${status.index+1 eq 1}">
-                                            <li><img src="/resources/assets/images/1등.png" alt=""
-                                                     class="templatemo-item"></li>
-                                        </c:if>
-                                        <c:if test="${status.index+1 eq 2}">
-                                            <li><img src="/resources/assets/images/2등.png" alt=""
-                                                     class="templatemo-item"></li>
-                                        </c:if>
-                                        <c:if test="${status.index+1  eq  3 }">
-                                            <li><img src="/resources/assets/images/3등.png" alt=""
-                                                     class="templatemo-item"></li>
-                                        </c:if>
-                                        <c:if test="${status.index+1 eq 4  || status.index+1 eq 5}">
-                                            <li><img src="" alt="" class="templatemo-item"></li>
-                                        </c:if>
-                                        <li><h4>닉네임</h4><span>${dto.member_Nick}</span></li>
-                                        <li><h4>오늘의 점수</h4><span>${dto.daily_Jumsu}</span></li>
-                                        <li>
-                                            <div class="main-border-button"><a
-                                                    href="/mypage/yours?member_ID=${dto.member_ID}">정보보러가기</a></div>
-                                        </li>
-                                    </ul>
-                                </div>
-
-                            </c:forEach>
-                        </div>--%>
                     </div>
                 </div>
                 <!-- ***** Gaming Library End ***** -->

@@ -78,4 +78,8 @@ public class QuizDAO {
     public JumsuUpdateDTO getJumsuData(QuizDTO quizDTO) {
         return sqlSession.selectOne(NAMESPACE + "getJumsuData", quizDTO);
     }
+
+    public List<QuizDTO> getAllQuizs() {
+        return sqlSession.selectList(NAMESPACE + "getAllQuizs");
+    }
 }
