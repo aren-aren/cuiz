@@ -3,12 +3,15 @@ package com.groupb.cuiz.web.quiz;
 import com.groupb.cuiz.support.util.pager.Pager;
 import com.groupb.cuiz.web.member.MemberDTO;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpSession;
-import java.lang.reflect.Member;
+import java.nio.charset.StandardCharsets;
 import java.util.*;
 
 @Controller
@@ -89,10 +92,14 @@ public class QuizController {
 
     @GetMapping("solve")
     public String solveQuiz(QuizDTO quizDTO, Model model, HttpSession session){
+        MemberDTO memberDTO = (MemberDTO) session.getAttribute("member");
+        quizDTO.setMember_Id(memberDTO.getMember_ID());
+
         quizDTO = quizService.getDetail(quizDTO, "EXAMPLE");
         model.addAttribute("dto", quizDTO);
 
-        MemberDTO memberDTO = (MemberDTO) session.getAttribute("member");
+        System.out.println("quizDTO = " + quizDTO);
+
         MemberAnswerDTO answerDTO = new MemberAnswerDTO();
         answerDTO.setQuiz_No(quizDTO.getQuiz_No());
         answerDTO.setMember_Id(memberDTO.getMember_ID());
@@ -199,6 +206,19 @@ public class QuizController {
     @ResponseBody
     public List<QuizDTO> getAllQuizs(){
         return quizService.getAllQuizs();
+    }
+
+    @GetMapping("showTestcase")
+    public ResponseEntity<Object> showTestcase(TestcaseDTO testcaseDTO, HttpSession session){
+        MemberDTO memberDTO = (MemberDTO) session.getAttribute("member");
+
+        try {
+            return ResponseEntity.ok(quizService.buyAndGetTestcase(testcaseDTO, memberDTO));
+        }   catch (Exception e) {
+            return ResponseEntity.badRequest()
+                    .header(HttpHeaders.CONTENT_TYPE, MediaType.TEXT_PLAIN_VALUE + ";charset=" + StandardCharsets.UTF_8)
+                    .body(e.getMessage());
+        }
     }
 }
 

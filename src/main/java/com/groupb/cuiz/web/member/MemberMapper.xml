@@ -192,7 +192,11 @@
 		UPDATE MEMBER SET MEMBER_JUMSU = #{member_Jumsu} WHERE MEMBER_ID = #{member_ID}
 	</update>
  	
- 	
+ 	<update id="buyTestcase" parameterType="Map">
+		UPDATE MEMBER
+		SET MEMBER_COIN = MEMBER_COIN - #{price}
+		WHERE MEMBER_ID = #{member.member_ID} AND MEMBER_COIN >= #{price}
+	</update>
  	
  	
  </mapper>

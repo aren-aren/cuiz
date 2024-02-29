@@ -1,5 +1,20 @@
+
+//board delete
+  const del = document.getElementById("delete");
+  const frm = document.querySelector("#contactForm");
+
+
+	  del.addEventListener("click", (e)=>{
+	      e.preventDefault();
+	      frm.submit();
+	      
+	  });
+
+
+//reply add
+
 $(document).ready(function(){
-	$('#replyAddBtn').click(function(){   //submit 버튼을 클릭하였을 때
+	$('#replyAddBtn').click(function(){   //버튼을 클릭하였을 때
 	console.log(123)
 	let reply_num = $('input[name=reply_Num]').val();
 	let replyAddVal = $('textarea[name=replyAddVal]').val();
@@ -23,3 +38,22 @@ $(document).ready(function(){
 		});
 	});
 });
+
+//reply delete
+
+$(".delete2").on("click", function(){
+	let n = $(this).attr("data-reply_Num")
+	console.log("reply_Num : ", n)
+
+	
+	fetch("../reply/delete",{
+		method:"post",
+		headers : {"Content-type": 'application/x-www-form-urlencoded;charset=utf-8'},
+		body:"reply_Num="+n
+	})
+	.then(r=>r.json())
+	.then(r=>{
+		replyList.innerHTML="";
+	})
+		location.reload();
+})

@@ -1,6 +1,9 @@
 package com.groupb.cuiz.web.board.qna;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -20,8 +23,14 @@ public class ReplyService {
 		
 		pager.makeNum(replyDAO.getTotalCount(replyDTO));
 		
-		return replyDAO.getList(pager);
+		Map<String, Object> map = new HashMap<String, Object>();
+		
+		map.put("pager", pager);
+		map.put("replyDTO", replyDTO);
+		
+		return replyDAO.getList(map);
 	}
+	
 
 	public int getAdd(ReplyDTO replyDTO) throws Exception{
 		// TODO Auto-generated method stub

@@ -10,8 +10,7 @@ public class BoardDTO {
 	private String member_Nick;
 	private String board_Contents;
 	private Timestamp board_Date;
-	private Long board_Hit;
-	
+	private Long board_Hit;	
 	
 	public Long getBoard_Num() {
 		return board_Num;

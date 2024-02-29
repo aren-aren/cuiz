@@ -77,7 +77,7 @@
 											<li>
 												<c:if test="${not empty member}">
 													<div class="main-border-button">
-														<a href="./detail?board_Num=${dto.board_Num}">
+														<a href="./detail?board_Num=${dto.board_Num}&page=1&search=${pager.search}&kind=${pager.kind}">
 															<c:catch>
 																<c:forEach begin="1" end="${dto.board_Depth}">--</c:forEach>
 															</c:catch>
@@ -139,7 +139,7 @@
 								</div>
 
 								<div class="col-auto">
-									<button type="submit" class="btn btn-primary mb-3">검색</button>
+									<button type="submit" class="btn mb-3 btn-cuiz">검색</button>
 								</div>
 							</form>
 						</div>
