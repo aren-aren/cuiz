@@ -127,8 +127,9 @@
     </select>
 
     <select id="getTestCases" parameterType="Map" resultType="TestcaseDTO">
-        SELECT TESTCASE_NO, TESTCASE_INPUT, TESTCASE_OUTPUT, TESTCASE_TYPE FROM TESTCASE
-        WHERE QUIZ_NO = #{dto.quiz_No}
+        SELECT tc.TESTCASE_NO, tc.TESTCASE_INPUT, tc.TESTCASE_OUTPUT, tc.TESTCASE_TYPE
+        FROM TESTCASE tc
+        WHERE tc.QUIZ_NO = #{dto.quiz_No}
         <if test="type != null">
             AND TESTCASE_TYPE = #{type}
         </if>
@@ -239,6 +240,8 @@
         WHERE TESTCASE_NO IN (
             SELECT TESTCASE_NO
             FROM BUYED_TESTCASE
-            WHERE QUIZ_NO=#{quiz_No} AND MEMBER_ID=#{member_Id})
+            WHERE QUIZ_NO=#{quiz_No} AND MEMBER_ID=#{member_Id}
+        )
+        ORDER BY TESTCASE_NO
     </select>
 </mapper>
