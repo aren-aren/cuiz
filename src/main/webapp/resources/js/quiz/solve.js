@@ -70,6 +70,10 @@ const onShowTestcase = () => {
             `;
             document.getElementById("example-io-tbody").innerHTML += template;
             answerCorrectModal.hide();
+        })
+        .catch(e => {
+            alert(e);
+            answerCorrectModal.hide();
         });
 }
 

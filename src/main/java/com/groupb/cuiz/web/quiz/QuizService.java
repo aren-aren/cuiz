@@ -388,7 +388,7 @@ public class QuizService {
 
         int result = memberDAO.buyTestcase(map);
         if(result < 1){
-            return null;
+            throw new RuntimeException("코인이 부족합니다.");
         }
 
         map.put("testcase", testcaseDTO);
