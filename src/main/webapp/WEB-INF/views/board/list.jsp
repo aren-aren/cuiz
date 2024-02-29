@@ -139,7 +139,7 @@
 								</div>
 
 								<div class="col-auto">
-									<button type="submit" class="btn btn-primary mb-3">검색</button>
+									<button type="submit" class="btn mb-3 btn-cuiz">검색</button>
 								</div>
 							</form>
 						</div>
