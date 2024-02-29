@@ -92,7 +92,6 @@
 						<c:forEach items="${replyList}" var="r">
 						<c:if test="${boardDTO.board_Num eq r.board_Num}">
 						
-						<form method="POST" action="/board/detail" enctype="multipart/form-data">
 							<input type="hidden" name="reply_Num" value="${r.reply_Num}">
 							<input type="hidden" name="board_Num" value="${r.board_Num}">
 							<input type="hidden" name="user_Name" value="${member.member_ID}">
@@ -102,22 +101,20 @@
 							</ul>
 							</div>
 							
-						</form>
 						
 						<!-- reply delete -->
 						
 							
-						<form id="contactForm2" action="/reply/delete" method="POST" enctype="multipart/form-data">
-							<div class="main-border-button" style=" float: right; margin-bottom: 40px;">
+						<form id="contactForm2" action="/reply/delete" method="POST" enctype="application/x-www-form-urlencoded;charset=utf-8">
+							
  							<c:if test="${r.user_Name eq member.member_ID}">
  							<c:if test="${not empty member}">
-								<a class="delete2" href="#">Delete</a>
+								<button type="button" class="float-end delete2 btn btn-cuiz" data-reply_Num="${r.reply_Num}">Delete</button>
 							</c:if>
  							</c:if>
  							<input type="hidden" name="reply_Num" value="${r.reply_Num}">
  							<input type="hidden" name="board_Num" value="${boardDTO.board_Num}">
  							
- 							</div>
  							<div><br><br><br><br></div>
 						</form>
 						
@@ -134,6 +131,7 @@
 						<br><br>
 						
 							
+							<!-- reply page -->
 							
  							<div class="mb-3">
 							<nav aria-label="Page navigation example">
@@ -213,32 +211,6 @@
   <c:import url="../temps/footer.jsp"></c:import>
 
   </body>
-
-  <script>
-  const del = document.getElementById("delete");
-  const frm = document.querySelector("#contactForm");
-/*   const del2 = document.getElementsByClassName("delete2");
-  const frm2 = document.querySelector("#contactForm2");
- */
-
-	  del.addEventListener("click", (e)=>{
-	      e.preventDefault();
-	      frm.submit();
-	      
-	  });
-
-
-/* 	 del2.addEventListener("click", (e)=>{
-	     e.preventDefault();
-	     frm2.submit();
-	 }); */
-	 
-/* 	 $(document).on('click', '.delete2', function(e){
-		e.preventDefault();
-		let reply_Num = $(this).arr("href");
-	 }); */
-
-  </script>
   
   	<script src="/resources/js/board/boardDetail.js" type="text/javascript"></script>
   
