@@ -158,6 +158,12 @@
   	UPDATE QNA SET FLAG=#{flag}
   	WHERE BOARD_NUM=#{board_Num}
   </update>
+
+	<update id="getUpdateHits" parameterType="BoardDTO">
+		UPDATE QNA
+		SET BOARD_HIT = BOARD_HIT + 1
+		WHERE BOARD_NUM = #{board_Num}
+	</update>
   
  
   <!-- file list -->
