@@ -213,10 +213,8 @@ public class QuizController {
         MemberDTO memberDTO = (MemberDTO) session.getAttribute("member");
 
         try {
-
             return ResponseEntity.ok(quizService.buyAndGetTestcase(testcaseDTO, memberDTO));
         }   catch (Exception e) {
-
             return ResponseEntity.badRequest()
                     .header(HttpHeaders.CONTENT_TYPE, MediaType.TEXT_PLAIN_VALUE + ";charset=" + StandardCharsets.UTF_8)
                     .body(e.getMessage());

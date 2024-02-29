@@ -72,7 +72,7 @@ const onShowTestcase = () => {
             answerCorrectModal.hide();
         })
         .catch(e => {
-            alert(e);
+            alert((e + "").split("\"")[1]);
             answerCorrectModal.hide();
         });
 }
@@ -131,8 +131,12 @@ const onSubmit = () => {
         })
 }
 
+/**
+ *
+ * @param event
+ */
 const onHintBtnClick = event => {
-    if(!event.target.classList.contains("tc-show")) return;
+    if(!event.target.classList.contains("tc-show-btn")) return;
 
     document.querySelectorAll(".correct-notice").forEach(e=>e.classList.add("d-none"));
     document.querySelectorAll(".hint-notice").forEach(e=>e.classList.remove("d-none"));
@@ -147,15 +151,23 @@ const onHintBtnClick = event => {
  * @param results
  */
 function showSolveResult(results, isSubmit){
+    const divOption = `tabindex="0"
+                     data-bs-toggle="tooltip"
+                     data-bs-placement="right"
+                     data-bs-title="이미 구매한 테스트케이스 입니다."`;
     let resultTemplate = "";
     let index = 1;
+
     for (let result of results) {
         let textColor = 'text-success';
         let testcaseShowBtn = "";
         if(!result.result){
             textColor = 'text-danger';
             if(isSubmit) {
-                testcaseShowBtn = `<button class="btn btn-cuiz btn-sm tc-show" data-testcase-no="${result.testcase_No}">Hint</button>`;
+                testcaseShowBtn = `
+<div class="tc-show" ${result.buyed?divOption:""} >
+    <button class="btn btn-cuiz btn-sm tc-show-btn ${result.buyed?"disabled" : ""}" data-testcase-no="${result.testcase_No}">Hint</button>
+</div>`;
                 document.getElementById("hint-tip").classList.remove("d-none");
                 document.getElementById("hint-tip").classList.add("d-inline-block");
             }
@@ -166,6 +178,7 @@ function showSolveResult(results, isSubmit){
     }
 
     solveResult.innerHTML = resultTemplate;
+    [...solveResult.querySelectorAll("[data-bs-toggle='tooltip']")].map(tool => new bootstrap.Tooltip(tool));
 
 }
 

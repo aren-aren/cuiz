@@ -7,9 +7,12 @@ import com.groupb.cuiz.web.member.MemberDAO;
 import com.groupb.cuiz.web.member.MemberDTO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import javax.servlet.ServletContext;
+import java.sql.SQLIntegrityConstraintViolationException;
 import java.util.*;
+import java.util.stream.Collectors;
 
 @Service
 public class QuizService {
@@ -89,6 +92,18 @@ public class QuizService {
         answerDTO.setAnswer_Check(answerDTO.getTestcase_Results().stream()
                                                 .allMatch(TestcaseResult::isResult));
 
+        List<TestcaseDTO> buyedTestcases = quizDAO.getBuyedTestcase(answerDTO);
+        int index = 0;
+        for (TestcaseDTO buyedTestcase : buyedTestcases) {
+            for (; index < testcaseDTOS.size(); index++) {
+                /* 구매한 테스트케이스 번호와 결과의 번호를 비교하여 buyed를 변경 */
+                if(buyedTestcase.getTestcase_No().equals(answerDTO.getTestcase_Results().get(index).getTestcase_No())){
+                    answerDTO.getTestcase_Results().get(index).setBuyed(true);
+                    break;
+                }
+            }
+        }
+
         MemberAnswerDTO oldAnswer = quizDAO.getAnswer(answerDTO);
         System.out.println("oldAnswer = " + oldAnswer);
 
@@ -127,6 +142,7 @@ public class QuizService {
         map.put("type", "EXAMPLE");
 
         List<TestcaseDTO> testcaseDTOS = quizDAO.getTestCases(map);
+        testcaseDTOS.addAll(quizDAO.getBuyedTestcase(answerDTO));
 
         return checkAnswer(answerDTO, testcaseDTOS, "EXAMPLE");
     }
@@ -209,6 +225,10 @@ public class QuizService {
         for (int i = 0; i < results.size(); i++) {
             testcaseResults.add(checkTestcase(testcaseDTOS.get(i).getTestcase_No(), outputs.get(i).trim(), results.get(i).trim(), checkType));
         }
+
+        testcaseResults = testcaseResults.stream()
+                .sorted(Comparator.comparingInt(TestcaseResult::getTestcase_No))
+                .collect(Collectors.toList());
 
         answer.setTestcase_Results(testcaseResults);
 
@@ -377,7 +397,8 @@ public class QuizService {
         return quizDAO.getAllQuizs();
     }
 
-    public TestcaseDTO buyAndGetTestcase(TestcaseDTO testcaseDTO, MemberDTO member) {
+@Transactional
+    public TestcaseDTO buyAndGetTestcase(TestcaseDTO testcaseDTO, MemberDTO member) throws Exception {
         QuizDTO quizDTO = quizDAO.getQuizDetail(testcaseDTO.getQuiz_No());
 
         Integer quizPrice = QuizEnum.get(quizDTO.getQuiz_Level()).getPrice();
@@ -393,7 +414,11 @@ public class QuizService {
 
         map.put("testcase", testcaseDTO);
 
-        quizDAO.buyTestcase(map);
+        try{
+            quizDAO.buyTestcase(map);
+        } catch (Exception e){
+            throw new SQLIntegrityConstraintViolationException("힌트 구매 실패");
+        }
 
         return (TestcaseDTO) map.get("testcase");
     }

@@ -87,11 +87,15 @@ public class QuizDAO {
         return sqlSession.selectList(NAMESPACE + "getAllQuizs");
     }
 
-    public void buyTestcase(Map<String, Object> map) {
-        sqlSession.insert(NAMESPACE + "buyTestcase" , map);
+    public int buyTestcase(Map<String, Object> map) throws Exception {
+        return sqlSession.insert(NAMESPACE + "buyTestcase" , map);
     }
 
     public List<TestcaseDTO> getBuyedTestcase(QuizDTO quiz) {
         return sqlSession.selectList(NAMESPACE + "getBuyedTestcase", quiz);
+    }
+
+    public List<TestcaseDTO> getBuyedTestcase(MemberAnswerDTO answerDTO) {
+        return sqlSession.selectList(NAMESPACE + "getBuyedTestcase", answerDTO);
     }
 }
