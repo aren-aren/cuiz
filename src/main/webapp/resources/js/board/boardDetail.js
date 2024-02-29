@@ -1,4 +1,17 @@
-//add
+
+//board delete
+  const del = document.getElementById("delete");
+  const frm = document.querySelector("#contactForm");
+
+
+	  del.addEventListener("click", (e)=>{
+	      e.preventDefault();
+	      frm.submit();
+	      
+	  });
+
+
+//reply add
 
 $(document).ready(function(){
 	$('#replyAddBtn').click(function(){   //버튼을 클릭하였을 때
@@ -26,23 +39,21 @@ $(document).ready(function(){
 	});
 });
 
-//delete
+//reply delete
 
-//	$(document).ready(function(){
-//		$('.delete2').click(function(){   //버튼을 클릭하였을 때
-//		console.log(댓글 삭제 클릭)
-//	
-//			$.ajax({
-//				type:'post',   //post 방식으로 전송
-//				url:'/reply/delete,   //데이터를 주고받을 파일 주소
-//				data:objParams,   //위의 변수에 담긴 데이터를 전송해준다.
-//				dataType: "text",   //html 파일 형식으로 값을 담아온다.
-//				success : function(result){   //파일 주고받기가 성공했을 경우. data 변수 안에 값을 담아온다.
-//					console.log('tedy');
-//					$('#addForm').html(result.trim());  //현재 화면 위 id="message" 영역 안에 data안에 담긴 html 코드를 넣어준다.
-//					location.reload();
-//					//location.href="http://localhost/qna/detail?board_Num="+$('input[name=board_Num]').val();
-//				}
-//			});
-//		});
-//	});
+$(".delete2").on("click", function(){
+	let n = $(this).attr("data-reply_Num")
+	console.log("reply_Num : ", n)
+
+	
+	fetch("../reply/delete",{
+		method:"post",
+		headers : {"Content-type": 'application/x-www-form-urlencoded;charset=utf-8'},
+		body:"reply_Num="+n
+	})
+	.then(r=>r.json())
+	.then(r=>{
+		replyList.innerHTML="";
+	})
+		location.reload();
+})
