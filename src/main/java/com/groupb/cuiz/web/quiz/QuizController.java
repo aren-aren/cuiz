@@ -3,12 +3,15 @@ package com.groupb.cuiz.web.quiz;
 import com.groupb.cuiz.support.util.pager.Pager;
 import com.groupb.cuiz.web.member.MemberDTO;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpSession;
-import java.lang.reflect.Member;
+import java.nio.charset.StandardCharsets;
 import java.util.*;
 
 @Controller
@@ -206,11 +209,18 @@ public class QuizController {
     }
 
     @GetMapping("showTestcase")
-    @ResponseBody
-    public TestcaseDTO showTestcase(TestcaseDTO testcaseDTO, HttpSession session){
+    public ResponseEntity<Object> showTestcase(TestcaseDTO testcaseDTO, HttpSession session){
         MemberDTO memberDTO = (MemberDTO) session.getAttribute("member");
 
-        return quizService.buyAndGetTestcase(testcaseDTO, memberDTO);
+        try {
+
+            return ResponseEntity.ok(quizService.buyAndGetTestcase(testcaseDTO, memberDTO));
+        }   catch (Exception e) {
+
+            return ResponseEntity.badRequest()
+                    .header(HttpHeaders.CONTENT_TYPE, MediaType.TEXT_PLAIN_VALUE + ";charset=" + StandardCharsets.UTF_8)
+                    .body(e.getMessage());
+        }
     }
 }
 
