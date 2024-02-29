@@ -22,6 +22,8 @@ kakaopBtn.addEventListener("click",(e)=>{
     formdata.append("item_Price",price);
     formdata.append("item_Num",item_Num);
     
+    confirm("확인을 누르시면 결제창으로 이동합니다.")
+
     fetch("/purchase/kakaopay",{
         method:"post",
         body: formdata
@@ -30,7 +32,7 @@ kakaopBtn.addEventListener("click",(e)=>{
     .then(result=>{
        let a = result;
        console.log(a);
-       location.href=a;
+       window.open(a);
     })
     
 

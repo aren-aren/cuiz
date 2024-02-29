@@ -120,15 +120,13 @@
         QUIZ_NO DESC
     </sql>
 
-    <select id="getQuizDetail" parameterType="QuizDTO" resultType="QuizDTO">
-        /* getQuizTotalCount - 퀴즈 전체 갯수 조회 */
+    <select id="getQuizDetail" parameterType="Integer" resultType="QuizDTO">
         SELECT QUIZ_NO, QUIZ_TITLE, QUIZ_CONTENTS, QUIZ_SAMPLECODE, QUIZ_LEVEL, QUIZ_TYPE, QUIZ_POINT, QUIZ_PRICE
         FROM QUIZ
         WHERE QUIZ_NO = #{quiz_No}
     </select>
 
     <select id="getTestCases" parameterType="Map" resultType="TestcaseDTO">
-        /* getExampleTestCases - 퀴즈 테스트케이스 조회 */
         SELECT TESTCASE_NO, TESTCASE_INPUT, TESTCASE_OUTPUT, TESTCASE_TYPE FROM TESTCASE
         WHERE QUIZ_NO = #{dto.quiz_No}
         <if test="type != null">
@@ -223,5 +221,24 @@
     <select id="getAllQuizs" resultType="QuizDTO">
         SELECT QUIZ_NO, QUIZ_TITLE
         FROM QUIZ
+    </select>
+
+    <insert id="buyTestcase" parameterType="Map">
+        <selectKey resultType="TestcaseDTO" keyProperty="testcase" order="AFTER">
+            SELECT TESTCASE_NO, TESTCASE_INPUT, TESTCASE_OUTPUT
+            FROM TESTCASE
+            WHERE TESTCASE_NO = #{testcase.testcase_No}
+        </selectKey>
+        INSERT INTO BUYED_TESTCASE (MEMBER_ID, TESTCASE_NO, QUIZ_NO)
+        VALUES (#{member.member_ID}, #{testcase.testcase_No}, #{testcase.quiz_No})
+    </insert>
+
+    <select id="getBuyedTestcase" parameterType="QuizDTO" resultType="TestcaseDTO">
+        SELECT TESTCASE_NO, TESTCASE_INPUT, TESTCASE_OUTPUT, TESTCASE_TYPE
+        FROM TESTCASE tc
+        WHERE TESTCASE_NO IN (
+            SELECT TESTCASE_NO
+            FROM BUYED_TESTCASE
+            WHERE QUIZ_NO=#{quiz_No} AND MEMBER_ID=#{member_Id})
     </select>
 </mapper>

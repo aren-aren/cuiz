@@ -89,10 +89,14 @@ public class QuizController {
 
     @GetMapping("solve")
     public String solveQuiz(QuizDTO quizDTO, Model model, HttpSession session){
+        MemberDTO memberDTO = (MemberDTO) session.getAttribute("member");
+        quizDTO.setMember_Id(memberDTO.getMember_ID());
+
         quizDTO = quizService.getDetail(quizDTO, "EXAMPLE");
         model.addAttribute("dto", quizDTO);
 
-        MemberDTO memberDTO = (MemberDTO) session.getAttribute("member");
+        System.out.println("quizDTO = " + quizDTO);
+
         MemberAnswerDTO answerDTO = new MemberAnswerDTO();
         answerDTO.setQuiz_No(quizDTO.getQuiz_No());
         answerDTO.setMember_Id(memberDTO.getMember_ID());
@@ -199,6 +203,14 @@ public class QuizController {
     @ResponseBody
     public List<QuizDTO> getAllQuizs(){
         return quizService.getAllQuizs();
+    }
+
+    @GetMapping("showTestcase")
+    @ResponseBody
+    public TestcaseDTO showTestcase(TestcaseDTO testcaseDTO, HttpSession session){
+        MemberDTO memberDTO = (MemberDTO) session.getAttribute("member");
+
+        return quizService.buyAndGetTestcase(testcaseDTO, memberDTO);
     }
 }
 

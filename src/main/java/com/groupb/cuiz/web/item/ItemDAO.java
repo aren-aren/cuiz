@@ -49,7 +49,7 @@ public class ItemDAO {
 	
 	public int update(ItemDTO itemDTO) {
 		
-		return sqlSession.selectOne(NAMESPACE+"update", itemDTO);
+		return sqlSession.update(NAMESPACE+"update", itemDTO);
 	}
 	
 	

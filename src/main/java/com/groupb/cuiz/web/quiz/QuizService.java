@@ -275,17 +275,23 @@ public class QuizService {
      * @return
      */
     public QuizDTO getDetail(QuizDTO quizDTO, String type) {
-        quizDTO = quizDAO.getDetail(quizDTO);
+        QuizDTO quizDetail = quizDAO.getQuizDetail(quizDTO);
+        quizDetail.setQuiz_Price(QuizEnum.get(quizDetail.getQuiz_Level()).getPrice());
 
         Map<String, Object> map = new HashMap<>();
-        map.put("dto", quizDTO);
+        map.put("dto", quizDetail);
         map.put("type", type);
 
         List<TestcaseDTO> list = quizDAO.getTestCases(map);
 
-        quizDTO.setTestcase(list);
+        if(type.equals("EXAMPLE")){
+            List<TestcaseDTO> buyedList = quizDAO.getBuyedTestcase(quizDTO);
+            list.addAll(buyedList);
+        }
 
-        return quizDTO;
+        quizDetail.setTestcase(list);
+
+        return quizDetail;
     }
 
     public MemberAnswerDTO getAnswer(MemberAnswerDTO answerDTO) {
@@ -304,7 +310,7 @@ public class QuizService {
     public List<TestcaseResult> checkRun(MemberAnswerDTO checkDTO) throws Exception {
         QuizDTO quizDTO = new QuizDTO();
         quizDTO.setQuiz_No(checkDTO.getQuiz_No());
-        quizDTO = quizDAO.getDetail(quizDTO);
+        quizDTO = quizDAO.getQuizDetail(quizDTO);
 
         checkDTO.setSourcecode(quizDTO.getQuiz_SampleCode());
 
@@ -352,7 +358,7 @@ public class QuizService {
     }
 
     public QuizDTO getQuizInfo(QuizDTO quizDTO) {
-        return quizDAO.getDetail(quizDTO);
+        return quizDAO.getQuizDetail(quizDTO);
     }
 
 
@@ -369,5 +375,26 @@ public class QuizService {
 
     public List<QuizDTO> getAllQuizs() {
         return quizDAO.getAllQuizs();
+    }
+
+    public TestcaseDTO buyAndGetTestcase(TestcaseDTO testcaseDTO, MemberDTO member) {
+        QuizDTO quizDTO = quizDAO.getQuizDetail(testcaseDTO.getQuiz_No());
+
+        Integer quizPrice = QuizEnum.get(quizDTO.getQuiz_Level()).getPrice();
+
+        Map<String, Object> map = new HashMap<>();
+        map.put("member", member);
+        map.put("price", quizPrice);
+
+        int result = memberDAO.buyTestcase(map);
+        if(result < 1){
+            return null;
+        }
+
+        map.put("testcase", testcaseDTO);
+
+        quizDAO.buyTestcase(map);
+
+        return (TestcaseDTO) map.get("testcase");
     }
 }
