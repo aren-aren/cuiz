@@ -4,12 +4,17 @@ const itemBtn = document.getElementById("itemBtn");
 const purcBtn = document.getElementById("purcBtn");
 const coinSpn = document.getElementById("coinSpn");
 const videoB= document.getElementById("videoB");
+const itemSet = document.getElementById("itemSet");
 
 // const searchfrm = document.getElementById("searchfrm");
 // const searchBtn = document.getElementById("searchBtn");
+
+let itemNum = document.getElementById("itemNum").value;
+let item_Group = document.getElementById("item_Group").value;
+
 let memCoin = document.getElementById("memCoin");
 let itemlist = document.getElementById("itemlist");
-itemlist.style.display = 'none';
+
 
 
 let listAll = document.getElementById("list-all");
@@ -17,12 +22,14 @@ let listGroup1 = document.getElementById("list-group1");
 let listGroup2 = document.getElementById("list-group2");
 let listGroup3 = document.getElementById("list-group3");
 let listGroup4 = document.getElementById("list-group4");
+let bg_video = document.getElementById("bg_video");
+
+let icon = '<i class="fa-solid fa-coins"></i>'
+parseInt(memCoin.value).toLocaleString('ko-KR');    
+coinSpn.innerHTML=icon+parseInt(memCoin.value).toLocaleString('ko-KR');
 
 
-  let icon = '<i class="fa-solid fa-coins"></i>'
-  parseInt(memCoin.value).toLocaleString('ko-KR');    
-  coinSpn.innerHTML=icon+parseInt(memCoin.value).toLocaleString('ko-KR');
-
+itemlist.style.display = 'none';
 
 // 결제목록 들어가기
 
@@ -63,7 +70,7 @@ async function frm (id){
   try {
     let respone = await fetch("./list?member_ID="+id)
     let result = await respone.json()
-      console.log(result)  
+     
       
       for(let list of result){
         // let item = JSON.parse(list);
@@ -72,39 +79,39 @@ async function frm (id){
         let tag = `<img src="${list.item_Photo_to_String}" alt="" style="overflow:hidden; margin:0 auto; "/>`;
         let p = parseInt(`${list.item_Price}`);
         let price = p.toLocaleString('ko-KR');
-        console.log(p+"   "+price);
+        
 
         if(item_group==1){
           tag = `<video src="${list.item_Photo_to_String}" muted autoplay playsinline loop width=100%>`;   
         }
 
-        if(list.item_Num==112){
-          console.log(videoB)
-          let bg_video = document.createElement("video")
-          bg_video.setAttribute("id","testbg")
-          bg_video.setAttribute("src",`${list.item_Photo_to_String}`)
-          bg_video.classList.add("mx-auto")
-          bg_video.muted=true;
-          bg_video.autoplay = true
-          bg_video.playsinline= true
-          bg_video.loop= true
-          bg_video.setAttribute("style","display:block; margin:0 auto; width : 100%; z-index:-1;   position: absolute;")
-          console.log(bg_video)
-          // videoB.innerHTML = `<video src="${list.item_Photo_to_String}" id="testbg" muted autoplay playsinline loop width=100% z-index=-1/>`;   
-          videoB.prepend(bg_video)
-          console.log(videoB)
-        }
+        // if(list.item_Num==112){
+        //   console.log(videoB)
+        //   let bg_video = document.createElement("video")
+        //   bg_video.setAttribute("id","testbg")
+        //   bg_video.setAttribute("src",`${list.item_Photo_to_String}`)
+        //   bg_video.classList.add("mx-auto")
+        //   bg_video.muted=true;
+        //   bg_video.autoplay = true
+        //   bg_video.playsinline= true
+        //   bg_video.loop= true
+        //   bg_video.setAttribute("style","display:block; margin:0 auto; width : 100%; z-index:-1;   position: fixed;")
+        //   console.log(bg_video)
+        //   // videoB.innerHTML = `<video src="${list.item_Photo_to_String}" id="testbg" muted autoplay playsinline loop width=100% z-index=-1/>`;   
+        //   videoB.prepend(bg_video)
+        //   console.log(videoB)
+        // }
 
 
         let html ="";
         html =`        
-        <div class="col-3" >
+        <div class="col-3" onclick="temp(${list.item_Num},${list.item_Group})">
           <div class="item"  style="height: 250px" > 
-            <div class="thumb">                            
+            <div class="thumb" >                            
             ${tag}
             </div>
             <div class="down-content">
-            <h4>${list.item_Name}</h4>
+            <h4 class="temp" data-temp ="${list.item_Num},${list.item_Group}"  >${list.item_Name}</h4>
             </div>             
           </div>
         </div>`
@@ -133,6 +140,56 @@ async function frm (id){
   }
     
   }
+    // console.log("test");
+    // let thumb= document.getElementsByClassName('thumb');
+
+    // for(let i = 0; i<thumb.length; i++){
+    //   thumb[i].addEventListener("onclick",function(){
+    //     console.log("123");
+    //     let temp3= thumb[i].getAttribute("class","data-temp");
+    //     let temp = temp3.split(",");
+    //     console.log("temp =" +  temp);
+    //   })
+    // }
+
+  
+
+async function temp(Num,gum){
+
+   itemNum = Num;
+   item_Group = gum;
+
+  let respone = await fetch("./temp?item_Num="+itemNum+"&item_Group="+gum);
+  let result = await respone.json();  
+     
+    console.log(result.item_Num+"     "+ item_Group);
+
+    bg_video.setAttribute("src",result.item_Photo_to_String);       
+        
+   
+
+ }
+
+itemSet.addEventListener("click", async function(){
+  console.log("aaaaaaaaaaaaaaaa"+itemNum);
+  try {
+
+    let response = await fetch("./setUpdate?item_Num="+itemNum+"&item_Group="+item_Group);
+    console.log(typeof response)
+    let result = await response.text();
+    console.log(result)
+    let msg = "실패";
+    if(result=="1"){
+      msg = "성공";
+    }
+    
+    alert(msg);
+  } catch (error) {
+    console.log(error)
+  }
+
+})
+
 
 
 
