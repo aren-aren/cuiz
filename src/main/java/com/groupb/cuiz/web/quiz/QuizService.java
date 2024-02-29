@@ -197,7 +197,7 @@ public class QuizService {
      * @throws Exception
      */
     public List<String> getSampleOutput(MemberAnswerDTO quizSampleDTO, List<String> inputs) throws Exception {
-        return quizSourceBuild(quizSampleDTO.getMember_Id(), quizSampleDTO.getSourcecode(), inputs);
+        return quizSourceBuild(quizSampleDTO.getMember_ID(), quizSampleDTO.getSourcecode(), inputs);
     }
 
     /**
@@ -218,7 +218,7 @@ public class QuizService {
         }
 
         //코드 실행후 outputs를 얻어옴
-        List<String> results = quizSourceBuild(answer.getMember_Id(), answer.getSourcecode(), inputs);
+        List<String> results = quizSourceBuild(answer.getMember_ID(), answer.getSourcecode(), inputs);
 
         //코드 실행 결과와 정답을 비교하여 채점
         List<TestcaseResult> testcaseResults = new ArrayList<>();

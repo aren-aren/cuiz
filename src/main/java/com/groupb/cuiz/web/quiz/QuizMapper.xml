@@ -24,7 +24,7 @@
             SELECT QUIZ_SEQ.NEXTVAL FROM DUAL
         </selectKey>
         INSERT INTO QUIZ(QUIZ_NO, MEMBER_ID, QUIZ_TITLE, QUIZ_CONTENTS, QUIZ_TYPE, QUIZ_LEVEL, QUIZ_POINT, QUIZ_PRICE, QUIZ_SAMPLECODE)
-        VALUES (#{quiz_No}, #{member_Id}, #{quiz_Title}, #{quiz_Contents}, #{quiz_Type}, #{quiz_Level}, #{quiz_Point}, #{quiz_Price}, #{quiz_SampleCode})
+        VALUES (#{quiz_No}, #{member_ID}, #{quiz_Title}, #{quiz_Contents}, #{quiz_Type}, #{quiz_Level}, #{quiz_Point}, #{quiz_Price}, #{quiz_SampleCode})
     </insert>
 
     <select id="getQuizTotalCount" parameterType="Pager" resultType="Long">
@@ -85,10 +85,10 @@
                 <if test="kind != 0">
                     <choose>
                         <when test="kind == 1">
-                            AND (mqa.MEMBER_ID = #{member_Id} AND ANSWER_CHECK = 1)
+                            AND (mqa.MEMBER_ID = #{member_ID} AND ANSWER_CHECK = 1)
                         </when>
                         <otherwise>
-                            AND ((mqa.MEMBER_ID = #{member_Id} AND ANSWER_CHECK = 0)
+                            AND ((mqa.MEMBER_ID = #{member_ID} AND ANSWER_CHECK = 0)
                             <if test="kind == 2">
                                 OR mqa.MEMBER_ID IS NULL
                             </if>
@@ -138,19 +138,19 @@
     <select id="getAnswer" parameterType="MemberAnswerDTO" resultType="MemberAnswerDTO">
         /* getAnswer - 퀴즈 제출답안 조회 */
         SELECT QUIZ_NO, MEMBER_ID, SOURCECODE, ANSWER_DATE, ANSWER_CHECK FROM MEMBER_QUIZ_ANSWER
-        WHERE MEMBER_ID = #{member_Id} AND QUIZ_NO = #{quiz_No}
+        WHERE MEMBER_ID = #{member_ID} AND QUIZ_NO = #{quiz_No}
     </select>
 
     <update id="updateAnswer" parameterType="MemberAnswerDTO">
         /* updateAnswer - 퀴즈 제출답안 수정 */
         UPDATE MEMBER_QUIZ_ANSWER SET SOURCECODE = #{sourcecode}, ANSWER_DATE = SYSDATE, ANSWER_CHECK = #{answer_Check}
-        WHERE MEMBER_ID = #{member_Id} AND QUIZ_NO = #{quiz_No}
+        WHERE MEMBER_ID = #{member_ID} AND QUIZ_NO = #{quiz_No}
     </update>
 
     <insert id="setAnswer" parameterType="MemberAnswerDTO">
         /* setAnswer - 퀴즈 제출답안 저장 */
         INSERT INTO MEMBER_QUIZ_ANSWER(QUIZ_NO, MEMBER_ID, SOURCECODE, ANSWER_CHECK)
-        VALUES(#{quiz_No}, #{member_Id}, #{sourcecode}, #{answer_Check})
+        VALUES(#{quiz_No}, #{member_ID}, #{sourcecode}, #{answer_Check})
     </insert>
 
     <select id="getQuizLevel" parameterType="MemberAnswerDTO" resultType="Integer">
@@ -207,7 +207,7 @@
         WHERE QUIZ_NO = #{dto.quiz_No} AND ANSWER_CHECK = 1 AND (
             SELECT COUNT(*)
             FROM MEMBER_QUIZ_ANSWER
-            WHERE QUIZ_NO=#{dto.quiz_No} AND MEMBER_ID=#{dto.member_Id} AND ANSWER_CHECK=1
+            WHERE QUIZ_NO=#{dto.quiz_No} AND MEMBER_ID=#{dto.member_ID} AND ANSWER_CHECK=1
         ) > 0
     </select>
 
@@ -216,7 +216,7 @@
         FROM MEMBER_QUIZ_ANSWER mqa
             INNER JOIN QUIZ q ON q.QUIZ_NO = mqa.QUIZ_NO
             INNER JOIN MEMBER m  ON m.MEMBER_ID = mqa.MEMBER_ID
-        WHERE q.QUIZ_NO = #{quiz_No} AND m.MEMBER_ID = #{member_Id}
+        WHERE q.QUIZ_NO = #{quiz_No} AND m.MEMBER_ID = #{member_ID}
     </select>
 
     <select id="getAllQuizs" resultType="QuizDTO">
@@ -240,7 +240,7 @@
         WHERE TESTCASE_NO IN (
             SELECT TESTCASE_NO
             FROM BUYED_TESTCASE
-            WHERE QUIZ_NO=#{quiz_No} AND MEMBER_ID=#{member_Id}
+            WHERE QUIZ_NO=#{quiz_No} AND MEMBER_ID=#{member_ID}
         )
         ORDER BY TESTCASE_NO
     </select>
