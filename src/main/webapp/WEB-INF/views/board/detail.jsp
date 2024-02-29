@@ -135,7 +135,7 @@
 						
 							
 							
-							<div class="mb-3">
+ 							<div class="mb-3">
 							<nav aria-label="Page navigation example">
 								<ul class="pagination">
 									<c:if test="${!pager.start}">
@@ -163,6 +163,8 @@
 								</ul>
 							</nav>
 						</div>
+						
+
 
 						<!-- reply add -->
 						
