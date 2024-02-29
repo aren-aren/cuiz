@@ -304,7 +304,7 @@ public class QuizService {
 
         List<TestcaseDTO> list = quizDAO.getTestCases(map);
 
-        if(type.equals("EXAMPLE")){
+        if(type != null && type.equals("EXAMPLE")){
             List<TestcaseDTO> buyedList = quizDAO.getBuyedTestcase(quizDTO);
             list.addAll(buyedList);
         }
