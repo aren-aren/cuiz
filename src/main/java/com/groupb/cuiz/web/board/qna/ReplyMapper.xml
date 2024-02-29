@@ -17,13 +17,14 @@
  	WHERE BOARD_NUM=#{board_Num}
  </select>
  
- <select id="getList" parameterType="Pager" resultType="ReplyDTO">
+ <select id="getList" parameterType="Map" resultType="ReplyDTO">
  	SELECT * FROM
  	(SELECT ROWNUM RN, R. * FROM
  	(SELECT * FROM REPLY
+ 	WHERE BOARD_NUM=#{replyDTO.board_Num}
  	ORDER BY REPLY_NUM DESC)
  	R)
- 	WHERE RN BETWEEN #{startRow} AND #{lastRow}
+ 	WHERE RN BETWEEN #{pager.startRow} AND #{pager.lastRow}
  </select>
  
   <delete id="getDelete" parameterType="ReplyDTO">
