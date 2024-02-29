@@ -397,7 +397,7 @@ public class QuizService {
         return quizDAO.getAllQuizs();
     }
 
-@Transactional
+    @Transactional
     public TestcaseDTO buyAndGetTestcase(TestcaseDTO testcaseDTO, MemberDTO member) throws Exception {
         QuizDTO quizDTO = quizDAO.getQuizDetail(testcaseDTO.getQuiz_No());
 
