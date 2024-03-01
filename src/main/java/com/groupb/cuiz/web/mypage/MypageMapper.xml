@@ -4,6 +4,42 @@
  "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
  
  <mapper namespace="com.groupb.cuiz.web.mypage.MypageDAO">
+
+<!-- 마이페이지 배경  -->
+ <select id="MypageSet" parameterType="MemberDTO" resultType="ItemDTO">
+  
+  SELECT * FROM ITEM  WHERE ITEM_NUM IN (SELECT ITEM_NUM FROM MYPAGESET  WHERE MEMBER_ID = #{member_ID})
+ 
+ </select>
+ 
+ 
+ 
+ <select id="itemSetCheck" parameterType="MypageSetDTO" resultType="int">
+ 
+  SELECT COUNT(*) FROM MYPAGESET WHERE MEMBER_ID =  #{member_ID}
+ 
+ </select>
+ 
+ 
+                 
+ <!-- 아이템 장착 업데이트 -->
+ <update id="MypageSetUpdate" parameterType="MypageSetDTO">
+ 
+ 	UPDATE MYPAGESET SET MEMBER_ID=#{member_ID} , ITEM_NUM = #{item_Num} ,ITEM_GROUP = #{item_Group}  WHERE MEMBER_ID = #{member_ID}
+ 	
+ </update>
+ 
+ 
+<!-- 최초 아이템 장착시 테이블 생성 --> 
+ <insert id="MypageSetNew" parameterType="MypageSetDTO" > 
+ 
+ 	INSERT INTO MYPAGESET  (MEMBER_ID, ITEM_NUM, ITEM_GROUP)
+	VALUES(#{member_ID},#{item_Num},#{item_Group} )
+ 
+ </insert>
+  
+ 
+ 
  
  <select id="temp" parameterType="MemberDTO" resultType="MemberDTO">
  

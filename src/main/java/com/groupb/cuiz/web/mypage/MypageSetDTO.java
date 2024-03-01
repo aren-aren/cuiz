@@ -4,9 +4,7 @@ public class MypageSetDTO {
 
 	private Integer item_Num;
 	private String member_ID;
-	private Integer BG_SET;
-	private Integer FRAME_SET;
-	
+	private Integer item_Group;
 	
 	
 	
@@ -22,19 +20,13 @@ public class MypageSetDTO {
 	public void setMember_ID(String member_ID) {
 		this.member_ID = member_ID;
 	}
-	public Integer getBG_SET() {
-		return BG_SET;
+	public Integer getItem_Group() {
+		return item_Group;
 	}
-	public void setBG_SET(Integer bG_SET) {
-		BG_SET = bG_SET;
-	}
-	public Integer getFRAME_SET() {
-		return FRAME_SET;
-	}
-	public void setFRAME_SET(Integer fRAME_SET) {
-		FRAME_SET = fRAME_SET;
-	}
-
+	public void setItem_Group(Integer item_Group) {
+		this.item_Group = item_Group;
+	}	
+	
 	
 	
 }
