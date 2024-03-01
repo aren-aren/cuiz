@@ -58,8 +58,7 @@ public class ItemContoller {
 	
 	@GetMapping("api/list")
 	@ResponseBody
-	public List<ItemDTO> getListJson(Pager pager){
-		
+	public List<ItemDTO> getListJson(Pager pager){		
 		
 		List<ItemDTO> ar = itemService.getList(pager); 		
 		ar = photoEncoder.ListToString(ar);

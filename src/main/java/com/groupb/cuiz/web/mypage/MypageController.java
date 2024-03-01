@@ -54,9 +54,28 @@ public class MypageController {
 		
 	}
 	
+	//
+	@GetMapping("list")
+	@ResponseBody
+	public List<ItemDTO> getList(MemberDTO memberDTO) throws UnsupportedEncodingException{
+		
+		System.out.println(memberDTO.getMember_ID());
+		
+		List<ItemDTO> ar =  mypageService.getList(memberDTO);
+		// blob 파일을 String 으로 변환
+		ar = photoEncoder.ListToString(ar);			
+		
+		return ar;
+		
+		
+		
+		
+	}
 	
-	//아이템 장착	
 	
+	
+	
+	//아이템 장착		
 	@GetMapping("setUpdate")
 	@ResponseBody
 	public int mypageSetUpdate(HttpSession session,MypageSetDTO mypageSetDTO) {
@@ -110,22 +129,6 @@ public class MypageController {
 	}
 	
 	
-	@GetMapping("list")
-	@ResponseBody
-	public List<ItemDTO> getList(MemberDTO memberDTO) throws UnsupportedEncodingException{
-		
-		System.out.println(memberDTO.getMember_ID());
-		
-		List<ItemDTO> ar =  mypageService.getList(memberDTO);
-		// blob 파일을 String 으로 변환
-		ar = photoEncoder.ListToString(ar);			
-		
-		return ar;
-		
-		
-		
-		
-	}
-	
+
 	
 }
