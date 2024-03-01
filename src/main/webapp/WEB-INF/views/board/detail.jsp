@@ -41,7 +41,7 @@
                 <div class="row">
 	                <c:set var="b" value="${board}"></c:set>
 	                  
-	                  <div class="col-lg-4 align-self-center">
+	                  <div class="col-12 align-self-center">
 	                    <div class="main-info header-text">
 	                      <span>${board} Detail</span>
 	                      <h4>${boardDTO.board_Title}</h4>
@@ -53,7 +53,17 @@
 								<img src ="/resources/upload/${kind}/${f.file_Name}" onerror="this.style.display='none'" style="display: flex; flex-direction: column;">
 							</div>
 							</c:forEach>
-
+							<c:if test="${not empty boardDTO.answerDTO.sourcecode}">
+								<div class="attached-code">
+							<wc-codemirror mode="text/x-java"
+										   theme="tomorrow-night-eighties"
+										   readonly="nocursor">
+								<script type="wc-content">
+${boardDTO.answerDTO.sourcecode}
+								</script>
+							</wc-codemirror>
+								</div>
+							</c:if>
 	                      <p>${boardDTO.board_Contents}</p>
 	                      
 	          				<form id="contactForm" action="delete" method="post" enctype="multipart/form-data">
@@ -211,7 +221,10 @@
   <c:import url="../temps/footer.jsp"></c:import>
 
   </body>
-  
+ <script type="module" src="https://cdn.jsdelivr.net/gh/vanillawc/wc-codemirror@1/index.js"></script>
+ <script type="module" src="https://cdn.jsdelivr.net/gh/vanillawc/wc-codemirror@1/mode/clike/clike.js"></script>
+ <link rel="stylesheet"
+	   href="https://cdn.jsdelivr.net/gh/vanillawc/wc-codemirror@1/theme/tomorrow-night-eighties.css">
   	<script src="/resources/js/board/boardDetail.js" type="text/javascript"></script>
   
 

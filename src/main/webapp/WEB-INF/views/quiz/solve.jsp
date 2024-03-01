@@ -94,7 +94,7 @@ ${answer.sourcecode}
             </div>
             <div class="col-12 mb-3">
                 <div class="float-start me-1">
-                    <a class="btn btn-secondary">질문 게시판</a>
+                    <a class="btn btn-secondary" href="/qna/list?searchItem=${answer.quiz_No}">질문 게시판</a>
                 </div>
                 <div class="float-start"
                      <c:if test="${!answer.answer_Check}">

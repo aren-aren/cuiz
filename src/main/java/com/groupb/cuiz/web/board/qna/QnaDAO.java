@@ -65,6 +65,10 @@ public class QnaDAO  implements BoardDAO{
 		return null;
 	}
 
+	public void getUpdateHits(BoardDTO boardDTO) {
+		sqlSession.update(namespace + "getUpdateHits", boardDTO);
+	}
+
 
 //	public int getFileAdd(BoardFileDTO boardFileDTO) throws Exception {
 		// TODO Auto-generated method stub

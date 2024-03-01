@@ -80,7 +80,6 @@
                                                                        readonly="nocursor">
                                                             <script type="wc-content">
 ${answer.sourcecode}
-
                                                             </script>
                                                         </wc-codemirror>
                                                     </div>
