@@ -65,10 +65,20 @@ svg text.month { fill: #AAA; }
     </div>
   </div>
   <!-- ***** Preloader End ***** -->
+  
+  
+  
+  <
 
    <!-- ***** Header Area Start ***** -->
   <c:import url="../temps/header.jsp"></c:import>
   <!-- ***** Header Area End ***** -->
+  <c:forEach var="video" items="${media}">
+	<c:if test="${video.item_Group eq 1}">
+	<div>${video.item_Photo_to_String}</div>
+ 	<video id="bg_video" src="${video.item_Photo_to_String}"  muted autoplay playsinline loop class="mx-auto"  style="display:block; margin:0 auto; width : 100%; z-index:0;   position: fixed;"></video>
+	</c:if>
+  </c:forEach> 
 <div  id="videoB" style="position: relative; z-index:0; margin-top: 120px; padding-top: 0px " >
 
   <div  class="container">
@@ -139,8 +149,14 @@ svg text.month { fill: #AAA; }
           <div class="most-popular" id="itemlist" >
             <div class="row">
               <div class="col-lg-12">
-                <div class="heading-section">
-                  <h4><em>Most Popular</em> Right Now</h4>
+                <div class="heading-section">                  
+                  <h4><em>Most Popular</em> Right Now</h4> <span class="main-border-button">
+                 
+                 	<input id=itemNum type="hidden">
+                 	<input id=item_Group type="hidden">
+                  <button type="button" id="itemSet">아이템 장착</button>
+                  
+                  </span>
                 	</div>
                 	<ul class="nav nav-pills mb-3" id="pills-tab" role="tablist">
 				  <li class="nav-item" role="presentation">
@@ -199,7 +215,7 @@ svg text.month { fill: #AAA; }
 	
 
 	  <script>
-
+		
       let map = "${map}";
       let map2 = map.replace(/[{}]/g,"");
       let ar = map2.split(",");
@@ -216,19 +232,20 @@ svg text.month { fill: #AAA; }
       
      
 
-$('#demo').glanceyear(massive,{
-eventClick: function(e) { $('#debug').html('Date: '+ e.date + ', Count: ' + e.count); },
-months: ["Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec"],
-weeks: ['M','T','W','T','F','S','S'],
-targetQuantity:'.glanceyear-quantity',
-tagId:'glanceyear-svgTag',
-showToday:false,
-today:new Date()
-});
+		$('#demo').glanceyear(massive,{
+		eventClick: function(e) { $('#debug').html('Date: '+ e.date + ', Count: ' + e.count); },
+		months: ["Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec"],
+		weeks: ['M','T','W','T','F','S','S'],
+		targetQuantity:'.glanceyear-quantity',
+		tagId:'glanceyear-svgTag',
+		showToday:false,
+		today:new Date()
+		});
+		
+		
 
 
-
-    </script>	
+    </script>
   </body>
 
 </html>

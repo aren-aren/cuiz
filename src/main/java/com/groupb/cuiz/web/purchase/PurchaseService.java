@@ -46,8 +46,7 @@ public class PurchaseService {
 	@Autowired
 	private ItemDAO itemDAO;	
 	
-	@Value("${kakaoPaySecretKey}")
-	private String kakaoPaySecretKey;
+
 	
 	
 	//영수증 조회
@@ -215,22 +214,18 @@ public class PurchaseService {
 		//반환값
 		// 0 : 로그인필요
 		// 1 : 성공
-		// 에러코드 실패;		
-		
-		URL appAdd=new URL("https://open-api.kakaopay.com/online/v1/payment/approve");		
-		
-		Map<String, Object> jsonMap = new HashMap<String, Object>();
-		
+		// 에러코드 실패;				
+		URL appAdd=new URL("https://open-api.kakaopay.com/online/v1/payment/approve");				
+		Map<String, Object> jsonMap = new HashMap<String, Object>();		
 		jsonMap.put("cid", "TC0ONETIME");
 		jsonMap.put("tid",responseDTO.getTid());
 		jsonMap.put("partner_order_id",responseDTO.getPartner_order_id());
 		jsonMap.put("partner_user_id",responseDTO.getPartner_user_id());		
-		jsonMap.put("pg_token",responseDTO.getPg_token());
+		jsonMap.put("pg_token",responseDTO.getPg_token());		
 		
-		Map<String, Object> map =connectURL( jsonMap, responseDTO, appAdd);	
-				
-		String response = (String) map.get("response");		
-		
+		Map<String, Object> map =connectURL( jsonMap, responseDTO, appAdd);					
+	
+		String response = (String) map.get("response");				
 		int result = (int) map.get("result"); //200이 성공				
 		ObjectMapper mapper = new ObjectMapper();			
 		
@@ -270,6 +265,7 @@ public class PurchaseService {
 		return receiptDTO;	
 		
 	}
+	
 	
 	
 	public ResponseDTO kakaoPay(ItemDTO itemDTO, ResponseDTO responseDTO) throws Exception {		
@@ -319,6 +315,12 @@ public class PurchaseService {
 	
 	
 //	카카오페이용 URL
+	
+	
+
+	@Value("${kakaoPaySecretKey}")
+	private String kakaoPaySecretKey;
+	
 	public Map<String, Object> connectURL(Map<String, Object> jsonMap,ResponseDTO responseDTO, URL url) throws Exception {
 		
 		HttpURLConnection connection = (HttpURLConnection) url.openConnection();
@@ -328,33 +330,24 @@ public class PurchaseService {
 		connection.setDoOutput(true);		
 		
 		//Map을 Json 타입  String(parameter)으로 변환
-		ObjectMapper mapper = new ObjectMapper();
-		
-		String parameter = mapper.writeValueAsString(jsonMap); 	
-		
-		OutputStream send = connection.getOutputStream(); // 이제 뭔가를 를 줄 수 있다.
-		DataOutputStream dataSend = new DataOutputStream(send); // 이제 데이터를 줄 수 있다.
-		
-		
-		
-		dataSend.writeBytes(parameter); // OutputStream은 데이터를 바이트 형식으로 주고 받기로 약속되어 있다. (형변환)
-		
-		
-		
-		dataSend.close(); // flush가 자동으로 호출이 되고 닫는다. (보내고 비우고 닫다)
+		ObjectMapper mapper = new ObjectMapper();		
+		String parameter = mapper.writeValueAsString(jsonMap); 		
+		OutputStream send = connection.getOutputStream(); 
+		DataOutputStream dataSend = new DataOutputStream(send); 
+		dataSend.writeBytes(parameter); 			
+		dataSend.close(); 
 	
-		int result = connection.getResponseCode(); // 전송 잘 됐나 안됐나 html 번호 받음 받는다.			
-		;
+		int result = connection.getResponseCode(); 			
 		
-		InputStream receive; // 받다		
+		InputStream receive; 	
 		if(result == 200) {
 			receive = connection.getInputStream();			
 		}else{			
 			receive = connection.getErrorStream();			
 		}
 		
-		InputStreamReader read = new InputStreamReader(receive); //받은걸 읽어옴
-		BufferedReader change = new BufferedReader(read);// 바이트를 읽기위해 형변환,
+		InputStreamReader read = new InputStreamReader(receive); 
+		BufferedReader change = new BufferedReader(read);
 		
 		String response = change.readLine();
 		Map<String, Object> map = new HashMap<String, Object>();
