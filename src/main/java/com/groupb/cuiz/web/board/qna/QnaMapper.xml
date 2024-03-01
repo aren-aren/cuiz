@@ -16,6 +16,9 @@
   		 <if test="kind== 'kind3'">
   			MEMBER_ID LIKE '%'||#{search}||'%'
   		</if>
+		<if test="searchItem != null">
+			QUIZ_NO = #{searchItem}
+		</if>
   	</where>
   </sql>
 
@@ -75,6 +78,7 @@
   <!-- getTotalCount -->
   <select id="getTotalCount" resultType="Long" parameterType="Pager">
   	SELECT COUNT(BOARD_NUM) FROM QNA
+	  <include refid="linkQuiz"></include>
   	<include refid="search"></include>
   </select>
   
