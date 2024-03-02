@@ -39,9 +39,6 @@ public class QuizService {
     public int addQuiz(QuizDTO quizDTO, String[] example_inputs, String[] example_output, String[] quiz_inputs, String[] quiz_outputs) throws Exception {
         int result = 0;
 
-        quizDTO.setQuiz_Point(0);
-        quizDTO.setQuiz_Price(0);
-
         result += quizDAO.addQuiz(quizDTO);
 
         List<TestcaseDTO> testcaseDTOS = new ArrayList<>();
