@@ -37,6 +37,9 @@
             <div class="heading-section">
                 <h4 class="text-center">${dto.quiz_Title}</h4>
             </div>
+            <c:if test="${member.member_Role eq 'ADMIN'}">
+            <a href="update?quiz_No=${dto.quiz_No}" class="btn btn-cuiz">문제 수정</a>
+            </c:if>
         </div>
         <div class="row min-vh-70">
             <div class="col-5">

@@ -62,7 +62,12 @@
                                                             <div class="col-6 mb-0">
                                                                 <div class="row">
                                                                     <img class="col-3 me-3"
-                                                                         src="data:image/png;base64,${answer.member_Profile_String}"
+                                                                    <c:if test="${not empty answer.member_Profile_String}">
+                                                                        src="data:image/png;base64,${answer.member_Profile_String}"
+                                                                    </c:if>
+                                                                    <c:if test="${empty answer.member_Profile_String}">
+                                                                        src="/resources/assets/images/basic.jpeg"
+                                                                    </c:if>
                                                                          style="clip-path: circle(); width: 3.5rem; height: 3.5rem">
                                                                     <h5 class="card-title col-auto">
                                                                         <a href="#"> ${answer.member_Nick}</a>
