@@ -53,6 +53,7 @@
 								<img src ="/resources/upload/${kind}/${f.file_Name}" onerror="this.style.display='none'" style="display: flex; flex-direction: column;">
 							</div>
 							</c:forEach>
+							<c:catch>
 							<c:if test="${not empty boardDTO.answerDTO.sourcecode}">
 								<div class="attached-code">
 							<wc-codemirror mode="text/x-java"
@@ -64,6 +65,7 @@ ${boardDTO.answerDTO.sourcecode}
 							</wc-codemirror>
 								</div>
 							</c:if>
+							</c:catch>
 	                      <p>${boardDTO.board_Contents}</p>
 	                      
 	          				<form id="contactForm" action="delete" method="post" enctype="multipart/form-data">
