@@ -45,6 +45,9 @@
 	                    <div class="main-info header-text">
 	                      <span>${board} Detail</span>
 	                      <h4>${boardDTO.board_Title}</h4>
+	                      
+	                     <p><strong>ID:&nbsp; @</strong>${boardDTO.member_ID} / <strong>Date: &nbsp;</strong> ${boardDTO.board_Date}</p>
+						 <br>
 
 						  <c:forEach items="${boardDTO.fileDTOs}" var="f">
 							<div class="col-lg-4">
@@ -68,9 +71,8 @@
 							</c:catch>
 						 </c:forEach>
 						 
-						 <p><strong>ID:&nbsp; @</strong>${boardDTO.member_ID} / <strong>Date: &nbsp;</strong> ${boardDTO.board_Date}</p>
 						 <br>
-	                     <p><strong>${boardDTO.board_Contents}</strong></p>
+						 <p><strong>${boardDTO.board_Contents}</strong></p>
 	                      
 	          				<form id="contactForm" action="delete" method="post" enctype="multipart/form-data">
 	                          <div class="main-border-button">
