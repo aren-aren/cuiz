@@ -52,9 +52,11 @@
 								<!--  <a href="/resources/upload/${board}/${f.file_Name}">${f.ori_Name}</a> -->
 								<img src ="/resources/upload/${kind}/${f.file_Name}" onerror="this.style.display='none'" style="display: flex; flex-direction: column;">
 							</div>
-							</c:forEach>
-
-	                      <p>${boardDTO.board_Contents}</p>
+						 </c:forEach>
+						 
+						 <p>${boardDTO.member_ID}</p>
+						 <p>${boardDTO.board_Date}</p>
+						 <p>${boardDTO.board_Contents}</p>
 	                      
 	          				<form id="contactForm" action="delete" method="post" enctype="multipart/form-data">
 	                          <div class="main-border-button">
@@ -97,7 +99,7 @@
 							<input type="hidden" name="user_Name" value="${member.member_ID}">
 							<div class="col-lg-12">
 							<ul id="addForm">
-								<li>${r.reply_Contents}<span>${member.member_Nick}</span></li>
+								<li>${r.reply_Contents}<span>${r.user_Name}</span></li>
 							</ul>
 							</div>
 							
