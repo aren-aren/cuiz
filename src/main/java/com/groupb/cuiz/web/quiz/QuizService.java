@@ -194,7 +194,11 @@ public class QuizService {
      * @throws Exception
      */
     public List<String> getSampleOutput(MemberAnswerDTO quizSampleDTO, List<String> inputs) throws Exception {
-        return quizSourceBuild(quizSampleDTO.getMember_ID(), quizSampleDTO.getSourcecode(), inputs);
+        List<String> outputs = quizSourceBuild(quizSampleDTO.getMember_ID(), quizSampleDTO.getSourcecode(), inputs);
+
+        outputs.stream().map(output -> output.replaceAll("\r\n", "\n"));
+
+        return outputs;
     }
 
     /**
@@ -220,7 +224,7 @@ public class QuizService {
         //코드 실행 결과와 정답을 비교하여 채점
         List<TestcaseResult> testcaseResults = new ArrayList<>();
         for (int i = 0; i < results.size(); i++) {
-            testcaseResults.add(checkTestcase(testcaseDTOS.get(i).getTestcase_No(), outputs.get(i).trim(), results.get(i).trim(), checkType));
+            testcaseResults.add(checkTestcase(testcaseDTOS.get(i).getTestcase_No(), outputs.get(i).trim(), results.get(i).replaceAll("\r\n", "\n").trim(), checkType));
         }
 
         testcaseResults = testcaseResults.stream()
@@ -341,6 +345,8 @@ public class QuizService {
     }
 
     public Boolean updateTestcases(List<TestcaseDTO> testcaseDTOS) throws Exception {
+        testcaseDTOS.forEach(testcaseDTO -> testcaseDTO.setTestcase_Output(testcaseDTO.getTestcase_Output().replaceAll("\r\n", "\n")));
+
         return quizDAO.addTestcases(testcaseDTOS) > 0;
     }
 
