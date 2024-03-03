@@ -1,16 +1,21 @@
+  //board delete
+	$("#delete").on("click", function(){
+	let n = $(this).attr("data-board_Num")
+	console.log("board_Num : ", n)
 
-//board delete
-  const del = document.getElementById("delete");
-  const frm = document.querySelector("#contactForm");
-
-
-	  del.addEventListener("click", (e)=>{
-	      e.preventDefault();
-	      frm.submit();
-	      
-	  });
-
-
+	
+	fetch("./delete",{
+		method:"post",
+		headers : {"Content-type": 'multipart/form-data'},
+		body:"board_Num="+n
+	})
+	.then(r=>r.json())
+	.then(r=>{
+		replyList.innerHTML="";
+	})
+		location.reload();
+})
+	  
 //reply add
 
 $(document).ready(function(){
