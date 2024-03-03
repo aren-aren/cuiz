@@ -1,37 +1,74 @@
 package com.groupb.cuiz.web.mypage;
 
-import java.sql.Date;
-import java.text.SimpleDateFormat;
+
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import javax.servlet.http.HttpSession;
+
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.groupb.cuiz.support.util.photo.PhotoEncoder;
+import com.groupb.cuiz.web.item.ItemDAO;
 import com.groupb.cuiz.web.item.ItemDTO;
 import com.groupb.cuiz.web.member.MemberDTO;
-import com.groupb.cuiz.web.quiz.MemberAnswerDTO;
+
 
 @Service
 public class MypageService {
 
 	@Autowired
 	private MypageDAO mypageDAO;
-	
-	
-	public MemberDTO temp(MemberDTO memberDTO) {
-		
-		
-		return mypageDAO.temp(memberDTO);
-		
-	}
+	@Autowired
+	private PhotoEncoder photoEncoder;
+	@Autowired
+	private ItemDAO itemDAO;
 	
 	public List<ItemDTO> getList(MemberDTO memberDTO){
 		
 		return mypageDAO.getList(memberDTO);
 		
 	}
+	
+	
+	public List<ItemDTO> mypageSet(MemberDTO memberDTO) {
+		
+		List<ItemDTO> ar = mypageDAO.MypageSet(memberDTO);
+		if(ar!=null) {			
+			ar = photoEncoder.ListToString(ar);
+		}
+		return ar;
+		
+		
+	}
+		
+	
+	public int mypageSetUpdate(MypageSetDTO mypageSetDTO) {
+		
+		System.out.println("mypage1");
+		int check = mypageDAO.itemSetCheck(mypageSetDTO);		
+		System.out.println("mypag2");
+		if(check==0) {
+			
+			return mypageDAO.MypageSetNew(mypageSetDTO);
+		
+		}
+		
+		System.out.println("NUM - " + mypageSetDTO.getItem_Num());
+		return mypageDAO.MypageSetUpdate(mypageSetDTO);
+			
+	}
+	
+	
+	public ItemDTO mypageTemp(ItemDTO itemDTO) {
+		
+		return itemDAO.getDetail(itemDTO);
+	}
+	
+	
 	
 //	sang
 	public Map<String, Object> getCount(MemberDTO dto) throws Exception{
@@ -46,6 +83,13 @@ public class MypageService {
 		}
 		
 		return map;
+	}
+	
+	public MemberDTO temp(MemberDTO memberDTO) {
+		
+		
+		return mypageDAO.temp(memberDTO);
+		
 	}
 	
 	

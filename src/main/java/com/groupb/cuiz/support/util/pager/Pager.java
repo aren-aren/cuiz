@@ -19,7 +19,7 @@ public class Pager {
 	private String search;
 	private String kind;
 	private String searchItem;
-	private String member_Id;
+	private String member_ID;
 	private String sort;
 	
 	
@@ -160,12 +160,12 @@ public class Pager {
 		this.searchItem = searchItem;
 	}
 
-	public String getMember_Id() {
-		return member_Id;
+	public String getMember_ID() {
+		return member_ID;
 	}
 
-	public void setMember_Id(String member_Id) {
-		this.member_Id = member_Id;
+	public void setMember_ID(String member_ID) {
+		this.member_ID = member_ID;
 	}
 
 	public String getSort() {

@@ -1,11 +1,10 @@
 package com.groupb.cuiz.web.quiz;
 
-import java.util.Arrays;
 import java.util.List;
 
 public class QuizDTO {
     private Integer quiz_No;
-    private String member_Id;
+    private String member_ID;
     private String quiz_Title;
     private String quiz_Contents;
     private String quiz_SampleCode;
@@ -23,12 +22,12 @@ public class QuizDTO {
         this.quiz_No = quiz_No;
     }
 
-    public String getMember_Id() {
-        return member_Id;
+    public String getMember_ID() {
+        return member_ID;
     }
 
-    public void setMember_Id(String member_Id) {
-        this.member_Id = member_Id;
+    public void setMember_ID(String member_ID) {
+        this.member_ID = member_ID;
     }
 
     public String getQuiz_Title() {
@@ -98,7 +97,7 @@ public class QuizDTO {
     public String toString() {
         return "QuizDTO{" +
                 "quiz_No=" + quiz_No +
-                ", member_Id='" + member_Id + '\'' +
+                ", member_ID='" + member_ID + '\'' +
                 ", quiz_Title='" + quiz_Title + '\'' +
                 ", quiz_Contents='" + quiz_Contents + '\'' +
                 ", quiz_Point=" + quiz_Point +

@@ -35,7 +35,7 @@ public class QuizController {
     @PostMapping("add")
     public String addQuiz(QuizDTO quizDTO, String[] example_inputs, String[] example_outputs, String[] quiz_inputs, String[] quiz_outputs, HttpSession session, Model model) throws Exception {
         MemberDTO memberDTO = (MemberDTO)session.getAttribute("member");
-        quizDTO.setMember_Id(memberDTO.getMember_ID());
+        quizDTO.setMember_ID(memberDTO.getMember_ID());
 
         int result = quizService.addQuiz(quizDTO, example_inputs, example_outputs, quiz_inputs, quiz_outputs);
 
@@ -60,7 +60,7 @@ public class QuizController {
 
         MemberAnswerDTO answerDTO = new MemberAnswerDTO();
         answerDTO.setSourcecode(quiz_SampleCode);
-        answerDTO.setMember_Id(memberDTO.getMember_ID());
+        answerDTO.setMember_ID(memberDTO.getMember_ID());
 
         List<String> exOutputs = quizService.getSampleOutput(answerDTO, List.of(example_inputs));
         List<String> qOutputs = quizService.getSampleOutput(answerDTO, List.of(quiz_inputs));
@@ -72,7 +72,7 @@ public class QuizController {
     @GetMapping("checkRun")
     public List<TestcaseResult> sampleRun(MemberAnswerDTO checkDTO, HttpSession session) throws Exception {
         MemberDTO memberDTO = (MemberDTO) session.getAttribute("member");
-        checkDTO.setMember_Id(memberDTO.getMember_ID());
+        checkDTO.setMember_ID(memberDTO.getMember_ID());
 
         return quizService.checkRun(checkDTO);
     }
@@ -81,7 +81,7 @@ public class QuizController {
     public String getList(Pager pager, Model model, HttpSession session){
         MemberDTO memberDTO = (MemberDTO) session.getAttribute("member");
         if(memberDTO != null){
-            pager.setMember_Id(memberDTO.getMember_ID());
+            pager.setMember_ID(memberDTO.getMember_ID());
         }
 
         List<QuizListDTO> quizList = quizService.getList(pager);
@@ -93,7 +93,7 @@ public class QuizController {
     @GetMapping("solve")
     public String solveQuiz(QuizDTO quizDTO, Model model, HttpSession session){
         MemberDTO memberDTO = (MemberDTO) session.getAttribute("member");
-        quizDTO.setMember_Id(memberDTO.getMember_ID());
+        quizDTO.setMember_ID(memberDTO.getMember_ID());
 
         quizDTO = quizService.getDetail(quizDTO, "EXAMPLE");
         model.addAttribute("dto", quizDTO);
@@ -102,7 +102,7 @@ public class QuizController {
 
         MemberAnswerDTO answerDTO = new MemberAnswerDTO();
         answerDTO.setQuiz_No(quizDTO.getQuiz_No());
-        answerDTO.setMember_Id(memberDTO.getMember_ID());
+        answerDTO.setMember_ID(memberDTO.getMember_ID());
 
         answerDTO = quizService.getAnswer(answerDTO);
         if(answerDTO.getSourcecode() == null){
@@ -118,7 +118,7 @@ public class QuizController {
     @PostMapping("run")
     public MemberAnswerDTO runQuiz(@RequestBody MemberAnswerDTO answerDTO, HttpSession session) throws Exception {
         MemberDTO memberDTO = (MemberDTO) session.getAttribute("member");
-        answerDTO.setMember_Id(memberDTO.getMember_ID());
+        answerDTO.setMember_ID(memberDTO.getMember_ID());
 
         answerDTO = quizService.runExampleQuiz(answerDTO);
         return answerDTO;
@@ -128,7 +128,7 @@ public class QuizController {
     @PostMapping("submit")
     public MemberAnswerDTO submitQuiz(@RequestBody MemberAnswerDTO answerDTO, HttpSession session) throws Exception {
         MemberDTO memberDTO = (MemberDTO) session.getAttribute("member");
-        answerDTO.setMember_Id(memberDTO.getMember_ID());
+        answerDTO.setMember_ID(memberDTO.getMember_ID());
 
         answerDTO = quizService.submitQuiz(answerDTO, memberDTO);
 
@@ -173,7 +173,7 @@ public class QuizController {
         MemberDTO memberDTO = (MemberDTO) session.getAttribute("member");
         quizDTO = quizService.getQuizInfo(quizDTO);
 
-        quizDTO.setMember_Id(memberDTO.getMember_ID());
+        quizDTO.setMember_ID(memberDTO.getMember_ID());
         model.addAttribute("dto", quizDTO);
 
         List<AnswerShowDTO> answers = quizService.getAnswers(quizDTO, pager);
@@ -198,7 +198,7 @@ public class QuizController {
     @ResponseBody
     public JumsuUpdateDTO getJumsuData(QuizDTO quizDTO, HttpSession session){
         MemberDTO memberDTO = (MemberDTO) session.getAttribute("member");
-        quizDTO.setMember_Id(memberDTO.getMember_ID());
+        quizDTO.setMember_ID(memberDTO.getMember_ID());
         return quizService.getJumsuData(quizDTO);
     }
 
@@ -213,10 +213,8 @@ public class QuizController {
         MemberDTO memberDTO = (MemberDTO) session.getAttribute("member");
 
         try {
-
             return ResponseEntity.ok(quizService.buyAndGetTestcase(testcaseDTO, memberDTO));
         }   catch (Exception e) {
-
             return ResponseEntity.badRequest()
                     .header(HttpHeaders.CONTENT_TYPE, MediaType.TEXT_PLAIN_VALUE + ";charset=" + StandardCharsets.UTF_8)
                     .body(e.getMessage());

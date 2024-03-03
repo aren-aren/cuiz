@@ -2,16 +2,10 @@
 <beans xmlns="http://www.springframework.org/schema/beans"
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xmlns:context="http://www.springframework.org/schema/context"
-	xmlns:task="http://www.springframework.org/schema/task"
-	xmlns:tx="http://www.springframework.org/schema/tx"
-	xmlns:aop="http://www.springframework.org/schema/aop"
 	xsi:schemaLocation="
-	http://www.springframework.org/schema/task http://www.springframework.org/schema/task/spring-task-4.3.xsd
 	http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-4.3.xsd
 	http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
-	http://www.springframework.org/schema/aop https://www.springframework.org/schema/aop/spring-aop.xsd
-	http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-4.3.xsd
-	">
+">
 
 	<context:property-placeholder ignore-unresolvable="true" location="classpath:database/config/database-ignore.properties"/>
 
@@ -34,26 +28,10 @@
 
 	<!-- ============================================= 트랜잭션 설정 시작 ============================================= -->
 
-	<!-- Aop 설정 Service라는 이름의 파일 대상 어노테이션 -->
-	<aop:config>
-		<aop:pointcut expression="execution(* com.groupb.cuiz.web..*Service.*(..))" id="requriedTx"/>
-		<aop:advisor advice-ref="txAdvice" pointcut-ref="requriedTx" />
-	</aop:config>
-
 	<!-- 트랜잭션 매니저 -->
 	<bean class="org.springframework.jdbc.datasource.DataSourceTransactionManager" id="transactionManager">
 		<property name="dataSource" ref="dataSource"></property>
 	</bean>
-	<!-- 등록된 빈 중 @Transactional이 붙은 클래스/인터페이스/메소드를 찾아 트랜잭션 어드바이스를 적용 -->
-	<tx:annotation-driven proxy-target-class="true"/>
-
-	<!-- Advice 생성 - 예외 발생시 AOP에서 인식하여 해당 Advice -->
-	<tx:advice id="txAdvice" transaction-manager="transactionManager">
-		<tx:attributes>
-			<!--모든 메서드들에서 예외가 발생하면 rollback 실행 -->
-			<tx:method name="*" rollback-for="Exception"/>
-		</tx:attributes>
-	</tx:advice>
 
 	<!-- ============================================= 트랜잭션 설정 종료 ============================================= -->
 

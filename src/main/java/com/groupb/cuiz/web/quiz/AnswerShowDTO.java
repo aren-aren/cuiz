@@ -2,21 +2,20 @@ package com.groupb.cuiz.web.quiz;
 
 import java.nio.charset.StandardCharsets;
 import java.sql.Date;
-import java.util.Arrays;
 
 public class AnswerShowDTO {
-    private String member_Id;
+    private String member_ID;
     private String member_Nick;
     private byte[] member_Profile_Blob;
     private String sourcecode;
     private Date answer_Date;
 
-    public String getMember_Id() {
-        return member_Id;
+    public String getMember_ID() {
+        return member_ID;
     }
 
-    public void setMember_Id(String member_Id) {
-        this.member_Id = member_Id;
+    public void setMember_ID(String member_ID) {
+        this.member_ID = member_ID;
     }
 
     public String getMember_Nick() {
@@ -62,7 +61,7 @@ public class AnswerShowDTO {
     @Override
     public String toString() {
         return "AnswerShowDTO{" +
-                "member_Id='" + member_Id + '\'' +
+                "member_ID='" + member_ID + '\'' +
                 ", member_Nick='" + member_Nick + '\'' +
                 ", member_Profile_Blob=" + (member_Profile_Blob == null) +
                 ", sourcecode='" + sourcecode + '\'' +
