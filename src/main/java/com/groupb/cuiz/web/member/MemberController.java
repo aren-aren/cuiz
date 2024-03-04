@@ -55,13 +55,12 @@ public class MemberController {
 	
 	@GetMapping("emailCheck")
 	public String emailCheck(MemberDTO dto,Model model ) throws Exception {
-		System.out.println("emailCheck 진입");
-		System.out.println(dto.getMember_Email());
+	
 		
 		
 		int number = memberService.sendEmail(dto);
 		
-		System.out.println("emailCheck 아웃 : " + number);
+		
 		model.addAttribute("result", number);
 		return "/commons/ajaxResult";
 		

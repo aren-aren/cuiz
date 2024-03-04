@@ -40,8 +40,6 @@ public class MypageService {
 		
 		Map<String,Object> map = new HashMap<String, Object>();
 		for(YoursDTO yoursDTO : ar) {
-			System.out.println("date = " + yoursDTO.getA_Date());
-			System.out.println("count = " + yoursDTO.getQ_Count());
 			map.put(yoursDTO.getA_Date(), yoursDTO.getQ_Count());
 		}
 		

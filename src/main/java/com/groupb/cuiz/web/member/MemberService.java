@@ -94,7 +94,7 @@ public class MemberService {
 				+ "        </div>\r\n"
 				+ "        <h2 class=\"titleNumber\">인증 코드</h2>\r\n"
 				+ "        <div class=\"number\">\r\n"
-				+ "            5 6 7 8 9 0\r\n"
+				+ number +"\r\n"
 				+ "        </div>\r\n"
 				+ "        <div class=\"footer\">\r\n"
 				+ "            sang ul이꺼\r\n"
@@ -106,14 +106,7 @@ public class MemberService {
 		mimeMessageHelper.setText(message, true);
 		
 		javaMailSender.send(mimeMessage);
-		/*
-		 * String mailContent = "이메일 인증 번호입니다. \n"+ number;
-		 * 
-		 * send.setSubject("회원가입 이메일 인증 ","utf-8");
-		 * send.setText(mailContent+"utf-8","html");
-		 * send.addRecipient(Message.RecipientType.TO, new
-		 * InternetAddress(dto.getMember_Email())); mail.send(send);
-		 */
+		
 		return number;
 	}
 	

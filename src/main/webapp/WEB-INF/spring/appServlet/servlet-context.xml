@@ -43,7 +43,7 @@
 	<task:scheduled-tasks scheduler="scheduler">
         <task:scheduled ref="testSchedule" method="testPrint" cron="*/2 * * * * ?"/>
     	<task:scheduled ref="userDelete" method="setDelete" cron ="0 */30 * * * ?"/>
-    	<task:scheduled ref="rankingList" method="daily_Ranking" cron="0 * 13 * * ?"/>
+    	<task:scheduled ref="rankingList" method="daily_Ranking" cron="0 0 13 * * ?"/>
     </task:scheduled-tasks>
 	
 	<task:scheduler id="scheduler" pool-size="10"/>
