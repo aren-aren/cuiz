@@ -53,6 +53,7 @@
 										<form id="contactForm" action="add" method="post" enctype="multipart/form-data">
 											<input type="hidden" id="quiz_No" name="quiz_No">
 											<input type="hidden" id="attach-code" name="flag" value="0">
+											
 											<!-- title input-->
 											<div class="form-floating mb-3">
 												<input class="form-control" name="board_Title" id="name" type="text" placeholder="Title" data-sb-validations="required"/>
@@ -60,14 +61,13 @@
 												<div class="invalid-feedback" data-sb-feedback="message:required">필수항목 입니다.</div>
 											</div>
 
-
-
 											<!-- contents input-->
 											<div class="form-floating mb-3">
 												<textarea class="form-control" name="board_Contents" id="message" placeholder="Contents" style="height: 40rem" data-sb-validations="required"></textarea>
 												<label for="message">Contents</label>
 												<div class="invalid-feedback" data-sb-feedback="name:required">필수항목 입니다</div>
 											</div>
+
 						                      <!-- 첨부파일 input-->
 						                      <c:if test="${b eq 'Notice'}" >
 							                      <div class="mb-3">
@@ -78,7 +78,8 @@
 							                        <input class="form-control" type="file" name="attachs"/>
 							                        <input class="form-control" type="file" name="attachs"/>
 							                      </div>
-						                      </c:if>						                      
+						                      </c:if>
+						                      						                      
 											<!-- an error submitting the form-->
 											<div class="d-none" id="submitErrorMessage">
 												<div class="text-center text-danger mb-3">Error sending message!</div>

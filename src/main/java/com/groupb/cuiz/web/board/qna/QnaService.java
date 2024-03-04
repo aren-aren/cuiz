@@ -5,7 +5,6 @@ import java.util.List;
 import javax.servlet.ServletContext;
 
 import com.groupb.cuiz.web.quiz.MemberAnswerDTO;
-import com.groupb.cuiz.web.quiz.QuizDTO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
@@ -71,7 +70,9 @@ public class QnaService implements BoardService{
 	@Override
 	public BoardDTO getDetail(BoardDTO boardDTO) throws Exception {
 		// TODO Auto-generated method stub
-		return qnaDAO.getDetail(boardDTO);
+		boardDTO = qnaDAO.getDetail(boardDTO);
+		qnaDAO.getUpdateHits(boardDTO);
+		return boardDTO;
 	}
 
 	@Override

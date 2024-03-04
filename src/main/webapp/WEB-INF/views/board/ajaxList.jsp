@@ -2,7 +2,7 @@
 	pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 
-<c:forEach items="${replyDTO}" var="r">
+<c:forEach items="${replyList}" var="r">
 						
 	<form>
 		<input type="hidden" name="user_Name" value="${member.member_ID}">

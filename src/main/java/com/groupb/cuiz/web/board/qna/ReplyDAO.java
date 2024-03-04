@@ -1,12 +1,11 @@
 package com.groupb.cuiz.web.board.qna;
 
 import java.util.List;
+import java.util.Map;
 
 import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
-
-import com.groupb.cuiz.support.util.pager.Pager;
 
 @Repository
 public class ReplyDAO {
@@ -27,8 +26,8 @@ public class ReplyDAO {
 		return sqlSession.selectOne(namespace+"getTotalCount", replyDTO);
 	}
 	
-	public List<ReplyDTO> getList(Pager pager)throws Exception{
-		return sqlSession.selectList(namespace+"getList", pager);
+	public List<ReplyDTO> getList(Map<String, Object> map)throws Exception{
+		return sqlSession.selectList(namespace+"getList", map);
 	}
 
 }

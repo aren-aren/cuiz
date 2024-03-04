@@ -1,24 +1,28 @@
 package com.groupb.cuiz.web.quiz;
 
+import com.groupb.cuiz.web.member.MemberDTO;
+
 import java.sql.Date;
 import java.util.List;
 
 public class MemberAnswerDTO {
-    private String member_Id;
+    private String member_ID;
     private Integer quiz_No;
     private String quiz_Title;
     private String sourcecode;
     private Date answer_Date;
     private Boolean answer_Check;
     private String result_Message;
+    private QuizDTO quizDTO;
+    private MemberDTO memberDTO;
     private List<TestcaseResult> testcase_Results;
 
-    public String getMember_Id() {
-        return member_Id;
+    public String getMember_ID() {
+        return member_ID;
     }
 
-    public void setMember_Id(String member_Id) {
-        this.member_Id = member_Id;
+    public void setMember_ID(String member_ID) {
+        this.member_ID = member_ID;
     }
 
     public Integer getQuiz_No() {
@@ -69,6 +73,22 @@ public class MemberAnswerDTO {
         this.answer_Date = answer_Date;
     }
 
+    public QuizDTO getQuizDTO() {
+        return quizDTO;
+    }
+
+    public void setQuizDTO(QuizDTO quizDTO) {
+        this.quizDTO = quizDTO;
+    }
+
+    public MemberDTO getMemberDTO() {
+        return memberDTO;
+    }
+
+    public void setMemberDTO(MemberDTO memberDTO) {
+        this.memberDTO = memberDTO;
+    }
+
     public Boolean getAnswer_Check() {
         return answer_Check;
     }
@@ -81,7 +101,7 @@ public class MemberAnswerDTO {
     @Override
     public String toString() {
         return "MemberAnswerDTO{" +
-                "member_Id='" + member_Id + '\'' +
+                "member_ID='" + member_ID + '\'' +
                 ", quiz_No=" + quiz_No +
                 ", sourcecode='" + sourcecode + '\'' +
                 ", answer_Date=" + answer_Date +

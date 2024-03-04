@@ -107,7 +107,7 @@ nav > .pagination > .page-item > .page-link:hover{
 }
 
 .tc-result:hover > .tc-show{
-    display: block;
+    display: inline-block;
 }
 
 .button.disabled{
@@ -140,4 +140,12 @@ a.main-list-title:hover{
 
 div.text-cuiz{
     color : #f76e9d !important;
+}
+
+.attached-code .CodeMirror span{
+    background-color: inherit;
+    padding: 0;
+    border-radius: 0;
+    font-weight: normal;
+    margin-bottom: 1px;
 }

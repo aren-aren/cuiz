@@ -2,10 +2,10 @@ package com.groupb.cuiz.web.item;
 
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
-
+import java.util.Enumeration;
 import java.util.List;
 
-
+import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -58,8 +58,7 @@ public class ItemContoller {
 	
 	@GetMapping("api/list")
 	@ResponseBody
-	public List<ItemDTO> getListJson(Pager pager){
-		
+	public List<ItemDTO> getListJson(Pager pager){		
 		
 		List<ItemDTO> ar = itemService.getList(pager); 		
 		ar = photoEncoder.ListToString(ar);
@@ -142,7 +141,21 @@ public class ItemContoller {
 		return "/shop/list";
 	}
 	
-
+	@GetMapping("success")
+	public String kakaoSuccess(HttpServletRequest request) {
+		System.out.println("shop success ========================================");
+		Enumeration<String> r = request.getParameterNames();
+		
+		while (r.hasMoreElements()) {
+			String string = r.nextElement();
+			System.out.println("Name : "+string);
+			System.out.println("Value " +request.getParameter(string));
+			
+		}
+		
+		return "/shop/success";
+		
+	}
 	
 	
 	

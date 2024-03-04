@@ -7,10 +7,20 @@
   
   <!-- list -->
   <select id="getList" resultType="NoticeDTO" parameterType="Pager">
-  	SELECT * FROM
+  	SELECT
+		MEMBER_ID
+	  , MEMBER_NICK
+	  , BOARD_NUM
+	  , BOARD_TITLE
+	  , BOARD_CONTENTS
+	  , BOARD_DATE
+	  , BOARD_HIT
+	  , FLAG
+	  FROM
   	(SELECT ROWNUM R, N.*FROM
   		(
   			SELECT * FROM NOTICE
+  			INNER JOIN MEMBER USING(MEMBER_ID)
   			<include refid="search"></include>
   			ORDER BY BOARD_NUM DESC
   		)

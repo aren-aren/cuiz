@@ -106,5 +106,6 @@ codeSelectBtn.addEventListener("click", ()=>{
     let checkedInput = codeContentDiv.querySelector("input[type=radio]:checked");
     document.getElementById("quiz_No").value = checkedInput.value;
     document.getElementById("attach-code").value = 1;
+    quizListInput.value = checkedInput.value;
     quizAttachModal.hide();
 })

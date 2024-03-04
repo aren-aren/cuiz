@@ -7,9 +7,12 @@ import com.groupb.cuiz.web.member.MemberDAO;
 import com.groupb.cuiz.web.member.MemberDTO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import javax.servlet.ServletContext;
+import java.sql.SQLIntegrityConstraintViolationException;
 import java.util.*;
+import java.util.stream.Collectors;
 
 @Service
 public class QuizService {
@@ -35,9 +38,6 @@ public class QuizService {
      */
     public int addQuiz(QuizDTO quizDTO, String[] example_inputs, String[] example_output, String[] quiz_inputs, String[] quiz_outputs) throws Exception {
         int result = 0;
-
-        quizDTO.setQuiz_Point(0);
-        quizDTO.setQuiz_Price(0);
 
         result += quizDAO.addQuiz(quizDTO);
 
@@ -89,6 +89,18 @@ public class QuizService {
         answerDTO.setAnswer_Check(answerDTO.getTestcase_Results().stream()
                                                 .allMatch(TestcaseResult::isResult));
 
+        List<TestcaseDTO> buyedTestcases = quizDAO.getBuyedTestcase(answerDTO);
+        int index = 0;
+        for (TestcaseDTO buyedTestcase : buyedTestcases) {
+            for (; index < testcaseDTOS.size(); index++) {
+                /* 구매한 테스트케이스 번호와 결과의 번호를 비교하여 buyed를 변경 */
+                if(buyedTestcase.getTestcase_No().equals(answerDTO.getTestcase_Results().get(index).getTestcase_No())){
+                    answerDTO.getTestcase_Results().get(index).setBuyed(true);
+                    break;
+                }
+            }
+        }
+
         MemberAnswerDTO oldAnswer = quizDAO.getAnswer(answerDTO);
         System.out.println("oldAnswer = " + oldAnswer);
 
@@ -127,6 +139,7 @@ public class QuizService {
         map.put("type", "EXAMPLE");
 
         List<TestcaseDTO> testcaseDTOS = quizDAO.getTestCases(map);
+        testcaseDTOS.addAll(quizDAO.getBuyedTestcase(answerDTO));
 
         return checkAnswer(answerDTO, testcaseDTOS, "EXAMPLE");
     }
@@ -181,7 +194,11 @@ public class QuizService {
      * @throws Exception
      */
     public List<String> getSampleOutput(MemberAnswerDTO quizSampleDTO, List<String> inputs) throws Exception {
-        return quizSourceBuild(quizSampleDTO.getMember_Id(), quizSampleDTO.getSourcecode(), inputs);
+        List<String> outputs = quizSourceBuild(quizSampleDTO.getMember_ID(), quizSampleDTO.getSourcecode(), inputs);
+
+        outputs.stream().map(output -> output.replaceAll("\r\n", "\n"));
+
+        return outputs;
     }
 
     /**
@@ -202,13 +219,17 @@ public class QuizService {
         }
 
         //코드 실행후 outputs를 얻어옴
-        List<String> results = quizSourceBuild(answer.getMember_Id(), answer.getSourcecode(), inputs);
+        List<String> results = quizSourceBuild(answer.getMember_ID(), answer.getSourcecode(), inputs);
 
         //코드 실행 결과와 정답을 비교하여 채점
         List<TestcaseResult> testcaseResults = new ArrayList<>();
         for (int i = 0; i < results.size(); i++) {
-            testcaseResults.add(checkTestcase(testcaseDTOS.get(i).getTestcase_No(), outputs.get(i).trim(), results.get(i).trim(), checkType));
+            testcaseResults.add(checkTestcase(testcaseDTOS.get(i).getTestcase_No(), outputs.get(i).trim(), results.get(i).replaceAll("\r\n", "\n").trim(), checkType));
         }
+
+        testcaseResults = testcaseResults.stream()
+                .sorted(Comparator.comparingInt(TestcaseResult::getTestcase_No))
+                .collect(Collectors.toList());
 
         answer.setTestcase_Results(testcaseResults);
 
@@ -275,17 +296,23 @@ public class QuizService {
      * @return
      */
     public QuizDTO getDetail(QuizDTO quizDTO, String type) {
-        quizDTO = quizDAO.getDetail(quizDTO);
+        QuizDTO quizDetail = quizDAO.getQuizDetail(quizDTO);
+        quizDetail.setQuiz_Price(QuizEnum.get(quizDetail.getQuiz_Level()).getPrice());
 
         Map<String, Object> map = new HashMap<>();
-        map.put("dto", quizDTO);
+        map.put("dto", quizDetail);
         map.put("type", type);
 
         List<TestcaseDTO> list = quizDAO.getTestCases(map);
 
-        quizDTO.setTestcase(list);
+        if(type != null && type.equals("EXAMPLE")){
+            List<TestcaseDTO> buyedList = quizDAO.getBuyedTestcase(quizDTO);
+            list.addAll(buyedList);
+        }
 
-        return quizDTO;
+        quizDetail.setTestcase(list);
+
+        return quizDetail;
     }
 
     public MemberAnswerDTO getAnswer(MemberAnswerDTO answerDTO) {
@@ -304,7 +331,7 @@ public class QuizService {
     public List<TestcaseResult> checkRun(MemberAnswerDTO checkDTO) throws Exception {
         QuizDTO quizDTO = new QuizDTO();
         quizDTO.setQuiz_No(checkDTO.getQuiz_No());
-        quizDTO = quizDAO.getDetail(quizDTO);
+        quizDTO = quizDAO.getQuizDetail(quizDTO);
 
         checkDTO.setSourcecode(quizDTO.getQuiz_SampleCode());
 
@@ -318,6 +345,8 @@ public class QuizService {
     }
 
     public Boolean updateTestcases(List<TestcaseDTO> testcaseDTOS) throws Exception {
+        testcaseDTOS.forEach(testcaseDTO -> testcaseDTO.setTestcase_Output(testcaseDTO.getTestcase_Output().replaceAll("\r\n", "\n")));
+
         return quizDAO.addTestcases(testcaseDTOS) > 0;
     }
 
@@ -352,7 +381,7 @@ public class QuizService {
     }
 
     public QuizDTO getQuizInfo(QuizDTO quizDTO) {
-        return quizDAO.getDetail(quizDTO);
+        return quizDAO.getQuizDetail(quizDTO);
     }
 
 
@@ -369,5 +398,31 @@ public class QuizService {
 
     public List<QuizDTO> getAllQuizs() {
         return quizDAO.getAllQuizs();
+    }
+
+    @Transactional
+    public TestcaseDTO buyAndGetTestcase(TestcaseDTO testcaseDTO, MemberDTO member) throws Exception {
+        QuizDTO quizDTO = quizDAO.getQuizDetail(testcaseDTO.getQuiz_No());
+
+        Integer quizPrice = QuizEnum.get(quizDTO.getQuiz_Level()).getPrice();
+
+        Map<String, Object> map = new HashMap<>();
+        map.put("member", member);
+        map.put("price", quizPrice);
+
+        int result = memberDAO.buyTestcase(map);
+        if(result < 1){
+            throw new RuntimeException("코인이 부족합니다.");
+        }
+
+        map.put("testcase", testcaseDTO);
+
+        try{
+            quizDAO.buyTestcase(map);
+        } catch (Exception e){
+            throw new SQLIntegrityConstraintViolationException("힌트 구매 실패");
+        }
+
+        return (TestcaseDTO) map.get("testcase");
     }
 }

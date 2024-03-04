@@ -34,20 +34,20 @@
         
         
 
-          <!-- mini box -->
+          <!-- board detail -->
           <div class="row">
             <div class="col-lg-12">
               <div class="main-profile">
                 <div class="row">
 	                <c:set var="b" value="${board}"></c:set>
-					 <c:if test="${b eq 'Notice'}" >
-		                 
-	                  </c:if>
 	                  
-	                  <div class="col-lg-4 align-self-center">
+	                  <div class="col-12 align-self-center">
 	                    <div class="main-info header-text">
 	                      <span>${board} Detail</span>
 	                      <h4>${boardDTO.board_Title}</h4>
+	                      
+	                     <p><strong>ID:&nbsp; @</strong>${boardDTO.member_ID} / <strong>Date: &nbsp;</strong> ${boardDTO.board_Date}</p>
+						 <br>
 
 						  <c:forEach items="${boardDTO.fileDTOs}" var="f">
 							<div class="col-lg-4">
@@ -55,15 +55,30 @@
 								<!--  <a href="/resources/upload/${board}/${f.file_Name}">${f.ori_Name}</a> -->
 								<img src ="/resources/upload/${kind}/${f.file_Name}" onerror="this.style.display='none'" style="display: flex; flex-direction: column;">
 							</div>
-							</c:forEach>
-
-	                      <p>${boardDTO.board_Contents}</p>
+							
+							<c:catch>
+							<c:if test="${not empty boardDTO.answerDTO.sourcecode}">
+								<div class="attached-code">
+							<wc-codemirror mode="text/x-java"
+										   theme="tomorrow-night-eighties"
+										   readonly="nocursor">
+								<script type="wc-content">
+									${boardDTO.answerDTO.sourcecode}
+								</script>
+							</wc-codemirror>
+								</div>
+							</c:if>
+							</c:catch>
+						 </c:forEach>
+						 
+						 <br>
+						 <p><strong>${boardDTO.board_Contents}</strong></p>
 	                      
 	          				<form id="contactForm" action="delete" method="post" enctype="multipart/form-data">
 	                          <div class="main-border-button">
 	                     		<c:if test="${boardDTO.member_ID eq member.member_ID}">
-		                            <a href="./update?board_Num=${boardDTO.board_Num}">Update</a>
-		                            <a id="delete" href="#">Delete</a>
+		                            <a href="./update?board_Num=${boardDTO.board_Num}">Update</a><br>
+		                            <button type="button" id="delete" data-board_Num="${boardDTO.board_Num}">Delete</button>
 	                     		</c:if>
 	                          </div>
 	                          <input type="hidden" name="board_Num" value="${boardDTO.board_Num}">
@@ -95,34 +110,29 @@
 						<c:forEach items="${replyList}" var="r">
 						<c:if test="${boardDTO.board_Num eq r.board_Num}">
 						
-						
-						
-						<form method="POST" action="/board/detail" enctype="multipart/form-data">
 							<input type="hidden" name="reply_Num" value="${r.reply_Num}">
 							<input type="hidden" name="board_Num" value="${r.board_Num}">
 							<input type="hidden" name="user_Name" value="${member.member_ID}">
 							<div class="col-lg-12">
 							<ul id="addForm">
-								<li>${r.reply_Contents}<span>${r.user_Name}</span></li>
+								<li>${r.reply_Contents}<span>@ ${r.user_Name}</span></li>
 							</ul>
 							</div>
 							
-						</form>
 						
 						<!-- reply delete -->
 						
 							
-						<form id="contactForm2" action="/reply/delete" method="POST" enctype="multipart/form-data">
-							<div class="main-border-button" style=" float: right; margin-bottom: 40px;">
+						<form id="contactForm2" action="/reply/delete" method="POST" enctype="application/x-www-form-urlencoded;charset=utf-8">
+							
  							<c:if test="${r.user_Name eq member.member_ID}">
  							<c:if test="${not empty member}">
-								<a class="delete2" href="#">Delete</a>
+								<button type="button" class="float-end delete2 btn btn-cuiz" data-reply_Num="${r.reply_Num}">Delete</button>
 							</c:if>
  							</c:if>
  							<input type="hidden" name="reply_Num" value="${r.reply_Num}">
  							<input type="hidden" name="board_Num" value="${boardDTO.board_Num}">
  							
- 							</div>
  							<div><br><br><br><br></div>
 						</form>
 						
@@ -136,9 +146,41 @@
 						</c:if>
 						
 
-					
+						<br><br>
 						
-							<br><br>
+							
+							<!-- reply page -->
+							
+ 							<div class="mb-3">
+							<nav aria-label="Page navigation example">
+								<ul class="pagination">
+									<c:if test="${!pager.start}">
+										<li class="page-item">
+											<a class="page-link"
+											href="/qna/detail?board_Num=${boardDTO.board_Num}&page=${pager.startNum-1}"
+											aria-label="Previous"> <span aria-hidden="true">&laquo;</span>
+											</a>
+										</li>
+									</c:if>
+									<c:forEach begin="${pager.startNum}" end="${pager.lastNum}"
+										var="i">
+										<li class="page-item"><a class="page-link"
+											href="/qna/detail?board_Num=${boardDTO.board_Num}&page=${i}&search=${pager.search}&kind=${pager.kind}">${i}</a></li>
+									</c:forEach>
+
+									<c:if test="${!pager.last}">
+										<li class="page-item">
+											<a class="page-link"
+											href="/qna/detail?board_Num=${boardDTO.board_Num}&page=${pager.lastNum+1}&search=${pager.search}&kind=${pager.kind}"
+											aria-label="Next"> <span aria-hidden="true">&raquo;</span>
+											</a>
+										</li>
+									</c:if>
+								</ul>
+							</nav>
+						</div>
+						
+
 
 						<!-- reply add -->
 						
@@ -188,29 +230,10 @@
 
   </body>
 
-  <script>
-  const del = document.getElementById("delete");
-  const frm = document.querySelector("#contactForm");
-  const del2 = document.getElementsByClassName("delete2");
-  const frm2 = document.querySelector("#contactForm2");
-
-  if(del==!null){
-	  
-	  del.addEventListener("click", (e)=>{
-	      e.preventDefault();
-	      frm.submit();
-	  }); 
-  }
- 
-  if(del2==!null){
-	 del2.addEventListener("click", (e)=>{
-	     e.preventDefault();
-	     frm2.submit();
-	 }); 
-  }
-
-  </script>
-  
+ <script type="module" src="https://cdn.jsdelivr.net/gh/vanillawc/wc-codemirror@1/index.js"></script>
+ <script type="module" src="https://cdn.jsdelivr.net/gh/vanillawc/wc-codemirror@1/mode/clike/clike.js"></script>
+ <link rel="stylesheet"
+	   href="https://cdn.jsdelivr.net/gh/vanillawc/wc-codemirror@1/theme/tomorrow-night-eighties.css">
   	<script src="/resources/js/board/boardDetail.js" type="text/javascript"></script>
   
 

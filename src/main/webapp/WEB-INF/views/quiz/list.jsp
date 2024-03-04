@@ -40,6 +40,9 @@
                             <div class="heading-section">
                                 <h4 class="middle-title"><em>Quiz</em> List</h4>
                             </div>
+                            <c:if test="${member.member_Role eq 'ADMIN'}">
+                            <a href="add" class="btn btn-cuiz">문제 추가</a>
+                            </c:if>
                             <form action="list" method="get">
                                 <div class="row">
                                             <div class="col-2">

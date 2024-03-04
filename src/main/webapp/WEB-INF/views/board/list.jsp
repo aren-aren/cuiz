@@ -41,6 +41,9 @@
 							<div class="item">
 								<ul>
 									<li><h3>No</h3></li>
+									<c:if test="${board eq 'QnA'}">
+									<li><h3>Quiz</h3></li>
+									</c:if>
 									<li><h3>Title</h3></li>
 									<li><h3>Writer</h3></li>
 									<li><h3>Date</h3></li>
@@ -71,16 +74,24 @@
 									<div class="item">
 										<ul>
 											<li><h3>${dto.board_Num}</h3></li>
+											<c:catch>
+												<c:if test="${board eq 'QnA'}">
+											<li>
+												<h3>
+												<c:if test="${not empty dto.answerDTO.quiz_No}">
+													<a href="/quiz/solve?quiz_No=${dto.answerDTO.quiz_No}">#${dto.answerDTO.quiz_No}</a>
+												</c:if>
+												</h3>
+											</li>
+												</c:if>
+											</c:catch>
 											<li><h3>${dto.board_Title}</h3></li>
 											<li><h3>${dto.member_Nick}</h3></li>
 											<li><h3>${dto.board_Date}</h3></li>
 											<li>
 												<c:if test="${not empty member}">
 													<div class="main-border-button">
-														<a href="./detail?board_Num=${dto.board_Num}">
-															<c:catch>
-																<c:forEach begin="1" end="${dto.board_Depth}">--</c:forEach>
-															</c:catch>
+														<a href="./detail?board_Num=${dto.board_Num}&page=1&search=${pager.search}&kind=${pager.kind}">
 														자세히 보기</a>
 													</div>
 												</c:if>
@@ -139,7 +150,7 @@
 								</div>
 
 								<div class="col-auto">
-									<button type="submit" class="btn btn-primary mb-3">검색</button>
+									<button type="submit" class="btn mb-3 btn-cuiz">검색</button>
 								</div>
 							</form>
 						</div>

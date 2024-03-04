@@ -1,8 +1,6 @@
 package com.groupb.cuiz.web.board;
 
 import java.sql.Timestamp;
-import java.time.LocalDateTime;
-import java.sql.Date;
 
 public class BoardDTO {
 
@@ -12,8 +10,7 @@ public class BoardDTO {
 	private String member_Nick;
 	private String board_Contents;
 	private Timestamp board_Date;
-	private Long board_Hit;
-	
+	private Long board_Hit;	
 	
 	public Long getBoard_Num() {
 		return board_Num;

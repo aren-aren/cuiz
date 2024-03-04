@@ -31,6 +31,32 @@ public class MypageDAO {
 		
 	}
 	
+	public List<ItemDTO> MypageSet(MemberDTO memberDTO) {
+		
+		return sqlSession.selectList(NAMESPACE+"MypageSet", memberDTO);
+		
+	}
+	
+	public int MypageSetUpdate(MypageSetDTO mypageSetDTO) {
+		
+		return sqlSession.update(NAMESPACE+"MypageSetUpdate", mypageSetDTO);
+		
+	}
+	
+	public int MypageSetNew(MypageSetDTO mypageSetDTO) {
+		
+		return sqlSession.insert(NAMESPACE+"MypageSetNew", mypageSetDTO);
+		
+	}
+	
+	public int itemSetCheck(MypageSetDTO mypageSetDTO){
+				
+		return sqlSession.selectOne(NAMESPACE+"itemSetCheck", mypageSetDTO);
+	}	
+	
+	
+	
+	
 //	SANGUL
 	
 	public List<String> getAnswerDate(MemberDTO dto) throws Exception{
