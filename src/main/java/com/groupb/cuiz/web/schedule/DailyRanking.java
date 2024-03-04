@@ -24,18 +24,23 @@ public class DailyRanking {
 				// 문제 풀은 기록있는 사람들 찾기
 				List<RankingDTO> ar = dao.getAnswerID();
 				
-				//
+				
 				List<RankingDTO> result = new ArrayList<RankingDTO>();
+				
 				for(RankingDTO dto : ar) {
 					int jumsu = 0;
 					dao.setInsert(dto);
+					//getQuizNO == 각 회원마다 정답인 문제 데이터들을 가져옵니다.
 					List<QuizDTO> quizNO = dao.getQuizNO(dto);
 						for(QuizDTO quizDTO : quizNO) {
+							//getJumsu == 각 문제에 점수가 아닌 LEVEL을 가져옵니다
 							int level = dao.getJumsu(quizDTO);
+							//enum을 활용하여 각 문제에 레벨에 맞는 점수를 가져옵니다.
 							QuizEnum e = QuizEnum.get(level);
 							jumsu+= e.getJumsu();
-							//이넘 활용해서 점수 가져와야함
+							//이넘 활용해서 각 레벨 별 점수 가져오기
 						}
+						//최종 정산된 점수 배정
 					dto.setDaily_Jumsu(jumsu);
 					dao.setJumsu(dto);
 					jumsu = 0;
