@@ -26,7 +26,9 @@
                     <!-- ***** Menu Start ***** -->
                     <ul class="nav">
                         <li><a href="/" class="active">Home</a></li>
+                        <c:if test="${member.member_Role eq \"ADMIN\"}">
                         <li><a href="/member/list">Member List</a></li>
+                         </c:if>
                         <li><a href="/quiz/list">Quiz</a></li>
                         <li><a href="/shop/list">Shop</a></li>
                         <li><a href="/notice/list">Notice</a></li>

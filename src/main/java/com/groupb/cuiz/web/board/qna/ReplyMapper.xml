@@ -18,9 +18,18 @@
  </select>
  
  <select id="getList" parameterType="Map" resultType="ReplyDTO">
- 	SELECT * FROM
+ 	SELECT 
+ 		BOARD_NUM
+	  , MEMBER_NICK
+	  , REPLY_NUM
+	  , USER_NAME
+	  , REPLY_CONTENTS
+	  , REPLY_DATE
+ 	FROM
  	(SELECT ROWNUM RN, R. * FROM
- 	(SELECT * FROM REPLY
+ 	(
+ 	SELECT * FROM REPLY
+	LEFT OUTER JOIN MEMBER  ON (REPLY.USER_NAME  = MEMBER.MEMBER_ID)
  	WHERE BOARD_NUM=#{replyDTO.board_Num}
  	ORDER BY REPLY_NUM DESC)
  	R)
