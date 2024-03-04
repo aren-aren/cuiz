@@ -3,15 +3,32 @@ const searchfrm = document.getElementById("searchfrm");
 const search = document.getElementById("search2");
 const sort = document.getElementById("sort");
 
+
+let icon = '<i class="fa-solid fa-coins"></i>'  
 let formun = document.getElementById("formun");
-let temp = "kind0"; 
+let kindtemp = "kind0"; 
 let sortTemp;
 let queryStringTemp; 
-document.addEventListener("DOMContentLoaded ",fetchItem(temp));
 
 
-sort.addEventListener("change",function(){
-search.click();
+
+
+
+
+
+
+document.addEventListener("DOMContentLoaded ",fetchItem(kindtemp));
+
+
+sort.addEventListener("change",function(e){
+  console.log(e)
+  let {target:{value}} = e;
+  
+  let temp = (kindtemp+"&sort="+value)
+  console.log(temp)
+
+
+  fetchItem(temp)
 })
 
 search.addEventListener("click" , (e)=>{   
@@ -19,25 +36,20 @@ search.addEventListener("click" , (e)=>{
     queryStringTemp = queryString;
     console.log(queryString);
 
-  fetch("api/list?kind="+temp+"&"+queryString)
+  fetch("api/list?kind="+kindtemp+"&"+queryString)
     .then(result=>result.json())
     .then(result=>frm(result))
    
 })
 
 
-searchBtn.addEventListener("click" ,(e)=>{
-
-    temp = e.target.value;
-    fetchItem(temp);
-
-});
 
 
 
-function fetchItem(temp){
 
-  fetch("api/list?kind="+temp)
+function fetchItem(kindtemp){
+  console.log(kindtemp)
+  fetch("api/list?kind="+kindtemp)
   .then(result=>result.json())
   .then(result=>frm(result))
 
@@ -56,6 +68,16 @@ function frm(result){
         if(list.item_Group==1){
           tag = `<video src="${list.item_Photo_to_String}" muted autoplay playsinline loop width=100%></video>`;
         }
+        let ip = list.item_Price;
+        let itempi= parseInt(list.item_Price).toLocaleString('ko-KR');
+        let itemPrice= icon + itempi;
+        
+        if(list.item_Group==0){
+         itemPrice= '&#8361;' +itempi;
+        
+        }
+
+        console.log(itemPrice)
 
         html +=
            `
@@ -65,11 +87,10 @@ function frm(result){
            ${tag}
            </a>
            <a href="detail?item_Num=${list.item_Num}">
-           <h4>${list.item_Name}<br><span>${list.item_Price}</span></h4>
+           <h4>NO_${list.item_Num}<br><span>${itemPrice}</span></h4>
            </a>
            <ul>
-           <li><i class="fa fa-star"></i> 4.8</li>
-           <li><i class="fa fa-download"></i> 2.3M</li>
+           <li>${list.item_Name}</li>           
            </ul>    
            </div>
            </div>

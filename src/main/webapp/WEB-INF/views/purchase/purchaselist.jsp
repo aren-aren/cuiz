@@ -66,13 +66,13 @@
 			<td class="color-white">${dto.item_name}</td>			
 			<td class="color-white member_role" style="text-align: justify">&#8361<span>${dto.total}</span></td>
 			<td class="color-white">${dto.payment_method_type}</td>
-			<td class="color-white"><a href="receipt?tid=${dto.tid}" target="_blank">영수증</a></td>
+			<td class="color-white"><a href="receipt?tid=${dto.tid}"  target="_blank">영수증</a></td>
 			
 			<c:if test="${not empty dto.canceled_at}">			
 			<td><p style="text-color: #e75e8d;">환불완료</p></td>
 			</c:if>
 			<c:if test="${empty dto.canceled_at}">
-				<td><button style="text-color: #e75e8d;" onclick="window.open('/purchase/cancellation?tid=${dto.tid}','결제취소','width:500px,height:300px,location=no,status=no,scrollbars=no');" >환불요청</button></td>
+				<td><button style="text-color: #e75e8d;" onclick="window.open('/purchase/cancellation?tid=${dto.tid}','결제취소','width:100px,height:300px,location=no,status=no,scrollbars=no');" >환불요청</button></td>
 				<%-- <td><button style="text-color: #e75e8d;" onclick="window.open('/purchase/cancellation?tid=${dto.tid}','결제취소','width:500px,height:300px,location=no,status=no,scrollbars=no');" >환불요청</button></td> --%>
 				
 			</c:if>

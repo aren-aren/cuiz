@@ -24,14 +24,13 @@ let listGroup3 = document.getElementById("list-group3");
 let listGroup4 = document.getElementById("list-group4");
 let bg_video = document.getElementById("bg_video");
 
-let icon = '<i class="fa-solid fa-coins"></i>'
-parseInt(memCoin.value).toLocaleString('ko-KR');    
+let icon = '<i class="fa-solid fa-coins"></i>'  
 coinSpn.innerHTML=icon+parseInt(memCoin.value).toLocaleString('ko-KR');
 
 itemlist.style.display = 'none';
 // 결제목록 들어가기
 purcBtn.addEventListener("click", function(){
-  window.open("/purchase/list");
+  window.open("/purchase/list",'결제목록','width=1400, height=700, scrollbars=yes');
 })
 
 //아이템 메뉴 숨기기

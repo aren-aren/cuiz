@@ -47,9 +47,17 @@
 	
 	<form id="updBtnFrm" action="./add" method="POST" enctype="multipart/form-data">
 	<div>
+		 <select name="item_Group">
+       		<option>아이템 종류</option>
+			<option value="0">코인</option>
+			<option value="1">배경화면</option>
+			<option value="2">테두리</option>			       		
+       	</select>
+	</div>
+	<div>
 		<h2>아이템 추가</h2>
 	</div>
-	<input type="text" name="item_Num" value="${dto.item_Num}" >
+	<input type="hidden" name="item_Num" value="${dto.item_Num}" >
 	<div>
 		<label for="item_Name" class="form-label color-white">닉네임을 입력해주세요</label>
 		<input type="text" name="item_Name" id="item_Name" class="form-control input-join" placeholder="영어와 숫자로 이루어진 4-10글자">

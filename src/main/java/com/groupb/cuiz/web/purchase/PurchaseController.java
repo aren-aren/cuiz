@@ -84,15 +84,16 @@ public class PurchaseController {
 		// 1 : 성공
 		// 에러코드 실패;
 		
+		System.out.println(resultMap.get("result"));
 		if(resultMap.get("result")=="1") {
 			model.addAttribute("msg", "환불이 완료되었습니다");
 			model.addAttribute("result", resultMap.get("result"));
 			model.addAttribute("response", resultMap.get("response"));
 			
-		}else if(resultMap.get("result")=="0") {
-			
+		}else if(resultMap.get("result")=="0") {			
 			model.addAttribute("result", resultMap.get("result"));
-			model.addAttribute("msg", "환불할 코인이 부족합니다.");				
+			model.addAttribute("msg", "환불할 코인이 부족합니다.");		
+			
 		}else {				
 			model.addAttribute("result", resultMap.get("result"));
 			model.addAttribute("msg", "에러발생 관리자에게 문의하시오");			

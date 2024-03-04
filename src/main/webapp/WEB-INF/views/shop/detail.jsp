@@ -64,7 +64,7 @@
             <div class="row">
               <div class="col-lg-12">
                 <h2>${dto.item_Name} Details</h2>
-              </div>
+              </div>              
               <div class="col-lg-12">
                 <div class="content">
                   <div class="row">
@@ -72,7 +72,8 @@
                       <div class="left-info">
                         <div class="left">
                           <h4 id="item_Name">${dto.item_Name}</h4>
-                          <span id="item_Price">${dto.item_Price}</span>
+                          <input type="hidden" id="memCoin"  value="${dto.item_Price}">
+                          <span id="item_Price"></span>
                         </div>
                         <ul>
                           <li><i class="fa fa-star"></i> 4.8</li>

@@ -9,12 +9,10 @@
 <title>Insert title here</title>
 </head>
 <body>
-	<script type="text/javascript">
-		
+	<script type="text/javascript">		
 		
 		let msg = "${msg}";
-		let total =  "${total}";
-		
+		let total =  "${total}";		
 		let result = "${result}";
 
 		 if(total>0){		
@@ -25,18 +23,14 @@
 			
 			 msg = '${msg}'+'\n\n'+'${response}';			 
 		 }
-		 if (result==0){
-			
-			result = msg;			 
-		}
+		
 		if (result>1){			
-			let obj= ${response};
+			let obj= '${response}';
 			console.log(obj);		
 			let errorMsg = obj["error_message"];
 			let errorCode = obj["error_code"];			
 			msg = '${msg}'+'\n\n'+errorMsg+"\n\n error_code : "+errorCode;			 
-		}
-		
+		}		
 		 
 		alert(msg);
 		
