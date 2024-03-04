@@ -56,21 +56,21 @@
 								<img src ="/resources/upload/${kind}/${f.file_Name}" onerror="this.style.display='none'" style="display: flex; flex-direction: column;">
 							</div>
 							
+						 </c:forEach>
 							<c:catch>
-							<c:if test="${not empty boardDTO.answerDTO.sourcecode}">
+							<c:if test="${boardDTO.answerDTO.sourcecode != null}">
 								<div class="attached-code">
 							<wc-codemirror mode="text/x-java"
 										   theme="tomorrow-night-eighties"
 										   readonly="nocursor">
 								<script type="wc-content">
-									${boardDTO.answerDTO.sourcecode}
+${boardDTO.answerDTO.sourcecode}
 								</script>
 							</wc-codemirror>
 								</div>
 							</c:if>
 							</c:catch>
-						 </c:forEach>
-						 
+
 						 <br>
 						 <p><strong>${boardDTO.board_Contents}</strong></p>
 	                      

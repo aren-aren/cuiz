@@ -56,7 +56,7 @@
                                 <thead>
                                 <tr>
                                     <th>입력</th>
-                                    <th>출력</th>
+                                    <th style="min-width: 50px;">출력</th>
                                 </tr>
                                 </thead>
                                 <tbody id="example-io-tbody">
@@ -95,7 +95,7 @@ ${answer.sourcecode}
                     </div>
                 </div>
             </div>
-            <div class="col-12 mb-3">
+            <div class="col-12 mb-3 ps-4">
                 <div class="float-start me-1">
                     <a class="btn btn-secondary" href="/qna/list?searchItem=${answer.quiz_No}">질문 게시판</a>
                 </div>

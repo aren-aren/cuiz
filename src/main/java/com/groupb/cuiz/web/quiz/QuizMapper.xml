@@ -58,7 +58,7 @@
                   , QUIZ_LEVEL
                   , NVL(c.TOTAL_COUNT, 0) AS TOTAL_COUNT
                   , NVL(c.CORRECT_COUNT, 0) AS CORRECT_COUNT
-                  , CASE WHEN TOTAL_COUNT IS NULL THEN 0 ELSE 100*CORRECT_COUNT/TOTAL_COUNT END AS CORRECT_RATE
+                  , CASE WHEN TOTAL_COUNT IS NULL THEN 0 ELSE ROUND(100*CORRECT_COUNT/TOTAL_COUNT,2) END AS CORRECT_RATE
                 FROM QUIZ
                     LEFT JOIN (
                         SELECT
