@@ -5,14 +5,19 @@ public class ReplyDTO {
 	
 	private Long reply_Num;
 	private Long board_Num;
+	private String member_Nick;
 	private String user_Name;
 	private String reply_Contents;
 	private Date reply_Date;
 	
+
 	
-	
-	
-	
+	public String getMember_Nick() {
+		return member_Nick;
+	}
+	public void setMember_Nick(String member_Nick) {
+		this.member_Nick = member_Nick;
+	}
 	public Long getReply_Num() {
 		return reply_Num;
 	}
