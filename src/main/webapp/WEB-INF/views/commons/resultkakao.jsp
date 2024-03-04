@@ -22,8 +22,8 @@
 		 if (result==1){
 			
 			 msg = '${msg}'+'\n\n'+'${response}';			 
-		 }
-		
+		 }		
+		 
 		if (result>1){			
 			let obj= '${response}';
 			console.log(obj);		

@@ -38,12 +38,15 @@
 		</interceptor>
 		
 		<interceptor>
-			<mapping path="/member/mypage"/>
+			<mapping path="/mypage/profile"/>
 			<mapping path="/member/update"/>
 			<mapping path="/quiz/list"/>
 			<mapping path="/quiz/solve"/>
+			<mapping path="/purchase/*"/>
 			<beans:ref bean="memberInterceptor"/>
 		</interceptor>
+		
+		
 		
 	</interceptors>
 	

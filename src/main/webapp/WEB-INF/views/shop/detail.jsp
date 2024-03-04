@@ -36,23 +36,8 @@
             <div class="col-lg-12">
               <div class="feature-banner header-text">
                 <div class="row">
-           		  <div class="col-lg-4">
-           		  <c:choose>
-           		  	<c:when test="${dto.item_Group==1}">
-                    <video src="${dto.item_Photo_to_String}" width=100%></video>         		  	
-           		  	</c:when>
-           		  	<c:when test="${dto.item_Group!=1}">
-           		  	 <img src="${dto.item_Photo_to_String}" alt="" style="border-radius: 23px;">           		  	
-           		  	</c:when>
-           		  </c:choose>
-           		  	
-                  </div> 
-                  <div class="col-lg-8">
-                     <div class="thumb">
-                      <img src="/resources/assets/images/feature-right.jpg" alt="" style="border-radius: 23px;">
-                      <a href="https://www.youtube.com/watch?v=r1b03uKWk_M" target="_blank"><i class="fa fa-play"></i></a>
-                    </div> 
-                  </div>
+           		  
+                 
                 </div>
               </div>
             </div>
@@ -67,39 +52,18 @@
               </div>              
               <div class="col-lg-12">
                 <div class="content">
-                  <div class="row">
-                    <div class="col-lg-6">
-                      <div class="left-info">
-                        <div class="left">
-                          <h4 id="item_Name">${dto.item_Name}</h4>
-                          <input type="hidden" id="memCoin"  value="${dto.item_Price}">
-                          <span id="item_Price"></span>
-                        </div>
-                        <ul>
-                          <li><i class="fa fa-star"></i> 4.8</li>
-                          <li><i class="fa fa-download"></i> 2.3M</li>
-                        </ul>
-                      </div>
-                    </div>
-                    <div class="col-lg-6">
-                      <div class="right-info">
-                        <ul>
-                          <li><i class="fa fa-star"></i> 4.8</li>
-                          <li><i class="fa fa-download"></i> 2.3M</li>
-                          <li><i class="fa fa-server"></i> 36GB</li>
-                          <li><i class="fa fa-gamepad"></i> Action</li>
-                        </ul>
-                      </div>
-                    </div>
-                    <div class="col-lg-4">
-                      <img src="/resources/assets/images/details-01.jpg" alt="" style="border-radius: 23px; margin-bottom: 30px;">
-                    </div>
-                    <div class="col-lg-4">
-                      <img src="/resources/assets/images/details-02.jpg" alt="" style="border-radius: 23px; margin-bottom: 30px;">
-                    </div>
-                    <div class="col-lg-4">
-                      <img src="/resources/assets/images/details-03.jpg" alt="" style="border-radius: 23px; margin-bottom: 30px;">
-                    </div>
+                  <div class="row">                    
+                 <div class="col-lg-4">
+           		  <c:choose>
+           		  	<c:when test="${dto.item_Group==1}">
+                    <video src="${dto.item_Photo_to_String}" width=100%></video>         		  	
+           		  	</c:when>
+           		  	<c:when test="${dto.item_Group!=1}">
+           		  	 <img src="${dto.item_Photo_to_String}" alt="" style="border-radius: 23px;">           		  	
+           		  	</c:when>
+           		  </c:choose>
+           		  	
+                  </div> 
                     <div class="col-lg-12">
                       <p> ${dto.item_Contents}</p>
                     <div class="col-lg-8">
@@ -130,79 +94,7 @@
               </div>
             </div>
           </div>
-          <!-- ***** Details End ***** -->
-
-          <!-- ***** Other Start ***** -->
-          <div class="other-games">
-            <div class="row">
-              <div class="col-lg-12">
-                <div class="heading-section">
-                  <h4><em>Other Related</em> Games</h4>
-                </div>
-              </div>
-              <div class="col-lg-6">
-                <div class="item">
-                  <img src="/resources/assets/images/game-01.jpg" alt="" class="templatemo-item">
-                  <h4>Dota 2</h4><span>Sandbox</span>
-                  <ul>
-                    <li><i class="fa fa-star"></i> 4.8</li>
-                    <li><i class="fa fa-download"></i> 2.3M</li>
-                  </ul>
-                </div>
-              </div>
-              <div class="col-lg-6">
-                <div class="item">
-                  <img src="/resources/assets/images/game-02.jpg" alt="" class="templatemo-item">
-                  <h4>Dota 2</h4><span>Sandbox</span>
-                  <ul>
-                    <li><i class="fa fa-star"></i> 4.8</li>
-                    <li><i class="fa fa-download"></i> 2.3M</li>
-                  </ul>
-                </div>
-              </div>
-              <div class="col-lg-6">
-                <div class="item">
-                  <img src="/resources/assets/images/game-03.jpg" alt="" class="templatemo-item">
-                  <h4>Dota 2</h4><span>Sandbox</span>
-                  <ul>
-                    <li><i class="fa fa-star"></i> 4.8</li>
-                    <li><i class="fa fa-download"></i> 2.3M</li>
-                  </ul>
-                </div>
-              </div>
-              <div class="col-lg-6">
-                <div class="item">
-                  <img src="/resources/assets/images/game-02.jpg" alt="" class="templatemo-item">
-                  <h4>Dota 2</h4><span>Sandbox</span>
-                  <ul>
-                    <li><i class="fa fa-star"></i> 4.8</li>
-                    <li><i class="fa fa-download"></i> 2.3M</li>
-                  </ul>
-                </div>
-              </div>
-              <div class="col-lg-6">
-                <div class="item">
-                  <img src="/resources/assets/images/game-03.jpg" alt="" class="templatemo-item">
-                  <h4>Dota 2</h4><span>Sandbox</span>
-                  <ul>
-                    <li><i class="fa fa-star"></i> 4.8</li>
-                    <li><i class="fa fa-download"></i> 2.3M</li>
-                  </ul>
-                </div>
-              </div>
-              <div class="col-lg-6">
-                <div class="item">
-                  <img src="/resources/assets/images/game-01.jpg" alt="" class="templatemo-item">
-                  <h4>Dota 2</h4><span>Sandbox</span>
-                  <ul>
-                    <li><i class="fa fa-star"></i> 4.8</li>
-                    <li><i class="fa fa-download"></i> 2.3M</li>
-                  </ul>
-                </div>
-              </div>
-            </div>
-          </div>
-          <!-- ***** Other End ***** -->
+          <!-- ***** Details End ***** -->          
 
         </div>
       </div>

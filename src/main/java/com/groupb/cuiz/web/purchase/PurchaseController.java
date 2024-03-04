@@ -53,7 +53,17 @@ public class PurchaseController {
 	@GetMapping("list")
 	public String perchaseList(HttpSession session, Model model, MemberDTO memberDTO) {
 		
+		
 		memberDTO = (MemberDTO)session.getAttribute("member");
+		
+		if(memberDTO==null) {
+			
+			model.addAttribute("msg","로그인이 필요합니다.");
+			model.addAttribute("path", "/member/login");
+			
+			return "/commons/resultkakao";
+		}
+		
 		
 		List<ReceiptDTO> ar = purchaseService.purchaseList(memberDTO);			
 		
