@@ -94,7 +94,7 @@ public class MemberService {
 				+ "        </div>\r\n"
 				+ "        <h2 class=\"titleNumber\">인증 코드</h2>\r\n"
 				+ "        <div class=\"number\">\r\n"
-				+ "            5 6 7 8 9 0\r\n"
+				+ number +"\r\n"
 				+ "        </div>\r\n"
 				+ "        <div class=\"footer\">\r\n"
 				+ "            sang ul이꺼\r\n"
@@ -106,14 +106,7 @@ public class MemberService {
 		mimeMessageHelper.setText(message, true);
 		
 		javaMailSender.send(mimeMessage);
-		/*
-		 * String mailContent = "이메일 인증 번호입니다. \n"+ number;
-		 * 
-		 * send.setSubject("회원가입 이메일 인증 ","utf-8");
-		 * send.setText(mailContent+"utf-8","html");
-		 * send.addRecipient(Message.RecipientType.TO, new
-		 * InternetAddress(dto.getMember_Email())); mail.send(send);
-		 */
+		
 		return number;
 	}
 	
@@ -213,6 +206,7 @@ public class MemberService {
 	public Map<String, Object> getAtendence(MemberDTO dto) throws Exception{
 		int result = dao.getAtendence(dto);
 		int att = 0;
+		Map<String, Object> map = new HashMap<String, Object>();
 		if(result==0) {
 			System.out.println("dto.getid = " + dto.getMember_ID());
 			dao.setTotalAtt(dto);
@@ -227,13 +221,15 @@ public class MemberService {
 				System.out.println(check);
 				if(check == 1) {
 					dao.setConatt(dto);
-					dto.setMember_Conatt(dto.getMember_Conatt()+1);
 					int conatt = dto.getMember_Conatt();
-					if(conatt==7) {
+					System.out.println("conatt == " +conatt);
+					if(conatt==6) {
 						dao.setBonus(dto);
 						dto.setMember_Coin(dto.getMember_Coin()+10);
+						System.out.println("7일 체크");
+						map.put("7day","7day");
 					}
-					if(conatt==8) {
+					if(conatt==7) {
 						dto.setMember_Conatt(0);
 						dao.setConatt(dto);
 						dto.setMember_Conatt(1);
@@ -246,7 +242,6 @@ public class MemberService {
 					dto.setMember_Conatt(1);
 				}
 		}
-		Map<String, Object> map = new HashMap<String, Object>();
 		map.put("result", result);
 		map.put("conatt", dto.getMember_Conatt());
 		map.put("dto", dto);

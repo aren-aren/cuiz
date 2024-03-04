@@ -55,13 +55,12 @@ public class MemberController {
 	
 	@GetMapping("emailCheck")
 	public String emailCheck(MemberDTO dto,Model model ) throws Exception {
-		System.out.println("emailCheck 진입");
-		System.out.println(dto.getMember_Email());
+	
 		
 		
 		int number = memberService.sendEmail(dto);
 		
-		System.out.println("emailCheck 아웃 : " + number);
+		
 		model.addAttribute("result", number);
 		return "/commons/ajaxResult";
 		
@@ -523,12 +522,16 @@ public class MemberController {
 		dto = (MemberDTO)map.get("dto");
 		
 		if(result ==0) {
+			if(map.get("7day") == null) {
 			model.addAttribute("msg", "출석 포인트 3점이 지급되었습니다.");
 			model.addAttribute("path", "/");
-			if(dto.getMember_Conatt()==7) {
-				model.addAttribute("msg", "출석 포인트 3점 + 7일 연속 출석 보너스 10점 \n 총 13점이 지급되었습니다.");
-				
 			}
+		else if(map.get("7day") != null) {
+				System.out.println("7day 진입");
+				model.addAttribute("msg", "출석 포인트 3점 + 7일 연속 출석 보너스 10점 \\n 총 13점이 지급되었습니다.");
+				model.addAttribute("path", "/");
+			}
+			
 		}
 		else {
 			session.setAttribute("member", dto);
@@ -549,7 +552,10 @@ public class MemberController {
 		else {
 			session.setAttribute("avatar", null);
 		}
-		return "commons/result";
+		
+		
+		
+		return "/commons/result";
 	}
 	
 	@GetMapping("mypage")
