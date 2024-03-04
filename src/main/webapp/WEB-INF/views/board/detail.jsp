@@ -63,7 +63,7 @@
 										   theme="tomorrow-night-eighties"
 										   readonly="nocursor">
 								<script type="wc-content">
-									${boardDTO.answerDTO.sourcecode}
+${boardDTO.answerDTO.sourcecode}
 								</script>
 							</wc-codemirror>
 								</div>
