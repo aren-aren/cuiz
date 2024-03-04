@@ -29,6 +29,7 @@
   
   </select>
   
+  
   <!-- totalCount -->
   <select id="getTotalCount" resultType="Long" parameterType="Pager">
   	SELECT COUNT(BOARD_NUM) FROM NOTICE
@@ -66,8 +67,19 @@
   </resultMap>
   
   <select id="getDetail" parameterType="BoardDTO" resultMap="getDetailResult">
-  	SELECT *
+  	SELECT
+  		MEMBER_ID
+	  , MEMBER_NICK
+	  , BOARD_NUM
+	  , BOARD_TITLE
+	  , BOARD_CONTENTS
+	  , BOARD_DATE
+	  , BOARD_HIT
+	  , FLAG
+	  ,FILE_NAME
+  	
   	FROM NOTICE N
+  	  	INNER JOIN MEMBER USING(MEMBER_ID)
   		LEFT JOIN
   		NOTICE_FILE NF
   		USING (BOARD_NUM)

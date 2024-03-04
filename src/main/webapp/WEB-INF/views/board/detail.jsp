@@ -53,10 +53,12 @@
 							<div class="col-lg-4">
 								<!-- <img src="../resources/upload/${board}/${f.file_Name}"> -->
 								<!--  <a href="/resources/upload/${board}/${f.file_Name}">${f.ori_Name}</a> -->
-								<img src ="/resources/upload/${kind}/${f.file_Name}" onerror="this.style.display='none'" style="display: flex; flex-direction: column;">
+								<img src ="/resources/upload/${kind}/${f.file_Name}"
+onerror="this.style.display='none'" style="display: flex; flex-direction: column;">
 							</div>
 							
 						 </c:forEach>
+						 
 							<c:catch>
 							<c:if test="${boardDTO.answerDTO.sourcecode != null}">
 								<div class="attached-code">
