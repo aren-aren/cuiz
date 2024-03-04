@@ -156,7 +156,7 @@
 						</div>
 							
 
-						<c:if test="${not empty member}">
+						<c:if test="${member.member_Role eq 'ADMIN'}">
 							<div class="col-lg-12">
 								<div class="main-button">
 									<a href="./add">Add</a>
