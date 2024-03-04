@@ -31,19 +31,19 @@ public class MypageDAO {
 		
 	}
 	
-	public List<ItemDTO> MypageSet(MemberDTO memberDTO) {
+	public List<ItemDTO> mypageSet(MemberDTO memberDTO) {
 		
-		return sqlSession.selectList(NAMESPACE+"MypageSet", memberDTO);
-		
-	}
-	
-	public int MypageSetUpdate(MypageSetDTO mypageSetDTO) {
-		
-		return sqlSession.update(NAMESPACE+"MypageSetUpdate", mypageSetDTO);
+		return sqlSession.selectList(NAMESPACE+"mypageSet", memberDTO);
 		
 	}
 	
-	public int MypageSetNew(MypageSetDTO mypageSetDTO) {
+	public int mypageSetUpdate(MypageSetDTO mypageSetDTO) {
+		
+		return sqlSession.update(NAMESPACE+"mypageSetUpdate", mypageSetDTO);
+		
+	}
+	
+	public int mypageSetNew(MypageSetDTO mypageSetDTO) {
 		
 		return sqlSession.insert(NAMESPACE+"MypageSetNew", mypageSetDTO);
 		

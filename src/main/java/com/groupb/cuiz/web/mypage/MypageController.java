@@ -24,8 +24,7 @@ import com.groupb.cuiz.web.member.MemberDTO;
 @RequestMapping("/mypage/*")
 public class MypageController {
 	
-	@Autowired
-	private ItemService itemService;
+
 	@Autowired
 	private MypageService mypageService;	
 	@Autowired
@@ -59,29 +58,18 @@ public class MypageController {
 	@ResponseBody
 	public List<ItemDTO> getList(MemberDTO memberDTO) throws UnsupportedEncodingException{
 		
-		System.out.println(memberDTO.getMember_ID());
-		
 		List<ItemDTO> ar =  mypageService.getList(memberDTO);
 		// blob 파일을 String 으로 변환
 		ar = photoEncoder.ListToString(ar);			
 		
 		return ar;
 		
-		
-		
-		
-	}
-	
-	
-	
-	
+	}	
 	//아이템 장착		
 	@GetMapping("setUpdate")
 	@ResponseBody
 	public int mypageSetUpdate(HttpSession session,MypageSetDTO mypageSetDTO) {
-		
-		
-		
+			
 		MemberDTO memberDTO=(MemberDTO)session.getAttribute("member");
 		mypageSetDTO.setMember_ID(memberDTO.getMember_ID());		
 	
@@ -91,11 +79,8 @@ public class MypageController {
 	//아이템조회
 	@GetMapping("temp")
 	@ResponseBody
-	public ItemDTO mypage(ItemDTO itemDTO) {
-		
-		
-		itemDTO=mypageService.mypageTemp(itemDTO);		
-		
+	public ItemDTO mypage(ItemDTO itemDTO) {		
+		itemDTO=mypageService.mypageTemp(itemDTO);	
 		return itemDTO;
 		
 	}

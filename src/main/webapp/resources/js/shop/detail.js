@@ -5,18 +5,22 @@ const updBtnFrm = document.getElementById("updBtnFrm");
 const adCartBtn = document.getElementById("adCartBtn");
 const buyNowBtn = document.getElementById("buyNowBtn");
 const kakaopBtn = document.getElementById("kakaopBtn");
+let itemPrice = document.getElementById("item_Price")
 
-
+let icon = '<i class="fa-solid fa-coins"></i>'
+let memCoin = document.getElementById("memCoin");
+parseInt(memCoin.value).toLocaleString('ko-KR');    
+itemPrice.innerHTML=icon+parseInt(memCoin.value).toLocaleString('ko-KR');
 
 
 
 //kakaopay
 
-kakaopBtn.addEventListener("click",(e)=>{
+kakaopBtn?.addEventListener("click",(e)=>{
 
     let formdata = new FormData;
     let name = document.getElementById("item_Name").innerHTML;
-    let price = document.getElementById("item_Price").innerHTML;
+    let price = document.getElementById("memCoin").innerHTML;
     let item_Num = document.getElementById("item_Num").value;
     formdata.append("item_Name",name);
     formdata.append("item_Price",price);

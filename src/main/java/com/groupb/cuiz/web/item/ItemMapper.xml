@@ -62,13 +62,13 @@
 
 	<where>	
 		<if test="kind=='kind0'">
-		 ITEM_NUM BETWEEN 0 and 99999
+		  FLAG = 1
 		</if>		
 		<if test="kind=='kind1'">
-		 ITEM_NUM BETWEEN 10000 and 11000
+		 ITEM_GROUP = 0 AND FLAG = 1
 		</if>
 		<if test="kind=='kind2'">
-		  ITEM_NUM BETWEEN 0 and 10000
+		  ITEM_GROUP > 0 AND FLAG = 1
 		</if>		
 		<if test="kind=='kind3'">
 		  FLAG = 0
@@ -83,7 +83,7 @@
  <insert id="add" parameterType="ItemDTO">
  
  	INSERT INTO ITEM (ITEM_NUM,ITEM_NAME,ITEM_CONTENTS,ITEM_PRICE,ITEM_PHOTO)
-	VALUES (#{item_Num},#{item_Name},#{item_Contents},#{item_Price},#{item_Photo})
+	VALUES (SHOP_SEQ.NEXTVAL+100000,#{item_Name},#{item_Contents},#{item_Price},#{item_Photo})
  
  </insert>
  

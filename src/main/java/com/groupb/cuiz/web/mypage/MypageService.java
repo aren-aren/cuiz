@@ -36,7 +36,7 @@ public class MypageService {
 	
 	public List<ItemDTO> mypageSet(MemberDTO memberDTO) {
 		
-		List<ItemDTO> ar = mypageDAO.MypageSet(memberDTO);
+		List<ItemDTO> ar = mypageDAO.mypageSet(memberDTO);
 		if(ar!=null) {			
 			ar = photoEncoder.ListToString(ar);
 		}
@@ -53,12 +53,12 @@ public class MypageService {
 		System.out.println("mypag2");
 		if(check==0) {
 			
-			return mypageDAO.MypageSetNew(mypageSetDTO);
+			return mypageDAO.mypageSetNew(mypageSetDTO);
 		
 		}
 		
 		System.out.println("NUM - " + mypageSetDTO.getItem_Num());
-		return mypageDAO.MypageSetUpdate(mypageSetDTO);
+		return mypageDAO.mypageSetUpdate(mypageSetDTO);
 			
 	}
 	
