@@ -56,8 +56,9 @@
 								<img src ="/resources/upload/${kind}/${f.file_Name}" onerror="this.style.display='none'" style="display: flex; flex-direction: column;">
 							</div>
 							
+						 </c:forEach>
 							<c:catch>
-							<c:if test="${not empty boardDTO.answerDTO.sourcecode}">
+							<c:if test="${boardDTO.answerDTO.sourcecode != null}">
 								<div class="attached-code">
 							<wc-codemirror mode="text/x-java"
 										   theme="tomorrow-night-eighties"
@@ -69,8 +70,7 @@ ${boardDTO.answerDTO.sourcecode}
 								</div>
 							</c:if>
 							</c:catch>
-						 </c:forEach>
-						 
+
 						 <br>
 						 <h6>${boardDTO.board_Contents}</h6>
 	                      
