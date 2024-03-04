@@ -70,7 +70,9 @@ public class QnaService implements BoardService{
 	@Override
 	public BoardDTO getDetail(BoardDTO boardDTO) throws Exception {
 		// TODO Auto-generated method stub
-		return qnaDAO.getDetail(boardDTO);
+		boardDTO = qnaDAO.getDetail(boardDTO);
+		qnaDAO.getUpdateHits(boardDTO);
+		return boardDTO;
 	}
 
 	@Override

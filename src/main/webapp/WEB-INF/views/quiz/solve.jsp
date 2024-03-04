@@ -37,6 +37,9 @@
             <div class="heading-section">
                 <h4 class="text-center">${dto.quiz_Title}</h4>
             </div>
+            <c:if test="${member.member_Role eq 'ADMIN'}">
+            <a href="update?quiz_No=${dto.quiz_No}" class="btn btn-cuiz">문제 수정</a>
+            </c:if>
         </div>
         <div class="row min-vh-70">
             <div class="col-5">
@@ -94,7 +97,7 @@ ${answer.sourcecode}
             </div>
             <div class="col-12 mb-3">
                 <div class="float-start me-1">
-                    <a class="btn btn-secondary">질문 게시판</a>
+                    <a class="btn btn-secondary" href="/qna/list?searchItem=${answer.quiz_No}">질문 게시판</a>
                 </div>
                 <div class="float-start"
                      <c:if test="${!answer.answer_Check}">

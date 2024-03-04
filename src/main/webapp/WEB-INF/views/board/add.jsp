@@ -67,7 +67,7 @@
 												<label for="message">Contents</label>
 												<div class="invalid-feedback" data-sb-feedback="name:required">필수항목 입니다</div>
 											</div>
-											
+
 						                      <!-- 첨부파일 input-->
 						                      <c:if test="${b eq 'Notice'}" >
 							                      <div class="mb-3">

@@ -39,9 +39,6 @@ public class QuizService {
     public int addQuiz(QuizDTO quizDTO, String[] example_inputs, String[] example_output, String[] quiz_inputs, String[] quiz_outputs) throws Exception {
         int result = 0;
 
-        quizDTO.setQuiz_Point(0);
-        quizDTO.setQuiz_Price(0);
-
         result += quizDAO.addQuiz(quizDTO);
 
         List<TestcaseDTO> testcaseDTOS = new ArrayList<>();
@@ -197,7 +194,11 @@ public class QuizService {
      * @throws Exception
      */
     public List<String> getSampleOutput(MemberAnswerDTO quizSampleDTO, List<String> inputs) throws Exception {
-        return quizSourceBuild(quizSampleDTO.getMember_Id(), quizSampleDTO.getSourcecode(), inputs);
+        List<String> outputs = quizSourceBuild(quizSampleDTO.getMember_ID(), quizSampleDTO.getSourcecode(), inputs);
+
+        outputs.stream().map(output -> output.replaceAll("\r\n", "\n"));
+
+        return outputs;
     }
 
     /**
@@ -218,12 +219,12 @@ public class QuizService {
         }
 
         //코드 실행후 outputs를 얻어옴
-        List<String> results = quizSourceBuild(answer.getMember_Id(), answer.getSourcecode(), inputs);
+        List<String> results = quizSourceBuild(answer.getMember_ID(), answer.getSourcecode(), inputs);
 
         //코드 실행 결과와 정답을 비교하여 채점
         List<TestcaseResult> testcaseResults = new ArrayList<>();
         for (int i = 0; i < results.size(); i++) {
-            testcaseResults.add(checkTestcase(testcaseDTOS.get(i).getTestcase_No(), outputs.get(i).trim(), results.get(i).trim(), checkType));
+            testcaseResults.add(checkTestcase(testcaseDTOS.get(i).getTestcase_No(), outputs.get(i).trim(), results.get(i).replaceAll("\r\n", "\n").trim(), checkType));
         }
 
         testcaseResults = testcaseResults.stream()
@@ -304,7 +305,7 @@ public class QuizService {
 
         List<TestcaseDTO> list = quizDAO.getTestCases(map);
 
-        if(type.equals("EXAMPLE")){
+        if(type != null && type.equals("EXAMPLE")){
             List<TestcaseDTO> buyedList = quizDAO.getBuyedTestcase(quizDTO);
             list.addAll(buyedList);
         }
@@ -344,6 +345,8 @@ public class QuizService {
     }
 
     public Boolean updateTestcases(List<TestcaseDTO> testcaseDTOS) throws Exception {
+        testcaseDTOS.forEach(testcaseDTO -> testcaseDTO.setTestcase_Output(testcaseDTO.getTestcase_Output().replaceAll("\r\n", "\n")));
+
         return quizDAO.addTestcases(testcaseDTOS) > 0;
     }
 
@@ -397,7 +400,7 @@ public class QuizService {
         return quizDAO.getAllQuizs();
     }
 
-@Transactional
+    @Transactional
     public TestcaseDTO buyAndGetTestcase(TestcaseDTO testcaseDTO, MemberDTO member) throws Exception {
         QuizDTO quizDTO = quizDAO.getQuizDetail(testcaseDTO.getQuiz_No());
 
