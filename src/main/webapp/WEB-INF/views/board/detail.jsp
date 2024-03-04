@@ -45,6 +45,9 @@
 	                    <div class="main-info header-text">
 	                      <span>${board} Detail</span>
 	                      <h4>${boardDTO.board_Title}</h4>
+	                      
+	                     <p><strong>ID:&nbsp; @</strong>${boardDTO.member_ID} / <strong>Date: &nbsp;</strong> ${boardDTO.board_Date}</p>
+						 <br>
 
 						  <c:forEach items="${boardDTO.fileDTOs}" var="f">
 							<div class="col-lg-4">
@@ -52,7 +55,7 @@
 								<!--  <a href="/resources/upload/${board}/${f.file_Name}">${f.ori_Name}</a> -->
 								<img src ="/resources/upload/${kind}/${f.file_Name}" onerror="this.style.display='none'" style="display: flex; flex-direction: column;">
 							</div>
-							</c:forEach>
+							
 							<c:catch>
 							<c:if test="${not empty boardDTO.answerDTO.sourcecode}">
 								<div class="attached-code">
@@ -60,19 +63,22 @@
 										   theme="tomorrow-night-eighties"
 										   readonly="nocursor">
 								<script type="wc-content">
-${boardDTO.answerDTO.sourcecode}
+									${boardDTO.answerDTO.sourcecode}
 								</script>
 							</wc-codemirror>
 								</div>
 							</c:if>
 							</c:catch>
-	                      <p>${boardDTO.board_Contents}</p>
+						 </c:forEach>
+						 
+						 <br>
+						 <p><strong>${boardDTO.board_Contents}</strong></p>
 	                      
 	          				<form id="contactForm" action="delete" method="post" enctype="multipart/form-data">
 	                          <div class="main-border-button">
 	                     		<c:if test="${boardDTO.member_ID eq member.member_ID}">
-		                            <a href="./update?board_Num=${boardDTO.board_Num}">Update</a>
-		                            <a id="delete" href="#">Delete</a>
+		                            <a href="./update?board_Num=${boardDTO.board_Num}">Update</a><br>
+		                            <button type="button" id="delete" data-board_Num="${boardDTO.board_Num}">Delete</button>
 	                     		</c:if>
 	                          </div>
 	                          <input type="hidden" name="board_Num" value="${boardDTO.board_Num}">
@@ -109,7 +115,7 @@ ${boardDTO.answerDTO.sourcecode}
 							<input type="hidden" name="user_Name" value="${member.member_ID}">
 							<div class="col-lg-12">
 							<ul id="addForm">
-								<li>${r.reply_Contents}<span>${member.member_Nick}</span></li>
+								<li>${r.reply_Contents}<span>@ ${r.user_Name}</span></li>
 							</ul>
 							</div>
 							
@@ -223,6 +229,7 @@ ${boardDTO.answerDTO.sourcecode}
   <c:import url="../temps/footer.jsp"></c:import>
 
   </body>
+
  <script type="module" src="https://cdn.jsdelivr.net/gh/vanillawc/wc-codemirror@1/index.js"></script>
  <script type="module" src="https://cdn.jsdelivr.net/gh/vanillawc/wc-codemirror@1/mode/clike/clike.js"></script>
  <link rel="stylesheet"
