@@ -206,6 +206,7 @@ public class MemberService {
 	public Map<String, Object> getAtendence(MemberDTO dto) throws Exception{
 		int result = dao.getAtendence(dto);
 		int att = 0;
+		Map<String, Object> map = new HashMap<String, Object>();
 		if(result==0) {
 			System.out.println("dto.getid = " + dto.getMember_ID());
 			dao.setTotalAtt(dto);
@@ -220,13 +221,15 @@ public class MemberService {
 				System.out.println(check);
 				if(check == 1) {
 					dao.setConatt(dto);
-					dto.setMember_Conatt(dto.getMember_Conatt()+1);
 					int conatt = dto.getMember_Conatt();
-					if(conatt==7) {
+					System.out.println("conatt == " +conatt);
+					if(conatt==6) {
 						dao.setBonus(dto);
 						dto.setMember_Coin(dto.getMember_Coin()+10);
+						System.out.println("7일 체크");
+						map.put("7day","7day");
 					}
-					if(conatt==8) {
+					if(conatt==7) {
 						dto.setMember_Conatt(0);
 						dao.setConatt(dto);
 						dto.setMember_Conatt(1);
@@ -239,7 +242,6 @@ public class MemberService {
 					dto.setMember_Conatt(1);
 				}
 		}
-		Map<String, Object> map = new HashMap<String, Object>();
 		map.put("result", result);
 		map.put("conatt", dto.getMember_Conatt());
 		map.put("dto", dto);
