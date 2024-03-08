@@ -1,0 +1,113 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+ "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+ 
+ <mapper namespace="com.groupb.cuiz.web.item.ItemDAO">
+
+
+<!-- detail  -->
+
+<select id="getDetail" parameterType="ItemDTO" resultType="ItemDTO">
+
+ 	SELECT * FROM ITEM WHERE ITEM_NUM = #{item_Num}
+
+</select>
+ 
+ <!-- List -->
+ 
+ <select id="getList" resultType="ItemDTO" parameterType="Pager">
+ 
+	SELECT * FROM
+	(
+	SELECT ROWNUM R, I.* FROM
+		(
+		SELECT * FROM item 
+		<include refid="kind"/>
+		 <include refid="sort"/> 
+		) I  <include refid="searchItem"/>   ORDER BY R ASC
+	)RN
+ 
+ </select>
+ 
+ <sql id="sort">
+ 	<if test = "sort=='PricaeAsc'">
+ 	ORDER BY ITEM_PRICE ASC
+ 	</if>
+ 	<if test = "sort=='PricaeDesc'">
+ 	ORDER BY ITEM_PRICE DESC
+ 	</if>
+ 	
+ </sql>
+ 
+ 
+<sql id="searchItem">
+	<where>	
+		<if test="searchItem =='itemName'">
+		 ITEM_NAME LIKE '%'||#{search}||'%'
+		</if>
+		<if test="searchItem =='itemContents'">
+		 ITEM_CONTENTS LIKE '%'||#{search}||'%'
+		</if>
+		<if test="searchItem =='itemAll'">
+		 ITEM_CONTENTS LIKE '%'||#{search}||'%' AND ITEM_NAME LIKE '%'||#{search}||'%'
+		</if>
+	</where>
+
+</sql>
+ 
+
+
+<sql id="kind">
+
+	<where>	
+		<if test="kind=='kind0'">
+		  FLAG = 1
+		</if>		
+		<if test="kind=='kind1'">
+		 ITEM_GROUP = 0 AND FLAG = 1
+		</if>
+		<if test="kind=='kind2'">
+		  ITEM_GROUP > 0 AND FLAG = 1
+		</if>		
+		<if test="kind=='kind3'">
+		  FLAG = 0
+		</if>	
+				
+	</where>
+
+</sql>
+
+<!-- insert -->
+
+ <insert id="add" parameterType="ItemDTO">
+ 
+ 	INSERT INTO ITEM (ITEM_NUM,ITEM_NAME,ITEM_CONTENTS,ITEM_PRICE,ITEM_PHOTO)
+	VALUES (SHOP_SEQ.NEXTVAL+100000,#{item_Name},#{item_Contents},#{item_Price},#{item_Photo})
+ 
+ </insert>
+ 
+ <!-- 삭제 -->
+ 
+ <update id="delete" parameterType="ItemDTO">
+ 
+ UPDATE ITEM SET FLAG = 0 WHERE ITEM_NUM = #{item_Num}
+  
+ </update>
+ 
+ <!-- update -->
+<update id="update" parameterType="ItemDTO">
+
+ UPDATE ITEM SET  	
+ 	ITEM_NAME = #{item_Name},
+ 	ITEM_CONTENTS = #{item_Contents},
+ 	ITEM_PRICE = #{item_Price},
+ 	ITEM_PHOTO = #{item_Photo}
+	WHERE ITEM_NUM = #{item_Num}
+</update> 
+ 
+ 
+ 
+ 
+ 
+</mapper>

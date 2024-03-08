@@ -1,0 +1,201 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+ "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+ 
+ <mapper namespace="com.groupb.cuiz.web.purchase.PurchaseDAO">
+
+<!--영수증 조회  -->
+
+<update id="kakaopayCancel" parameterType="ReceiptDTO">
+
+	UPDATE RECIPT SET 
+		CANCELED_AT = #{canceled_at}, 
+		CANCEL_AMOUNT=#{approved_cancel_amount.total},
+		CANCEL_TOTAL =#{approved_cancel_amount.total}
+	WHERE TID = #{tid}
+</update>
+
+
+<select id="receiptDetail" parameterType="ReceiptDTO" resultType="Map">
+
+	SELECT * FROM RECIPT 
+	JOIN CARD_PAYMENT
+	USING (AID) 
+	WHERE TID = #{tid} 
+	
+</select>
+<!-- 
+<resultMap type="ReceiptDTO" id="ReceiptResult">
+	
+	<result column="MEMBER_ID" property="member_ID"></result>
+	<result column="ITEM_NUM" property="item_Num"></result>
+	<result column="CID" property="cid"></result>
+	<result column="TID" property="tid"></result>
+	<result column="SID" property="sid"></result>
+	<result column="PARTNER_ORDER_ID" property="partner_order_id"></result>
+	<result column="PARTNER_USER_ID" property="partner_user_id"></result>
+	<result column="PAYMENT_METHOD_TYPE" property="payment_method_type"></result>
+	<result column="ITME_NAME" property="item_name"></result>
+	<result column="ITEM_CODE" property="item_code"></result>
+	<result column="QUANTITY" property="quantity"></result>
+	<result column="CREATED_AT" property="created_at"></result>
+	<result column="APPROVED_AT" property="approved_at"></result>
+	<result column="TOTAL" property="total"></result>
+	<result column="VAT" property="vat"></result>	
+	<result column="CANCEL_TOTAL" property="cancel_total"></result>
+	<result column="CANCEL_TAX_FREE" property="cancel_tax_free"></result>	
+	 -->
+	<!-- <association property="card_info" resultMap="getCardInfo">
+		<result column="AID" property="aid" javaType="String" />
+		<result column="INTEREST_FREE_INSTALL" property="interest_free_install"></result>
+		<result column="BIN" property="bin"></result>
+		<result column="CARD_TYPE" property="card_type"></result>
+		<result column="CARD_MID" property="card_mid"></result>
+		<result column="APPROVED_ID" property="approved_id"></result>
+		<result column="INSTALL_MONTH" property="install_month"></result>
+		<result column="INSTALLMENT_TYPE" property="installment_type"></result>
+		<result column="KAKAOPAY_ISSUER_CORP_CODE" property="kakaopay_purchase_corp"></result>
+		<result column="KAKAOPAY_PURCHASE_CORP_CODE" property="kakaopay_purchase_corp_code"></result>
+		<result column="KAKAOPAY_PURCHASE_CORP" property="kakaopay_issuer_corp"></result>
+		<result column="KAKAOPAY_ISSUER_CORP" property="kakaopay_issuer_corp_code"></result>
+	</association>
+</resultMap>
+
+<resultMap type="com.groupb.cuiz.web.purchase.kakao.ReceiptDTO$card_info" id="getCardInfo">
+
+		<result column="INTEREST_FREE_INSTALL" property="interest_free_install"></result>
+		<result column="BIN" property="bin"></result>
+		<result column="CARD_TYPE" property="card_type"></result>
+		<result column="CARD_MID" property="card_mid"></result>
+		<result column="APPROVED_ID" property="approved_id"></result>
+		<result column="INSTALL_MONTH" property="install_month"></result>
+		<result column="INSTALLMENT_TYPE" property="installment_type"></result>
+		<result column="KAKAOPAY_ISSUER_CORP_CODE" property="kakaopay_purchase_corp"></result>
+		<result column="KAKAOPAY_PURCHASE_CORP_CODE" property="kakaopay_purchase_corp_code"></result>
+		<result column="KAKAOPAY_PURCHASE_CORP" property="kakaopay_issuer_corp"></result>
+		<result column="KAKAOPAY_ISSUER_CORP" property="kakaopay_issuer_corp_code"></result>
+</resultMap> -->
+
+<select id="getList" parameterType="PurchaseDTO" resultType="ItemDTO">	
+<!-- 	SELECT ROWNUM R, IC.* FROM
+	(SELECT * FROM ITEM
+		LEFT JOIN CART 
+		USING (ITEM_NUM)) IC
+	WHERE MEMBER_ID = #{member_ID}  ORDER BY R DESC
+	 -->
+		
+	SELECT ROWNUM R, IC.* FROM
+		(SELECT * FROM ITEM
+			LEFT JOIN CART 
+			USING (ITEM_NUM)) IC
+	WHERE MEMBER_ID = #{member_ID}  ORDER BY R DESC	
+
+</select>
+
+<!-- 결제내역 -->
+
+<select id="purchaseList" parameterType="MemberDTO" resultType="ReceiptDTO">
+
+SELECT * FROM RECIPT WHERE MEMBER_ID = #{member_ID} ORDER BY APPROVED_AT DESC 
+
+</select>
+
+
+
+<!-- kakaoPay -->
+
+<insert id="kakopaySuccess" parameterType="ReceiptDTO">
+
+	INSERT INTO RECIPT 
+		(MEMBER_ID,
+		ITEM_NUM,
+		AID,
+		TID,
+		CID,
+		PARTNER_ORDER_ID,
+		PARTNER_USER_ID,
+		PAYMENT_METHOD_TYPE,
+		CREATED_AT,
+		APPROVED_AT,
+		TOTAL,
+		TAX_FREE,
+		VAT,
+		POINT,
+		DISCOUNT,
+		GREEN_DEPOSIT,
+		ITEM_NAME)
+	VALUES(	#{member_ID},
+			#{item_Num},
+			#{aid},
+			#{tid},
+			#{cid},
+			#{partner_order_id},
+			#{partner_user_id},
+			#{payment_method_type},
+			#{created_at},
+			#{approved_at},
+			#{amount.total},
+			#{amount.tax_free},
+			#{amount.vat},
+			#{amount.point},
+			#{amount.discount},
+			#{amount.green_deposit},
+			#{item_name}
+		)	
+</insert>
+
+<insert id="kakopaySuccessCard" parameterType="ReceiptDTO">
+
+	INSERT INTO CARD_PAYMENT
+		("NO",
+		AID,
+		KAKAOPAY_PURCHASE_CORP,
+		KAKAOPAY_PURCHASE_CORP_CODE,
+		KAKAOPAY_ISSUER_CORP,
+		KAKAOPAY_ISSUER_CORP_CODE,
+		BIN,
+		CARD_TYPE,
+		INSTALL_MONTH,
+		APPROVED_ID,
+		CARD_MID,
+		INTEREST_FREE_INSTALL,
+		INSTALLMENT_TYPE,
+		CARD_ITEM_CODE)	
+	VALUES
+		(CARD_SEQ.NEXTVAL,
+		#{aid},
+		#{card_info.kakaopay_purchase_corp},
+		#{card_info.kakaopay_purchase_corp_code},
+		#{card_info.kakaopay_issuer_corp},
+		#{card_info.kakaopay_issuer_corp_code},
+		#{card_info.bin},
+		#{card_info.card_type},
+		#{card_info.install_month},
+		#{card_info.approved_id},
+		#{card_info.card_mid},
+		#{card_info.interest_free_install},
+		#{card_info.installment_type},
+		#{card_info.card_item_code}		
+		)
+</insert>
+
+
+<!-- Buy  --> 
+ <insert id="buyItem" parameterType="PurchaseDTO"> 
+ 
+	 INSERT INTO PURCHASE (ITEM_NUM,MEMBER_ID,ADD_DATE)
+	 VALUES (#{item_Num}, #{member_ID}, SYSDATE)
+  
+ </insert>
+ 
+ <select id="check" parameterType="PurchaseDTO" resultType="Long">
+ 
+ SELECT COUNT(ITEM_NUM) FROM 
+	(SELECT * FROM PURCHASE WHERE MEMBER_ID =#{member_ID})
+	WHERE  ITEM_NUM = #{item_Num}
+ </select>
+ 
+ 
+ 
+</mapper>

@@ -1,0 +1,151 @@
+.CodeMirror {
+    font-family: "Courier New", serif;
+    font-size: 16px;
+}
+
+.modal-body{
+    max-height: 40vh;
+    overflow-y: auto;
+}
+
+.middle-title{
+    font-size: 3rem;
+    text-align: center;
+}
+
+.table-item{
+    font-weight: normal;
+    margin-bottom: 0;
+    padding-bottom: 0;
+}
+
+.quiz-list-item{
+    padding-bottom: 0;
+    margin-bottom: 0;
+}
+
+.table-hover > tbody > tr:hover {
+    --bs-table-hover-bg: #e75e8d;
+}
+
+nav > .pagination > .page-item > .page-link{
+    color:white;
+    background-color: #1e1e1e;
+    border:0;
+}
+
+nav > .pagination > .page-item > .page-link:hover{
+    background-color: #e75e8d
+}
+
+.current-page{
+    background-color: #c73e6d !important;
+}
+
+.form-select > option:checked{
+    background-color: #e75e8d;
+    color: white;
+}
+
+.btn-cuiz{
+    --bs-btn-color:#FFF;
+    --bs-btn-bg:#e75e8d;
+    --bs-btn-border-color:#d74e7d;
+    --bs-btn-hover-color:#FFF;
+    --bs-btn-hover-bg:#c73e6d;
+    --bs-btn-hover-border-color:#d74e7d;
+    --bs-btn-focus-shadow-rgb:215,78,125;
+    --bs-btn-active-color:#FFF;
+    --bs-btn-active-bg:#e75e8d;
+    --bs-btn-active-border-color:#d74e7d;
+    --bs-btn-active-shadow:inset 0 3px 5px rgba(0, 0, 0, 0.125);
+    --bs-btn-disabled-color:#FFF;
+    --bs-btn-disabled-bg:#a71e3d;
+    --bs-btn-disabled-border-color:#970e2d
+}
+
+.row > *{
+    padding: 2px;
+    margin-bottom: 1.55rem;
+}
+
+.CodeMirror{
+    height: 100% !important;
+}
+
+.code-editor{
+    height: 50vh;
+}
+
+.note-editable{
+    background-color: white !important;
+    border-radius: 0.375rem;
+}
+
+.solve-result-area > #solve-result{
+    height: calc(30vh - 42px);
+    max-height: calc(40vh - 42px);
+    overflow-wrap: anywhere;
+    overflow-y: auto;
+}
+
+.min-vh-70{
+    min-height: 80vh!important;
+}
+
+.text-white p {
+    color: white;
+}
+
+.solve-table{
+    background-color: #051525;
+    border: 1px solid #3a3a3a;
+}
+
+.tc-show{
+    display: none;
+}
+
+.tc-result:hover > .tc-show{
+    display: inline-block;
+}
+
+.button.disabled{
+    pointer-events: none;
+}
+
+a.main-list-other{
+    color : #f76e9d;
+}
+
+a.main-list-other:hover{
+    text-decoration: underline !important;
+}
+
+li.main-list{
+    border-bottom: 1px solid #656667 !important;
+}
+
+li.main-list:last-child{
+    border-bottom: 0 !important;
+}
+
+a.main-list-title{
+    color : white;
+}
+
+a.main-list-title:hover{
+    color : #F99
+}
+
+div.text-cuiz{
+    color : #f76e9d !important;
+}
+
+.attached-code .CodeMirror span{
+    background-color: inherit;
+    padding: 0;
+    border-radius: 0;
+    font-weight: normal;
+    margin-bottom: 1px;
+}

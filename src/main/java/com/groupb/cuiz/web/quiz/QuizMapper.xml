@@ -1,0 +1,245 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.groupb.cuiz.web.quiz.QuizDAO">
+    <insert id="addTestcases" parameterType="List">
+        /* addTestcase - 퀴즈 테스트케이스 추가 */
+        INSERT INTO TESTCASE(TESTCASE_NO, QUIZ_NO, TESTCASE_INPUT, TESTCASE_OUTPUT, TESTCASE_TYPE)
+        SELECT TESTCASE_SEQ.NEXTVAL as "TESTCASE_NO", t.* FROM (
+            <foreach collection="list" item="item" separator="UNION ALL">
+                SELECT  #{item.quiz_No} QUIZ_NO,
+                        #{item.testcase_Input} TESTCASE_INPUT,
+                        #{item.testcase_Output} TESTCASE_OUTPUT,
+                        #{item.testcase_Type} TESTCASE_TYPE
+                FROM DUAL
+            </foreach>
+        ) t
+    </insert>
+
+    <insert id="addQuiz" parameterType="QuizDTO">
+        /* addQuiz - 퀴즈 문제 추가 */
+        <selectKey resultType="Integer" keyProperty="quiz_No" order="BEFORE">
+            SELECT QUIZ_SEQ.NEXTVAL FROM DUAL
+        </selectKey>
+        INSERT INTO QUIZ(QUIZ_NO, MEMBER_ID, QUIZ_TITLE, QUIZ_CONTENTS, QUIZ_TYPE, QUIZ_LEVEL, QUIZ_SAMPLECODE)
+        VALUES (#{quiz_No}, #{member_ID}, #{quiz_Title}, #{quiz_Contents}, #{quiz_Type}, #{quiz_Level}, #{quiz_SampleCode})
+    </insert>
+
+    <select id="getQuizTotalCount" parameterType="Pager" resultType="Long">
+        /* getQuizTotalCount - 퀴즈 전체 갯수 조회 */
+        SELECT COUNT(DISTINCT QUIZ_NO) FROM QUIZ
+        <include refid="search"/>
+    </select>
+
+    <select id="getQuizList" parameterType="Pager" resultType="QuizListDTO">
+        /* getQuizList - 퀴즈 전체 조회 */
+        SELECT
+            QUIZ_NO
+          , QUIZ_TITLE
+          , QUIZ_LEVEL
+          , TOTAL_COUNT
+          , CORRECT_COUNT
+          , CORRECT_RATE
+        FROM(
+            SELECT
+                ROWNUM R
+              , QUIZ_NO
+              , QUIZ_TITLE
+              , QUIZ_LEVEL
+              , TOTAL_COUNT
+              , CORRECT_COUNT
+              , CORRECT_RATE
+            FROM (
+                SELECT DISTINCT
+                    QUIZ_NO
+                  , QUIZ_TITLE
+                  , QUIZ_LEVEL
+                  , NVL(c.TOTAL_COUNT, 0) AS TOTAL_COUNT
+                  , NVL(c.CORRECT_COUNT, 0) AS CORRECT_COUNT
+                  , CASE WHEN TOTAL_COUNT IS NULL THEN 0 ELSE ROUND(100*CORRECT_COUNT/TOTAL_COUNT,2) END AS CORRECT_RATE
+                FROM QUIZ
+                    LEFT JOIN (
+                        SELECT
+                              QUIZ_NO
+                            , COUNT(QUIZ_NO) AS TOTAL_COUNT
+                            , SUM(ANSWER_CHECK) AS CORRECT_COUNT
+                        FROM MEMBER_QUIZ_ANSWER
+                        GROUP BY QUIZ_NO
+                    ) c USING(QUIZ_NO)
+                <include refid="search"/>
+                <include refid="ordered"/>
+            ) q
+        )
+        WHERE R BETWEEN #{startRow} AND #{lastRow}
+    </select>
+
+    <sql id="search">
+        <if test="(kind!='0' and kind!=null) or (searchItem!='0' and searchItem!=null)">
+            LEFT JOIN MEMBER_QUIZ_ANSWER mqa USING(QUIZ_NO)
+            <where>
+                <if test="searchItem != 0 and searchItem != null">
+                    AND QUIZ_LEVEL = #{searchItem}
+                </if>
+                <if test="kind != 0">
+                    <choose>
+                        <when test="kind == 1">
+                            AND (mqa.MEMBER_ID = #{member_ID} AND ANSWER_CHECK = 1)
+                        </when>
+                        <otherwise>
+                            AND ((mqa.MEMBER_ID = #{member_ID} AND ANSWER_CHECK = 0)
+                            <if test="kind == 2">
+                                OR mqa.MEMBER_ID IS NULL
+                            </if>
+                            )
+                        </otherwise>
+                    </choose>
+                </if>
+                <if test="search != null">
+                    AND QUIZ_TITLE LIKE '%'||#{search}||'%'
+                </if>
+            </where>
+        </if>
+    </sql>
+
+    <sql id="ordered">
+        ORDER BY
+        <if test="sort == 1">
+            CORRECT_RATE DESC,
+        </if>
+        <if test="sort == 2">
+            CORRECT_RATE ASC,
+        </if>
+        <if test="sort == 3">
+            TOTAL_COUNT DESC,
+        </if>
+        <if test="sort == 4">
+            TOTAL_COUNT ASC,
+        </if>
+        QUIZ_NO DESC
+    </sql>
+
+    <select id="getQuizDetail" parameterType="Integer" resultType="QuizDTO">
+        SELECT QUIZ_NO, QUIZ_TITLE, QUIZ_CONTENTS, QUIZ_SAMPLECODE, QUIZ_LEVEL, QUIZ_TYPE
+        FROM QUIZ
+        WHERE QUIZ_NO = #{quiz_No}
+    </select>
+
+    <select id="getTestCases" parameterType="Map" resultType="TestcaseDTO">
+        SELECT tc.TESTCASE_NO, tc.TESTCASE_INPUT, tc.TESTCASE_OUTPUT, tc.TESTCASE_TYPE
+        FROM TESTCASE tc
+        WHERE tc.QUIZ_NO = #{dto.quiz_No}
+        <if test="type != null">
+            AND TESTCASE_TYPE = #{type}
+        </if>
+    </select>
+
+    <select id="getAnswer" parameterType="MemberAnswerDTO" resultType="MemberAnswerDTO">
+        /* getAnswer - 퀴즈 제출답안 조회 */
+        SELECT QUIZ_NO, MEMBER_ID, SOURCECODE, ANSWER_DATE, ANSWER_CHECK FROM MEMBER_QUIZ_ANSWER
+        WHERE MEMBER_ID = #{member_ID} AND QUIZ_NO = #{quiz_No}
+    </select>
+
+    <update id="updateAnswer" parameterType="MemberAnswerDTO">
+        /* updateAnswer - 퀴즈 제출답안 수정 */
+        UPDATE MEMBER_QUIZ_ANSWER SET SOURCECODE = #{sourcecode}, ANSWER_DATE = SYSDATE, ANSWER_CHECK = #{answer_Check}
+        WHERE MEMBER_ID = #{member_ID} AND QUIZ_NO = #{quiz_No}
+    </update>
+
+    <insert id="setAnswer" parameterType="MemberAnswerDTO">
+        /* setAnswer - 퀴즈 제출답안 저장 */
+        INSERT INTO MEMBER_QUIZ_ANSWER(QUIZ_NO, MEMBER_ID, SOURCECODE, ANSWER_CHECK)
+        VALUES(#{quiz_No}, #{member_ID}, #{sourcecode}, #{answer_Check})
+    </insert>
+
+    <select id="getQuizLevel" parameterType="MemberAnswerDTO" resultType="Integer">
+        /* getQuizLevel - 퀴즈 난이도 조회 */
+        SELECT QUIZ_LEVEL FROM QUIZ WHERE QUIZ_NO = #{quiz_No}
+    </select>
+
+    <update id="updateQuiz" parameterType="QuizDTO">
+        /* updateQuiz - 퀴즈 수정 */
+        UPDATE QUIZ
+        <set>
+            <if test="quiz_Title != null">QUIZ_TITLE=#{quiz_Title},</if>
+            <if test="quiz_Contents != null">QUIZ_CONTENTS=#{quiz_Contents},</if>
+            <if test="quiz_Type != null">QUIZ_TYPE=#{quiz_Type},</if>
+            <if test="quiz_Level != null">QUIZ_LEVEL=#{quiz_Level},</if>
+            <if test="quiz_SampleCode != null">QUIZ_SAMPLECODE=#{quiz_SampleCode}</if>
+        </set>
+        WHERE QUIZ_NO = #{quiz_No}
+    </update>
+
+    <delete id="deleteTestcase" parameterType="QuizDTO">
+        DELETE FROM TESTCASE WHERE TESTCASE_NO=#{testcase_No}
+    </delete>
+
+    <select id="getAnswers" parameterType="Map" resultType="AnswerShowDTO">
+        SELECT
+              mqa.MEMBER_ID
+            , MEMBER_NICK
+            , MEMBER_PROFILE_BLOB
+            , SOURCECODE
+            , ANSWER_DATE
+        FROM MEMBER_QUIZ_ANSWER mqa
+            INNER JOIN MEMBER m ON m.MEMBER_ID = mqa.MEMBER_ID
+        WHERE QUIZ_NO = #{dto.quiz_No} AND ANSWER_CHECK = 1
+    </select>
+
+    <select id="getMemberAnswers" parameterType="MemberDTO" resultType="MemberAnswerDTO">
+        SELECT
+              QUIZ_NO
+            , QUIZ_TITLE
+            , ANSWER_CHECK
+            , ANSWER_DATE
+        FROM MEMBER_QUIZ_ANSWER mqa
+            INNER JOIN QUIZ USING(QUIZ_NO)
+        WHERE mqa."MEMBER_ID" = #{member_ID}
+    </select>
+
+    <select id="getAnswerTotalCount" parameterType="Map" resultType="Long">
+        SELECT COUNT(mqa.MEMBER_ID)
+        FROM MEMBER_QUIZ_ANSWER mqa
+            INNER JOIN MEMBER m ON m.MEMBER_ID = mqa.MEMBER_ID
+        WHERE QUIZ_NO = #{dto.quiz_No} AND ANSWER_CHECK = 1 AND (
+            SELECT COUNT(*)
+            FROM MEMBER_QUIZ_ANSWER
+            WHERE QUIZ_NO=#{dto.quiz_No} AND MEMBER_ID=#{dto.member_ID} AND ANSWER_CHECK=1
+        ) > 0
+    </select>
+
+    <select id="getJumsuData" resultType="JumsuUpdateDTO">
+        SELECT MEMBER_JUMSU oldJumsu, QUIZ_LEVEL upJumsu
+        FROM MEMBER_QUIZ_ANSWER mqa
+            INNER JOIN QUIZ q ON q.QUIZ_NO = mqa.QUIZ_NO
+            INNER JOIN MEMBER m  ON m.MEMBER_ID = mqa.MEMBER_ID
+        WHERE q.QUIZ_NO = #{quiz_No} AND m.MEMBER_ID = #{member_ID}
+    </select>
+
+    <select id="getAllQuizs" resultType="QuizDTO">
+        SELECT QUIZ_NO, QUIZ_TITLE
+        FROM QUIZ
+    </select>
+
+    <insert id="buyTestcase" parameterType="Map">
+        <selectKey resultType="TestcaseDTO" keyProperty="testcase" order="AFTER">
+            SELECT TESTCASE_NO, TESTCASE_INPUT, TESTCASE_OUTPUT
+            FROM TESTCASE
+            WHERE TESTCASE_NO = #{testcase.testcase_No}
+        </selectKey>
+        INSERT INTO BUYED_TESTCASE (MEMBER_ID, TESTCASE_NO, QUIZ_NO)
+        VALUES (#{member.member_ID}, #{testcase.testcase_No}, #{testcase.quiz_No})
+    </insert>
+
+    <select id="getBuyedTestcase" parameterType="QuizDTO" resultType="TestcaseDTO">
+        SELECT TESTCASE_NO, TESTCASE_INPUT, TESTCASE_OUTPUT, TESTCASE_TYPE
+        FROM TESTCASE tc
+        WHERE TESTCASE_NO IN (
+            SELECT TESTCASE_NO
+            FROM BUYED_TESTCASE
+            WHERE QUIZ_NO=#{quiz_No} AND MEMBER_ID=#{member_ID}
+        )
+        ORDER BY TESTCASE_NO
+    </select>
+</mapper>
