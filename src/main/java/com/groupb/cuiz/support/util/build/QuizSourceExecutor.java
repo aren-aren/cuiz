@@ -44,55 +44,76 @@ public class QuizSourceExecutor {
     private static String sendCommandToScript(String command, String input) throws RuntimeException, IOException {
         //스크립트에 command를 보내고 출력값을 받아온다
         System.out.println("스크립트 실행 : command = " + command);
-        //출력을 받을 outputStream
-        ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
-        ByteArrayOutputStream errorOutputStream = new ByteArrayOutputStream();
 
-        //command를 파싱
-        CommandLine commandLine = CommandLine.parse(command);
+        ByteArrayOutputStream errorOutputStream = null;
+        OutputStreamWriter ow = null;
+        BufferedWriter bw = null;
+        ByteArrayInputStream ins = null;
 
-        //Script와 연결해줄 객체
-        DefaultExecutor executor = DefaultExecutor.builder().get();
+        Integer exitVal = null;
 
-        //input이 있으면 입력함
-        ByteArrayOutputStream os = new ByteArrayOutputStream();
-        if(input != null) {
-            OutputStreamWriter ow = new OutputStreamWriter(os);
-            BufferedWriter bw = new BufferedWriter(ow);
-
-            bw.write(input);
-            bw.flush();
-        }
-        ByteArrayInputStream inputStream = new ByteArrayInputStream(os.toByteArray());
-
-        //연결후 데이터를 주고 받는 handler
-        PumpStreamHandler streamHandler = new PumpStreamHandler(outputStream, errorOutputStream, inputStream);
+        /* 에러 혹은 결과에 사용될 문자열 메시지 변수 */
+        String outputStreamResultMessage = null;
 
         //시간 제한
         ExecuteWatchdog watchdog = ExecuteWatchdog.builder().setTimeout(Duration.ofSeconds(10)).get();
 
-        executor.setExitValues(new int[]{0});
-        executor.setStreamHandler(streamHandler);
-        executor.setWatchdog(watchdog);
+        try (ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
+             ByteArrayOutputStream os = new ByteArrayOutputStream()) {
 
-        Integer exitVal = null;
-        //command 보내기
-        try{
-            exitVal = executor.execute(commandLine);
-        } catch (ExecuteException e){
-            os.close();
-            String msg;
-            if(watchdog.killedProcess()){
-                msg = "timeout";
-            } else {
-                msg = errorOutputStream.toString("UTF-8");
+            errorOutputStream = new ByteArrayOutputStream();
+
+            //input이 있으면 입력함
+            if(input != null) {
+                ow = new OutputStreamWriter(os);
+                bw = new BufferedWriter(ow);
+                bw.write(input);
+                bw.flush();
             }
-            throw new RuntimeException(msg);
-        }
-        os.close();
 
-        System.out.println("result = " + outputStream.toString("UTF-8"));
-        System.out.println("스크립트 종료--------------" + exitVal);
-        return outputStream.toString("UTF-8");
+            ins = new ByteArrayInputStream(os.toByteArray());
+
+            //연결후 데이터를 주고 받는 handler
+            PumpStreamHandler streamHandler = new PumpStreamHandler(outputStream, errorOutputStream, ins);
+
+            //Script와 연결해줄 객체
+            DefaultExecutor executor = DefaultExecutor.builder().get();
+            executor.setExitValues(new int[]{0});
+            executor.setStreamHandler(streamHandler);
+            executor.setWatchdog(watchdog);
+
+            //command를 파싱
+            CommandLine commandLine = CommandLine.parse(command);
+            //command 보내기
+            exitVal = executor.execute(commandLine);
+
+            /* 결과에 사용될 메시지 미리 저장 */
+            outputStreamResultMessage = outputStream.toString("UTF-8");
+
+        } catch (IOException e){
+            String errorMsg;
+            if(watchdog.killedProcess()){
+                errorMsg = "timeout";
+            } else {
+                errorMsg = errorOutputStream.toString("UTF-8");
+            }
+            throw new RuntimeException(errorMsg);
+        } finally {
+            if (ins != null) {
+                ins.close();
+            }
+            if (bw != null) {
+                bw.close();
+            }
+            if (ow != null) {
+                ow.close();
+            }
+            if (errorOutputStream!= null) {
+                errorOutputStream.close();
+            }
+            System.out.println("result = " + outputStreamResultMessage);
+            System.out.println("스크립트 종료--------------" + exitVal);
+        }
+        return outputStreamResultMessage;
     }
 }
