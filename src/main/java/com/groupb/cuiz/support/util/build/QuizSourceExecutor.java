@@ -63,10 +63,10 @@ public class QuizSourceExecutor {
             bw.write(input);
             bw.flush();
         }
-        ByteArrayInputStream ins = new ByteArrayInputStream(os.toByteArray());
+        ByteArrayInputStream inputStream = new ByteArrayInputStream(os.toByteArray());
 
         //연결후 데이터를 주고 받는 handler
-        PumpStreamHandler streamHandler = new PumpStreamHandler(outputStream, errorOutputStream, ins);
+        PumpStreamHandler streamHandler = new PumpStreamHandler(outputStream, errorOutputStream, inputStream);
 
         //시간 제한
         ExecuteWatchdog watchdog = ExecuteWatchdog.builder().setTimeout(Duration.ofSeconds(10)).get();
